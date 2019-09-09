@@ -1,1 +1,6 @@
-{"componentChunkName":"component---src-pages-info-index-js","path":"/info/","webpackCompilationHash":"a59bb13115a699198045","result":{"pageContext":{"isCreatedByStatefulCreatePages":true}}}
+{
+  "componentChunkName": "component---src-pages-info-index-js",
+  "path": "/info/",
+  "webpackCompilationHash": "",
+  "result": { "pageContext": { "isCreatedByStatefulCreatePages": true } }
+}

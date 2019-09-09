@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822814258000,
+  "key": "1df0756c-a632-55ce-bb1c-08541bb98e7e{\"duotone\":false,\"grayscale\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":10}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAA0ElEQVQoz5WS7QrCIBiFd/83FkEF3UBBg9H+ze/Mj5O6HCau1gsHN6YP5xzXoRrvsWn8ysautck5ByElKKWLGGOLZPiW99fgJvA+9Dif9rDOQykZpGCtTTLGpLUEltAmUDMK3l9hGcE0EUghIIIy6Fv0ri7Qz5mBp06K8eOhuJaQ0ln53HRoghPG+ax3b7nLGL+G/ASO44DDcQcX3mNn0V1UjFw6/Rl56ZAHV7cLXOiQEAIlZbqcDNsc+aNDreD1Y3GVu1y73bbDAur//KHzvACXJRYB6SznjwAAAABJRU5ErkJggg==",
+    "width": 20,
+    "height": 10,
+    "aspectRatio": 2,
+    "originalName": "img_yourwork_context-message.png"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "expireTime": 9007200822814252000,
+  "key": "create-remote-file-node-https://scontent.cdninstagram.com/vp/ea25e6ab231dbd64c278375f397627b1/5E056B36/t51.2885-15/sh0.08/e35/s640x640/46625743_272282286795078_7582274138249816438_n.jpg?_nc_ht=scontent.cdninstagram.com",
+  "val": {
+    "last-modified": "Tue, 11 Dec 2018 17:29:27 GMT",
+    "x-haystack-needlechecksum": "1878889458",
+    "x-needle-checksum": "3588885799",
+    "content-type": "image/jpeg",
+    "x-fb-config-version-olb-prod": "539",
+    "timing-allow-origin": "*",
+    "access-control-allow-origin": "*",
+    "cache-control": "max-age=1209600, no-transform",
+    "x-enc-origin-req-handler": "AcKuB9jNR6h5biWQB4fN_H_UWk522Af94g9kxnYNcWegW1PaypWVgA8O-iyGa3f6ch7GFbYH2IgWj8n-Jg",
+    "x-fb-trip-id": "1679558926",
+    "date": "Mon, 09 Sep 2019 23:54:21 GMT",
+    "connection": "close",
+    "content-length": "103879"
+  }
+}

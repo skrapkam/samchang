@@ -1,14 +1,14 @@
 /** @jsx jsx */
 
-import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
-import Nav from '../../components/Nav'
-import Menu from '../../components/Menu'
-import Page from '../../components/Page'
-import { HeaderWrapper } from '../../styles/styles.js'
-import { MediumSectionWrapper } from '../../styles/styles.js'
-import { Helmet } from 'react-helmet'
-import Link from 'gatsby-link'
+import { Component } from "react";
+import { css, jsx } from "@emotion/core";
+import Nav from "../../components/Nav";
+import Menu from "../../components/Menu";
+import Page from "../../components/Page";
+import { HeaderWrapper } from "../../styles/styles.js";
+import { MediumSectionWrapper } from "../../styles/styles.js";
+import { Helmet } from "react-helmet";
+import Link from "gatsby-link";
 
 const Summary__Popout = css`
   margin-bottom: 8px;
@@ -17,7 +17,7 @@ const Summary__Popout = css`
   border-bottom: 1px solid var(--link-color);
   padding: 0 0 2px;
   line-height: 1.5em;
-`
+`;
 
 class info extends Component {
   render() {
@@ -44,25 +44,23 @@ class info extends Component {
               Product Designer at <a href="https://99designs.com/">99designs</a>
             </li>
             <li>
-              Learning how to <a href="https://github.com/skrapkam">code</a>{' '}
+              Learning how to <a href="https://github.com/skrapkam">code</a>{" "}
             </li>
             <li>
-              Making <Link to="/music">music</Link>{' '}
+              Making <Link to="/music">music</Link>{" "}
             </li>
             <li>
               <Link to="/reading">Reading</Link>
-            </li>
-            <li>
-              <a href="https://photos.samchang.design">
-                Taking horrible photos
-              </a>
             </li>
           </ul>
           <h2>Past</h2>
           <ul>
             <li>
-              Designer at{' '}
+              Designer at{" "}
               <a href="https://www.leftfieldlabs.com/">Left Field Labs</a>
+            </li>
+            <li>
+              Amateur <a href="https://skrapkam.tumblr.com">photographer</a>
             </li>
           </ul>
 
@@ -94,8 +92,8 @@ class info extends Component {
                   <li>
                     <a href="https://thelongestyeahboyever.com/">
                       the longest yeah boy ever
-                    </a>{' '}
-                    is a website dedicated to{' '}
+                    </a>{" "}
+                    is a website dedicated to{" "}
                     <a href="https://www.youtube.com/watch?v=fvtQYsckLxk">
                       Kondwani Sichinga
                     </a>
@@ -121,25 +119,25 @@ class info extends Component {
           <h2>Site Colophon</h2>
           <ul>
             <li>
-              Built with <a href="https://www.gatsbyjs.org/">Gatsby</a> and{' '}
-              <a href="https://emotion.sh">Emotion</a>; hosted on{' '}
+              Built with <a href="https://www.gatsbyjs.org/">Gatsby</a> and{" "}
+              <a href="https://emotion.sh">Emotion</a>; hosted on{" "}
               <a href="https://www.netlify.com/">Netlify</a>
             </li>
             <li>Fonts: System Fonts and Georgia</li>
             <li>
-              The code that powers this website is{' '}
+              The code that powers this website is{" "}
               <a href="https://github.com/skrapkam/samchang">open source</a>
             </li>
             <li>
               <a href="https://github.com/skrapkam/samchang/commits/master">
-                Last updated 09/01/2019
+                Last updated 08/12/2019
               </a>
             </li>
           </ul>
         </MediumSectionWrapper>
       </Page>
-    )
+    );
   }
 }
 
-export default info
+export default info;

@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822814261000,
+  "key": "d1f93f93-0838-5489-b794-2e97ef9b69bc{\"duotone\":false,\"grayscale\":false,\"rotate\":0,\"trim\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":14}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAA0ElEQVQ4y91Tuw7CMAzM//8IX4DEwMTCxIbEQMUCGUCigUZVozx8hIY+UlJgYGqkKHZ0PtvnhOHPi02LkJ6bKNj+7NstYeu8ALXfs78RDO/YENBUEvkJAutcMhnrHAIXhPymAS1hrEUuBcjoKKgJFFUFIctPLTtsjsB2lQG7GdYZx2K+BPghaNeryHgsL+7Yn8514pGWybfhwdoDnMJVWsjSeNu2wwj6AsoaFErhIgqPqWLCTodOPRrqmdBwTOOowjBgep94YsqpVzDBn/LLegAWsVXxvtl1owAAAABJRU5ErkJggg==",
+    "width": 20,
+    "height": 14,
+    "aspectRatio": 1.4285714285714286,
+    "originalName": "img_google_one.png"
+  }
+}

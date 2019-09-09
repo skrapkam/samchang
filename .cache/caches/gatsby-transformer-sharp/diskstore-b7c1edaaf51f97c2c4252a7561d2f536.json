@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822814261000,
+  "key": "088131e3-c499-5128-a7a7-bfab050875eb{\"duotone\":false,\"grayscale\":false,\"rotate\":0,\"trim\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":14}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAA/UlEQVQ4y81S0Q6DIAz0/7/NbzBzyaYPKpPpwhR6oyDbEB62ZA9rckGwvesVCiJCAEdYP4n3moAil/BN7GsKYwymacKyLInqXj33j4M5tNZuLZRSKMsSXddlCfZN5wS4mXmesa5rbNmmZy1dLgJCCNdBxnRs+aVE4HwrYkHbyuqE221xuN+N3Rsope23Bk/JOnW1z0t5J2QCrQmn0xlVVT1xONSo66M7b5oGbdtCyqsbB4t7wq1DbwsRoZQSfT/YufYYBrFhwDiO1v5o87Sr8Y7CBSWEnOBJOZHPAsKeV7bI8GPxY0o6jN8TfYGYLLHsO6IPgehZJR3+Kv6f8AEj/VOAfT6XYgAAAABJRU5ErkJggg==",
+    "width": 20,
+    "height": 14,
+    "aspectRatio": 1.4285714285714286,
+    "originalName": "img_gym_six.png"
+  }
+}

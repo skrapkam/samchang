@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822814258000,
+  "key": "d3bc0a1d-8c10-5394-a9a1-a2fbd1bd40f1{\"duotone\":false,\"grayscale\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":11}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABsElEQVQoz4WTO08CQRDH/VA8hPB+ldAQCEdLuAuErwEUEBMeBYHjJShWlpZWtrZa2GhnJIaIHBwc/N1ZHjlAZZPJbHZnfvuY/5z5/X74fD6Q93q9MJlMMBgMMJIZjXA6nXyPjOa0RjFb7/F4oGecbYMJFgwGUa/XcT24wWX/Cv1+H5IkweVywe12I5FIoNfrQW420e500Gg0EA6Hd9AdMBAI8CRBiIHG68szHh/u+bxWq8FiscBms6FQKOBwpFIp2O12zjgCRqNRrFjQbbOCO/mCJ5RLJQ6kpGw2y9e+piqUuYa5qkIUJTgcjt+BsVgMKgtaaEt8jhWeXKlUd8BcLs/XnkYLvCns6JUGUfoHKAgCZrMZvicTvH8MeXK1qgPm18DhVMN4ASw1jf/xSSCNpbY4AuY3QI29YO1PAOnJCrudyhJGyhpcLpdhtVr3/pC+hWB0uCiKfwPj8fiuesONJxmdb6pcLBaPqpxOp4+rTEZaCoVCaLVa6LTbkOUGBoMBMpkMFzTpMJlMcm12mAa73S7aLC4SifC9PR3qO8VsNrMOMHNP3UDP0XcKdYfeDjvlB6d3H8MxAAHJAAAAAElFTkSuQmCC",
+    "width": 20,
+    "height": 11,
+    "aspectRatio": 1.8181818181818181,
+    "originalName": "img_tap_screens_cont.png"
+  }
+}

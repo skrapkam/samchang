@@ -1,14 +1,14 @@
 /** @jsx jsx */
-import styled from '@emotion/styled'
-import { useState, useEffect } from 'react'
-import { jsx } from '@emotion/core'
-import { throttle } from 'throttle-debounce'
+import styled from "@emotion/styled";
+import React, { useState, useEffect } from "react";
+import { css, jsx } from "@emotion/core";
+import { throttle } from "throttle-debounce";
 
 const ScrollToTop = styled.div`
   cursor: pointer;
   font-size: 2em;
-  opacity: ${props => (props.isVisible ? '1' : '0')};
-  transform: translateY(${props => (props.isVisible ? '0' : '90px')});
+  opacity: ${props => (props.isVisible ? "1" : "0")};
+  transform: translateY(${props => (props.isVisible ? "0" : "90px")});
   transition: all 0.2s ease-in-out;
 
   &:hover {
@@ -31,45 +31,45 @@ const ScrollToTop = styled.div`
   @media (max-width: 1070px) {
     display: none;
   }
-`
+`;
 
-export default function Page({ children }) {
-  const [scrollToTopVisible, setScrollToTopVisible] = useState(false)
+export default function ScrollButton({ children }) {
+  const [scrollToTopVisible, setScrollToTopVisible] = useState(false);
 
   function handleScroll() {
-    const scrollToTopState = window && window.pageYOffset > 240
-    setScrollToTopVisible(scrollToTopState)
+    const scrollToTopState = window && window.pageYOffset > 240;
+    setScrollToTopVisible(scrollToTopState);
   }
 
-  const throttledScroll = throttle(300, handleScroll) //delay
+  const throttledScroll = throttle(300, handleScroll); //delay
 
   const scrollToTop = () => {
     if (window) {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     }
-  }
+  };
 
   useEffect(() => {
     if (window) {
-      window.addEventListener('scroll', throttledScroll)
+      window.addEventListener("scroll", throttledScroll);
     }
 
     return () => {
       if (window) {
-        window.removeEventListener('scroll', throttledScroll)
+        window.removeEventListener("scroll", throttledScroll);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div>
       {children}
       <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
         <span role="img" aria-label="sheep">
-          {' '}
-          ☝{' '}
+          {" "}
+          ☝{" "}
         </span>
       </ScrollToTop>
     </div>
-  )
+  );
 }
