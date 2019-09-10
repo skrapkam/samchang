@@ -52,6 +52,11 @@ class info extends Component {
             <li>
               <Link to="/reading">Reading</Link>
             </li>
+            <li>
+              <a href="https://photos.samchang.design">
+                Taking horrible photos
+              </a>
+            </li>
           </ul>
           <h2>Past</h2>
           <ul>
@@ -130,7 +135,7 @@ class info extends Component {
             </li>
             <li>
               <a href="https://github.com/skrapkam/samchang/commits/master">
-                Last updated 08/12/2019
+                Last updated 09/09/2019
               </a>
             </li>
           </ul>
