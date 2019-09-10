@@ -1,4 +1,10 @@
+# Project dependencies
+.cache
 node_modules
- .cache/
-yarn.lock
-package-lock.json
+yarn-error.log
+
+# Build directory
+/public
+.DS_Store
+.vscode
+.prettierrc
