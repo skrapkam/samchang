@@ -1,0 +1,442 @@
+{
+  "expireTime": 9007200822816086000,
+  "key": "transformer-remark-markdown-ast-80c4c38e6f4ede4692bc4dff661ae108-gatsby-remark-imagesgatsby-remark-images-medium-zoom-",
+  "val": {
+    "type": "root",
+    "children": [
+      {
+        "type": "html",
+        "value": "<content-title>\nYour Work\n</content-title>\n<content-excerpt>\nRedesigning the client project management experience for 99designs\n</content-excerpt>\n<content-header>\nIntroduction\n</content-header>\n<content-subhead>\nBackground\n</content-subhead>\n<content>\nI joined <a href=\"https://99designs.com\">99designs</a> in June 2018 as a product designer on our Designer Discovery team. One of the products that our team is responsible for is “Your work”, a consolidated dashboard for clients that presents their contests, direct work, and drafts. My first major project at 99designs was to help redesign this product. \n</content>\n<content-subhead>\nProblem Framing\n</content-subhead>",
+        "position": {
+          "start": { "line": 2, "column": 1, "offset": 1 },
+          "end": { "line": 19, "column": 19, "offset": 672 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nThe last time Your work received any major updates was in 2015. Back then, 99designs was primarily operating a contest business model and thus Your work was fairly straightforward in terms of functionality. Now, as 99designs is shifting towards a more direct-work business model it was time to refresh Your work. \n</content>",
+        "position": {
+          "start": { "line": 21, "column": 1, "offset": 674 },
+          "end": { "line": 23, "column": 11, "offset": 1008 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Old vs. new",
+            "url": "./images/img_yourwork_oldvsnew.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 25, "column": 1, "offset": 1010 },
+              "end": { "line": 25, "column": 63, "offset": 1072 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABbUlEQVQoz31Sa0vDQBDM//87YouWovSDpfWNfSapRaSgoNa0ed7lMs5eLmhr6cFwm8ve7OzcelVV4RhkFVrj0h/hbHKP8+nDUXhwq7l8aKmyxIX/hNb4Fu3x3X+wUHv2aAt6xhiUvCBLYmNKfmuUsqsCeF8hzzP0wgmuwikGz3MMln6NJg7GGLJYVxSKsiDwsQhDxPEWSRJDawWlCBLp1QuSNLYXN5sIBc9UUSDL+I8FNcWo9SdykvVpiyVM05RksVX4t3WJleF/EgxJWHCXHCkmZC4JhlvGvD4VezUJqEozSe34KVZokqRFbgmFSM6yLIUiTFULEI6MovqLGTzF5LfXgNVz5+EupL2EbUrLYJ2K3kbRB/IkQalr70XIZv1dE8oDbKOvug2qtN65WFASOdvrifFs6ZrEguFyblXbWB4nnKHLl/b2R6RRtjs22o7N6eh3bE5GNxYSt9yZHZtDg9z4eGiwO26AOw77g/0DvynvNb5iZ2EAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Old vs. new\"\n        src=\"/static/d3f72b54936b33e165475386f67271b9/0c49d/img_yourwork_oldvsnew.png\"\n        srcset=\"/static/d3f72b54936b33e165475386f67271b9/906c5/img_yourwork_oldvsnew.png 238w,\n/static/d3f72b54936b33e165475386f67271b9/0fde9/img_yourwork_oldvsnew.png 475w,\n/static/d3f72b54936b33e165475386f67271b9/0c49d/img_yourwork_oldvsnew.png 950w,\n/static/d3f72b54936b33e165475386f67271b9/f116a/img_yourwork_oldvsnew.png 1425w,\n/static/d3f72b54936b33e165475386f67271b9/a3f34/img_yourwork_oldvsnew.png 1900w,\n/static/d3f72b54936b33e165475386f67271b9/b63a2/img_yourwork_oldvsnew.png 2463w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Old vs. new</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 25, "column": 1, "offset": 1010 },
+          "end": { "line": 25, "column": 63, "offset": 1072 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nSpecifically, we wanted to speed up the workflows of our clients by <strong>highlighting meaningful and actionable information</strong> and providing tools to allow them to <strong>easily find and manage their work</strong>.\n</content>",
+        "position": {
+          "start": { "line": 27, "column": 1, "offset": 1074 },
+          "end": { "line": 29, "column": 11, "offset": 1319 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nMy Involvement\n</content-subhead>\n<content>\nI worked on this project with my design lead, <a href=\"https://twitter.com/caioab\">Caio Braga</a> (he’s awesome, btw). I helped Caio out by designing interfaces, thinking of new interaction paradigms, and continuously presenting our work to the rest of our design team. \n</content>\n<content>\nCaio had already given this project much thought before I joined 99designs, so I was fortunate to be building on top of his ideas and further pushing the project forward. \n</content>\n<content>\nTowards the end of the project I led a few test sessions to learn the impact of our redesign. More on that later… \n</content>\n<content-header>\nInitial Research\n</content-header>\n<content>\nWe first interviewed seven clients and gathered quotes, insights and qualitative data to get a better sense of how clients interact with our product and make more informed decisions for Your work.\n</content>\n<content>\nA repeated theme that came up during our interviews was that clients want to <strong>manage their designers as efficiently as possible</strong>. Specifically, they want to <strong>spend less time dealing with repetitive tasks such as referencing past briefs</strong>.\n</content>\n<content>\nOur takeaway was that features such as search, filtering, and quick actions will save clients considerable time—especially for repetitive tasks such as copying briefs. \n</content>\n<content-header>\nDesign\n</content-header>\n<content>\nThe design process was centered around continuous iteration. I explored various layouts and interaction patterns to share with my team for feedback. From that feedback I’d go back and explore new ideas. \n<content>\nHere are some of the changes we ended up making:  \n</content   >\n</content>\n<content-subhead>\nSidebar\n</content-subhead>",
+        "position": {
+          "start": { "line": 31, "column": 1, "offset": 1321 },
+          "end": { "line": 66, "column": 19, "offset": 3129 },
+          "indent": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nWe changed the navigation pattern from a pill pattern to a sidebar pattern. We felt that a sidebar is easier to navigate and more refined than the pill pattern. A sidebar is also more scalable as we might need to add more options in the future. \n</content>",
+        "position": {
+          "start": { "line": 68, "column": 1, "offset": 3131 },
+          "end": { "line": 70, "column": 11, "offset": 3397 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Sidebar",
+            "url": "./images/img_yourwork_sidebar-oldvsnew.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 72, "column": 1, "offset": 3399 },
+              "end": { "line": 72, "column": 67, "offset": 3465 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABNklEQVQoz5WSW2uDQBCF8///TmxrGmh9EBIk9qY1TdJWmwtN6IN4iXg/nVncIFZSsjDMwDLfnp05A5w5dV2LXJQl7hYWVOcRt/On3hg1d4NLgdzI+eb1ASoFZwnjPOCmqqpEcN0NCbwn4DU1T94dfH5v4B12WP/scQh9mOsPujP/VyhPURFwaUGxZ7C2Hoo0RZFl/AVx/7bfQrFmGDMwSRLoug7TNBGGIeI4RhRFoubMkRUFAW3RZO085ATL8hxVA3RI8ZXdAmqaBsMwEATBCcZ12NQnIDW9kMI8zZCSypJGwWdOQEUCL/kyq3jeuDjGR/i+DxbzRyEPnl+SS+kuqL1l3igrNb5WmHorTNwFpu5SPKZ2bSObc5oNR59tRo1tGDykeQ5JlbBP2zZ9vpP1OWOPm+ga+xfEOObt/gmdSwAAAABJRU5ErkJggg=='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Sidebar\"\n        src=\"/static/41ebf231dd441c20c677c555741c0420/0c49d/img_yourwork_sidebar-oldvsnew.png\"\n        srcset=\"/static/41ebf231dd441c20c677c555741c0420/906c5/img_yourwork_sidebar-oldvsnew.png 238w,\n/static/41ebf231dd441c20c677c555741c0420/0fde9/img_yourwork_sidebar-oldvsnew.png 475w,\n/static/41ebf231dd441c20c677c555741c0420/0c49d/img_yourwork_sidebar-oldvsnew.png 950w,\n/static/41ebf231dd441c20c677c555741c0420/f116a/img_yourwork_sidebar-oldvsnew.png 1425w,\n/static/41ebf231dd441c20c677c555741c0420/d1f2f/img_yourwork_sidebar-oldvsnew.png 1642w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Sidebar</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 72, "column": 1, "offset": 3399 },
+          "end": { "line": 72, "column": 67, "offset": 3465 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nAvatars\n</content-subhead>",
+        "position": {
+          "start": { "line": 74, "column": 1, "offset": 3467 },
+          "end": { "line": 76, "column": 19, "offset": 3511 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nWe added designer avatars to each listing item in order to help clients quickly recognize who’s working on their project. This is especially useful for the clients who expressed frustration with finding designers that they’ve worked with. \n</content>",
+        "position": {
+          "start": { "line": 78, "column": 1, "offset": 3513 },
+          "end": { "line": 80, "column": 11, "offset": 3773 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Shipped avatar permutations",
+            "url": "./images/img_yourwork_avatars.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 82, "column": 1, "offset": 3775 },
+              "end": { "line": 82, "column": 78, "offset": 3852 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABUElEQVQoz41RTUvDQBDN//8TCh70YA+eFNGLlRa1iFAQpVbbtFiFmNgk3e/kubPbLekXOLDs7Jt5b14mUV3XYIyjLEsURQGtNSgIXyYwVQXGue1jqGwe6tSitUHZ4EX5b4bZZGgJwgkSiYqe4EVnkxhZmrp6EKTgnOG2fYk8zyGE8IJzK/jQacMY45rp3hT8HA2Rpz+27nsCTnlicamU43nBvMD5aQvf8RjcTpFSuml0Bzfx4BXjfg9aLaAUDfO4MRpfsylS657blThBSvr3XTz3ek5I2WnksClIb+/cuHpwIwRHt3NtMekwch4xIfHUvgKfvjgCiQbBQKQdJUmCLMvW3OyKiP6gYAvURq7AsL/mroKD7Z5qrT8iu/HoHcPBAB9vbyjm85VIOPsG7XpHUnHcXLRwdnKE48MDPN51l/sRq502yZv51ifjH7GPvCv+ACuBCX91o0SXAAAAAElFTkSuQmCC'); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Shipped avatar permutations\"\n        src=\"/static/bccf9958d9c62f63901cf9a29913d51f/0c49d/img_yourwork_avatars.png\"\n        srcset=\"/static/bccf9958d9c62f63901cf9a29913d51f/906c5/img_yourwork_avatars.png 238w,\n/static/bccf9958d9c62f63901cf9a29913d51f/0fde9/img_yourwork_avatars.png 475w,\n/static/bccf9958d9c62f63901cf9a29913d51f/0c49d/img_yourwork_avatars.png 950w,\n/static/bccf9958d9c62f63901cf9a29913d51f/f116a/img_yourwork_avatars.png 1425w,\n/static/bccf9958d9c62f63901cf9a29913d51f/d1f2f/img_yourwork_avatars.png 1642w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Shipped avatar permutations</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 82, "column": 1, "offset": 3775 },
+          "end": { "line": 82, "column": 78, "offset": 3852 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nSince multiple designers are in a contest, we thought that showing clients multiple avatars would help them not only quickly see who’s in their contests, but also distinguish contests from direct work (direct work items only show 1 avatar). I explored a couple of ideas for how we can display these avatars as well the number of entries and designers.  \n</content>",
+        "position": {
+          "start": { "line": 84, "column": 1, "offset": 3854 },
+          "end": { "line": 86, "column": 11, "offset": 4228 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "A few early explorations",
+            "url": "./images/img_yourwork_avatars-iterations.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 88, "column": 1, "offset": 4230 },
+              "end": { "line": 88, "column": 86, "offset": 4315 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAA4ElEQVQoz51Syw6CMBDk/79JD15MPHlQTDx4QIiRx0Fe4dGWcVtchYoYnaQs2V1mZ9g6+AFd1z0jn2Few7EbhkU7PyRQUk7WnCGBTTSn8lPNKBRCIEtvKMsSkiYz6rpCHIVomgZFUZiokcRXrJYLXIIAUklUVWU4RgqVUiMyRkuNXNNRoywyHPY7JFEEFsQ1hyfmWQrN3U8iy/QMfR91npl3/sC2bP9zQ3h0t/C9E1lqyVreK6bjbtZIzh4EkWm7o6VQzt767FLwx1Je1+Yx7e1qWPmpezdNaDdPWPmmjHEHJdEVx/UoprcAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"A few early explorations\"\n        src=\"/static/06b63f0d6e86284b412521a164e40602/0c49d/img_yourwork_avatars-iterations.png\"\n        srcset=\"/static/06b63f0d6e86284b412521a164e40602/906c5/img_yourwork_avatars-iterations.png 238w,\n/static/06b63f0d6e86284b412521a164e40602/0fde9/img_yourwork_avatars-iterations.png 475w,\n/static/06b63f0d6e86284b412521a164e40602/0c49d/img_yourwork_avatars-iterations.png 950w,\n/static/06b63f0d6e86284b412521a164e40602/f116a/img_yourwork_avatars-iterations.png 1425w,\n/static/06b63f0d6e86284b412521a164e40602/d1f2f/img_yourwork_avatars-iterations.png 1642w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">A few early explorations</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 88, "column": 1, "offset": 4230 },
+          "end": { "line": 88, "column": 86, "offset": 4315 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nActions\n</content-subhead>",
+        "position": {
+          "start": { "line": 90, "column": 1, "offset": 4317 },
+          "end": { "line": 92, "column": 19, "offset": 4361 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nWe also gave our clients different actions that they can take for each project depending on the stage of the project. I went through each of the stages for both contests and direct work and listed the most useful actions clients can take. The decisions I made were based on the client interviews we conducted, discussions with our product manager, and intuition. \n</content>",
+        "position": {
+          "start": { "line": 94, "column": 1, "offset": 4363 },
+          "end": { "line": 96, "column": 11, "offset": 4747 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Quick actions",
+            "url": "./images/img_yourwork_actions.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 98, "column": 1, "offset": 4749 },
+              "end": { "line": 98, "column": 64, "offset": 4812 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABCklEQVQoz61Sf2vCMBTs9/88M7rBxG3odNRu/mgTa3VjTMQasdsotKztmcRWam2Lf+zBcSGPXO5xT0NNJUmiOIz+0LGnaFmvuKNvtdD+S/A27Wn5h5KLKArKh5Jb9MjN9C4T1Ypu6h0auGcjPLEJHqwRHukYXdtEm43LHYZhCM/zFOQ5q0yQmAa6cwvOxzvo3MZsucDn6gsDhwqnRrkg5xyu6yIIggvBxnSIl+UMu/0emx3Heuvi1/fRXzAQ0TsL5ZqRlaDD4G85vldr/GyOH/fE2MQclocSx7FCVSjNiY6G/owbvadAjL66qwwliiKF2rURwRCRssRpdWTaxT3Mj13lML9zp3MqJvkAbcnimT35GfIAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Quick actions\"\n        src=\"/static/ece640a67ac1f72ed1494ac13e094d5a/0c49d/img_yourwork_actions.png\"\n        srcset=\"/static/ece640a67ac1f72ed1494ac13e094d5a/906c5/img_yourwork_actions.png 238w,\n/static/ece640a67ac1f72ed1494ac13e094d5a/0fde9/img_yourwork_actions.png 475w,\n/static/ece640a67ac1f72ed1494ac13e094d5a/0c49d/img_yourwork_actions.png 950w,\n/static/ece640a67ac1f72ed1494ac13e094d5a/f116a/img_yourwork_actions.png 1425w,\n/static/ece640a67ac1f72ed1494ac13e094d5a/a3f34/img_yourwork_actions.png 1900w,\n/static/ece640a67ac1f72ed1494ac13e094d5a/b63a2/img_yourwork_actions.png 2463w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Quick actions</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 98, "column": 1, "offset": 4749 },
+          "end": { "line": 98, "column": 64, "offset": 4812 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nI also took the time to see how we can show these action buttons in mobile since space was a major constraint. \n</content>",
+        "position": {
+          "start": { "line": 100, "column": 1, "offset": 4814 },
+          "end": { "line": 102, "column": 11, "offset": 4946 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "A few mobile explorations",
+            "url": "./images/img_yourwork_actions-mobile.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 104, "column": 1, "offset": 4948 },
+              "end": { "line": 104, "column": 83, "offset": 5030 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABXklEQVQoz61SSU7EQAzk/4/hyiokhlXiwAeQEKM5MMwknXR6X1KUWwQJDTdoyWq3Uy7bFR+BZ55n/PUsHEeLU2tFjBGlFKSUUHJuoMSYvDPf4ktM/BgDsRILLWch/SYMIWCz2cAYjUlrOGNRasF2t0OnFDwTx0FjZuFx0nhnPOSEQU8ILhwSZj3Ar05Qnq4x318gb14hdf3TCunmDPXhEuX5DpWx+PYCe36M8niFcnuKMvaHhIVjuX4Pq7p2R2sowwzfd0hDj5mdS9HCDrN3SMTUaUSVWIqHhKKTGjW0MZicQ6Yulaanqb0tJTG8ZeQQEz66Ho6afnQd5i+ynyNT6InJhuZpIrh0E8YBRo9Q1FFTW8F775vegl+v17//lESBVaew3+4RZDwWEKDlyFr1/J4bkeAbOckci6n9jrh6SChrIySOY3mOl7/WxlrbOmmrxALL2iyrJSa534T/vdifg0QLpItha9oAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"A few mobile explorations\"\n        src=\"/static/d75c8141dbce38f3bb141b6da20bfe94/0c49d/img_yourwork_actions-mobile.png\"\n        srcset=\"/static/d75c8141dbce38f3bb141b6da20bfe94/906c5/img_yourwork_actions-mobile.png 238w,\n/static/d75c8141dbce38f3bb141b6da20bfe94/0fde9/img_yourwork_actions-mobile.png 475w,\n/static/d75c8141dbce38f3bb141b6da20bfe94/0c49d/img_yourwork_actions-mobile.png 950w,\n/static/d75c8141dbce38f3bb141b6da20bfe94/f116a/img_yourwork_actions-mobile.png 1425w,\n/static/d75c8141dbce38f3bb141b6da20bfe94/d1f2f/img_yourwork_actions-mobile.png 1642w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">A few mobile explorations</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 104, "column": 1, "offset": 4948 },
+          "end": { "line": 104, "column": 83, "offset": 5030 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nContext Messages\n</content-subhead>",
+        "position": {
+          "start": { "line": 106, "column": 1, "offset": 5032 },
+          "end": { "line": 108, "column": 19, "offset": 5085 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nWe also added context messages for each project depending on the project stage. Information such as quote amount or completion requests would be displayed here. Again, this is to help clients get an early snapshot of where their projects are at to make quick decisions. One consideration we made when deciding on what messages to show was our current notification system. While we wanted to display useful messages, we also didn’t want to replace our notifications with them. \n</content>",
+        "position": {
+          "start": { "line": 110, "column": 1, "offset": 5087 },
+          "end": { "line": 112, "column": 11, "offset": 5584 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Quote and completion request messages",
+            "url": "./images/img_yourwork_context-message.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 114, "column": 1, "offset": 5586 },
+              "end": { "line": 114, "column": 96, "offset": 5681 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 50.18270401948843%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAA0ElEQVQoz5WS7QrCIBiFd/83FkEF3UBBg9H+ze/Mj5O6HCau1gsHN6YP5xzXoRrvsWn8ysautck5ByElKKWLGGOLZPiW99fgJvA+9Dif9rDOQykZpGCtTTLGpLUEltAmUDMK3l9hGcE0EUghIIIy6Fv0ri7Qz5mBp06K8eOhuJaQ0ln53HRoghPG+ax3b7nLGL+G/ASO44DDcQcX3mNn0V1UjFw6/Rl56ZAHV7cLXOiQEAIlZbqcDNsc+aNDreD1Y3GVu1y73bbDAur//KHzvACXJRYB6SznjwAAAABJRU5ErkJggg=='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Quote and completion request messages\"\n        src=\"/static/116cae406f945af19f64fd2d90e290d6/0c49d/img_yourwork_context-message.png\"\n        srcset=\"/static/116cae406f945af19f64fd2d90e290d6/906c5/img_yourwork_context-message.png 238w,\n/static/116cae406f945af19f64fd2d90e290d6/0fde9/img_yourwork_context-message.png 475w,\n/static/116cae406f945af19f64fd2d90e290d6/0c49d/img_yourwork_context-message.png 950w,\n/static/116cae406f945af19f64fd2d90e290d6/f116a/img_yourwork_context-message.png 1425w,\n/static/116cae406f945af19f64fd2d90e290d6/a3f34/img_yourwork_context-message.png 1900w,\n/static/116cae406f945af19f64fd2d90e290d6/b63a2/img_yourwork_context-message.png 2463w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Quote and completion request messages</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 114, "column": 1, "offset": 5586 },
+          "end": { "line": 114, "column": 96, "offset": 5681 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": " <content-header>\n Constraints\n </content-header>\n <content>\nWe didn’t get to ship search and filter features as well as test throughout the design process because of constraints such as time and other product initiatives. \n</content>\n<content-header>\nUser Testing\n</content-header>\n<content>\nAfter shipping everything, I led several user testing sessions to learn how the refreshed Your work is delivering value for our clients. \n</content>",
+        "position": {
+          "start": { "line": 116, "column": 1, "offset": 5683 },
+          "end": { "line": 127, "column": 11, "offset": 6124 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Testing session",
+            "url": "./images/img_yourwork_user-testing.png",
+            "alt": "Your Work",
+            "position": {
+              "start": { "line": 129, "column": 1, "offset": 6126 },
+              "end": { "line": 129, "column": 71, "offset": 6196 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 51.40507196710076%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAB20lEQVQoz3WSTUsbURSGJ+i/0MSNkr/RQteNBt0J2fQPtDupm+JGqFCkG10UVwrSTbNzZQnUFsmHYxKTGZOIGBS6MJr5uPM9b8+56aQq9cDLnXvuuc89772j1NQG1LMOaqdtVNUWKjTWWz1o3T7anSvovT4urn6jd3mNlnYOXe+iq3fQO2vhpn+NjY+bePvuA/Z391D8+gWK7wg4tg3XFnCFgMdyHAjLknPfdRGwPI++PTiUswwT5v0QHJufPmN5+Q1WV1awvvYeCicFwxwXcRQDsayDMbijgwRinieiiMIYlmnBNCw5LxQKUBQFqVQK2WyWgFRo0omOcCQwCiMpm3IGdeF7vswnCoNQ1tqWLYGLi0sSyJqaTo+A3B0XMIg3BX5IHQ6kZY4ExrW8xh2yngIzmRkoY5sxxkDuyqUueOT8QyCP7Gj49w7z+fwYmE5nRsCHknapW0FAtvc/YOAH0hXHQi73GAgklx0i5vsjCIOMoSFtxVE0vtdEvDa4Hch987nXjy3za3muj6chTEG/SoDnIopGz74w/6/DaX6Une0tHBS/QW+oaFZ/odOsQa9X8bN0iJNqGVq9jHatAk2toFk5Rr18hKMfJVr/jgutgVcvX0jY5MQEZmfn8AdfPqTlC1o4PAAAAABJRU5ErkJggg=='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Your Work\"\n        title=\"Testing session\"\n        src=\"/static/522ae51ddbcfd019f79fb1266c3e2b9f/0c49d/img_yourwork_user-testing.png\"\n        srcset=\"/static/522ae51ddbcfd019f79fb1266c3e2b9f/906c5/img_yourwork_user-testing.png 238w,\n/static/522ae51ddbcfd019f79fb1266c3e2b9f/0fde9/img_yourwork_user-testing.png 475w,\n/static/522ae51ddbcfd019f79fb1266c3e2b9f/0c49d/img_yourwork_user-testing.png 950w,\n/static/522ae51ddbcfd019f79fb1266c3e2b9f/f116a/img_yourwork_user-testing.png 1425w,\n/static/522ae51ddbcfd019f79fb1266c3e2b9f/7c045/img_yourwork_user-testing.png 1459w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Testing session</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 129, "column": 1, "offset": 6126 },
+          "end": { "line": 129, "column": 71, "offset": 6196 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nFrom these tests we learned that: \n</content>\n<content>\n<ul>\n<li>\nAlmost all clients successfully navigated through Your work.</li>\n<li>Almost all clients had no issues with the new quick actions and found the contextual messages to be both relevant and helpful.</li>\n<li>All clients thought that Your work is straightforward and grasped the rationales behind each new design change/addition.</li>\n</ul>\n</content>",
+        "position": {
+          "start": { "line": 131, "column": 1, "offset": 6198 },
+          "end": { "line": 141, "column": 11, "offset": 6622 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-header>\nTakeaways\n</content-header>",
+        "position": {
+          "start": { "line": 143, "column": 1, "offset": 6624 },
+          "end": { "line": 145, "column": 18, "offset": 6668 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nIt’s probably okay if our changes don’t improve, or only marginally improve, a client’s workflow\n</content-subhead>\n<content>\nEven though our goal was to deliver value for our clients (e.g. speeding up their workflow), not achieving that goal for everyone isn’t necessarily a “bad” thing. At best, the changes improve their workflow and at worst, they don’t affect any change. Every client is different and has a different workflow which means that there isn’t a one-size-fits-all approach to making everyone’s experience better\n</content>",
+        "position": {
+          "start": { "line": 147, "column": 1, "offset": 6670 },
+          "end": { "line": 152, "column": 11, "offset": 7227 },
+          "indent": [1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nAn invisible refresh\n</content-subhead>\n<content>\nInterestingly, most clients didn’t even notice the changes we implemented and yet were still able to successfully navigate through Your work. Sometimes it’s okay and even desirable if our customers don’t immediately notice a change. If they’re able to still quickly get in and out and accomplish their goals, then that’s a win for us. \n</content>",
+        "position": {
+          "start": { "line": 154, "column": 1, "offset": 7229 },
+          "end": { "line": 159, "column": 11, "offset": 7643 },
+          "indent": [1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nShare work often\n</content-subhead>\n<content>",
+        "position": {
+          "start": { "line": 161, "column": 1, "offset": 7645 },
+          "end": { "line": 164, "column": 10, "offset": 7708 },
+          "indent": [1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "text",
+            "value": "Part of what made this project so fun was getting to constantly share my designs with the rest of our team. Whether it was through sending a Sketch Cloud link through Slack, or sharing my Sketch window through Zoom with a teammate, sharing my work gave me valuable feedback and created alignment within our team.",
+            "position": {
+              "start": { "line": 166, "column": 1, "offset": 7710 },
+              "end": { "line": 166, "column": 313, "offset": 8022 },
+              "indent": []
+            }
+          }
+        ],
+        "position": {
+          "start": { "line": 166, "column": 1, "offset": 7710 },
+          "end": { "line": 166, "column": 313, "offset": 8022 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "</content>",
+        "position": {
+          "start": { "line": 168, "column": 1, "offset": 8024 },
+          "end": { "line": 168, "column": 11, "offset": 8034 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-header>\nSpecial Thanks\n</content-header>",
+        "position": {
+          "start": { "line": 170, "column": 1, "offset": 8036 },
+          "end": { "line": 172, "column": 18, "offset": 8085 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nDesign lead: Caio Braga. PM: Jason Aiken. Eng: Matthew Diamant, Vy Cu, Robert McNeil, and    Dan Williams.\n</content>",
+        "position": {
+          "start": { "line": 174, "column": 1, "offset": 8087 },
+          "end": { "line": 176, "column": 11, "offset": 8214 },
+          "indent": [1, 1]
+        }
+      }
+    ],
+    "position": {
+      "start": { "line": 1, "column": 1, "offset": 0 },
+      "end": { "line": 177, "column": 1, "offset": 8215 }
+    }
+  }
+}

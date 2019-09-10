@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822816087000,
+  "key": "269d26bd-f402-506b-87fd-a63651cbaa5a{\"duotone\":false,\"grayscale\":false,\"rotate\":0,\"trim\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":14}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAABlUlEQVQ4y5VSi26DMAzM/3/dNO3RtaMwrS0wQXmFQHjd4gTTirXThnRKcOzL2RcxDgPGccD6G8cRfGbXP0J0nUbbKOz3HsLTCcfDAYHvQ6kavTnrdGug/wzRmEKC7+/xEfiW2HvfQVYlmsad/QdCyhK1gW6VVUqrbhsTq8Bn90DndLHFHBN2VjSneR2G3sLFOH6FgXIu8YkwTUu9YBOapkHXdfjto8LrPf0SUdu2S1y4pAlVWSA7pyiLHKqWrn1jSN93TslMVpYlwjC0e5r57m1jY3VdW0GCb8uzM6LwiK84MqSZnSGZQs5Rm0xYFAXiKHKEnoft84uZuV5IBSdq7YIEmtGtdq+VmoYhU4l4GyONEpyNoB+EVVWZ96eWwvXMhtmQoe8XY6bJmdObGGEhpP6JkIhvGXF9Aa9kRpbnlmhlinOZ1JHs3CRR60zOZKSElDHBbvOKp8cHaCOG8qWUF0IKJEmCNE0Rx7Hd83NgQiZlwvgQ4nMbQEll60mUWL+ve2+PZ8gqRzM7lSukQYosyUzrme3wGzP6RKnjINFIAAAAAElFTkSuQmCC",
+    "width": 20,
+    "height": 14,
+    "aspectRatio": 1.4285714285714286,
+    "originalName": "img_yourwork_one.png"
+  }
+}

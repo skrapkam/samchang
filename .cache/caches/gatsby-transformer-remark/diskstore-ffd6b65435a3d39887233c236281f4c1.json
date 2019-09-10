@@ -1,0 +1,410 @@
+{
+  "expireTime": 9007200822816087000,
+  "key": "transformer-remark-markdown-ast-9e40ca0cd74c9411f10bd1bc41edf3aa-gatsby-remark-imagesgatsby-remark-images-medium-zoom-",
+  "val": {
+    "type": "root",
+    "children": [
+      {
+        "type": "html",
+        "value": "<content-title>\nGoogle\n</content-title>\n<content-excerpt>\nDesigning for Google in partnership with Left Field Labs \n</content-excerpt>\n<content>\nI’ve had the privilege of designing for Google’s product pages through working at <a href=\"https://leftfieldlabs.com\">Left Field Labs</a>. Here, I showcase some of the sites I’ve worked on.\n</content>\n<content-header>\nVR180\n</content-header>\n<content-subhead>\nOverview\n</content-subhead>\n<content>\nThe Google VR180 team needed a website designed and developed in conjunction with the release of the Lenovo Mirage Camera. The webpage would be an addition to the main VR180 site as an instructional page for content creators.",
+        "position": {
+          "start": { "line": 2, "column": 1, "offset": 1 },
+          "end": { "line": 18, "column": 226, "offset": 669 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<button-visit>\n<a href=\"https://vr.google.com/vr180/gettingstarted/\">Visit</a>\n</button-visit>",
+        "position": {
+          "start": { "line": 20, "column": 1, "offset": 671 },
+          "end": { "line": 22, "column": 16, "offset": 765 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "</content>",
+        "position": {
+          "start": { "line": 24, "column": 1, "offset": 767 },
+          "end": { "line": 24, "column": 11, "offset": 777 },
+          "indent": []
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Final design",
+            "url": "./images/img_google_vr180.png",
+            "alt": "Google VR180",
+            "position": {
+              "start": { "line": 26, "column": 1, "offset": 779 },
+              "end": { "line": 26, "column": 62, "offset": 840 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.1588785046729%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAAByElEQVQoz5WTzUsbURTF/YNcWAXdlC4tpZCVi9Jt6aabgm4KdtGFFFpdFxSLdGGLFDWKX0FsUVolZmaMqWYSzThR47cGxY84b5L++t6M1K/W0QeHC48z5917zp0yd6afSzD6EKrqYZxoF2L6KyJ2DldB7/E5iitx8fuyq4I+MUxhbhT2bIqbi4i1FO66hKzOehqxMOlxxNVm/ikoX+TXAMuRTtqbW5g3U8TTFrNpGy0e56eWwDJ+UDR6PUFhBAg6clSSwxifW6kuf8DHjnZ002BCm2IuFWM+HSOXGJOCfociqEPnrMPk9zDPGt4xPmFwUnDI7x+yu7fPTv6QAyvx18dAQT+QHpxMlBLwW+LIhWOJU3WhTn5FBtR9zb8bQzmaHWNjdZVMxsLKrrCU2yW/vYWdXWZJG6c0E76Dh2aEybYmGutCvHh8n6ehEA9rn/CoppKKe1U0NTz3OKeSG7w2noeD2EMdfHn/mszQB6YjXURHR2h7+4ZX9S8Z/tQMiQHP70BBT1TrppTVPQ+F8rAo/eP8FLdtj3N7D9UoyW8UciaOhFpqJ5eUC27KuxRiccrn3EbQPRtByGBU2q4m10O7UNW66L3//fX+AKF0OVkGNYbfAAAAAElFTkSuQmCC'); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR180\"\n        title=\"Final design\"\n        src=\"/static/c68339c3bd539a1dd130ec49d51578b9/0c49d/img_google_vr180.png\"\n        srcset=\"/static/c68339c3bd539a1dd130ec49d51578b9/906c5/img_google_vr180.png 238w,\n/static/c68339c3bd539a1dd130ec49d51578b9/0fde9/img_google_vr180.png 475w,\n/static/c68339c3bd539a1dd130ec49d51578b9/0c49d/img_google_vr180.png 950w,\n/static/c68339c3bd539a1dd130ec49d51578b9/f116a/img_google_vr180.png 1425w,\n/static/c68339c3bd539a1dd130ec49d51578b9/a3f34/img_google_vr180.png 1900w,\n/static/c68339c3bd539a1dd130ec49d51578b9/01853/img_google_vr180.png 2140w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Final design</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 26, "column": 1, "offset": 779 },
+          "end": { "line": 26, "column": 62, "offset": 840 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nRole\n</content-subhead>\n<content>\nI was the main designer of the page and was responsible for both the UX (wireframes) and UI (visual mockups) of the page. I also received constant feedback from our team’s UX Lead and Senior Art Director.\n</content>\n<content-subhead>\nProblem\n</content-subhead>\n<content>\nThe main design challenge was the amount and type of content this page would contain. A long and instructional page by nature is boring, and so we had to find ways to make this website experience as smooth and enjoyable as possible.\n</content>\n<content-subhead>\nDelight the visitors\n</content-subhead>\n<content>\nA page with dry content doesn’t have to be boring! Throughout the design process I brainstormed ways we could use images and motion to make the process of scrolling through this site both fun and enjoyable.\n</content>",
+        "position": {
+          "start": { "line": 28, "column": 1, "offset": 842 },
+          "end": { "line": 45, "column": 11, "offset": 1694 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Early wireframes",
+            "url": "./images/img_google_vr180_four.png",
+            "alt": "Google VR180",
+            "position": {
+              "start": { "line": 47, "column": 1, "offset": 1696 },
+              "end": { "line": 47, "column": 71, "offset": 1766 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 930px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.13978494623656%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACAElEQVQoz3VTa2+bQBD0//8xcdxH4qqV+qVS3EixY3BwMDixaoN5HBwmgIEDT/cOu63TBGm0qwXmZndue2LyARL1eIBmeoV2NkSrD9FoV139+E6i++6EwRlOHL36+FMzvsRaH8G2Flg92XAtHYJq2XIM8RIDOUebRSr+wX6HQxpA6F9Q310q0jPC7WIK037C6tcGzFlRrQ9mT+EEEba+D2frwQtCygN4hIDFCH0PlTZUh0ue3qktcddHy10UZY2yqtFkMdrJAPbtd/y4GeH25wiT8RiapmE206HrGjRdh6Hfo5jQeGTrrwmb2EGSZoh4gmrHFOFGv8HDo4n53IBhGBTnCqZpwrKXWC0tlNPrtxXWbI18X6FpDzgUCdUu0ATP2GU5koQjyzJwzpGmqUIUc5RZiubhK82w383wtUIWJwhZREYQaIbC72a6tG0EQaCUbRwHDuGR8pRHaI1vbxMKIgwjTohphryrEWFISgIyRarzPA+MMcQRGUV5nibvK5Qtv+QF8mJPV+QvoU+Kva2r2nacjSKMCFJpnvL3CC/I5S2KSiAjQnEiDFZ4XrtkgA1GyhdkhEvXR8K0lkjpkP9aVqSSMN6ge8gUusTyo8ado0xj7LmvnC+TUKHaycggEv/8Yv+7eoJWT2jXHSjvVuojreRnBXH/iWKHUy6j6vC4fr8BXHlkA+9CUDQAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR180\"\n        title=\"Early wireframes\"\n        src=\"/static/473c1f0ebb370b91a83c24d7d4a8d212/82f8f/img_google_vr180_four.png\"\n        srcset=\"/static/473c1f0ebb370b91a83c24d7d4a8d212/906c5/img_google_vr180_four.png 238w,\n/static/473c1f0ebb370b91a83c24d7d4a8d212/0fde9/img_google_vr180_four.png 475w,\n/static/473c1f0ebb370b91a83c24d7d4a8d212/82f8f/img_google_vr180_four.png 930w\"\n        sizes=\"(max-width: 930px) 100vw, 930px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Early wireframes</figcaption>\n  </figure>"
+          },
+          {
+            "type": "text",
+            "value": "\n",
+            "position": {
+              "start": { "line": 47, "column": 71, "offset": 1766 },
+              "end": { "line": 48, "column": 1, "offset": 1767 },
+              "indent": [1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "<content>",
+            "position": {
+              "start": { "line": 48, "column": 1, "offset": 1767 },
+              "end": { "line": 48, "column": 10, "offset": 1776 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\nThe image headers for each section, for example, didn’t have to be contained within rectangular boxes. Instead, we could build upon the VR motif and crop these images within dynamic and curved containers. Visually, this also makes the page feel more tactile rather than flat.\n",
+            "position": {
+              "start": { "line": 48, "column": 10, "offset": 1776 },
+              "end": { "line": 50, "column": 1, "offset": 2053 },
+              "indent": [1, 1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "</content>",
+            "position": {
+              "start": { "line": 50, "column": 1, "offset": 2053 },
+              "end": { "line": 50, "column": 11, "offset": 2063 },
+              "indent": []
+            }
+          }
+        ],
+        "position": {
+          "start": { "line": 47, "column": 1, "offset": 1696 },
+          "end": { "line": 50, "column": 11, "offset": 2063 },
+          "indent": [1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Curved image",
+            "url": "./images/img_google_vr180_three.png",
+            "alt": "Google VR180",
+            "position": {
+              "start": { "line": 52, "column": 1, "offset": 2065 },
+              "end": { "line": 52, "column": 68, "offset": 2132 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.1588785046729%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACG0lEQVQoz62S3UuTYRjG9x900EHQcVAdtYMOOgqCMEoL0jLIaDKKpWRD3VeFLhARVlAUHRQmLKSZznfbuyw/aGnmVs45HThBIjqUMhXS9uGbv573WYql0YkHF/f9fNz3cz3XfRlWkirbCUN+PCQTPeYE8pugbrG3NWTDtWarky8g1YOWFPlEGMRaE2e5sQD5RFBe1n5jJVko1iZUfoq7q5PhdVKSoSY250ae82W4gx/JHr7Fupkd7uR7PAQzEUj3o4kHsoJtJiHYJEWeUFmKB1iI+ZmLdsrfSYYZwYCPr7FeOceOPbu43eLCVVPDjcpS3HYbDlctZaZSTpQcofjoIUqOH+b+HQ8tTU7q7dc4ay7nzMWTLMcVyd6QFS8y9RK19S4NLhtXq6sxltdyylLPwaLzNDc20nTLjcfdyL3rdTirLDQ4HFRZTJRVVLDbuJ99B/ayPKpICQx5XYvxAPOJtyymZ6i45MBwzM7OOi/Gogu86x3kayrNp1ic1MAbBn0KvW3thB976Xr4CKvZTOXpYpY+dEvpDPoUtWSQ2dgAU5EI5stWTPZmPA+e4LTdpF9R+Dw6wvRQhFTfK6L+LoZ8HUSe+Rh42k5fm5eIt5XMWHDNNoWpZRNhoUOI+ahfTg19giLKqUrB/0ROSJUZC7H4XmEhqmy0TcFretSLdRts8qG0hLq+3mjkgnXUjbYpNCsU/MvE6n/O/zL2duIXMHMExFaQcmUAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR180\"\n        title=\"Curved image\"\n        src=\"/static/5fe09f565da54477ef1d52910db7bd0e/0c49d/img_google_vr180_three.png\"\n        srcset=\"/static/5fe09f565da54477ef1d52910db7bd0e/906c5/img_google_vr180_three.png 238w,\n/static/5fe09f565da54477ef1d52910db7bd0e/0fde9/img_google_vr180_three.png 475w,\n/static/5fe09f565da54477ef1d52910db7bd0e/0c49d/img_google_vr180_three.png 950w,\n/static/5fe09f565da54477ef1d52910db7bd0e/f116a/img_google_vr180_three.png 1425w,\n/static/5fe09f565da54477ef1d52910db7bd0e/a3f34/img_google_vr180_three.png 1900w,\n/static/5fe09f565da54477ef1d52910db7bd0e/01853/img_google_vr180_three.png 2140w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Curved image</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 52, "column": 1, "offset": 2065 },
+          "end": { "line": 52, "column": 68, "offset": 2132 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nAlso, the tips provided for visitors could both teach and entertain. Instead of presenting the information for each tip upfront, making the tips interactive would garner curiosity and thus an incentive to learn more.\n</content>",
+        "position": {
+          "start": { "line": 54, "column": 1, "offset": 2134 },
+          "end": { "line": 56, "column": 11, "offset": 2371 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Custom icons",
+            "url": "./images/img_google_vr180_two.png",
+            "alt": "Google VR180",
+            "position": {
+              "start": { "line": 58, "column": 1, "offset": 2373 },
+              "end": { "line": 58, "column": 66, "offset": 2438 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.1588785046729%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAAA70lEQVQoz52T6w6CMAyFef+nmRcQRY3GqDERBRTvxsTHoCR1bE7WMZT4Yxk57dazr8WBbRuzTQuLXV9KM2O/dEdPkItVDpUxm07zHVIt9hCSXsWB+I66VYdRB2E/EOc+DmWQ8UCA+W2J+X2FkA6lpg7GLsJ1gbDzNZ3viY9wmr7ztQtFgnDoSpcmm0IXTlzDIXedBvxi7xvDZqxqGTZpinqimWtjTZuy68un2cbjMCJPLnF4dGxI4DxDuMwNVkwUyp8JwnFCm8UZ5o81LzbGLGRGUxR8DTDRC/faeNSOjclDd0D0sKYpoWWwbXD//fVeVktEqXpQ7xQAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR180\"\n        title=\"Custom icons\"\n        src=\"/static/52894c48873935db8e79ea297995fbbe/0c49d/img_google_vr180_two.png\"\n        srcset=\"/static/52894c48873935db8e79ea297995fbbe/906c5/img_google_vr180_two.png 238w,\n/static/52894c48873935db8e79ea297995fbbe/0fde9/img_google_vr180_two.png 475w,\n/static/52894c48873935db8e79ea297995fbbe/0c49d/img_google_vr180_two.png 950w,\n/static/52894c48873935db8e79ea297995fbbe/f116a/img_google_vr180_two.png 1425w,\n/static/52894c48873935db8e79ea297995fbbe/a3f34/img_google_vr180_two.png 1900w,\n/static/52894c48873935db8e79ea297995fbbe/01853/img_google_vr180_two.png 2140w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Custom icons</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 58, "column": 1, "offset": 2373 },
+          "end": { "line": 58, "column": 66, "offset": 2438 },
+          "indent": []
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-subhead>\nPrototyping\n</content-subhead>\n<content>\nI also prototyped to help both our client and developers understand how certain interactions work. This helped speed up the process of approving the interactions and saved valuable time that would’ve been used to explain the interactions.\n</content>",
+        "position": {
+          "start": { "line": 60, "column": 1, "offset": 2440 },
+          "end": { "line": 65, "column": 11, "offset": 2748 },
+          "indent": [1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<gif>\n<img src=\"https://www.dropbox.com/s/rgjg19oa26nw5va/gif_vr180_prototype.gif?raw=1\">\n</gif>",
+        "position": {
+          "start": { "line": 67, "column": 1, "offset": 2750 },
+          "end": { "line": 69, "column": 7, "offset": 2848 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-header>\nGoogle VR Menu\n</content-header>\n<content-subhead>\nOverview\n</content-subhead>\n<content>\nThe Google VR team needed a redesign of their website’s navigation menu. This menu would be integrated within most of Google VR product pages. It had to be easily scaleable and follow Google’s brand/standard guidelines. I designed a menu to achieve these goals.\n<button-visit>\n<a href=\"https://vr.google.com/\">Visit</a>\n</button-visit>",
+        "position": {
+          "start": { "line": 71, "column": 1, "offset": 2850 },
+          "end": { "line": 81, "column": 16, "offset": 3291 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "</content>",
+        "position": {
+          "start": { "line": 83, "column": 1, "offset": 3293 },
+          "end": { "line": 83, "column": 11, "offset": 3303 },
+          "indent": []
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Original menu",
+            "url": "./images/img_google_menu_two.png",
+            "alt": "Google VR Menu",
+            "position": {
+              "start": { "line": 85, "column": 1, "offset": 3305 },
+              "end": { "line": 85, "column": 68, "offset": 3372 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.061160009027304%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACGElEQVQoz32TPW/TUBSGPSB+BQPiZzDBhoQEEhJQFsTAgNgRA+xlZmEoEhsFIvolKKhSIR2a0pSmIklLaZOGJC1N3dix49iO44+He500JAV6rUfnvV+vzvW5VzHXobkB5npErAVmPooxTsA8jtgvfRRzQ4g8GDsejZqFddjG0X1M1aWptv+DG89LDBn3PGHWTUiRwsiBV+tg2zqW3UK2SHxBFBAKgsiP4xERYTwfiXW+18KzOv1TKrHIRrRV6DkRhsIsCNA0nXpdQ1VVobW4L7XjuERiXRSC43m0m8GwoTFoONR6u0RGMkah3x0baG7nL0NxdnFkez+kqjX5WTOpqE3KgkqM1dWHFnUroPyrwVblIB4rH5gYLUccOfxjeFSURrXD7GqJmaUiE4sFJlNdJha3mV4u8XZhk8fPXnP+/iMejI6RzNeY/VrFsF0CO8A8bqgLw8/5KsnsLrMrJd6nJTt8WK2QmM9w8co9Ltx6yPNPXxh9+oKr10e4NnKb9NoaHfvo2g1l6DOTLjItMny3vMOUzFBkN5kq8nIuw6Ubd3kyNsX4VJIzZ8+hnD6FoihcvnmH8q6Ls0l8P/v/sFULKdUNCvsNCrUu20Jv7R2KMY107gfzS6ukMllmPs4x/ibBq0SChZUMWt2l9X3w2uQinF1RMk/gyNL9A1ngoBePXQRfZ+Cl9ISMJz21Ri7so2cD9G9+jOwPevwGZ9VrAprWN1kAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR Menu\"\n        title=\"Original menu\"\n        src=\"/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/0c49d/img_google_menu_two.png\"\n        srcset=\"/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/906c5/img_google_menu_two.png 238w,\n/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/0fde9/img_google_menu_two.png 475w,\n/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/0c49d/img_google_menu_two.png 950w,\n/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/f116a/img_google_menu_two.png 1425w,\n/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/a3f34/img_google_menu_two.png 1900w,\n/static/a7fa0d2236550c16cdd8a7a5b1cbc8e0/110b4/img_google_menu_two.png 4431w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Original menu</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 85, "column": 1, "offset": 3305 },
+          "end": { "line": 85, "column": 68, "offset": 3372 },
+          "indent": []
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "New menu",
+            "url": "./images/img_google_menu_one.png",
+            "alt": "Google VR Menu",
+            "position": {
+              "start": { "line": 87, "column": 1, "offset": 3374 },
+              "end": { "line": 87, "column": 63, "offset": 3436 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.061160009027304%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACFUlEQVQoz5WTXWsTQRSG8y8sCPp//ANe90YQvdArb4QgiCjetQUpFPHGatAaK7bUr5RGatJqP5Im0UiTNhjFJDXZ3WSzm53deZzdSVCiFpzlYWbOzLy8e85MzCyCVZKEfURBYvwn4RmrqChBzFRiVgGMiovR6NJviwir6R5LtxUywGo5WF8HmErMUoZikbs8uN8FjtfDlz5hk8d84epAYbsOnufi2nL4lzIUVO7yErcJQyWNasITmKYZYVkWRsfAtu1ozRMB/b6DYZh02wO6HxkJqjyEDhtaSQaSQCGl7n3fR4QIwaj54ZrjIHt9et029g/7T0GnoW19rndYzX1hba/+i0KdbLlJIrVN/M590ipWbTg0GxaucPF6QVSQvwrmqy2W3x/wLFvhaWaf5Lt9lj7UuHh1mjPn4sTnEkyev8zZyQs8Su1ox7bOnzkqyrhgKPZi65DlzSrPN6qsqPGVGzPcnH3M7ak5Tp4+xYmJCW7N3NO5Vg7/KbhbOWJhvcJi9oBkphqN51/nSL4tcX32CZeuTTM1/5KHqyUW18uIwMfvMy4ocZrDHNa+8WYjT3qrRHa3TPGwQe5TjZX0Jq8yO9x9sEBiKcXadpmNYlWVMVAFGhM096BflwiVC88QDDqDCGF4oG6J7AYI08czVaWVG1/N9R5P/a66cke/5dAcPhkd0MFwrmPo5zV6lsN5tGfI6Jw+I/kJOA5xH3By5JAAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR Menu\"\n        title=\"New menu\"\n        src=\"/static/b57276acc9caa79356b87142f6ef81c4/0c49d/img_google_menu_one.png\"\n        srcset=\"/static/b57276acc9caa79356b87142f6ef81c4/906c5/img_google_menu_one.png 238w,\n/static/b57276acc9caa79356b87142f6ef81c4/0fde9/img_google_menu_one.png 475w,\n/static/b57276acc9caa79356b87142f6ef81c4/0c49d/img_google_menu_one.png 950w,\n/static/b57276acc9caa79356b87142f6ef81c4/f116a/img_google_menu_one.png 1425w,\n/static/b57276acc9caa79356b87142f6ef81c4/a3f34/img_google_menu_one.png 1900w,\n/static/b57276acc9caa79356b87142f6ef81c4/110b4/img_google_menu_one.png 4431w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">New menu</figcaption>\n  </figure>"
+          },
+          {
+            "type": "text",
+            "value": "\n",
+            "position": {
+              "start": { "line": 87, "column": 63, "offset": 3436 },
+              "end": { "line": 88, "column": 1, "offset": 3437 },
+              "indent": [1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "<content>",
+            "position": {
+              "start": { "line": 88, "column": 1, "offset": 3437 },
+              "end": { "line": 88, "column": 10, "offset": 3446 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\nMy final solution was heavily inspired by a menu that Google was already using within sites such as Gmail, Calendar, and Plus. The benefit of designing this way was adhering to a system that Google is familiar with. Besides following Google standards, this menu is also scaleable as new VR products can easily be added. You simply scroll to find more products.\n",
+            "position": {
+              "start": { "line": 88, "column": 10, "offset": 3446 },
+              "end": { "line": 90, "column": 1, "offset": 3808 },
+              "indent": [1, 1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "</content>",
+            "position": {
+              "start": { "line": 90, "column": 1, "offset": 3808 },
+              "end": { "line": 90, "column": 11, "offset": 3818 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\n",
+            "position": {
+              "start": { "line": 90, "column": 11, "offset": 3818 },
+              "end": { "line": 91, "column": 1, "offset": 3819 },
+              "indent": [1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "<content>",
+            "position": {
+              "start": { "line": 91, "column": 1, "offset": 3819 },
+              "end": { "line": 91, "column": 10, "offset": 3828 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\nI also changed the label from “Google VR” to “More from Google VR”. This made the affordance clearer. Moreover, since the initial state is a text link, it can sit on top of moving backgrounds such as in Earth VR and Blocks without having a solid colored background.\n",
+            "position": {
+              "start": { "line": 91, "column": 10, "offset": 3828 },
+              "end": { "line": 93, "column": 1, "offset": 4095 },
+              "indent": [1, 1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "</content>",
+            "position": {
+              "start": { "line": 93, "column": 1, "offset": 4095 },
+              "end": { "line": 93, "column": 11, "offset": 4105 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\n",
+            "position": {
+              "start": { "line": 93, "column": 11, "offset": 4105 },
+              "end": { "line": 94, "column": 1, "offset": 4106 },
+              "indent": [1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "<content>",
+            "position": {
+              "start": { "line": 94, "column": 1, "offset": 4106 },
+              "end": { "line": 94, "column": 10, "offset": 4115 },
+              "indent": []
+            }
+          },
+          {
+            "type": "text",
+            "value": "\nA possible trade-off I considered was deciding which products would come first within the menu. Some product links would inevitably be buried beneath the menu fold, potentially upsetting many product teams who’d like their products to come first. A solution that hasn’t been implemented yet would be to alphabetize the order, thus removing any favoritism.\n",
+            "position": {
+              "start": { "line": 94, "column": 10, "offset": 4115 },
+              "end": { "line": 96, "column": 1, "offset": 4472 },
+              "indent": [1, 1]
+            }
+          },
+          {
+            "type": "html",
+            "value": "</content>",
+            "position": {
+              "start": { "line": 96, "column": 1, "offset": 4472 },
+              "end": { "line": 96, "column": 11, "offset": 4482 },
+              "indent": []
+            }
+          }
+        ],
+        "position": {
+          "start": { "line": 87, "column": 1, "offset": 3374 },
+          "end": { "line": 96, "column": 11, "offset": 4482 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content-header>\nGoogle Hangouts Chat\n</content-header>",
+        "position": {
+          "start": { "line": 98, "column": 1, "offset": 4484 },
+          "end": { "line": 100, "column": 18, "offset": 4539 },
+          "indent": [1, 1]
+        }
+      },
+      {
+        "type": "html",
+        "value": "<content>\nHangouts Chat is a messaging platform for teams. I was tasked with designing a download page for Hangouts Chat.\n<button-visit>\n<a href=\"https://get.google.com/chat/\">Visit</a>\n</button-visit>\n</content>",
+        "position": {
+          "start": { "line": 102, "column": 1, "offset": 4541 },
+          "end": { "line": 107, "column": 11, "offset": 4753 },
+          "indent": [1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": "Hangouts Chat download page",
+            "url": "./images/img_google_hangouts.png",
+            "alt": "Google VR Menu",
+            "position": {
+              "start": { "line": 109, "column": 1, "offset": 4755 },
+              "end": { "line": 109, "column": 82, "offset": 4836 },
+              "indent": []
+            },
+            "value": "<figure class=\"gatsby-resp-image-figure\" style=\"\n                margin-top: 32px;\n                margin-bottom: 32px;\n                \">\n    <span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 59.061160009027304%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABsklEQVQoz32TW3PTMBCF8/9/DANPkALN8MBLmL70KbSUFJrGie+xLeuuw66MnYSGaubMrldHn2RdZp8Sh887C44fo+wLXbG29mLfYm9xvefxljgOM4Zd7Ty+JQLrrMamUdgcFB5LMajo8FT12NQSa8qPdYH7TGC5bvH1URDYRejsmoAftg73tQGMhLcUvUNwNgrBo5UCaVPHfKyzjLZIS4OH3JwCHd7T7zy0Adw8hSEDnPcx/qpK3Dw/xdw4F/tHcWtdiLB/gD5afAgIYbBaa3FoGhR5jqooUFYVtNaxP0y+gEqHuH8XgJiALOc8vB/EcK5xxBkQqF8Dxjn/GlvaN616jM0YA0Ur5IgTX23OgMOh3NGhBKvPBix/SHzfDvmhafHm3VssFgvM5/Po0drAGY1cmOnqTcBVqaD7Dm0nIPo+Dsjp+hQHOnmnaaUdnpMEaZqSMvTk6cgrhcCu6V8C7yoFT9dDklH1g1HTt+5qrNYFlquKah2MknFV7GFZ8mStPAI5mVNyW+jYkTSSZhzEeSYUVnuFm98S+/ZYHyPXftbqCDx9epc0Pq8vqZ3u2v+8zPkDxcqKYj+RgnMAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"Google VR Menu\"\n        title=\"Hangouts Chat download page\"\n        src=\"/static/6f7fb97311da67b03b516b17c0f49876/0c49d/img_google_hangouts.png\"\n        srcset=\"/static/6f7fb97311da67b03b516b17c0f49876/906c5/img_google_hangouts.png 238w,\n/static/6f7fb97311da67b03b516b17c0f49876/0fde9/img_google_hangouts.png 475w,\n/static/6f7fb97311da67b03b516b17c0f49876/0c49d/img_google_hangouts.png 950w,\n/static/6f7fb97311da67b03b516b17c0f49876/f116a/img_google_hangouts.png 1425w,\n/static/6f7fb97311da67b03b516b17c0f49876/a3f34/img_google_hangouts.png 1900w,\n/static/6f7fb97311da67b03b516b17c0f49876/110b4/img_google_hangouts.png 4431w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>\n    <figcaption class=\"gatsby-resp-image-figcaption\">Hangouts Chat download page</figcaption>\n  </figure>"
+          }
+        ],
+        "position": {
+          "start": { "line": 109, "column": 1, "offset": 4755 },
+          "end": { "line": 109, "column": 82, "offset": 4836 },
+          "indent": []
+        }
+      }
+    ],
+    "position": {
+      "start": { "line": 1, "column": 1, "offset": 0 },
+      "end": { "line": 110, "column": 1, "offset": 4837 }
+    }
+  }
+}

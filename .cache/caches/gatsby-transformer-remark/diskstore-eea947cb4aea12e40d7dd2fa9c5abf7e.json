@@ -1,0 +1,66 @@
+{
+  "expireTime": 9007200822816086000,
+  "key": "transformer-remark-markdown-ast-f2a5ea3a056d2124274bfbb57aaff86f-gatsby-remark-imagesgatsby-remark-images-medium-zoom-",
+  "val": {
+    "type": "root",
+    "children": [
+      {
+        "type": "html",
+        "value": "<content-title>\nA Gym for Me\n</content-title>\n<content-excerpt>\nCurated lists of specialized gyms \n</content-excerpt>\n<content>\nI love lifting, and I love web development. Wanting to merge these two interests, I created A Gym For Me, a site built in <a href=\"https://reactjs.org/\">React</a>.\n</content>\n<content>\nA Gym for Me is a site for athletes by athletes. It contains curated lists of specialized gyms in cities across the United States. \n</content>\n<content>\nThe code that powers A Gym for Me is <a href=\"https://github.com/skrapkam/gym-finder\">open source</a>. 🏋️\n</content>\n<content>\n<button-visit>\n<a href=\"https://agymfor.me/\">Visit</a>\n</button-visit>\n</content>",
+        "position": {
+          "start": { "line": 2, "column": 1, "offset": 1 },
+          "end": { "line": 21, "column": 11, "offset": 676 },
+          "indent": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": null,
+            "url": "./images/img_gym_five.png",
+            "alt": null,
+            "position": {
+              "start": { "line": 23, "column": 1, "offset": 678 },
+              "end": { "line": 23, "column": 31, "offset": 708 },
+              "indent": []
+            },
+            "value": "<span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto; \n                margin-top: 32px;\n                margin-bottom: 32px;\n                 max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 69.84777517564402%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAB5UlEQVQ4y41TTUvcUBSdX9aFm1JXuisUKpQKdeeif8FFN6UiZRwFRUVmMRRcWGwRhC5diLv5ckBKrBITM0YySV4yeaf33nzMZBzFMDdvct5955133r0VQENrems9EdOwcRyPgp9KnvD40RPjOK6zNbqUx1AlBzwvxIM7gD9QCPwIwyEotIwqjChiKJUgSVAEz8Wxlkg1aSakiUTjz8kxGvubWP+2gkZ9RxIc5wH1+ja2tr6juvYF52en2eYB7u9d+H4geSl5KkwIoyjB9upXfP70Hq9nXmF5aVEmr69NzM+9wYeFt/j4bhZHPw8EN00L7XYLnU4brusKxiozhVp+J4dH2KjWsLtbx/Gv35LECmu1Kvb3dnDwo4FWqyX47a0Dw7iCZdlkQyQKS4Qs23Zc2LaFuzs7tZgwpYZE2ofT79N/hfQ0qWdMInZlPubfBeHl5V80m00J0zRlckAX1O1e0NE66PUuyLNQCPJbHt30CCsI2S9W6HkeqVCC+T4TdsmvNhH2EIZqghClsaTQMG5IkV9UGy8Mgpg2uiGvLDlykvBxRzU3rX4LwlDqbFjUFXvCCg3jH33H2SY54VPNkHVKuRtGnrAiLimOfKO03l6gsNyrmDAcY22mC6InCKd0cbFg2kbPH/k/bDowdY5DemwAAAAASUVORK5CYII='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"img gym five\"\n        title=\"img gym five\"\n        src=\"/static/d510d29b3d98f1eebb2581057c0ec824/0c49d/img_gym_five.png\"\n        srcset=\"/static/d510d29b3d98f1eebb2581057c0ec824/906c5/img_gym_five.png 238w,\n/static/d510d29b3d98f1eebb2581057c0ec824/0fde9/img_gym_five.png 475w,\n/static/d510d29b3d98f1eebb2581057c0ec824/0c49d/img_gym_five.png 950w,\n/static/d510d29b3d98f1eebb2581057c0ec824/f116a/img_gym_five.png 1425w,\n/static/d510d29b3d98f1eebb2581057c0ec824/a3f34/img_gym_five.png 1900w,\n/static/d510d29b3d98f1eebb2581057c0ec824/7aa2a/img_gym_five.png 3416w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>"
+          }
+        ],
+        "position": {
+          "start": { "line": 23, "column": 1, "offset": 678 },
+          "end": { "line": 23, "column": 31, "offset": 708 },
+          "indent": []
+        }
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "html",
+            "title": null,
+            "url": "./images/img_gym_six.png",
+            "alt": null,
+            "position": {
+              "start": { "line": 25, "column": 1, "offset": 710 },
+              "end": { "line": 25, "column": 30, "offset": 739 },
+              "indent": []
+            },
+            "value": "<span\n      class=\"gatsby-resp-image-wrapper\"\n      style=\"position: relative; display: block; margin-left: auto; margin-right: auto; \n                margin-top: 32px;\n                margin-bottom: 32px;\n                 max-width: 950px;\"\n    >\n      <span\n    class=\"gatsby-resp-image-background-image\"\n    style=\"padding-bottom: 69.84777517564402%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAA/UlEQVQ4y81S0Q6DIAz0/7/NbzBzyaYPKpPpwhR6oyDbEB62ZA9rckGwvesVCiJCAEdYP4n3moAil/BN7GsKYwymacKyLInqXj33j4M5tNZuLZRSKMsSXddlCfZN5wS4mXmesa5rbNmmZy1dLgJCCNdBxnRs+aVE4HwrYkHbyuqE221xuN+N3Rsope23Bk/JOnW1z0t5J2QCrQmn0xlVVT1xONSo66M7b5oGbdtCyqsbB4t7wq1DbwsRoZQSfT/YufYYBrFhwDiO1v5o87Sr8Y7CBSWEnOBJOZHPAsKeV7bI8GPxY0o6jN8TfYGYLLHsO6IPgehZJR3+Kv6f8AEj/VOAfT6XYgAAAABJRU5ErkJggg=='); background-size: cover; display: block;\"\n  ></span>\n  <img\n        class=\"gatsby-resp-image-image\"\n        alt=\"img gym six\"\n        title=\"img gym six\"\n        src=\"/static/fefc35fa0a3931a72d0a666e15a55d22/0c49d/img_gym_six.png\"\n        srcset=\"/static/fefc35fa0a3931a72d0a666e15a55d22/906c5/img_gym_six.png 238w,\n/static/fefc35fa0a3931a72d0a666e15a55d22/0fde9/img_gym_six.png 475w,\n/static/fefc35fa0a3931a72d0a666e15a55d22/0c49d/img_gym_six.png 950w,\n/static/fefc35fa0a3931a72d0a666e15a55d22/f116a/img_gym_six.png 1425w,\n/static/fefc35fa0a3931a72d0a666e15a55d22/a3f34/img_gym_six.png 1900w,\n/static/fefc35fa0a3931a72d0a666e15a55d22/7aa2a/img_gym_six.png 3416w\"\n        sizes=\"(max-width: 950px) 100vw, 950px\"\n        loading=\"lazy\"\n      />\n    </span>"
+          }
+        ],
+        "position": {
+          "start": { "line": 25, "column": 1, "offset": 710 },
+          "end": { "line": 25, "column": 30, "offset": 739 },
+          "indent": []
+        }
+      }
+    ],
+    "position": {
+      "start": { "line": 1, "column": 1, "offset": 0 },
+      "end": { "line": 26, "column": 1, "offset": 740 }
+    }
+  }
+}

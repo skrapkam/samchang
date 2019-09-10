@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822816086000,
+  "key": "bbb0de3e-7222-50ed-b3fe-0f9a348f5901{\"duotone\":false,\"grayscale\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":12}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABsklEQVQoz32TW3PTMBCF8/9/DANPkALN8MBLmL70KbSUFJrGie+xLeuuw66MnYSGaubMrldHn2RdZp8Sh887C44fo+wLXbG29mLfYm9xvefxljgOM4Zd7Ty+JQLrrMamUdgcFB5LMajo8FT12NQSa8qPdYH7TGC5bvH1URDYRejsmoAftg73tQGMhLcUvUNwNgrBo5UCaVPHfKyzjLZIS4OH3JwCHd7T7zy0Adw8hSEDnPcx/qpK3Dw/xdw4F/tHcWtdiLB/gD5afAgIYbBaa3FoGhR5jqooUFYVtNaxP0y+gEqHuH8XgJiALOc8vB/EcK5xxBkQqF8Dxjn/GlvaN616jM0YA0Ur5IgTX23OgMOh3NGhBKvPBix/SHzfDvmhafHm3VssFgvM5/Po0drAGY1cmOnqTcBVqaD7Dm0nIPo+Dsjp+hQHOnmnaaUdnpMEaZqSMvTk6cgrhcCu6V8C7yoFT9dDklH1g1HTt+5qrNYFlquKah2MknFV7GFZ8mStPAI5mVNyW+jYkTSSZhzEeSYUVnuFm98S+/ZYHyPXftbqCDx9epc0Pq8vqZ3u2v+8zPkDxcqKYj+RgnMAAAAASUVORK5CYII=",
+    "width": 20,
+    "height": 12,
+    "aspectRatio": 1.6666666666666667,
+    "originalName": "img_google_hangouts.png"
+  }
+}

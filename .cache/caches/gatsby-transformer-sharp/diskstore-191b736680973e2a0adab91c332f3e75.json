@@ -1,0 +1,11 @@
+{
+  "expireTime": 9007200822816087000,
+  "key": "7d5be81c-684a-507a-8f7b-33eb360c756e{\"duotone\":false,\"grayscale\":false,\"rotate\":0,\"trim\":false,\"toFormat\":\"png\",\"toFormatBase64\":\"\",\"width\":20,\"height\":14}",
+  "val": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAA3ElEQVQ4y2OIOvHrPzUxAz7JyOM/iRIjykBkjSHHfoIxMYYy4DMsAkiHA3H++V//C85D+BFQOVyG4nQhSGMMkJ546/f/tmu//7df/w1mx578BTeUaAOjod4EGVRx6df/eKgh5Rd//e8AGgySiyY1DEFenXL793//Iz//z7//5/9CIPY7AhEj24VdN37/LzwPcWHGmV/gsOy+8RslgkgKQ5BB0+78/l9z+ff/aiAGsRNPQVxPViyDNILYlcBwrLqECAqyYjkSSWPwUQiOJGAY0TklGoopyik0ycvkYACeimqO7dgtogAAAABJRU5ErkJggg==",
+    "width": 20,
+    "height": 14,
+    "aspectRatio": 1.4285714285714286,
+    "originalName": "img_tap_one.png"
+  }
+}
