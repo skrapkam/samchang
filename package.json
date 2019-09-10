@@ -42,10 +42,12 @@
     "gatsby-transformer-remark": "^2.6.19",
     "gatsby-transformer-sharp": "^2.2.0",
     "joi": "^14.3.1",
+    "mem": "^5.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
     "rehype-react": "^4.0.1",
+    "set-value": "^3.0.1",
     "throttle-debounce": "^2.1.0"
   },
   "keywords": [
