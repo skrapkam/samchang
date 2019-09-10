@@ -1,10 +1,10 @@
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`
+});
 
 module.exports = {
   siteMetadata: {
-    title: 'Sam',
+    title: "Sam"
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -16,30 +16,30 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `index`,
-        path: `${__dirname}/src/projects/`,
-      },
+        path: `${__dirname}/src/projects/`
+      }
     },
 
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `index`,
-        path: `${__dirname}/src/images/`,
-      },
+        path: `${__dirname}/src/images/`
+      }
     },
 
     {
       resolve: `gatsby-remark-images`,
       options: {
-        maxWidth: 480,
-      },
+        maxWidth: 480
+      }
     },
 
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [`gatsby-remark-copy-linked-files`],
-      },
+        plugins: [`gatsby-remark-copy-linked-files`]
+      }
     },
     {
       resolve: `gatsby-transformer-remark`,
@@ -55,29 +55,29 @@ module.exports = {
                 margin-top: 32px;
                 margin-bottom: 32px;
                 `,
-              quality: 100,
-            },
+              quality: 100
+            }
           },
           {
             resolve: `gatsby-remark-images-medium-zoom`, // point!
             options: {
-              background: '#fff',
-            },
-          },
-        ],
-      },
+              background: "#fff"
+            }
+          }
+        ]
+      }
     },
 
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`inconsolata`, `monospace`],
-      },
+        fonts: [`inconsolata`, `monospace`]
+      }
     },
     {
       resolve: `gatsby-plugin-favicon`,
       options: {
-        logo: './src/favicon.png',
+        logo: "./src/favicon.png",
         injectHTML: true,
         icons: {
           android: true,
@@ -88,22 +88,16 @@ module.exports = {
           firefox: true,
           twitter: false,
           yandex: false,
-          windows: false,
-        },
-      },
+          windows: false
+        }
+      }
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: 'UA-78963509-1',
-        head: true,
-      },
-    },
-    {
-      resolve: `gatsby-source-instagram-all`,
-      options: {
-        access_token: '9463620428.1677ed0.72e69a4e7e714d5b9fb57983b5cbe7d9',
-      },
-    },
-  ],
-}
+        trackingId: "UA-78963509-1",
+        head: true
+      }
+    }
+  ]
+};
