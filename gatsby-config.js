@@ -93,6 +93,12 @@ module.exports = {
       }
     },
     {
+      resolve: "gatsby-plugin-offline",
+      options: {
+        dontCacheBustUrlsMatching: /(\.js$\/)/
+      }
+    },
+    {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: "UA-78963509-1",
