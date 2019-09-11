@@ -92,12 +92,7 @@ module.exports = {
         }
       }
     },
-    {
-      resolve: "gatsby-plugin-offline",
-      options: {
-        dontCacheBustUrlsMatching: /(\.js$\/)/
-      }
-    },
+
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
