@@ -4,7 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: "Sam"
+    title: "Sam Chang, Designer"
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -97,6 +97,16 @@ module.exports = {
       options: {
         trackingId: "UA-78963509-1",
         head: true
+      }
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Sam Chang, Product Designer`,
+        short_name: `samchang.design`,
+        start_url: `/`,
+        background_color: `#fefefe`,
+        theme_color: `#fefefe`
       }
     }
   ]
