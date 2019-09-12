@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import styled from "@emotion/styled";
-import React, { useState, useEffect } from "react";
-import { css, jsx } from "@emotion/core";
+import { useState, useEffect } from "react";
+import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
 
 const ScrollToTop = styled.div`
