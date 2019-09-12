@@ -135,7 +135,7 @@ class info extends Component {
             </li>
             <li>
               <a href="https://github.com/skrapkam/samchang/commits/master">
-                Last updated 09/09/2019
+                Last updated 09/12/19
               </a>
             </li>
           </ul>
