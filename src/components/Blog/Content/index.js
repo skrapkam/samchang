@@ -20,11 +20,7 @@ const Content__Style = css`
 `;
 class Content extends Component {
   render() {
-    return (
-      <div css={Content__Style}>
-        <section>{this.props.children}</section>
-      </div>
-    );
+    return <p css={Content__Style}>{this.props.children}</p>;
   }
 }
 
