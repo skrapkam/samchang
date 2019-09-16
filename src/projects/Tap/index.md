@@ -1,11 +1,11 @@
 ---
 title: Tap
-date: '2017-12-01'
+date: "2017-12-01"
 section: blog
-image1: './images/img_tap_one.png'
-image2: './images/img_tap_two.png'
-image3: './images/img_tap_three.png'
-image4: './images/img_tap_four.png'
+image1: "./images/img_tap_one.png"
+image2: "./images/img_tap_two.png"
+image3: "./images/img_tap_three.png"
+image4: "./images/img_tap_four.png"
 excerpt: Conceptualizing a better, faster, and more secure way of accessing amenities on campus.
 ---
 
@@ -15,6 +15,9 @@ TAP
 <content-excerpt>
 Conceptualizing a better, faster, and more secure way of accessing amenities on campus 
 </content-excerpt>
+<content-header>
+Introduction
+</content-header>
 <content>
 TAP is a short side project I worked on at USC. I conceptualized an app that could be used by college students on their campuses. The idea was to replace the student ID card with a mobile app and offer unique features that solve common problems that students face.
 </content>
@@ -47,7 +50,7 @@ Process
 </ol>
 </content>
 
-![TAP](./images/img_tap_screens.png 'Adding credits')
+![TAP](./images/img_tap_screens.png "Adding credits")
 
 <content-header>
 Features
@@ -60,12 +63,12 @@ Features
 </ol>
 </content>
 
-![TAP](./images/img_tap_screens_cont.png 'Unlock screens')
+![TAP](./images/img_tap_screens_cont.png "Unlock screens")
 
 <gif>
 <img src="https://www.dropbox.com/s/bwarwxedksryp1h/gif_tap_animations.gif?raw=1" />
 </gif>
 
-![TAP](./images/img_tap_campaign.png 'Landing page campaign')
+![TAP](./images/img_tap_campaign.png "Landing page campaign")
 
-![TAP](./images/img_tap_fb.png 'Facebook ads')
+![TAP](./images/img_tap_fb.png "Facebook ads")

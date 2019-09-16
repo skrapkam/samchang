@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
-import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
+import { Component } from "react";
+import { css, jsx } from "@emotion/core";
 
 const Content__Style = css`
   line-height: 2rem;
@@ -17,11 +17,15 @@ const Content__Style = css`
     padding: 0 15px;
     margin: 0 20px;
   }
-`
+`;
 class Content extends Component {
   render() {
-    return <div css={Content__Style}>{this.props.children}</div>
+    return (
+      <div css={Content__Style}>
+        <section>{this.props.children}</section>
+      </div>
+    );
   }
 }
 
-export default Content
+export default Content;

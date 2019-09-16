@@ -1,11 +1,11 @@
 ---
 title: Google
-date: '2018-04-21'
+date: "2018-04-21"
 section: blog
-image1: './images/img_google_one.png'
-image2: './images/img_google_two.png'
-image3: './images/img_google_three.png'
-image4: './images/img_google_four.png'
+image1: "./images/img_google_one.png"
+image2: "./images/img_google_two.png"
+image3: "./images/img_google_three.png"
+image4: "./images/img_google_four.png"
 excerpt: Designing for Google in partnership with Left Field Labs.
 ---
 
@@ -15,6 +15,9 @@ Google
 <content-excerpt>
 Designing for Google in partnership with Left Field Labs 
 </content-excerpt>
+<content-header>
+Introduction
+</content-header>
 <content>
 I’ve had the privilege of designing for Google’s product pages through working at <a href="https://leftfieldlabs.com">Left Field Labs</a>. Here, I showcase some of the sites I’ve worked on.
 </content>
@@ -33,7 +36,7 @@ The Google VR180 team needed a website designed and developed in conjunction wit
 
 </content>
 
-![Google VR180](./images/img_google_vr180.png 'Final design')
+![Google VR180](./images/img_google_vr180.png "Final design")
 
 <content-subhead>
 Role
@@ -54,18 +57,18 @@ Delight the visitors
 A page with dry content doesn’t have to be boring! Throughout the design process I brainstormed ways we could use images and motion to make the process of scrolling through this site both fun and enjoyable.
 </content>
 
-![Google VR180](./images/img_google_vr180_four.png 'Early wireframes')
+![Google VR180](./images/img_google_vr180_four.png "Early wireframes")
 <content>
 The image headers for each section, for example, didn’t have to be contained within rectangular boxes. Instead, we could build upon the VR motif and crop these images within dynamic and curved containers. Visually, this also makes the page feel more tactile rather than flat.
 </content>
 
-![Google VR180](./images/img_google_vr180_three.png 'Curved image')
+![Google VR180](./images/img_google_vr180_three.png "Curved image")
 
 <content>
 Also, the tips provided for visitors could both teach and entertain. Instead of presenting the information for each tip upfront, making the tips interactive would garner curiosity and thus an incentive to learn more.
 </content>
 
-![Google VR180](./images/img_google_vr180_two.png 'Custom icons')
+![Google VR180](./images/img_google_vr180_two.png "Custom icons")
 
 <content-subhead>
 Prototyping
@@ -92,9 +95,9 @@ The Google VR team needed a redesign of their website’s navigation menu. This 
 
 </content>
 
-![Google VR Menu](./images/img_google_menu_two.png 'Original menu')
+![Google VR Menu](./images/img_google_menu_two.png "Original menu")
 
-![Google VR Menu](./images/img_google_menu_one.png 'New menu')
+![Google VR Menu](./images/img_google_menu_one.png "New menu")
 <content>
 My final solution was heavily inspired by a menu that Google was already using within sites such as Gmail, Calendar, and Plus. The benefit of designing this way was adhering to a system that Google is familiar with. Besides following Google standards, this menu is also scaleable as new VR products can easily be added. You simply scroll to find more products.
 </content>
@@ -116,4 +119,4 @@ Hangouts Chat is a messaging platform for teams. I was tasked with designing a d
 </button-visit>
 </content>
 
-![Google VR Menu](./images/img_google_hangouts.png 'Hangouts Chat download page')
+![Google VR Menu](./images/img_google_hangouts.png "Hangouts Chat download page")
