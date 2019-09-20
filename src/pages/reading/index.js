@@ -1,18 +1,18 @@
 /** @jsx jsx */
 
-import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
-import Nav from '../../components/Nav'
-import Menu from '../../components/Menu'
-import Page from '../../components/Page'
-import { HeaderWrapper } from '../../styles/styles.js'
-import { MediumSectionWrapper } from '../../styles/styles.js'
+import { Component } from "react";
+import { css, jsx } from "@emotion/core";
+import Nav from "../../components/Nav";
+import Menu from "../../components/Menu";
+import Page from "../../components/Page";
+import { HeaderWrapper } from "../../styles/styles.js";
+import { MediumSectionWrapper } from "../../styles/styles.js";
 
-import { Helmet } from 'react-helmet'
+import { Helmet } from "react-helmet";
 
 const ul = css`
   padding-top: 16px;
-`
+`;
 
 class reading extends Component {
   render() {
@@ -35,31 +35,32 @@ class reading extends Component {
         <MediumSectionWrapper>
           <p>
             Books I'm reading at the moment broken up into themes. You can find
-            a full list of books I've read in the past{' '}
+            a full list of books I've read in the past{" "}
             <a href="https://readernaut.com/reader/skrapkam">here</a>.
           </p>
           <ul css={ul}>
-            <h2>Design</h2>
+            <h2>Creativity</h2>
             <li>
-              <a href="https://www.amazon.com/Designing-Behavior-Change-Psychology-Behavioral/dp/1449367623">
-                Designing for Behavior Change
-              </a>{' '}
-              by Stephen Wendel
+              <a href="https://www.amazon.com/Orbiting-Giant-Hairball-Corporate-Surviving/dp/0670879835">
+                Orbiting the Giant Hairball: A Corporate Fool's Guide to
+                Surviving with Grace
+              </a>{" "}
+              by Gordon MacKenzie
             </li>
           </ul>
           <ul>
-            <h2>Software Engineering</h2>
+            <h2>Politics</h2>
             <li>
-              <a href="https://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959">
-                The Mythical Man-Month: Essays on Software Engineering
-              </a>{' '}
-              by Brooks Jr., Frederick P
+              <a href="https://www.amazon.com/Republocrat-Confessions-Conservative-Carl-Trueman/dp/1596381833">
+                Republocrat: Confessions of a Liberal Conservative
+              </a>{" "}
+              by Carl R. Trueman
             </li>
           </ul>
         </MediumSectionWrapper>
       </Page>
-    )
+    );
   }
 }
 
-export default reading
+export default reading;
