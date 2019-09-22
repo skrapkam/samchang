@@ -12,6 +12,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
+    `gatsby-plugin-polyfill-io`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
