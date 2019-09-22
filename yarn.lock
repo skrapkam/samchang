@@ -882,6 +882,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
+"@fastly/performance-observer-polyfill@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fastly/performance-observer-polyfill/-/performance-observer-polyfill-1.0.2.tgz#57c1d63e1cd98c35c456d82ed39b61b52d1c612c"
+  integrity sha512-7Hqwqs8E56oKCsr4/69NRar3brPCgGkzu2I30oJJ6/IL8WlZtZ3b1Cs89gsnqt56nzB9NXVvgBg8pBhdNaQImw==
+
 "@gatsbyjs/relay-compiler@2.0.0-printer-fix.4":
   version "2.0.0-printer-fix.4"
   resolved "https://registry.yarnpkg.com/@gatsbyjs/relay-compiler/-/relay-compiler-2.0.0-printer-fix.4.tgz#4b06aeb4f2ceea5878b5832a2ced1bff9abb62bd"
