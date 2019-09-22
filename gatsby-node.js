@@ -1,20 +1,25 @@
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const path = require(`path`);
+const { createFilePath } = require(`gatsby-source-filesystem`);
+
+exports.modifyBabelrc = ({ babelrc }) => ({
+  ...babelrc,
+  plugins: babelrc.plugins.concat(["transform-regenerator"])
+});
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
-  const { createNodeField } = actions
+  const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({ node, getNode, basePath: `pages` })
+    const slug = createFilePath({ node, getNode, basePath: `pages` });
     createNodeField({
       node,
       name: `slug`,
-      value: slug,
-    })
+      value: slug
+    });
   }
-}
+};
 
 exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
   return new Promise((resolve, reject) => {
     graphql(`
       {
@@ -32,7 +37,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
       }
     `).then(result => {
-      const posts = result.data.allMarkdownRemark.edges
+      const posts = result.data.allMarkdownRemark.edges;
 
       posts.forEach(({ node }, index) => {
         createPage({
@@ -42,11 +47,11 @@ exports.createPages = ({ graphql, actions }) => {
             prev: index === 0 ? false : posts[index - 1].node,
             next: index === posts.length - 1 ? false : posts[index + 1].node,
             // Data passed to context is available in page queries as GraphQL variables.
-            slug: node.fields.slug,
-          },
-        })
-      })
-      resolve()
-    })
-  })
-}
+            slug: node.fields.slug
+          }
+        });
+      });
+      resolve();
+    });
+  });
+};
