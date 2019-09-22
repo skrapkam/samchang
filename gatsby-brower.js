@@ -1,5 +1,5 @@
-import "@fastly/performance-observer-polyfill/polyfill";
+import "core-js/modules/es6.set";
+import "core-js/modules/es6.map";
+import "raf/polyfill";
 
-// PerformanceObserver is now available globally!
-const observer = new PerformanceObserver(list => {});
-observer.observe({ entryTypes: ["resource"] });
+import "babel-polyfill";
