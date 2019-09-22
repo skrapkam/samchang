@@ -58,12 +58,6 @@ module.exports = {
                 `,
               quality: 100
             }
-          },
-          {
-            resolve: `gatsby-remark-images-medium-zoom`, // point!
-            options: {
-              background: "#fff"
-            }
           }
         ]
       }
