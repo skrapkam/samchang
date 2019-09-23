@@ -49,9 +49,6 @@ Process
 <li>Created a landing page and Facebook advertisement campaign to determine product/market fit</li>
 </ol>
 </content>
-
-![TAP](./images/img_tap_screens.png "Adding credits")
-
 <content-header>
 Features
 </content-header>
@@ -62,6 +59,8 @@ Features
 <li>Add discretionary funds to student account</li>
 </ol>
 </content>
+
+![TAP](./images/img_tap_screens.png "Adding credits")
 
 ![TAP](./images/img_tap_screens_cont.png "Unlock screens")
 
