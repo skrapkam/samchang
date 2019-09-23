@@ -1,6 +1,6 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "samchang.design",
+  "description": "Sam's site",
   "version": "1.0.0",
   "author": "Sam Chang <samuel8chang@gmail.com>",
   "husky": {
