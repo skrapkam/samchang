@@ -36,7 +36,7 @@ class reading extends Component {
           <p>
             Books I'm reading at the moment broken up into themes. You can find
             a full list of books I've read in the past{" "}
-            <a href="https://samchang.libib.com/">here</a>.
+            <a href="https://www.librarything.com/catalog/samchang">here</a>.
           </p>
           <ul css={ul}>
             <h2>Engineering</h2>
