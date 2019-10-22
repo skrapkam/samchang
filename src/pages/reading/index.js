@@ -39,22 +39,12 @@ class reading extends Component {
             <a href="https://readernaut.com/reader/skrapkam">here</a>.
           </p>
           <ul css={ul}>
-            <h2>Creativity</h2>
+            <h2>Engineering</h2>
             <li>
-              <a href="https://www.amazon.com/Orbiting-Giant-Hairball-Corporate-Surviving/dp/0670879835">
-                Orbiting the Giant Hairball: A Corporate Fool's Guide to
-                Surviving with Grace
+              <a href="https://www.amazon.com/Systemantics-Systems-Work-Especially-They/dp/0812906748">
+                Systemantics: How Systems Work and Especially How They Fail
               </a>{" "}
-              by Gordon MacKenzie
-            </li>
-          </ul>
-          <ul>
-            <h2>Politics</h2>
-            <li>
-              <a href="https://www.amazon.com/Republocrat-Confessions-Conservative-Carl-Trueman/dp/1596381833">
-                Republocrat: Confessions of a Liberal Conservative
-              </a>{" "}
-              by Carl R. Trueman
+              by John Gall
             </li>
           </ul>
         </MediumSectionWrapper>
