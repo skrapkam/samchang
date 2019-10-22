@@ -1,17 +1,17 @@
 /** @jsx jsx */
+import { graphql } from "gatsby";
+import Img from "gatsby-image";
+import Link from "gatsby-link";
+import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
+import Page from "../components/Page";
 
-import Img from 'gatsby-image'
-import Link from 'gatsby-link'
-import { css, jsx } from '@emotion/core'
-import styled from '@emotion/styled'
-import Page from '../components/Page'
+import Nav from "../components/Nav";
+import Menu from "../components/Menu";
+import Button from "../components/Button";
+import { HeaderWrapper, SectionWrapper } from "../styles/styles.js";
 
-import Nav from '../components/Nav'
-import Menu from '../components/Menu'
-import Button from '../components/Button'
-import { HeaderWrapper, SectionWrapper } from '../styles/styles.js'
-
-import { Helmet } from 'react-helmet'
+import { Helmet } from "react-helmet";
 
 const hide = css`
   display: none;
@@ -20,7 +20,7 @@ const hide = css`
     width: 2px;
     display: inline-block;
   }
-`
+`;
 const action = css`
   text-decoration: none;
   color: var(--link-color);
@@ -38,14 +38,14 @@ const action = css`
   &:after {
     background: 0 0;
   }
-`
+`;
 
 const Excerpt = css`
   line-height: 24px;
   margin-top: 8px;
   display: block;
   max-width: 450px;
-`
+`;
 
 const hidden = css`
   display: none;
@@ -57,7 +57,7 @@ const hidden = css`
     width: 100%;
     bottom: 23px;
   }
-`
+`;
 
 const TextWrapper = styled.div`
   margin-top: 32px;
@@ -67,7 +67,7 @@ const TextWrapper = styled.div`
     margin-top: -26px;
     font-size: var(--tiny-text);
   }
-`
+`;
 
 const ProjectWrapper = styled.div`
   margin: 0 auto 80px;
@@ -75,7 +75,7 @@ const ProjectWrapper = styled.div`
   }
   @media (max-width: 950px) {
   }
-`
+`;
 
 const ImageWrapper = styled.div`
   display: grid;
@@ -96,7 +96,7 @@ const ImageWrapper = styled.div`
     overflow: auto;
     padding-bottom: 27px;
   }
-`
+`;
 export default ({ data }) => {
   return (
     <Page>
@@ -131,7 +131,7 @@ export default ({ data }) => {
                 <div css={hidden} />
                 <TextWrapper>
                   <p>
-                    <strong>{node.frontmatter.title}</strong>,{' '}
+                    <strong>{node.frontmatter.title}</strong>,{" "}
                     {node.frontmatter.date}
                   </p>
 
@@ -148,8 +148,8 @@ export default ({ data }) => {
         </SectionWrapper>
       </div>
     </Page>
-  )
-}
+  );
+};
 
 export const query = graphql`
   query IndexQuery {
@@ -207,4 +207,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
