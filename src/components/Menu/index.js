@@ -3,6 +3,7 @@
 import Link from "gatsby-link";
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
 const dropdown__Style = css`
   width: 200px;
@@ -98,6 +99,20 @@ const menu = css`
   }
 `;
 
+const MenuButton = styled.button`
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: var(--link-color);
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 class Menu extends Component {
   // init state
   constructor() {
@@ -159,14 +174,13 @@ class Menu extends Component {
     }
     return (
       <div css={menu}>
-        <button
-          role="button"
+        <MenuButton
           onClick={this.openMenu}
           onKeyPress={this.currentKey}
           css={this.state.isOpen ? { opacity: ".2" } : { opacity: "1" }}
         >
           ☰ Menu
-        </button>
+        </MenuButton>
         {dropdown}
         {noDropdown}
       </div>
