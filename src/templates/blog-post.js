@@ -41,7 +41,7 @@ const SectionLinks = css`
   padding: 32px 0px;
   display: grid;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  grid-template-columns: 10ch auto;
+  grid-template-columns: 30ch auto;
 `;
 const SectionLinks__Previous = css`
   text-align: left;

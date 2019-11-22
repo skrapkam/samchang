@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
-import Link from 'gatsby-link'
-import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
+import Link from "gatsby-link";
+import { Component } from "react";
+import { css, jsx } from "@emotion/core";
 
 const dropdown__Style = css`
   width: 200px;
@@ -49,7 +49,7 @@ const dropdown__Style = css`
       opacity: 1;
     }
   }
-`
+`;
 
 const noDropdown__Style = css`
   position: fixed;
@@ -58,7 +58,7 @@ const noDropdown__Style = css`
   bottom: 0;
   left: 0;
   z-index: 5;
-`
+`;
 
 const menu = css`
   display: inline-block;
@@ -70,6 +70,7 @@ const menu = css`
   a:hover,
   a:link,
   a:visited {
+    width: 100%;
     cursor: pointer;
     position: static;
     -webkit-touch-callout: none;
@@ -95,46 +96,46 @@ const menu = css`
   ul li:last-child {
     border-bottom: none;
   }
-`
+`;
 
 class Menu extends Component {
   // init state
   constructor() {
-    super()
-    this.state = { isOpen: false }
-    this.state = { currentKey: '' }
-    this.handleKeyPress = this.handleKeyPress.bind(this)
+    super();
+    this.state = { isOpen: false };
+    this.state = { currentKey: "" };
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   // open state
   openMenu = e => {
-    this.setState({ isOpen: true })
-  }
+    this.setState({ isOpen: true });
+  };
 
   // close state
   closeMenu = e => {
-    this.setState({ isOpen: false })
-  }
+    this.setState({ isOpen: false });
+  };
 
   // press esc key to close menu
   handleKeyPress(e) {
-    this.setState({ currentKey: e.keyCode })
+    this.setState({ currentKey: e.keyCode });
     if (e.keyCode === 27) {
-      this.setState({ isOpen: false })
+      this.setState({ isOpen: false });
     }
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyPress)
+    document.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyPress)
+    document.removeEventListener("keydown", this.handleKeyPress);
   }
 
   render() {
-    let dropdown
-    let noDropdown
+    let dropdown;
+    let noDropdown;
 
     if (this.state.isOpen) {
       dropdown = (
@@ -153,25 +154,24 @@ class Menu extends Component {
             </li>
           </ul>
         </div>
-      )
-      noDropdown = <div onClick={this.closeMenu} css={noDropdown__Style} />
+      );
+      noDropdown = <div onClick={this.closeMenu} css={noDropdown__Style} />;
     }
     return (
       <div css={menu}>
-        <a
-          href="#"
+        <button
           role="button"
           onClick={this.openMenu}
           onKeyPress={this.currentKey}
-          css={this.state.isOpen ? { opacity: '.2' } : { opacity: '1' }}
+          css={this.state.isOpen ? { opacity: ".2" } : { opacity: "1" }}
         >
           ☰ Menu
-        </a>
+        </button>
         {dropdown}
         {noDropdown}
       </div>
-    )
+    );
   }
 }
 
-export default Menu
+export default Menu;
