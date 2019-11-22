@@ -12,6 +12,7 @@ import ContentHeader from "../components/Blog/ContentHeader";
 import ContentSubhead from "../components/Blog/ContentSubhead";
 import ContentTitle from "../components/Blog/ContentTitle";
 import ContentExcerpt from "../components/Blog/ContentExcerpt";
+import Summary from "../components/Blog/Summary";
 import Page from "../components/Page";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
@@ -29,7 +30,8 @@ const renderAst = new RehypeReact({
     "content-subhead": ContentSubhead,
     "button-visit": Button,
     "content-title": ContentTitle,
-    "content-excerpt": ContentExcerpt
+    "content-excerpt": ContentExcerpt,
+    summary: Summary
   }
 }).Compiler;
 

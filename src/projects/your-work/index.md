@@ -1,11 +1,11 @@
 ---
 title: Your Work
-date: '2018-12-20'
+date: "2018-12-20"
 section: blog
-image1: './images/img_yourwork_one.png'
-image2: './images/img_yourwork_two.png'
-image3: './images/img_yourwork_three.png'
-image4: './images/img_yourwork_four.png'
+image1: "./images/img_yourwork_one.png"
+image2: "./images/img_yourwork_two.png"
+image3: "./images/img_yourwork_three.png"
+image4: "./images/img_yourwork_four.png"
 excerpt: Redesigning the client project management experience for 99designs.
 ---
 
@@ -15,6 +15,9 @@ Your Work
 <content-excerpt>
 Redesigning the client project management experience for 99designs
 </content-excerpt>
+<summary>
+I redesigned a dashboard to empower clients. This redesigned client experience helped speed up their workflows and encouraged them to engage more with the people they work with.
+</summary>
 <content-header>
 Introduction
 </content-header>
@@ -32,7 +35,7 @@ Problem Framing
 The last time Your work received any major updates was in 2015. Back then, 99designs was primarily operating a contest business model and thus Your work was fairly straightforward in terms of functionality. Now, as 99designs is shifting towards a more direct-work business model it was time to refresh Your work. 
 </content>
 
-![Your Work](./images/img_yourwork_oldvsnew.png 'Old vs. new')
+![Your Work](./images/img_yourwork_oldvsnew.png "Old vs. new")
 
 <content>
 Specifically, we wanted to speed up the workflows of our clients by <strong>highlighting meaningful and actionable information</strong> and providing tools to allow them to <strong>easily find and manage their work</strong>.
@@ -79,7 +82,7 @@ Sidebar
 We changed the navigation pattern from a pill pattern to a sidebar pattern. We felt that a sidebar is easier to navigate and more refined than the pill pattern. A sidebar is also more scalable as we might need to add more options in the future. 
 </content>
 
-![Your Work](./images/img_yourwork_sidebar-oldvsnew.png 'Sidebar')
+![Your Work](./images/img_yourwork_sidebar-oldvsnew.png "Sidebar")
 
 <content-subhead>
 Avatars
@@ -89,13 +92,13 @@ Avatars
 We added designer avatars to each listing item in order to help clients quickly recognize who’s working on their project. This is especially useful for the clients who expressed frustration with finding designers that they’ve worked with. 
 </content>
 
-![Your Work](./images/img_yourwork_avatars.png 'Shipped avatar permutations')
+![Your Work](./images/img_yourwork_avatars.png "Shipped avatar permutations")
 
 <content>
 Since multiple designers are in a contest, we thought that showing clients multiple avatars would help them not only quickly see who’s in their contests, but also distinguish contests from direct work (direct work items only show 1 avatar). I explored a couple of ideas for how we can display these avatars as well the number of entries and designers.  
 </content>
 
-![Your Work](./images/img_yourwork_avatars-iterations.png 'A few early explorations')
+![Your Work](./images/img_yourwork_avatars-iterations.png "A few early explorations")
 
 <content-subhead>
 Actions
@@ -105,13 +108,13 @@ Actions
 We also gave our clients different actions that they can take for each project depending on the stage of the project. I went through each of the stages for both contests and direct work and listed the most useful actions clients can take. The decisions I made were based on the client interviews we conducted, discussions with our product manager, and intuition. 
 </content>
 
-![Your Work](./images/img_yourwork_actions.png 'Quick actions')
+![Your Work](./images/img_yourwork_actions.png "Quick actions")
 
 <content>
 I also took the time to see how we can show these action buttons in mobile since space was a major constraint. 
 </content>
 
-![Your Work](./images/img_yourwork_actions-mobile.png 'A few mobile explorations')
+![Your Work](./images/img_yourwork_actions-mobile.png "A few mobile explorations")
 
 <content-subhead>
 Context Messages
@@ -121,7 +124,7 @@ Context Messages
 We also added context messages for each project depending on the project stage. Information such as quote amount or completion requests would be displayed here. Again, this is to help clients get an early snapshot of where their projects are at to make quick decisions. One consideration we made when deciding on what messages to show was our current notification system. While we wanted to display useful messages, we also didn’t want to replace our notifications with them. 
 </content>
 
-![Your Work](./images/img_yourwork_context-message.png 'Quote and completion request messages')
+![Your Work](./images/img_yourwork_context-message.png "Quote and completion request messages")
 
  <content-header>
  Constraints
@@ -136,7 +139,7 @@ User Testing
 After shipping everything, I led several user testing sessions to learn how the refreshed Your work is delivering value for our clients. 
 </content>
 
-![Your Work](./images/img_yourwork_user-testing.png 'Testing session')
+![Your Work](./images/img_yourwork_user-testing.png "Testing session")
 
 <content>
 From these tests we learned that: 
