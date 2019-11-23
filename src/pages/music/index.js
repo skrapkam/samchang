@@ -1,19 +1,18 @@
 /** @jsx jsx */
 
-import { css, jsx } from '@emotion/core'
-import Nav from '../../components/Nav'
-import styled from '@emotion/styled'
-import Menu from '../../components/Menu'
-import { HeaderWrapper } from '../../styles/styles.js'
-import { MediumSectionWrapper } from '../../styles/styles.js'
-import { Container } from '../../styles/styles.js'
-import Page from '../../components/Page'
-import { graphql } from 'gatsby'
-import Img from 'gatsby-image'
+import { css, jsx } from "@emotion/core";
+import Nav from "../../components/Nav";
+import styled from "@emotion/styled";
+import Menu from "../../components/Menu";
+import { MediumSectionWrapper } from "../../styles/styles.js";
+import { Container } from "../../styles/styles.js";
+import Page from "../../components/Page";
+import Header from "../../components/Header";
+import { graphql } from "gatsby";
+import Img from "gatsby-image";
+import { Helmet } from "react-helmet";
 
-import { Helmet } from 'react-helmet'
-
-const Grid = styled('div')`
+const Grid = styled("div")`
   display: grid;
 
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
@@ -28,14 +27,14 @@ const Grid = styled('div')`
     padding: 0 var(--baseline) 24px;
     row-gap: 24px;
   }
-`
+`;
 const CoverStyle = css`
   border: 1px solid rgba(0, 0, 0, 0.05);
-`
+`;
 
-const CoverTitle = styled('div')`
+const CoverTitle = styled("div")`
   margin-top: 16px;
-`
+`;
 
 const music = props => (
   <Container>
@@ -50,13 +49,13 @@ const music = props => (
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Helmet>
-      <HeaderWrapper>
+      <Header>
         <Nav title="Music" />
         <Menu />
-      </HeaderWrapper>
+      </Header>
       <MediumSectionWrapper>
         <p>
-          Written and produced by{' '}
+          Written and produced by{" "}
           <a href="http://groveralleyway.bandcamp.com">Grover Alleyway</a>. All
           tunes created on a laptop computer using Ableton Live software to
           control and mix VST plugins as well as manipulations of audio
@@ -88,9 +87,9 @@ const music = props => (
       </Grid>
     </Page>
   </Container>
-)
+);
 
-export default music
+export default music;
 
 export const fluidImage = graphql`
   fragment fluidImage on File {
@@ -100,7 +99,7 @@ export const fluidImage = graphql`
       }
     }
   }
-`
+`;
 
 export const pageQuery = graphql`
   query {
@@ -116,4 +115,4 @@ export const pageQuery = graphql`
       ...fluidImage
     }
   }
-`
+`;

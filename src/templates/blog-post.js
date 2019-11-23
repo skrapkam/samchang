@@ -4,7 +4,6 @@ import { graphql } from "gatsby";
 import React from "react";
 import { css, jsx } from "@emotion/core";
 import Link from "gatsby-link";
-import { HeaderWrapper } from "../styles/styles.js";
 import { Container } from "../styles/styles.js";
 import RehypeReact from "rehype-react"; // This is so I can write components in my markdown file
 import Content from "../components/Blog/Content";
@@ -14,6 +13,7 @@ import ContentTitle from "../components/Blog/ContentTitle";
 import ContentExcerpt from "../components/Blog/ContentExcerpt";
 import Summary from "../components/Blog/Summary";
 import Page from "../components/Page";
+import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import Button from "../components/Button";
@@ -53,7 +53,7 @@ const SectionLinks__Next = css`
 `;
 const ContentWrapper = styled.div`
   max-width: var(--global-width);
-  margin: 24px auto;
+  margin: 120px auto 0;
   padding: 0px var(--content-padding);
 
   @media (max-width: 950px) {
@@ -83,10 +83,10 @@ export default ({ data, pageContext }) => {
             }
           ]}
         />
-        <HeaderWrapper>
+        <Header>
           <Nav title={post.frontmatter.title} />
           <Menu />
-        </HeaderWrapper>
+        </Header>
         <ContentWrapper>
           {renderAst(post.htmlAst)}
           <div css={Footer}>

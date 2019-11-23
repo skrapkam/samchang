@@ -5,11 +5,11 @@ import Link from "gatsby-link";
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import Page from "../components/Page";
-
+import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import Button from "../components/Button";
-import { HeaderWrapper, SectionWrapper } from "../styles/styles.js";
+import { SectionWrapper } from "../styles/styles.js";
 
 import { Helmet } from "react-helmet";
 
@@ -111,11 +111,11 @@ export default ({ data }) => {
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Helmet>
-        <HeaderWrapper>
+        <Header>
           <Nav />
 
           <Menu />
-        </HeaderWrapper>
+        </Header>
         <SectionWrapper>
           {data.allMarkdownRemark.edges.map(({ node }) => (
             <div key={node.id}>

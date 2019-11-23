@@ -5,9 +5,8 @@ import { css, jsx } from "@emotion/core";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
-import { HeaderWrapper } from "../../styles/styles.js";
 import { MediumSectionWrapper } from "../../styles/styles.js";
-
+import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
 
 const ul = css`
@@ -28,10 +27,10 @@ class reading extends Component {
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Helmet>
-        <HeaderWrapper>
+        <Header>
           <Nav title="Reading" />
           <Menu />
-        </HeaderWrapper>
+        </Header>
         <MediumSectionWrapper>
           <p>
             Books I'm reading at the moment broken up into themes. You can find

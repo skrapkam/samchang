@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/core";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
-import { HeaderWrapper } from "../../styles/styles.js";
+import Header from "../../components/Header";
 import { MediumSectionWrapper } from "../../styles/styles.js";
 import { Helmet } from "react-helmet";
 import Link from "gatsby-link";
@@ -33,10 +33,10 @@ class info extends Component {
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Helmet>
-        <HeaderWrapper>
+        <Header>
           <Nav title="Info" />
           <Menu />
-        </HeaderWrapper>
+        </Header>
         <MediumSectionWrapper>
           <h2>Present</h2>
           <ul>

@@ -1,13 +1,14 @@
 /** @jsx jsx */
 
-import { Component } from 'react'
-import { jsx } from '@emotion/core'
-import Nav from '../components/Nav'
-import Menu from '../components/Menu'
-import { HeaderWrapper } from '../styles/styles.js'
-import { MediumSectionWrapper } from '../styles/styles.js'
-import { Helmet } from 'react-helmet'
-import Link from 'gatsby-link'
+import { Component } from "react";
+import { jsx } from "@emotion/core";
+import Nav from "../components/Nav";
+import Menu from "../components/Menu";
+import { HeaderWrapper } from "../styles/styles.js";
+import { MediumSectionWrapper } from "../styles/styles.js";
+import { Helmet } from "react-helmet";
+import Header from "../components/Header";
+import Link from "gatsby-link";
 
 class info extends Component {
   render() {
@@ -23,20 +24,20 @@ class info extends Component {
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Helmet>
-        <HeaderWrapper>
+        <Header>
           <Nav title="404" />
           <Menu />
-        </HeaderWrapper>
+        </Header>
         <MediumSectionWrapper>
           <p>
-            The page you tried to access cannot be found. Maybe try going{' '}
-            <Link to="/">home</Link> or listening to some of my{' '}
+            The page you tried to access cannot be found. Maybe try going{" "}
+            <Link to="/">home</Link> or listening to some of my{" "}
             <Link to="/music">music</Link>.
           </p>
         </MediumSectionWrapper>
       </div>
-    )
+    );
   }
 }
 
-export default info
+export default info;
