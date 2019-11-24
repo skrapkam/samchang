@@ -4,7 +4,6 @@ import { Component } from "react";
 import { jsx } from "@emotion/core";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
-import { HeaderWrapper } from "../styles/styles.js";
 import { MediumSectionWrapper } from "../styles/styles.js";
 import { Helmet } from "react-helmet";
 import Header from "../components/Header";
