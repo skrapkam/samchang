@@ -95,15 +95,6 @@ class info extends Component {
                     website dedicated to the yodel kid
                   </li>
                   <li>
-                    <a href="https://thelongestyeahboyever.com/">
-                      the longest yeah boy ever
-                    </a>{" "}
-                    is a website dedicated to{" "}
-                    <a href="https://www.youtube.com/watch?v=fvtQYsckLxk">
-                      Kondwani Sichinga
-                    </a>
-                  </li>
-                  <li>
                     <a href="http://chloeburbankgenerator.com">
                       Chloe Burban album cover generator
                     </a>
