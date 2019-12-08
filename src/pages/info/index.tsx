@@ -6,7 +6,7 @@ import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
 import Header from "../../components/Header";
-import { MediumSectionWrapper } from "../../styles/styles.js";
+import { MediumSectionWrapper } from "../../styles/styles";
 import { Helmet } from "react-helmet";
 import Link from "gatsby-link";
 
