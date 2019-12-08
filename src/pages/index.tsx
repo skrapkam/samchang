@@ -9,7 +9,7 @@ import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import Button from "../components/Button";
-import { SectionWrapper } from "../styles/styles.js";
+import { SectionWrapper } from "../styles/styles";
 
 import { Helmet } from "react-helmet";
 

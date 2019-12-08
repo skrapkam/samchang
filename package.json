@@ -79,5 +79,9 @@
   },
   "resolutions": {
     "sharp": "0.22.1"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "tslint --project ."
   }
 }

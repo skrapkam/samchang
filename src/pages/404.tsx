@@ -4,7 +4,7 @@ import { Component } from "react";
 import { jsx } from "@emotion/core";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
-import { MediumSectionWrapper } from "../styles/styles.js";
+import { MediumSectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import Header from "../components/Header";
 import Link from "gatsby-link";
