@@ -36,7 +36,7 @@ export const MediumSectionWrapper = styled.div`
   }
 
   li {
-    margin: 0 40px;
+    margin: 0 16px;
   }
 
   details li {
