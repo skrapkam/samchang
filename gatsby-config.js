@@ -104,7 +104,6 @@ module.exports = {
         background_color: `#fefefe`,
         theme_color: `#fefefe`
       }
-    },
-    `gatsby-plugin-offline`
+    }
   ]
 };
