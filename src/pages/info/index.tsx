@@ -41,21 +41,20 @@ class info extends Component {
           <h2>Present</h2>
           <ul>
             <li>
-              Product Designer at <a href="https://99designs.com/">99designs</a>
+              I'm currently living in San Jose, California and working as a
+              Product Designer for{" "}
+              <a href="https://99designs.com/">99designs</a>. There, I'm
+              designing core platform experiences for Clients, Designers, and
+              internal teams.
             </li>
+
             <li>
-              Learning how to <a href="https://github.com/skrapkam">code</a>{" "}
-            </li>
-            <li>
-              Making <Link to="/music">music</Link>{" "}
-            </li>
-            <li>
-              <Link to="/reading">Reading</Link>
-            </li>
-            <li>
-              <a href="https://photos.samchang.design">
-                Taking horrible photos
-              </a>
+              In my spare time I enjoy{" "}
+              <a href="https://github.com/skrapkam">coding</a>,{" "}
+              <Link to="/music">producing music</Link>,{" "}
+              <Link to="/reading">reading</Link>,{" "}
+              <a href="https://writing.samchang.design">writing</a>, and taking{" "}
+              <a href="https://photos.samchang.design">mediocre photos.</a>
             </li>
           </ul>
           <h2>Past</h2>
@@ -126,7 +125,7 @@ class info extends Component {
             </li>
             <li>
               <a href="https://github.com/skrapkam/samchang/commits/master">
-                Last updated 11/21/19
+                Last updated 12/09/19
               </a>
             </li>
           </ul>
