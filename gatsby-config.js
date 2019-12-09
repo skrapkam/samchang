@@ -13,7 +13,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
-    "gatsby-plugin-netlify-cache",
+    `gatsby-plugin-netlify-cache`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -104,6 +104,7 @@ module.exports = {
         background_color: `#fefefe`,
         theme_color: `#fefefe`
       }
-    }
+    },
+    `gatsby-plugin-offline`
   ]
 };
