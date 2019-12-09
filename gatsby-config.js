@@ -14,6 +14,7 @@ module.exports = {
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
     `gatsby-plugin-netlify-cache`,
+    `gatsby-plugin-remove-serviceworker`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
