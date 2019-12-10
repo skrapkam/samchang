@@ -1,6 +1,5 @@
 /** @jsx jsx */
 
-import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
@@ -9,6 +8,10 @@ import Header from "../../components/Header";
 import { MediumSectionWrapper } from "../../styles/styles";
 import { Helmet } from "react-helmet";
 import Link from "gatsby-link";
+import Img from "gatsby-image";
+import { graphql } from "gatsby";
+import styled from "@emotion/styled";
+
 
 const Summary__Popout = css`
   margin-bottom: 8px;
@@ -19,9 +22,36 @@ const Summary__Popout = css`
   line-height: 1.5em;
 `;
 
-class info extends Component {
-  render() {
-    return (
+const GridContainer = styled.div`
+display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  @media (max-width: 1160px) {
+   grid-template-columns: 3fr;
+  }
+
+`
+
+const AvatarStyle = styled.div`
+  width: 28vw;
+  height: 30vw;
+
+ margin-top: 220px;
+  margin-right: 130px;
+
+  @media (max-width: 1160px) {
+    display: none;
+  }
+
+`;
+
+const AvatarCaption = styled.div`
+margin-top: 8px;
+`
+
+
+const info = props => (
+
       <Page>
         <Helmet>
           <meta charSet="utf-8" />
@@ -37,6 +67,7 @@ class info extends Component {
           <Nav title="Info" />
           <Menu />
         </Header>
+        <GridContainer>
         <MediumSectionWrapper>
           <h2>Present</h2>
           <ul>
@@ -129,10 +160,37 @@ class info extends Component {
               </a>
             </li>
           </ul>
+
         </MediumSectionWrapper>
+        <AvatarStyle>
+        <Img
+               fluid={props.data.avatar.childImageSharp.fluid}/>
+            <AvatarCaption>
+            Photo by <a href="https://austinyu.com">Austin Yu</a>
+            </AvatarCaption>
+            </AvatarStyle>
+        </GridContainer>
+        
       </Page>
     );
-  }
-}
+
 
 export default info;
+
+export const fluidImage = graphql`
+  fragment fluidImage on File {
+    childImageSharp {
+      fluid(maxWidth: 1000) {
+        ...GatsbyImageSharpFluid_tracedSVG
+      }
+    }
+  }
+`;
+
+export const pageQuery = graphql`
+  query {
+    avatar: file(relativePath: { eq: "avatar.jpg" }) {
+      ...fluidImage
+    }
+  }
+`;
