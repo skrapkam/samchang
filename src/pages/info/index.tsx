@@ -76,7 +76,7 @@ const info = props => (
               Product Designer for{" "}
               <a href="https://99designs.com/">99designs</a>. There, I'm
               designing core platform experiences for Clients, Designers, and
-              internal teams.
+              internal teams
             </li>
 
             <li>
@@ -85,7 +85,7 @@ const info = props => (
               <Link to="/music">producing music</Link>,{" "}
               <Link to="/reading">reading</Link>,{" "}
               <a href="https://writing.samchang.design">writing</a>, and taking{" "}
-              <a href="https://photos.samchang.design">mediocre photos.</a>
+              <a href="https://photos.samchang.design">mediocre photos</a>
             </li>
           </ul>
           <h2>Past</h2>
