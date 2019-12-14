@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "bloom",
+    "name": "Bloom",
+    "url": "https://facebook.com",
+    "image": {
+      "src": "../../src/images/pilgrim.jpg"
+    }
+  },
+  {
+    "slug": "sam",
+    "name": "sam",
+    "url": "https://facebook.com",
+    "image": {
+      "src": "../../src/images/avatar.jpg"
+    }
+  }
+]

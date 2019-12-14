@@ -7,14 +7,22 @@ module.exports = {
     title: "Sam Chang, Designer"
   },
   plugins: [
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+
     `gatsby-plugin-typescript`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
     `gatsby-plugin-netlify-cache`,
     `gatsby-plugin-remove-serviceworker`,
+    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/data/books/books.json`
+      }
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
