@@ -26,6 +26,12 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        path: `${__dirname}/data/music/music.json`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: `index`,
         path: `${__dirname}/src/projects/`
       }

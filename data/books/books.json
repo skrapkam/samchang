@@ -1,18 +1,106 @@
 [
   {
-    "slug": "bloom",
-    "name": "Bloom",
-    "url": "https://facebook.com",
+    "title": "Pilgrim's Progress",
+    "author": "John Bunyan",
+    "url": "https://www.amazon.com/exec/obidos/ASIN/1622452399/ref=nosim/librarythin06-20",
     "image": {
-      "src": "../../src/images/pilgrim.jpg"
+      "src": "../../src/images/books/pilgrim.jpg"
     }
   },
   {
-    "slug": "sam",
-    "name": "sam",
-    "url": "https://facebook.com",
+    "title": "Zero to One: Notes on Startups, or How to Build the Future",
+    "author": "Peter Thiel",
+    "url": "https://www.amazon.com/exec/obidos/ASIN/0804139296/ref=nosim/librarythin06-20",
     "image": {
-      "src": "../../src/images/avatar.jpg"
+      "src": "../../src/images/books/zero.jpg"
+    }
+  },
+  {
+    "title": "Systemantics: How Systems Work and Especially How They Fail",
+    "author": "John Gall",
+    "url": "https://www.amazon.com/exec/obidos/ASIN/0812906748/ref=nosim/librarythin06-20",
+    "image": {
+      "src": "../../src/images/books/systemantics.jpg"
+    }
+  },
+  {
+    "title": "Sense and Respond",
+    "author": "Jeff Gothelf",
+    "url": "https://www.amazon.com/Sense-Respond-Successful-Organizations-Continuously/dp/1633691888",
+    "image": {
+      "src": "../../src/images/books/sense.jpg"
+    }
+  },
+  {
+    "title": "Republocrat: Confessions of a Liberal Conservative",
+    "author": "Carl R. Trueman",
+    "url": "https://www.amazon.com/Republocrat-Confessions-Conservative-Carl-Trueman/dp/1596381833",
+    "image": {
+      "src": "../../src/images/books/republocrat.jpg"
+    }
+  },
+  {
+    "title": "Reading the Bible Supernaturally",
+    "author": "John Piper",
+    "url": "https://www.amazon.com/Republocrat-Confessions-Conservative-Carl-Trueman/dp/1596381833",
+    "image": {
+      "src": "../../src/images/books/readingthebible.jpg"
+    }
+  },
+  {
+    "title": "The Mythical Man-Month: Essays on Software Engineering",
+    "author": "Frederick P. Brooks Jr.",
+    "url": "https://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959",
+    "image": {
+      "src": "../../src/images/books/mythical.jpg"
+    }
+  },
+  {
+    "title": "Good Strategy Bad Strategy: The Difference and Why It Matters",
+    "author": "Richard Rumelt",
+    "url": "https://www.amazon.com/Good-Strategy-Bad-Difference-Matters/dp/0307886239",
+    "image": {
+      "src": "../../src/images/books/strategy.jpg"
+    }
+  },
+  {
+    "title": "God's Passion for His Glory",
+    "author": "John Piper",
+    "url": "https://www.amazon.com/Gods-Passion-His-Glory-Jonathan/dp/1581347456",
+    "image": {
+      "src": "../../src/images/books/godspassion.jpg"
+    }
+  },
+  {
+    "title": "Discussing Design: Improving Communication and Collaboration through Critique",
+    "author": "Adam Connor",
+    "url": "https://www.amazon.com/Discussing-Design-Improving-Communication-Collaboration/dp/149190240X",
+    "image": {
+      "src": "../../src/images/books/discussingdesign.jpg"
+    }
+  },
+  {
+    "title": "Desiring God",
+    "author": "John Piper",
+    "url": "https://www.amazon.com/Desiring-God-Revised-Meditations-Christian/dp/1601423101",
+    "image": {
+      "src": "../../src/images/books/desiringgod.jpg"
+    }
+  },
+  {
+    "title": "Designing for Behavior Change: Applying Psychology and Behavioral Economics",
+    "author": "Stephen Wendel",
+    "url": "https://www.amazon.com/exec/obidos/ASIN/1449367623/ref=nosim/librarythin06-20",
+    "image": {
+      "src": "../../src/images/books/designingforbehavior.jpg"
+    }
+  },
+  {
+    "title": "Orbiting the Giant Hairball: A Corporate Fool's Guide to Surviving with Grace",
+    "author": "Gordon MacKenzie",
+    "url": "https://www.amazon.com/Orbiting-Giant-Hairball-Corporate-Surviving/dp/0670879835",
+    "image": {
+      "src": "../../src/images/books/orbiting.jpg"
     }
   }
 ]
