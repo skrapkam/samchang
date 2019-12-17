@@ -160,6 +160,7 @@ Takeaways
 <content-subhead>
 It’s probably okay if our changes don’t improve, or only marginally improve, a client’s workflow
 </content-subhead>
+
 <content>
 Even though our goal was to deliver value for our clients (e.g. speeding up their workflow), not achieving that goal for everyone isn’t necessarily a “bad” thing. At best, the changes improve their workflow and at worst, they don’t affect any change. Every client is different and has a different workflow which means that there isn’t a one-size-fits-all approach to making everyone’s experience better
 </content>

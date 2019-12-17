@@ -40,10 +40,8 @@ const action = css`
 `;
 
 const Excerpt = css`
-  line-height: 24px;
   margin-top: 8px;
   display: block;
-  max-width: 450px;
 `;
 
 const hidden = css`
@@ -64,7 +62,6 @@ const TextWrapper = styled.div`
     padding-left: var(--baseline);
     padding-right: var(--baseline);
     margin-top: -26px;
-    font-size: var(--tiny-text);
   }
 `;
 
