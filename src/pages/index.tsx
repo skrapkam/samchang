@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import Button from "../components/Button";
+import { SectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 
 const hide = css`
@@ -76,20 +77,6 @@ const Projects = css`
     margin-bottom: 80px;
   }
 `
-
-const SectionWrapper = styled.div`
-  max-width: 852px;
-  margin: 120px auto 0;
-  @media (max-width: 950px) {
-    max-width: 100%;
-  }
-  @media (max-width: 425px) {
-    position: relative;
-    padding-top: 104px;
-    margin: 0px auto;
-  }
-`;
-
 
 const ImageWrapper = styled.div`
   display: grid;
