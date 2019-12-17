@@ -55,6 +55,16 @@ const ContentWrapper = styled.div`
   margin: 120px auto 0;
   padding: 0px var(--content-padding);
 
+  h1 {
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+
   @media (max-width: 950px) {
     max-width: 100%;
   }
