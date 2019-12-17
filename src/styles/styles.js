@@ -2,20 +2,6 @@ import styled from "@emotion/styled";
 import "./variables.css";
 import "./base.css";
 
-export const SectionWrapper = styled.div`
-  max-width: 852px;
-  margin: 120px auto 0;
-
-  @media (max-width: 950px) {
-    max-width: 100%;
-  }
-  @media (max-width: 425px) {
-    position: relative;
-    padding-top: 104px;
-    margin: 0px auto;
-  }
-`;
-
 export const MediumSectionWrapper = styled.div`
   padding-left: 40px;
   margin-top: 120px;
