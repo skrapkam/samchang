@@ -11,7 +11,6 @@ const Content__Style = css`
   }
   
   li {
-    padding: 0 15px;
     margin: 0 20px;
   }
 `;
