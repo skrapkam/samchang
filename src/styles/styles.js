@@ -55,7 +55,7 @@ export const MediumSectionWrapper = styled.div`
 export const Grid = styled("div")`
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
   column-gap: 40px;
   row-gap: 40px;
   margin: 0 auto;

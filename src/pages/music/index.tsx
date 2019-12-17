@@ -73,6 +73,7 @@ export const MusicQuery = graphql`
         node {
           title
           date
+          url
           image {
             src {
               childImageSharp {

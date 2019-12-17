@@ -6,7 +6,7 @@ import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
 const dropdown__Style = css`
-  width: 200px;
+  width: 220px;
   text-align: left;
   position: absolute;
   z-index: 10;
