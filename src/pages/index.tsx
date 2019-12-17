@@ -70,8 +70,14 @@ const TextWrapper = styled.div`
 `;
 
 const ProjectWrapper = styled.div`
-  margin: 80px auto 0;
+  margin: auto 0;
 `;
+
+const Projects = css`
+  &:not(:last-child) {
+    margin-bottom: 80px;
+  }
+`
 
 const ImageWrapper = styled.div`
   display: grid;
@@ -114,12 +120,11 @@ export default ({ data }) => {
         </Header>
         <SectionWrapper>
           {data.allMarkdownRemark.edges.map(({ node }) => (
-            <div key={node.id}>
+            <div css = {Projects} key={node.id}>
               <ProjectWrapper>
                 <ImageWrapper>
                   <Img sizes={node.frontmatter.image1.childImageSharp.sizes} />
                   <Img sizes={node.frontmatter.image2.childImageSharp.sizes} />
-
                   <Img sizes={node.frontmatter.image3.childImageSharp.sizes} />
                   <Img sizes={node.frontmatter.image4.childImageSharp.sizes} />
                   <div css={hide} />
