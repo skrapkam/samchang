@@ -10,7 +10,6 @@ const Summary__Style = css`
   margin: 32px auto;
   border-radius: 8px;
   padding: 24px;
-  line-height: 2rem;
 `;
 
 const SummaryTitle = styled.h6`
