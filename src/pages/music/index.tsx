@@ -5,7 +5,6 @@ import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import {
   MediumSectionWrapper,
-  Container,
   Grid,
   CoverTitle
 } from "../../styles/styles";

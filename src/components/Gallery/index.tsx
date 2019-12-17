@@ -14,7 +14,7 @@ const Container = styled('div')`
     border: none;
   }
   @media (max-width: 950px) {
-    padding: 0 var(--baseline) 24px;
+    padding: 0 var(--baseline);
     row-gap: 24px;
   }
 `

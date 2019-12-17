@@ -70,11 +70,7 @@ const TextWrapper = styled.div`
 `;
 
 const ProjectWrapper = styled.div`
-  margin: 0 auto 80px;
-  a {
-  }
-  @media (max-width: 950px) {
-  }
+  margin: 80px auto 0;
 `;
 
 const ImageWrapper = styled.div`

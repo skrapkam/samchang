@@ -16,10 +16,6 @@ export const SectionWrapper = styled.div`
   }
 `;
 
-export const Container = styled.div`
-  padding-bottom: 24px;
-`;
-
 export const MediumSectionWrapper = styled.div`
   padding-left: 40px;
   margin-top: 120px;
@@ -68,7 +64,7 @@ export const Grid = styled("div")`
     border: none;
   }
   @media (max-width: 950px) {
-    padding: 0 var(--baseline) 24px;
+    padding: 0 var(--baseline);
     row-gap: 24px;
   }
 `;

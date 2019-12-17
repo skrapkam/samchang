@@ -4,7 +4,6 @@ import { graphql } from "gatsby";
 import React from "react";
 import { css, jsx } from "@emotion/core";
 import Link from "gatsby-link";
-import { Container } from "../styles/styles.js";
 import RehypeReact from "rehype-react"; // This is so I can write components in my markdown file
 import Content from "../components/Blog/Content/index.tsx";
 import ContentHeader from "../components/Blog/ContentHeader/index.tsx";
@@ -40,7 +39,7 @@ const Footer = css`
   margin: 64px 0 auto;
 `;
 const SectionLinks = css`
-  padding: 32px 0px;
+  padding: 32px 0 0 0;
   display: grid;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   grid-template-columns: 20ch auto;
@@ -71,45 +70,43 @@ export default ({ data, pageContext }) => {
 
   const { next, prev } = pageContext;
   return (
-    <Container>
-      <Page>
-        <Helmet
-          title={post.frontmatter.title + " | Sam Chang"}
-          meta={[
-            {
-              name: "viewport",
-              content:
-                "width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover"
-            }
-          ]}
-        />
-        <Header>
-          <Nav title={post.frontmatter.title} />
-          <Menu />
-        </Header>
-        <ContentWrapper>
-          {renderAst(post.htmlAst)}
-          <div css={Footer}>
-            <div css={SectionLinks}>
-              <div css={SectionLinks__Previous}>
-                <p>
-                  {prev && (
-                    <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
-                  )}
-                </p>
-              </div>
-              <div css={SectionLinks__Next}>
-                <p>
-                  {next && (
-                    <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
-                  )}
-                </p>
-              </div>
+    <Page>
+      <Helmet
+        title={post.frontmatter.title + " | Sam Chang"}
+        meta={[
+          {
+            name: "viewport",
+            content:
+              "width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover"
+          }
+        ]}
+      />
+      <Header>
+        <Nav title={post.frontmatter.title} />
+        <Menu />
+      </Header>
+      <ContentWrapper>
+        {renderAst(post.htmlAst)}
+        <div css={Footer}>
+          <div css={SectionLinks}>
+            <div css={SectionLinks__Previous}>
+              <p>
+                {prev && (
+                  <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
+                )}
+              </p>
+            </div>
+            <div css={SectionLinks__Next}>
+              <p>
+                {next && (
+                  <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
+                )}
+              </p>
             </div>
           </div>
-        </ContentWrapper>
-      </Page>
-    </Container>
+        </div>
+      </ContentWrapper>
+    </Page>
   );
 };
 
