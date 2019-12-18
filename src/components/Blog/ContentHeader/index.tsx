@@ -2,8 +2,10 @@
 
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
-const ContentHeader__Style = css`
+
+const ContentHeader__Style = styled.h1`
   max-width: var(--content-width);
   margin: 32px auto 0px;
   font-family: Georgia, Cambria, "Times New Roman", Times;
@@ -14,9 +16,8 @@ const ContentHeader__Style = css`
 class ContentHeader extends Component {
   render() {
     return (
-      <div css={ContentHeader__Style}>
-        <h1>{this.props.children}</h1>
-      </div>
+         <ContentHeader__Style>{this.props.children}</ContentHeader__Style>
+      
     );
   }
 }
