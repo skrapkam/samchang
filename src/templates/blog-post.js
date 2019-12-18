@@ -10,6 +10,9 @@ import ContentHeader from "../components/Blog/ContentHeader/index.tsx";
 import ContentSubhead from "../components/Blog/ContentSubhead/index.tsx";
 import ContentTitle from "../components/Blog/ContentTitle/index.tsx";
 import ContentExcerpt from "../components/Blog/ContentExcerpt/index.tsx";
+import UnorderedList from "../components/Blog/List/UnorderedList/index.tsx";
+import OrderedList from "../components/Blog/List/OrderedList/index.tsx";
+import BlogButton from "../components/Blog/BlogButton/index.tsx";
 import Summary from "../components/Blog/Summary/index.tsx";
 import Page from "../components/Page/index.tsx";
 import Header from "../components/Header/index.tsx";
@@ -23,9 +26,12 @@ import { Helmet } from "react-helmet";
 const renderAst = new RehypeReact({
   createElement: React.createElement,
   components: {
-    content: Content,
+    h1: Content,
     "content-header": ContentHeader,
     gif: GIF,
+    ul: UnorderedList,
+    ol: OrderedList,
+    "blog-button": BlogButton,
     "content-subhead": ContentSubhead,
     "button-visit": Button,
     "content-title": ContentTitle,
