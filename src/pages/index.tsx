@@ -74,13 +74,6 @@ const Projects = css`
     padding-bottom: 56px;
     margin-bottom: 56px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-  }
-  &:not(:first-child) {
-  }
-
-  &:first-child {
-    margin-top: 0px;
   }
 `;
 
