@@ -58,6 +58,7 @@ const SectionLinks__Next = css`
 `;
 const ContentWrapper = styled.div`
   max-width: var(--global-width);
+  line-height: 2rem;
   margin: 120px auto 0;
   padding: 0px var(--content-padding);
 

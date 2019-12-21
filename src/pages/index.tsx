@@ -67,29 +67,27 @@ const TextWrapper = styled.div`
 
 const ProjectWrapper = styled.div`
   margin: auto 0;
-
 `;
 
 const Projects = css`
   &:not(:last-child) {
     padding-bottom: 56px;
-
   }
-  &:not(:first-child){
-    border-top: 1px solid rgba(0,0,0,.1); 
+  &:not(:first-child) {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 56px;
   }
-`
+`;
 
 const SectionContainer = styled.div`
   max-width: 852px;
   margin: auto;
 
   @media (max-width: 950px) {
-   max-width: 100%;
-   margin: 
+    max-width: 100%;
+    margin: ;
   }
-`
+`;
 
 const ImageWrapper = styled.div`
   display: grid;
@@ -132,33 +130,39 @@ export default ({ data }) => {
         </Header>
         <SectionWrapper>
           {data.allMarkdownRemark.edges.map(({ node }) => (
-            <div css = {Projects} key={node.id}>
+            <div css={Projects} key={node.id}>
               <ProjectWrapper>
-              <SectionContainer>
+                <SectionContainer>
+                  <ImageWrapper>
+                    <Img
+                      sizes={node.frontmatter.image1.childImageSharp.sizes}
+                    />
+                    <Img
+                      sizes={node.frontmatter.image2.childImageSharp.sizes}
+                    />
+                    <Img
+                      sizes={node.frontmatter.image3.childImageSharp.sizes}
+                    />
+                    <Img
+                      sizes={node.frontmatter.image4.childImageSharp.sizes}
+                    />
+                    <div css={hide} />
+                  </ImageWrapper>
+                  <div css={hidden} />
+                  <TextWrapper>
+                    <p>
+                      <strong>{node.frontmatter.title}</strong>,{" "}
+                      {node.frontmatter.date}
+                    </p>
 
-                <ImageWrapper>
-                  <Img sizes={node.frontmatter.image1.childImageSharp.sizes} />
-                  <Img sizes={node.frontmatter.image2.childImageSharp.sizes} />
-                  <Img sizes={node.frontmatter.image3.childImageSharp.sizes} />
-                  <Img sizes={node.frontmatter.image4.childImageSharp.sizes} />
-                  <div css={hide} />
-                </ImageWrapper>
-                <div css={hidden} />
-                <TextWrapper>
-                  <p>
-                    <strong>{node.frontmatter.title}</strong>,{" "}
-                    {node.frontmatter.date}
-                  </p>
-
-                  <span css={Excerpt}>{node.frontmatter.excerpt}</span>
-                  <Button>
-                    <Link css={action} to={node.fields.slug}>
-                      View
-                    </Link>
-                  </Button>
-                </TextWrapper>
+                    <span css={Excerpt}>{node.frontmatter.excerpt}</span>
+                    <Button>
+                      <Link css={action} to={node.fields.slug}>
+                        View
+                      </Link>
+                    </Button>
+                  </TextWrapper>
                 </SectionContainer>
-
               </ProjectWrapper>
             </div>
           ))}
