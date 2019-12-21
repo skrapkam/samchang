@@ -3,9 +3,8 @@ import "./variables.css";
 import "./base.css";
 
 export const SectionWrapper = styled.div`
-  max-width: 852px;
+  max-width: 100%;
   margin: 120px auto 0;
-
   @media (max-width: 950px) {
     max-width: 100%;
   }

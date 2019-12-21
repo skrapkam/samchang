@@ -67,11 +67,27 @@ const TextWrapper = styled.div`
 
 const ProjectWrapper = styled.div`
   margin: auto 0;
+
 `;
 
 const Projects = css`
   &:not(:last-child) {
-    margin-bottom: 80px;
+    padding-bottom: 56px;
+
+  }
+  &:not(:first-child){
+    border-top: 1px solid rgba(0,0,0,.1); 
+    padding-top: 56px;
+  }
+`
+
+const SectionContainer = styled.div`
+  max-width: 852px;
+  margin: auto;
+
+  @media (max-width: 950px) {
+   max-width: 100%;
+   margin: 
   }
 `
 
@@ -118,6 +134,8 @@ export default ({ data }) => {
           {data.allMarkdownRemark.edges.map(({ node }) => (
             <div css = {Projects} key={node.id}>
               <ProjectWrapper>
+              <SectionContainer>
+
                 <ImageWrapper>
                   <Img sizes={node.frontmatter.image1.childImageSharp.sizes} />
                   <Img sizes={node.frontmatter.image2.childImageSharp.sizes} />
@@ -139,6 +157,8 @@ export default ({ data }) => {
                     </Link>
                   </Button>
                 </TextWrapper>
+                </SectionContainer>
+
               </ProjectWrapper>
             </div>
           ))}
