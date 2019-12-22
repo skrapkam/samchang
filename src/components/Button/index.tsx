@@ -6,8 +6,6 @@ import { css, jsx } from '@emotion/core'
 const Button__Styled = css`
   margin-top: 24px;
   font-weight: 600;
-  width: 70px;
-  height: 30px;
   text-align: left;
   -webkit-user-select: none;
   a:visited {
