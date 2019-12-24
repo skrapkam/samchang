@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.27",
-    "@emotion/styled": "^10.0.14",
+    "@emotion/styled": "^10.0.27",
     "@fastly/performance-observer-polyfill": "^1.1.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
