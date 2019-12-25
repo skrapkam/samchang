@@ -102,5 +102,13 @@
     "image": {
       "src": "../../src/images/books/orbiting.jpg"
     }
+  },
+  {
+    "title": "UX Strategy",
+    "author": "Jaime Levy",
+    "url": "https://www.amazon.com/UX-Strategy-Innovative-Digital-Products-ebook/dp/B00XZF0J26",
+    "image": {
+      "src": "../../src/images/books/uxstrategy.jpg"
+    }
   }
 ]
