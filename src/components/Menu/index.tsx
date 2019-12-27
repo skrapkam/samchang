@@ -11,7 +11,7 @@ const dropdown__Style = css`
   position: absolute;
   z-index: 10;
   right: 40px;
-  top: 72px;
+  top: calc(100% - 24px);
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.2);
@@ -37,7 +37,11 @@ const dropdown__Style = css`
 
   @media (max-width: 950px) {
     right: 24px;
-    top: 60px;
+  }
+
+  @media (max-width: 425px) {
+    top: calc(100% - 18px);
+
   }
 
   @media (hover: hover) {

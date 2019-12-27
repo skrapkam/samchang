@@ -21,15 +21,12 @@ I redesigned a dashboard to empower clients. This redesigned client experience h
 <content-header>
 Introduction
 </content-header>
-<content-subhead>
-Background
-</content-subhead>
+
+##Background
 
 # I joined <a href="https://99designs.com">99designs</a> in June 2018 as a product designer on our Designer Discovery team. One of the products that our team is responsible for is “Your work”, a consolidated dashboard for clients that presents their contests, direct work, and drafts. My first major project at 99designs was to help redesign this product.
 
-<content-subhead>
-Problem Framing
-</content-subhead>
+##Problem Framing
 
 # The last time Your work received any major updates was in 2015. Back then, 99designs was primarily operating a contest business model and thus Your work was fairly straightforward in terms of functionality. Now, as 99designs is shifting towards a more direct-work business model it was time to refresh Your work.
 
@@ -37,9 +34,7 @@ Problem Framing
 
 # Specifically, we wanted to speed up the workflows of our clients by <strong>highlighting meaningful and actionable information</strong> and providing tools to allow them to <strong>easily find and manage their work</strong>.
 
-<content-subhead>
-My Involvement
-</content-subhead>
+##My Involvement
 
 # I worked on this project with my design lead, <a href="https://twitter.com/caioab">Caio Braga</a> (he’s awesome, btw). I helped Caio out by designing interfaces, thinking of new interaction paradigms, and continuously presenting our work to the rest of our design team.
 
@@ -65,17 +60,13 @@ Design
 
 # Here are some of the changes we ended up making:
 
-<content-subhead>
-Sidebar
-</content-subhead>
+##Sidebar
 
 # We changed the navigation pattern from a pill pattern to a sidebar pattern. We felt that a sidebar is easier to navigate and more refined than the pill pattern. A sidebar is also more scalable as we might need to add more options in the future.
 
 ![Your Work](./images/img_yourwork_sidebar-oldvsnew.png "Sidebar")
 
-<content-subhead>
-Avatars
-</content-subhead>
+##Avatars
 
 # We added designer avatars to each listing item in order to help clients quickly recognize who’s working on their project. This is especially useful for the clients who expressed frustration with finding designers that they’ve worked with.
 
@@ -85,9 +76,7 @@ Avatars
 
 ![Your Work](./images/img_yourwork_avatars-iterations.png "A few early explorations")
 
-<content-subhead>
-Actions
-</content-subhead>
+##Actions
 
 # We also gave our clients different actions that they can take for each project depending on the stage of the project. I went through each of the stages for both contests and direct work and listed the most useful actions clients can take. The decisions I made were based on the client interviews we conducted, discussions with our product manager, and intuition.
 
@@ -97,9 +86,7 @@ Actions
 
 ![Your Work](./images/img_yourwork_actions-mobile.png "A few mobile explorations")
 
-<content-subhead>
-Context Messages
-</content-subhead>
+##Context Messages
 
 # We also added context messages for each project depending on the project stage. Information such as quote amount or completion requests would be displayed here. Again, this is to help clients get an early snapshot of where their projects are at to make quick decisions. One consideration we made when deciding on what messages to show was our current notification system. While we wanted to display useful messages, we also didn’t want to replace our notifications with them.
 
@@ -129,21 +116,15 @@ User Testing
 Takeaways
 </content-header>
 
-<content-subhead>
-It’s probably okay if our changes don’t improve, or only marginally improve, a client’s workflow
-</content-subhead>
+##It’s probably okay if our changes don’t improve, or only marginally improve, a client’s workflow
 
 # Even though our goal was to deliver value for our clients (e.g. speeding up their workflow), not achieving that goal for everyone isn’t necessarily a “bad” thing. At best, the changes improve their workflow and at worst, they don’t affect any change. Every client is different and has a different workflow which means that there isn’t a one-size-fits-all approach to making everyone’s experience better
 
-<content-subhead>
-An invisible refresh
-</content-subhead>
+##An invisible refresh
 
 # Interestingly, most clients didn’t even notice the changes we implemented and yet were still able to successfully navigate through Your work. Sometimes it’s okay and even desirable if our customers don’t immediately notice a change. If they’re able to still quickly get in and out and accomplish their goals, then that’s a win for us.
 
-<content-subhead>
-Share work often
-</content-subhead>
+##Share work often
 
 # Part of what made this project so fun was getting to constantly share my designs with the rest of our team. Whether it was through sending a Sketch Cloud link through Slack, or sharing my Sketch window through Zoom with a teammate, sharing my work gave me valuable feedback and created alignment within our team.
 
@@ -151,4 +132,4 @@ Share work often
 Special Thanks
 </content-header>
 
-# Design lead: Caio Braga. PM: Jason Aiken. Eng: Matthew Diamant, Vy Cu, Robert McNeil, and Dan Williams.
+# **Design lead**: Caio Braga. **Product**: Jason Aiken. **Engineering**: Matthew Diamant, Vy Cu, Robert McNeil, and Dan Williams.

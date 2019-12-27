@@ -4,8 +4,7 @@ import { Component } from 'react'
 import { css, jsx } from '@emotion/core'
 
 const Content__Excerpt = css`
-  line-height: 2.5rem;
-  font-size: 1.5rem;
+  font-size: 2.778rem;
   max-width: var(--content-width);
   margin: 24px auto 0px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

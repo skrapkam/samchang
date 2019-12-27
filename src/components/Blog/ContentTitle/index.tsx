@@ -6,10 +6,10 @@ import { css, jsx } from '@emotion/core'
 const ContentTitle__Style = css`
   max-width: var(--content-width);
   margin: 32px auto 0px;
-  font-size: 2.5rem;
+  font-size: 4.5rem;
   font-family: Georgia, Cambria, 'Times New Roman', Times;
   color: var(--link-color);
-  line-height: 40px;
+  line-height: .8;
 
   @media (max-width: 425px) {
     margin: auto 0px;

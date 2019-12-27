@@ -6,11 +6,8 @@ import styled from "@emotion/styled";
 
 const Content__Style = styled.p`
   max-width: var(--content-width);
-  margin: 16px auto 0px;
-  ul {
-    line-height: 2rem;
-  }
-  
+  margin: 0 auto 2rem;
+
   li {
     margin: 0 20px;
   }

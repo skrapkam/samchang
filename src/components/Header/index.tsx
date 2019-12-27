@@ -5,7 +5,7 @@ import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
 
 const Header = styled.div`
-  padding: 40px 40px 32px;
+  padding: 32px 40px;
   position: fixed;
   width: 100%;
   top: 0;

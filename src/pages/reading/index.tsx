@@ -16,9 +16,9 @@ const BookStyle = css`
 `;
 
 const BookGrid = styled(Grid)`
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   @media (max-width: 380px) {
-    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   }
 `;
 

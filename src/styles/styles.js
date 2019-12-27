@@ -10,7 +10,7 @@ export const SectionWrapper = styled.div`
   }
   @media (max-width: 425px) {
     position: relative;
-    padding-top: 104px;
+    padding-top: 112px;
     margin: 0px auto;
   }
 `;
@@ -26,7 +26,7 @@ export const MediumSectionWrapper = styled.div`
 
   @media (max-width: 425px) {
     position: relative;
-    padding-top: 104px;
+    padding-top: 112px;
     margin-top: 0px;
   }
 
@@ -54,7 +54,7 @@ export const MediumSectionWrapper = styled.div`
 export const Grid = styled("div")`
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
   column-gap: 40px;
   row-gap: 40px;
   margin: 0 auto;

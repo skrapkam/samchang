@@ -8,12 +8,15 @@ import RehypeReact from "rehype-react"; // This is so I can write components in 
 import Content from "../components/Blog/Content/index.tsx";
 import ContentHeader from "../components/Blog/ContentHeader/index.tsx";
 import ContentSubhead from "../components/Blog/ContentSubhead/index.tsx";
+import H3 from "../components/Blog/H3/index.tsx";
 import ContentTitle from "../components/Blog/ContentTitle/index.tsx";
 import ContentExcerpt from "../components/Blog/ContentExcerpt/index.tsx";
 import UnorderedList from "../components/Blog/List/UnorderedList/index.tsx";
 import OrderedList from "../components/Blog/List/OrderedList/index.tsx";
 import BlogButton from "../components/Blog/BlogButton/index.tsx";
 import Summary from "../components/Blog/Summary/index.tsx";
+import Callout from "../components/Blog/Callout/index.tsx";
+import Blockquote from "../components/Blog/Blockquote/index.tsx";
 import Page from "../components/Page/index.tsx";
 import Header from "../components/Header/index.tsx";
 import Nav from "../components/Nav/index.tsx";
@@ -32,11 +35,14 @@ const renderAst = new RehypeReact({
     ul: UnorderedList,
     ol: OrderedList,
     "blog-button": BlogButton,
-    "content-subhead": ContentSubhead,
+    h2: ContentSubhead,
+    h3: H3,
     "button-visit": Button,
     "content-title": ContentTitle,
     "content-excerpt": ContentExcerpt,
-    summary: Summary
+    summary: Summary,
+    callout: Callout,
+    blockquote: Blockquote
   }
 }).Compiler;
 
@@ -58,18 +64,11 @@ const SectionLinks__Next = css`
 `;
 const ContentWrapper = styled.div`
   max-width: var(--global-width);
-  line-height: 2rem;
   margin: 120px auto 0;
   padding: 0px var(--content-padding);
 
-  h1 {
-    font-weight: 500;
-    font-size: 1.5rem;
-  }
-
-  h2 {
-    font-weight: 400;
-    font-size: 1.2rem;
+  li {
+    padding: 8px 0;
   }
 
   @media (max-width: 950px) {
@@ -78,7 +77,7 @@ const ContentWrapper = styled.div`
 
   @media (max-width: 425px) {
     margin: 0px auto;
-    padding: 104px var(--content-padding) 0px;
+    padding: 112px var(--content-padding) 0px;
   }
 `;
 

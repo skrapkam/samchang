@@ -7,11 +7,7 @@ import styled from "@emotion/styled";
 const List__Style = styled.ul`
   max-width: var(--content-width);
   padding: 0 0 0 20px;
-  margin: 16px auto 0px;
-  ul {
-    line-height: 2rem;
-  }
-  
+  margin: 0 auto 16px;
 `;
 class UnorderedList extends Component {
   render() {

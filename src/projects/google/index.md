@@ -24,9 +24,8 @@ Introduction
 <content-header>
 VR180
 </content-header>
-<content-subhead>
-Overview
-</content-subhead>
+
+##Overview
 
 # The Google VR180 team needed a website designed and developed in conjunction with the release of the Lenovo Mirage Camera. The webpage would be an addition to the main VR180 site as an instructional page for content creators.
 
@@ -38,21 +37,15 @@ Overview
 
 ![Google VR180](./images/img_google_vr180.png "Final design")
 
-<content-subhead>
-Role
-</content-subhead>
+##Role
 
 # I was the main designer of the page and was responsible for both the UX (wireframes) and UI (visual mockups) of the page. I also received constant feedback from our team’s UX Lead and Senior Art Director.
 
- <content-subhead>
-Problem
-</content-subhead>
+##Problem
 
 # The main design challenge was the amount and type of content this page would contain. A long and instructional page by nature is boring, and so we had to find ways to make this website experience as smooth and enjoyable as possible.
 
-<content-subhead>
-Delight the visitors
-</content-subhead>
+##Delight the visitors
 
 # A page with dry content doesn’t have to be boring! Throughout the design process I brainstormed ways we could use images and motion to make the process of scrolling through this site both fun and enjoyable.
 
@@ -66,9 +59,7 @@ Delight the visitors
 
 ![Google VR180](./images/img_google_vr180_two.png "Custom icons")
 
-<content-subhead>
-Prototyping
-</content-subhead>
+##Prototyping
 
 # I also prototyped to help both our client and developers understand how certain interactions work. This helped speed up the process of approving the interactions and saved valuable time that would’ve been used to explain the interactions.
 
@@ -79,9 +70,8 @@ Prototyping
 <content-header>
 Google VR Menu
 </content-header>
-<content-subhead>
-Overview
-</content-subhead>
+
+##Overview
 
 # The Google VR team needed a redesign of their website’s navigation menu. This menu would be integrated within most of Google VR product pages. It had to be easily scaleable and follow Google’s brand/standard guidelines. I designed a menu to achieve these goals.
 

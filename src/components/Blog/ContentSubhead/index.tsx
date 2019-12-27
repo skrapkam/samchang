@@ -5,10 +5,12 @@ import { css, jsx } from "@emotion/core";
 
 const ContentSubhead__Style = css`
   max-width: var(--content-width);
-  margin: 16px auto 0px;
-  font-size: 1.3rem;
-  color: #5a5a5a;
-  line-height: 40px;
+  margin: 0 auto 16px;
+  h2 {
+    font-weight: 500;
+    font-size: 2.222rem;
+    color: #5a5a5a;
+  }
 `;
 class ContentSubhead extends Component {
   render() {

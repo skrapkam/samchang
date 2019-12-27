@@ -16,6 +16,10 @@ A Gym for Me
 Curated lists of specialized gyms 
 </content-excerpt>
 
+<content-header>
+Introduction
+</content-header>
+
 # I love lifting, and I love web development. Wanting to merge these two interests, I created A Gym For Me, a site built in <a href="https://reactjs.org/">React</a>.
 
 # A Gym for Me is a site for athletes by athletes. It contains curated lists of specialized gyms in cities across the United States.
