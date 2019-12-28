@@ -78,18 +78,17 @@ const Projects = css`
 `;
 
 const SectionContainer = styled.div`
-  max-width: 852px;
   margin: auto;
-
+  padding: 0 40px 0 40px;
   @media (max-width: 950px) {
     max-width: 100%;
-    margin: ;
+   padding: 0;
   }
 `;
 
 const ImageWrapper = styled.div`
   display: grid;
-  grid-template-columns: 410px 410px;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 3fr));
   grid-row: auto auto;
   grid-column-gap: 32px;
   grid-row-gap: 32px;
@@ -186,7 +185,7 @@ export const query = graphql`
 
             image1 {
               childImageSharp {
-                sizes(maxWidth: 630) {
+                sizes(maxWidth: 700) {
                   ...GatsbyImageSharpSizes
                 }
               }
@@ -194,7 +193,7 @@ export const query = graphql`
 
             image2 {
               childImageSharp {
-                sizes(maxWidth: 630) {
+                sizes(maxWidth: 700) {
                   ...GatsbyImageSharpSizes
                 }
               }
@@ -202,7 +201,7 @@ export const query = graphql`
 
             image3 {
               childImageSharp {
-                sizes(maxWidth: 630) {
+                sizes(maxWidth: 700) {
                   ...GatsbyImageSharpSizes
                 }
               }
@@ -210,7 +209,7 @@ export const query = graphql`
 
             image4 {
               childImageSharp {
-                sizes(maxWidth: 630) {
+                sizes(maxWidth: 700) {
                   ...GatsbyImageSharpSizes
                 }
               }

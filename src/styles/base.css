@@ -100,11 +100,12 @@ figcaption {
 
 @media (max-width: 950px) {
   .wrapper .gatsby-image-wrapper {
-    width: 300px;
+    width: 60vw;
   }
+}
 
-  ::-webkit-scrollbar {
-    /* required, although an apparent no-op */
-    display: none;
+@media (max-width: 450px) {
+  .wrapper .gatsby-image-wrapper {
+    width: 80vw;
   }
 }
