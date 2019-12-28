@@ -4,6 +4,7 @@ import Link from "gatsby-link";
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { mq } from "../../styles/styles";
 
 const dropdown__Style = css`
   width: 220px;
@@ -35,14 +36,13 @@ const dropdown__Style = css`
     opacity: 0.3;
   }
 
-  @media (max-width: 950px) {
+  ${mq[1]} {
     right: 24px;
-  }
+  } 
 
-  @media (max-width: 425px) {
+  ${mq[0]} {
     top: calc(100% - 18px);
-
-  }
+  } 
 
   @media (hover: hover) {
     ul li a:hover {

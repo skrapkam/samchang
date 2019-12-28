@@ -2,7 +2,7 @@
 
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
-
+import { mq } from "../../../styles/styles";
 
 const ContentHeader__Style = css`
   max-width: var(--content-width);
@@ -10,9 +10,11 @@ const ContentHeader__Style = css`
   font-family: Georgia, Cambria, "Times New Roman", Times;
   color: #5a5a5a;
   padding-top: 2.4rem;
-  @media (max-width: 425px) {
+
+  ${mq[0]} {
     line-height: 4rem;
-  }
+  } 
+
   h1 {
     font-size: 3.333rem;
   }

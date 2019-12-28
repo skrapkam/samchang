@@ -98,7 +98,13 @@ figcaption {
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1260px) {
+  .wrapper .gatsby-image-wrapper {
+    width: 40vw;
+  }
+}
+
+@media (max-width: 850px) {
   .wrapper .gatsby-image-wrapper {
     width: 60vw;
   }

@@ -24,6 +24,7 @@ import Menu from "../components/Menu/index.tsx";
 import Button from "../components/Button/index.tsx";
 import GIF from "../components/GIF/index.tsx";
 import "../styles/styles.js";
+import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
 
 const renderAst = new RehypeReact({
@@ -71,11 +72,11 @@ const ContentWrapper = styled.div`
     padding: 8px 0;
   }
 
-  @media (max-width: 950px) {
+  ${mq[1]} {
     max-width: 100%;
   }
 
-  @media (max-width: 425px) {
+  ${mq[0]} {
     margin: 0px auto;
     padding: 112px var(--content-padding) 0px;
   }

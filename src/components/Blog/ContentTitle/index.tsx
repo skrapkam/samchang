@@ -2,6 +2,7 @@
 
 import { Component } from 'react'
 import { css, jsx } from '@emotion/core'
+import { mq } from "../../../styles/styles";
 
 const ContentTitle__Style = css`
   max-width: var(--content-width);
@@ -11,9 +12,9 @@ const ContentTitle__Style = css`
   color: var(--link-color);
   line-height: .8;
 
-  @media (max-width: 425px) {
+  ${mq[0]} {
     margin: auto 0px;
-  }
+  } 
 `
 class ContentTitle extends Component {
   render() {

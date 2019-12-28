@@ -11,14 +11,15 @@ import Menu from "../components/Menu";
 import Button from "../components/Button";
 import { SectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
+import { mq } from "../styles/styles";
 
 const hide = css`
   display: none;
-  @media (max-width: 950px) {
+  ${mq[1]} {
     visibility: hidden;
     width: 2px;
     display: inline-block;
-  }
+  } 
 `;
 const action = css`
   text-decoration: none;
@@ -42,27 +43,28 @@ const action = css`
 const Excerpt = css`
   margin-top: 8px;
   display: block;
+  max-width: 500px;
 `;
 
 const hidden = css`
   display: none;
-  @media (max-width: 950px) {
+  ${mq[1]} {
     background: white;
     display: block;
     position: relative;
     height: 37px;
     width: 100%;
     bottom: 23px;
-  }
+  } 
 `;
 
 const TextWrapper = styled.div`
   margin-top: 32px;
-  @media (max-width: 950px) {
+  ${mq[1]} {
     padding-left: var(--baseline);
     padding-right: var(--baseline);
     margin-top: -26px;
-  }
+  } 
 `;
 
 const ProjectWrapper = styled.div`
@@ -80,31 +82,29 @@ const Projects = css`
 const SectionContainer = styled.div`
   margin: auto;
   padding: 0 40px 0 40px;
-  @media (max-width: 950px) {
+  ${mq[1]} {
     max-width: 100%;
-   padding: 0;
-  }
+    padding: 0;
+  } 
 `;
 
 const ImageWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(30px, 3fr));
   grid-row: auto auto;
-  grid-column-gap: 32px;
-  grid-row-gap: 32px;
+  grid-column-gap: 16px;
 
   img {
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-
-  @media (max-width: 950px) {
+  ${mq[1]} {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     -webkit-overflow-scrolling: touch;
     padding-left: var(--baseline);
     grid-column-gap: 24px;
     overflow: auto;
     padding-bottom: 27px;
-  }
+  } 
 `;
 export default ({ data }) => {
   return (
@@ -143,6 +143,7 @@ export default ({ data }) => {
                     <Img
                       sizes={node.frontmatter.image4.childImageSharp.sizes}
                     />
+                   
                     <div css={hide} />
                   </ImageWrapper>
                   <div css={hidden} />
@@ -214,7 +215,6 @@ export const query = graphql`
                 }
               }
             }
-
             section
           }
           fields {

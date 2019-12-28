@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
+import { mq } from "../../styles/styles";
+
+
+
 
 const Header = styled.div`
   padding: 32px 40px;
@@ -13,19 +17,20 @@ const Header = styled.div`
   background: #fff;
   box-shadow: ${props =>
     props.showHeaderShadow ? "rgba(0, 0, 0, 0.04) 0px 1px 0px" : "none"};
-  @media (max-width: 950px) {
-    padding: 32px 24px 32px;
-  }
 
-  @media (max-width: 425px) {
-    padding: 24px 24px 24px;
-    position: fixed;
-    width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
-    background-color: #fff;
-    top: 0;
-    z-index: 999;
-  }
+    ${mq[1]} {
+      padding: 32px 24px 32px;
+    } 
+
+    ${mq[0]} {
+      padding: 24px 24px 24px;
+      position: fixed;
+      width: 100%;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
+      background-color: #fff;
+      top: 0;
+      z-index: 999;
+    } 
 `;
 
 export default function ScrollHeader({ children }) {

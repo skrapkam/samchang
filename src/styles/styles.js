@@ -2,13 +2,19 @@ import styled from "@emotion/styled";
 import "./variables.css";
 import "./base.css";
 
+export const breakpoints = [425, 1260];
+
+export const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
+
 export const SectionWrapper = styled.div`
   max-width: 100%;
   margin: 120px auto 0;
-  @media (max-width: 950px) {
+
+  ${mq[1]} {
     max-width: 100%;
   }
-  @media (max-width: 425px) {
+
+  ${mq[0]} {
     position: relative;
     padding-top: 112px;
     margin: 0px auto;
@@ -20,11 +26,12 @@ export const MediumSectionWrapper = styled.div`
   margin-top: 120px;
   max-width: 750px;
   padding-bottom: 24px;
-  @media (max-width: 950px) {
+
+  ${mq[1]} {
     padding: 0 var(--baseline) 24px;
   }
 
-  @media (max-width: 425px) {
+  ${mq[0]} {
     position: relative;
     padding-top: 112px;
     margin-top: 0px;
@@ -62,7 +69,8 @@ export const Grid = styled("div")`
   img {
     border: none;
   }
-  @media (max-width: 950px) {
+
+  ${mq[1]} {
     padding: 0 var(--baseline);
     row-gap: 24px;
   }
