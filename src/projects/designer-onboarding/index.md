@@ -327,7 +327,7 @@ What I learned
 
 #Our engineering team did a great job of breaking down this massive project into pieces. Instead of launching everything at once, we shipped one piece of the project at a time. While this "lean" approach wasn't perfect (e.g. folks not getting the bigger picture), it did two things for us:
 
-1. **It helped us to gradually see the impact of this project**. For example, before requiring all designers to complete an application, we enabled the input of the application data in the account settings of existing designers. By doing this, we started to see a more complete picture of our designers. And thus, we had an inkling of what _we could eventually accomplish_ after shipping the last piece of the project.
+1. **It helped us gradually see the impact of this project**. For example, before requiring all designers to complete an application, we enabled the input of the application data in the account settings of existing designers. By doing this, we started to see a more complete picture of our designers. And thus, we had an inkling of what _we could eventually accomplish_ after shipping the last piece of the project.
 2. **Constantly shipping features boosted team morale.** We felt a sense of accomplishment in actually getting things out the door, and more importantly, incrementally delivering value to our users.
 
 ###Lean on data
@@ -340,7 +340,7 @@ What I learned
 
 ###Working remotely
 
-#One major constraint was working remotely as designer. The rest of my team, with the exception of one engineer, was located in Melbourne. The differences in location and time zone made collaboration difficult. Some ways I overcame this included over-communicating as much as possible, using [Loom recordings](https://loom.com) to substitute for meetings, and writing weekly team updates on everything design-related.
+#One major constraint was working remotely as designer. The rest of my team, with the exception of one engineer, was located in Australia. The differences in location and time zone made collaboration difficult. Some ways I overcame this included over-communicating as much as possible, using [Loom recordings](https://loom.com) to substitute for meetings, and writing weekly team updates on everything design-related.
 
 ###Scope
 
@@ -353,9 +353,9 @@ What I learned
 
 #This project took a year to complete, and naturally there were moments when stakeholders and teammates became impatient. I was mindful of this and over time learned to be strategic with how I communicated with my teammates, manager, and CEO. Here's what I learned to do:
 
-1. **Illustrate how the smaller pieces fit together**. During one of our company all-ins, I presented an update to the onboarding project. At the end of my presentation I explained how each of the individual features we've shipped so far relate to each other—and more importantly, how they bring us closer to the end goal. Folks outside your product team—and sometimes even within—will naturally miss the bigger picture. As designers it's part of our job to communicate that.
+1. **Illustrate how the smaller pieces fit together**. During one of our company all-ins, I presented an update on the onboarding project. At the end of my presentation I explained how each of the individual features we've shipped so far relate to each other—and more importantly, how they bring us closer to the end goal. Folks outside your product team—and sometimes even within—will naturally miss the bigger picture. As designers it's part of our job to communicate that.
 
-2. **Get the whole team to feel a sense of ownership in the work**. During the middle of this project, we experienced a shuffle in product teams. As a result, a completely new team took on the project. I had already spent five months on it, but I knew I couldn't just present my work to my new teammates and said, "Hey, build this." Instead, I started from scratch. I shared the problems we're solving, why we're solving them, and then how we might solve them. From there, I was able to get fresh perspectives and ideas which also fostered a sense of ownership.
+2. **Get the whole team to feel a sense of ownership in the work**. During the middle of this project, we experienced a shuffle in product teams. As a result, a completely new team took on the project. I had already spent five months on it, but I knew I couldn't just present my work to my new teammates and said, "Hey, build this". Instead, I started from scratch. I shared the problems we're solving, why we're solving them, and then how we might solve them. From there, I was able to get fresh perspectives and ideas which also fostered a sense of ownership.
 
 <content-header>
 Special thanks
