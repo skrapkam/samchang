@@ -120,7 +120,7 @@ const info = props => (
                 </li>
                 <li>
                   <a href="http://chloeburbankgenerator.com">
-                    Chloe Burban album cover generator
+                    Chloe Burbank album cover generator
                   </a>
                 </li>
               </ul>
