@@ -22,12 +22,12 @@ const BookGrid = styled(Grid)`
   }
 `;
 
-const reading = ({ data }) => {
+const library = ({ data }) => {
   return (
     <Page>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Reading | Sam Chang</title>
+        <title>Library | Sam Chang</title>
         <meta http-equiv="x-ua-compatible" content="ie=edge; chrome=1" />
         <meta
           name="viewport"
@@ -36,16 +36,14 @@ const reading = ({ data }) => {
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Helmet>
       <Header>
-        <Nav title="Reading" />
+        <Nav title="Library" />
         <Menu />
       </Header>
       <MediumSectionWrapper>
         <p>
-          A list of books that have shaped who I am, how I work, or how I think
-          about the world around me. 
+          Reading is a big part of my life. Here's a collection of books that have shaped who I am, how I work, or how I think about the world around me. 
         </p>
       </MediumSectionWrapper>
-
       <BookGrid>
         {data.books.edges.map(({ node }) => (
           <div>
@@ -64,7 +62,7 @@ const reading = ({ data }) => {
   );
 };
 
-export default reading;
+export default library;
 
 export const BooksQuery = graphql`
   query {

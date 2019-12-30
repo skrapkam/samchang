@@ -169,7 +169,7 @@ class Menu extends Component {
             </li>
 
             <li>
-              <Link to="/reading">Reading</Link>
+              <Link to="/library">Library</Link>
             </li>
           </ul>
         </div>

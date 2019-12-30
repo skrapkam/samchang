@@ -77,7 +77,7 @@ const info = props => (
             In my spare time I enjoy{" "}
             <a href="https://github.com/skrapkam">coding</a>,{" "}
             <Link to="/music">producing music</Link>,{" "}
-            <Link to="/reading">reading</Link>,{" "}
+            <Link to="/library">reading</Link>,{" "}
             <a href="https://writing.samchang.design">writing</a>, and taking{" "}
             <a href="https://photos.samchang.design">mediocre photos</a>
           </li>
