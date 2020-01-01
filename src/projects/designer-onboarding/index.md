@@ -109,7 +109,7 @@ How we got there
 
 #I knew from the onset that this wasn't your typical "onboarding" project. When one thinks of onboarding, images of pretty illustrations with explainer text and checklists come to mind. Onboarding users is supposed to be about the users. It's about communicating a product's value proposition to users to help set them up for long-term success.
 
-#I realized, however, that this project was more than that. Yes, we wanted to ensure that our designers succeeded from the very beginning, but we also had other goals (e.g. finding the right designers, improving the design quality of our community, improving the workflow of our Curation team, etc.).
+#I realized, however, that this project was more than that. Yes, we wanted to ensure that our designers succeeded from the very beginning, but we also had other goals (e.g. finding the _right_ designers, improving the design quality of our community, improving the workflow of our Curation team, etc.).
 
 #This meant that research with designers wasn't enough. I also needed to collaborate with our Curation team, our Designer community team, and our product team.
 
