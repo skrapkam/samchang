@@ -76,12 +76,12 @@ Redefining what it means to join 99designs
 
 #This was a fundamental shift from how designers joined 99d. Designers now had to show us that they're qualified enough to join 99d.
 
-#Our specific goals were to:
+##Our specific goals were to:
 
-1. **Introduce hurdles** in the sign-up process designed to **triage our designers**, **set the qualified designers up for success**, and **deter unqualified designers**.
+1. **Introduce hurdles** in the sign-up process designed to triage our designers, set the qualified designers up for success, and deter unqualified designers.
 2. Collect **more information** and **improve tools** for a more efficient curation workflow.
 
-#Our measures of success were:
+##Our measures of success were:
 
 - **Reduced time in reviewing new designers by the Curation team**. This includes time to promote qualified designers and demote/ban unqualified designers.
 - **Reduced ID verification costs**. To work on the platform, designers must verify their IDs for fraud purposes. Each ID verification _attempt_, however, costs us money (around \$54k last quarter). Most of these attempts are wasted since the designer making that attempt is usually low-quality or fraudulent. An increased barrier would reduce the number of attempts by fraudulent designers as a majority of them wouldn't be approved.
