@@ -9,9 +9,8 @@ const BlockquoteStyle = css`
   max-width: var(--content-width);
   margin: 32px auto;
   padding: 24px;
-  border-left: 4px solid #ffcfb8;
-
-
+  border-left: 8px solid #ffcfb8;
+  border-radius: 8px;
 `;
 
 class Blockquote extends Component {
