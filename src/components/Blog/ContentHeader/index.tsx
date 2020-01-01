@@ -6,10 +6,10 @@ import { mq } from "../../../styles/styles";
 
 const ContentHeader__Style = css`
   max-width: var(--content-width);
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.625rem;
   font-family: Georgia, Cambria, "Times New Roman", Times;
   color: #5a5a5a;
-  padding-top: 2.4rem;
+  padding-top: 1.625rem;
 
   ${mq[0]} {
     line-height: 4rem;

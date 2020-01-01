@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 const ContentSubhead__Style = css`
   max-width: var(--content-width);
-  margin: 0 auto 16px;
+  margin: 0 auto 1.625rem;
   h2 {
     font-weight: 500;
     font-size: 2.222rem;
