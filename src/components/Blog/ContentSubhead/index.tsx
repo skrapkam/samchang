@@ -9,8 +9,8 @@ const ContentSubhead__Style = css`
   h2 {
     font-weight: 500;
     font-family: Georgia, Cambria, "Times New Roman", Times;
-    font-size: 2.222rem;
-    color: #5a5a5a;
+    font-size: 2.5rem;
+    color: var(--text-color);
   }
 `;
 class ContentSubhead extends Component {

@@ -8,6 +8,10 @@ const List__Style = styled.ul`
   max-width: var(--content-width);
   padding: 0 0 0 20px;
   margin: 0 auto 16px;
+    
+  li {
+    padding-bottom: 2.125rem;
+  }
 `;
 class UnorderedList extends Component {
   render() {

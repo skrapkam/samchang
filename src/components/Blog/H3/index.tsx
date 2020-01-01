@@ -9,8 +9,8 @@ const H3Style = css`
   h3 {
     font-weight: 500;
     font-family: Georgia, Cambria, "Times New Roman", Times;
-    font-size: 2rem;
-    color: #5a5a5a;
+    font-size: 2.125rem;
+    color: var(--text-color);
   }
 `;
 class H3 extends Component {
