@@ -8,6 +8,7 @@ const ContentSubhead__Style = css`
   margin: 0 auto 1.625rem;
   h2 {
     font-weight: 500;
+    font-family: Georgia, Cambria, "Times New Roman", Times;
     font-size: 2.222rem;
     color: #5a5a5a;
   }

@@ -8,7 +8,7 @@ const H3Style = css`
   margin: 0 auto 1rem ;
   h3 {
     font-weight: 500;
-    font-style: italic;
+    font-family: Georgia, Cambria, "Times New Roman", Times;
     font-size: 2rem;
     color: #5a5a5a;
   }
