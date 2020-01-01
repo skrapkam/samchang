@@ -10,7 +10,7 @@ const H3Style = css`
     font-weight: 500;
     font-style: italic;
     font-size: 2rem;
-    color: #5a5a5a;
+    color: var(--text-color);
   }
 `;
 class H3 extends Component {

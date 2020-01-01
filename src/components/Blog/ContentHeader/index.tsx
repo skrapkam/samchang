@@ -8,7 +8,7 @@ const ContentHeader__Style = css`
   max-width: var(--content-width);
   margin: 0 auto 1.625rem;
   font-family: Georgia, Cambria, "Times New Roman", Times;
-  color: #5a5a5a;
+  color: var(--text-color);
   padding-top: 1.625rem;
 
   ${mq[0]} {
