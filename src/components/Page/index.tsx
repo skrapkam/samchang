@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
+import Emoji from 'a11y-react-emoji'
 
 const ScrollToTop = styled.div`
   cursor: pointer;
@@ -69,10 +70,7 @@ export default function ScrollButton({ children }) {
     <PageStyled>
       {children}
       <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
-        <span role="img" aria-label="sheep">
-          {" "}
-          ☝{" "}
-        </span>
+        <Emoji symbol="☝" label="up" />
       </ScrollToTop>
     </PageStyled>
   );
