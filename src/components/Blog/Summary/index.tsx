@@ -14,7 +14,7 @@ const SummaryStyle = styled.div`
 `;
 
 const SummaryTitle = styled.h6`
-  font-size: 1.2em;
+  font-size: ${defaultTheme.fontSizes[2]};
   color: rgb(230, 96, 0);
   margin-bottom: ${defaultTheme.space[1]};
   letter-spacing: 1px;

@@ -13,7 +13,7 @@ excerpt: Overhauling 99designs' designer onboarding experience.
 Onboarding
 </content-title>
 <content-excerpt>
-Overhauling 99designs' designer onboarding experience.
+Overhauling 99designs' designer onboarding experience
 </content-excerpt>
 
 <summary>
@@ -62,7 +62,7 @@ As a result, many designers would carelessly submit work and get banned. In fact
 
 I discovered that the Curation team experienced frustration with reviewing low-quality designers that shouldn't have been allowed to join in the first place. Then, through observing their process, I discovered a myriad of usability issues with the tools they used.
 
-#Redefining what it means to join 99designs
+#Redefining
 
 With a clearer idea of what problems we needed to address, I worked with our PM and Curation manager to define the project goals.
 
@@ -171,7 +171,7 @@ Based on testing, we found that designers felt uneasy about the application as t
 
 Each form field contains a "Private" label if the information they provide will only be seen by us. I also added a short excerpt for each question explaining why we need that piece of information. Both of these design details are meant to create an atmosphere of trust and transparency.
 
-![](./images/img_onboarding_wizard_detail.png)
+![Onboarding - Form Details](./images/img_onboarding_wizard_detail.png "Form details")
 
 ###Second iteration
 
@@ -181,7 +181,7 @@ A major pushback from engineers with the first iteration of designs was the time
 
 I iterated on the wizard interface and brought in our existing components. I literally copied and pasted the form layout from the account settings interface I had originally designed into these wizard pages. The trade-offs included not being able to bring in the excerpts and splash pages.
 
-![](./images/img_onboarding_second_detail.png)
+![Onboarding - Form Details](./images/img_onboarding_second_detail.png "Form details")
 
 ###Third iteration
 

@@ -20,7 +20,7 @@ const CalloutStyle = styled.aside`
 `;
 
 const CalloutTitle = styled.h6`
-  font-size: 1.8em;
+  font-size: ${defaultTheme.fontSizes[3]};
   color: rgb(230, 96, 0);
   margin-bottom: ${defaultTheme.space[1]};
   letter-spacing: 1px;

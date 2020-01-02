@@ -12,11 +12,12 @@ const H1Style = styled.h1`
   font-family: Georgia, Cambria, "Times New Roman", Times;
   color: var(--text-color);
   padding-top: ${defaultTheme.space[2]};
-  font-size: 3.333rem;
+  font-size: ${defaultTheme.fontSizes[5]};
+  line-height: 6rem;
 
-  ${mq[0]} {
-    line-height: 5rem;
-  }
+
+
+
 `;
 class H1 extends Component {
   render() {

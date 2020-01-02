@@ -9,7 +9,7 @@ import defaultTheme from "../../Theme"
 const ContentTitleStyle = styled.header`
   max-width: var(--content-width);
   margin: ${defaultTheme.space[4]} auto 0;
-  font-size: 4.5rem;
+  font-size: ${defaultTheme.fontSizes[6]};
   font-family: Georgia, Cambria, 'Times New Roman', Times;
   color: var(--link-color);
   line-height: .8;

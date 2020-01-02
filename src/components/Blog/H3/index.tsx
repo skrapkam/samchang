@@ -8,9 +8,9 @@ import defaultTheme from "../../Theme"
 const H3Style = styled.h3`
   max-width: var(--content-width);
   margin: 0 auto ${defaultTheme.space[1]};
-  font-weight: 500;
   font-family: Georgia, Cambria, "Times New Roman", Times;
-  font-size: 2.125rem;
+  font-weight: 400;
+  font-size: ${defaultTheme.fontSizes[2]};
   color: var(--text-color);
 `;
 class H3 extends Component {

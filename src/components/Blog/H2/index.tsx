@@ -3,6 +3,7 @@
 import { Component } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { mq } from "../../../styles/styles";
 import defaultTheme from "../../Theme"
 
 const H2Styled = styled.h2`
@@ -10,8 +11,11 @@ const H2Styled = styled.h2`
   margin: 0 auto ${defaultTheme.space[2]};
   font-weight: 500;
   font-family: Georgia, Cambria, "Times New Roman", Times;
-  font-size: 2.5rem;
+  font-size: ${defaultTheme.fontSizes[3]};
   color: var(--text-color);
+  line-height: 5rem;
+
+
 `;
 class H2 extends Component {
   render() {

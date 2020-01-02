@@ -92,7 +92,7 @@ figcaption {
   padding: 8px 0;
   text-align: center;
   color: #999;
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 .gatsby-resp-image-wrapper {
   border: 1px solid rgba(0, 0, 0, 0.05);
