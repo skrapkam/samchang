@@ -12,7 +12,7 @@ import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import styled from "@emotion/styled";
 
-const Summary__Popout = css`
+const SummaryPopout = css`
   margin-bottom: 8px;
   color: var(--link-color);
   text-decoration: none;
@@ -103,7 +103,7 @@ const info = props => (
           <li>
             <details>
               <summary>
-                <span css={Summary__Popout}>Dumb websites made for fun</span>
+                <span css={SummaryPopout}>Dumb websites made for fun</span>
               </summary>
               <ul>
                 <li>
@@ -150,7 +150,7 @@ const info = props => (
           </li>
           <li>
             <a href="https://github.com/skrapkam/samchang/commits/master">
-              Last updated 12/27/19
+              Last updated 01/01/20
             </a>
           </li>
         </ul>

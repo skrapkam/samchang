@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import { jsx, css } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
 
 const ScrollToTop = styled.div`
@@ -33,7 +33,7 @@ const ScrollToTop = styled.div`
   }
 `;
 
-const PageStyle = css`
+const PageStyled = styled.div`
   padding-bottom: 80px;
 `
 
@@ -66,7 +66,7 @@ export default function ScrollButton({ children }) {
   }, []);
 
   return (
-    <div css={PageStyle} >
+    <PageStyled>
       {children}
       <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
         <span role="img" aria-label="sheep">
@@ -74,6 +74,6 @@ export default function ScrollButton({ children }) {
           ☝{" "}
         </span>
       </ScrollToTop>
-    </div>
+    </PageStyled>
   );
 }

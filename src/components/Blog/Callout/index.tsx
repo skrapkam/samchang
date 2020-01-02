@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-const CalloutStyle = css`
+const CalloutStyle = styled.aside`
   background-color: rgba(0, 0, 0, 0.03);
   max-width: var(--content-width);
   margin: 32px auto;
@@ -16,7 +16,6 @@ const CalloutStyle = css`
   @media (max-width: 450px) {
     padding: 24px 16px;
   }
-
 `;
 
 const CalloutTitle = styled.h6`
@@ -28,14 +27,10 @@ const CalloutTitle = styled.h6`
 class Callout extends Component {
   render() {
     return (
-      <aside>
-
-      <div css={CalloutStyle}>
-        <CalloutTitle>💡</CalloutTitle>
-        {this.props.children}
-        
-      </div>
-      </aside>
+      <CalloutStyle>
+          <CalloutTitle>💡</CalloutTitle>
+          {this.props.children}
+      </CalloutStyle>
     );
   }
 }

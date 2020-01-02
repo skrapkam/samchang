@@ -1,10 +1,11 @@
 /** @jsx jsx */
 
 import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import { mq } from "../../../styles/styles";
+import styled from "@emotion/styled";
 
-const ContentTitle__Style = css`
+const ContentTitleStyle = styled.header`
   max-width: var(--content-width);
   margin: 32px auto 0px;
   font-size: 4.5rem;
@@ -18,7 +19,7 @@ const ContentTitle__Style = css`
 `
 class ContentTitle extends Component {
   render() {
-    return <div css={ContentTitle__Style}>{this.props.children}</div>
+    return <ContentTitleStyle>{this.props.children}</ContentTitleStyle>
   }
 }
 

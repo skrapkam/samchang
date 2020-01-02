@@ -1,9 +1,10 @@
 /** @jsx jsx */
 
 import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
+import styled from "@emotion/styled";
 
-const GIF__Style = css`
+const GIFStyle = styled.div`
   max-width: 950px;
   margin: 32px auto;
   overflow: hidden;
@@ -18,7 +19,7 @@ const GIF__Style = css`
 `
 class GIF extends Component {
   render() {
-    return <div css={GIF__Style}>{this.props.children}</div>
+    return <GIFStyle>{this.props.children}</GIFStyle>
   }
 }
 

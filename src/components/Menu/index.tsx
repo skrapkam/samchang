@@ -2,11 +2,11 @@
 
 import Link from "gatsby-link";
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import { mq } from "../../styles/styles";
 
-const dropdown__Style = css`
+const DropdownStyle = styled.div`
   width: 220px;
   text-align: left;
   position: absolute;
@@ -56,7 +56,7 @@ const dropdown__Style = css`
   }
 `;
 
-const noDropdown__Style = css`
+const NoDropdownStyle = styled.div`
   position: fixed;
   top: 0;
   right: 0;
@@ -65,7 +65,7 @@ const noDropdown__Style = css`
   z-index: 5;
 `;
 
-const menu = css`
+const MenuStyled = styled.div`
   display: inline-block;
   width: 30%;
   text-align: right;
@@ -158,7 +158,7 @@ class Menu extends Component {
 
     if (this.state.isOpen) {
       dropdown = (
-        <div css={dropdown__Style}>
+        <DropdownStyle>
           <ul>
             <li>
               <Link to="/info">Info</Link>
@@ -172,12 +172,12 @@ class Menu extends Component {
               <Link to="/library">Library</Link>
             </li>
           </ul>
-        </div>
+        </DropdownStyle>
       );
-      noDropdown = <div onClick={this.closeMenu} css={noDropdown__Style} />;
+      noDropdown = <NoDropdownStyle onClick={this.closeMenu} />;
     }
     return (
-      <div css={menu}>
+      <MenuStyled>
         <MenuButton
           onClick={this.openMenu}
           onKeyPress={this.currentKey}
@@ -187,7 +187,7 @@ class Menu extends Component {
         </MenuButton>
         {dropdown}
         {noDropdown}
-      </div>
+      </MenuStyled>
     );
   }
 }
