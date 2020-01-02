@@ -1,16 +1,21 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import defaultTheme from "../../Theme"
 
 const BlockquoteStyle = styled.blockquote`
   background-color: #fff3e6;
   max-width: var(--content-width);
-  margin: 32px auto;
-  padding: 24px;
+  margin: ${defaultTheme.space[4]} auto;
+  padding: ${defaultTheme.space[3]}; 
   border-left: 8px solid #ffcfb8;
   border-radius: 8px;
+  
+  p {
+    margin: ${defaultTheme.space[0]};
+  }
 `;
 
 class Blockquote extends Component {

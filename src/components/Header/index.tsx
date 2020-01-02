@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
 import { mq } from "../../styles/styles";
+import defaultTheme from "../Theme"
 
 const Header = styled.div`
-  padding: 32px 40px;
+  padding: ${defaultTheme.space[4]} ${defaultTheme.space[5]};
   position: fixed;
   width: 100%;
   top: 0;
@@ -16,11 +17,11 @@ const Header = styled.div`
     props.showHeaderShadow ? "rgba(0, 0, 0, 0.04) 0px 1px 0px" : "none"};
 
   ${mq[1]} {
-    padding: 32px 24px 32px;
+    padding: ${defaultTheme.space[4]} ${defaultTheme.space[3]} ${defaultTheme.space[4]};
   }
 
   ${mq[0]} {
-    padding: 24px 24px 24px;
+    padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]} ${defaultTheme.space[3]};
     position: fixed;
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;

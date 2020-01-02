@@ -3,19 +3,20 @@
 import { Component } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import defaultTheme from "../../Theme"
 
 const SummaryStyle = styled.div`
   background-color: rgba(230, 96, 0, 0.12);
   max-width: var(--content-width);
-  margin: 32px auto;
+  margin: ${defaultTheme.space[4]} auto;
   border-radius: 8px;
-  padding: 24px;
+  padding: ${defaultTheme.space[3]};
 `;
 
 const SummaryTitle = styled.h6`
   font-size: 1.2em;
   color: rgb(230, 96, 0);
-  margin-bottom: 8px;
+  margin-bottom: ${defaultTheme.space[1]};
   letter-spacing: 1px;
 `;
 class Summary extends Component {

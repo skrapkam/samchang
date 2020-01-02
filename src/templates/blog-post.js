@@ -27,6 +27,8 @@ import "../styles/styles.js";
 import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
 
+import defaultTheme from "../components/Theme";
+
 const renderAst = new RehypeReact({
   createElement: React.createElement,
   components: {
@@ -49,11 +51,11 @@ const renderAst = new RehypeReact({
 
 const Footer = styled.footer`
   max-width: var(--global-width);
-  margin: 64px 0 auto;
+  margin: ${defaultTheme.space[8]} 0 auto;
 `;
 
 const SectionLinks = css`
-  padding: 32px 0 0 0;
+  padding: ${defaultTheme.space[4]} 0 0 0;
   display: grid;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   grid-template-columns: 20ch auto;
@@ -69,11 +71,11 @@ const SectionLinksNext = css`
 
 const ContentWrapper = styled.div`
   max-width: var(--global-width);
-  margin: 120px auto 0;
-  padding: 0px var(--content-padding);
+  margin: ${defaultTheme.space[11]} auto 0;
+  padding: 0 ${defaultTheme.space[3]};
 
   li {
-    padding: 8px 0;
+    padding: ${defaultTheme.space[1]} 0;
   }
 
   ${mq[1]} {
@@ -81,8 +83,8 @@ const ContentWrapper = styled.div`
   }
 
   ${mq[0]} {
-    margin: 0px auto;
-    padding: 112px var(--content-padding) 0px;
+    margin: 0 auto;
+    padding: ${defaultTheme.space[11]} ${defaultTheme.space[3]} 0;
   }
 `;
 

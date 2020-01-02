@@ -3,9 +3,10 @@
 import { Component } from 'react'
 import { jsx } from '@emotion/core'
 import styled from "@emotion/styled";
+import defaultTheme from "../Theme"
 
 const ButtonStyled = styled.div`
-  margin-top: 24px;
+  margin-top: ${defaultTheme.space[3]};
   font-weight: 600;
   text-align: left;
   -webkit-user-select: none;

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
 import Emoji from 'a11y-react-emoji'
+import defaultTheme from "../Theme"
 
 const ScrollToTop = styled.div`
   cursor: pointer;
@@ -35,7 +36,7 @@ const ScrollToTop = styled.div`
 `;
 
 const PageStyled = styled.div`
-  padding-bottom: 80px;
+  padding-bottom: ${defaultTheme.space[10]};
 `
 
 export default function ScrollButton({ children }) {

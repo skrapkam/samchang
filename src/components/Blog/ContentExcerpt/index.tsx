@@ -3,13 +3,14 @@
 import { Component } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import defaultTheme from "../../Theme"
 
 const ContentExcerptStyle = styled.section`
   font-size: 2.778rem;
   max-width: var(--content-width);
-  margin: 24px auto 0px;
+  margin: ${defaultTheme.space[3]} auto 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 24px;
+  padding-bottom: ${defaultTheme.space[3]};
 `;
 class ContentExcerpt extends Component {
   render() {

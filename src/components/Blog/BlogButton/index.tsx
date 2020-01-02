@@ -3,10 +3,11 @@
 import { Component } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import defaultTheme from "../../Theme"
 
 const BlogButtonStyle = styled.div`
   max-width: var(--content-width);
-  margin: 16px auto 0px;
+  margin: ${defaultTheme.space[2]} auto 0;
 `;
 
 class BlogButton extends Component {
@@ -19,4 +20,4 @@ class BlogButton extends Component {
   }
 }
 
-export default BlogButton;
+export default BlogButton;  

@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import { SectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import { mq } from "../styles/styles";
+import defaultTheme from "../components/Theme"
 
 const hide = css`
   display: none;
@@ -41,7 +42,7 @@ const action = css`
 `;
 
 const Excerpt = css`
-  margin-top: 8px;
+  margin-top: ${defaultTheme.space[1]};
   display: block;
   max-width: 500px;
 `;
@@ -59,10 +60,10 @@ const hidden = css`
 `;
 
 const TextWrapper = styled.div`
-  margin-top: 32px;
+  margin-top: ${defaultTheme.space[4]};
   ${mq[1]} {
-    padding-left: var(--baseline);
-    padding-right: var(--baseline);
+    padding-left: ${defaultTheme.space[3]};
+    padding-right: ${defaultTheme.space[3]};
     margin-top: -26px;
   } 
 `;
@@ -73,15 +74,15 @@ const ProjectWrapper = styled.div`
 
 const Projects = css`
   &:not(:last-child) {
-    padding-bottom: 56px;
-    margin-bottom: 56px;
+    padding-bottom: ${defaultTheme.space[7]};
+    margin-bottom: ${defaultTheme.space[7]};
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 
 const SectionContainer = styled.div`
   margin: auto;
-  padding: 0 40px 0 40px;
+  padding: 0 ${defaultTheme.space[5]} 0 ${defaultTheme.space[5]};
   ${mq[1]} {
     max-width: 100%;
     padding: 0;
@@ -100,10 +101,11 @@ const ImageWrapper = styled.div`
   ${mq[1]} {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     -webkit-overflow-scrolling: touch;
-    padding-left: var(--baseline);
+    padding-left: ${defaultTheme.space[3]};
     grid-column-gap: 24px;
     overflow: auto;
-    padding-bottom: 27px;
+    padding-bottom: ${defaultTheme.space[3]};
+
   } 
 `;
 export default ({ data }) => {

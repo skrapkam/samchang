@@ -11,9 +11,10 @@ import Link from "gatsby-link";
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import styled from "@emotion/styled";
+import defaultTheme from "../../components/Theme"
 
 const SummaryPopout = css`
-  margin-bottom: 8px;
+  margin-bottom: ${defaultTheme.space[1]};
   color: var(--link-color);
   text-decoration: none;
   border-bottom: 1px solid var(--link-color);
@@ -33,7 +34,6 @@ const GridContainer = styled.div`
 const AvatarStyle = styled.div`
   width: 28vw;
   height: 30vw;
-
   margin-top: 220px;
   margin-right: 130px;
 
@@ -43,7 +43,7 @@ const AvatarStyle = styled.div`
 `;
 
 const AvatarCaption = styled.div`
-  margin-top: 8px;
+  margin-top: ${defaultTheme.space[1]};
 `;
 
 const info = props => (

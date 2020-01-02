@@ -3,10 +3,11 @@
 import { Component } from 'react'
 import { jsx } from '@emotion/core'
 import styled from "@emotion/styled";
+import defaultTheme from "../Theme"
 
 const GIFStyle = styled.div`
   max-width: 950px;
-  margin: 32px auto;
+  margin: ${defaultTheme.space[4]} auto;
   overflow: hidden;
   @media (max-width: 854px) {
     max-width: 950px;

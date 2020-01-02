@@ -5,6 +5,7 @@ import { Component } from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import { mq } from "../../styles/styles";
+import defaultTheme from "../Theme"
 
 const DropdownStyle = styled.div`
   width: 220px;
@@ -23,7 +24,7 @@ const DropdownStyle = styled.div`
   a:link,
   a:visited {
     position: static;
-    padding: 8px 8px 8px 16px;
+    padding: ${defaultTheme.space[1]} ${defaultTheme.space[1]} ${defaultTheme.space[1]} ${defaultTheme.space[2]};
     display: block;
   }
 

@@ -1,12 +1,13 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import defaultTheme from "../../Theme"
 
 const H3Style = styled.h3`
   max-width: var(--content-width);
-  margin: 0 auto 1rem;
+  margin: 0 auto ${defaultTheme.space[1]};
   font-weight: 500;
   font-family: Georgia, Cambria, "Times New Roman", Times;
   font-size: 2.125rem;
