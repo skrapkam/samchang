@@ -1,32 +1,26 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import { mq } from "../../../styles/styles";
+import styled from "@emotion/styled";
 
-const ContentHeader__Style = css`
+const H1Style = styled.h1`
   max-width: var(--content-width);
   margin: 0 auto 1.625rem;
   font-family: Georgia, Cambria, "Times New Roman", Times;
   color: var(--text-color);
   padding-top: 1.625rem;
+  font-size: 3.333rem;
 
   ${mq[0]} {
     line-height: 4rem;
-  } 
-
-  h1 {
-    font-size: 3.333rem;
   }
 `;
-class ContentHeader extends Component {
+class H1 extends Component {
   render() {
-    return (
-         <div css={ContentHeader__Style}>
-           <h1>{this.props.children}</h1>
-         </div>
-    );
+    return <H1Style>{this.props.children}</H1Style>;
   }
 }
 
-export default ContentHeader;
+export default H1;

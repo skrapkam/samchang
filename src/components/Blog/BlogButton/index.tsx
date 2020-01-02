@@ -1,19 +1,20 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
-const BlogButton__Style = css`
-max-width: var(--content-width);
-
-margin: 16px auto 0px;
+const BlogButtonStyle = styled.div`
+  max-width: var(--content-width);
+  margin: 16px auto 0px;
 `;
+
 class BlogButton extends Component {
   render() {
     return (
-      <div css={BlogButton__Style}>
+      <BlogButtonStyle>
         <p>{this.props.children}</p>
-      </div>
+      </BlogButtonStyle>
     );
   }
 }

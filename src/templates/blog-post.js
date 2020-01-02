@@ -6,8 +6,8 @@ import { css, jsx } from "@emotion/core";
 import Link from "gatsby-link";
 import RehypeReact from "rehype-react"; // This is so I can write components in my markdown file
 import Content from "../components/Blog/Content/index.tsx";
-import ContentHeader from "../components/Blog/ContentHeader/index.tsx";
-import ContentSubhead from "../components/Blog/ContentSubhead/index.tsx";
+import H1 from "../components/Blog/H1/index.tsx";
+import H2 from "../components/Blog/H2/index.tsx";
 import H3 from "../components/Blog/H3/index.tsx";
 import ContentTitle from "../components/Blog/ContentTitle/index.tsx";
 import ContentExcerpt from "../components/Blog/ContentExcerpt/index.tsx";
@@ -30,14 +30,14 @@ import { Helmet } from "react-helmet";
 const renderAst = new RehypeReact({
   createElement: React.createElement,
   components: {
-    h1: Content,
-    "content-header": ContentHeader,
+    p: Content,
+    h1: H1,
+    h2: H2,
+    h3: H3,
     gif: GIF,
     ul: UnorderedList,
     ol: OrderedList,
     "blog-button": BlogButton,
-    h2: ContentSubhead,
-    h3: H3,
     "button-visit": Button,
     "content-title": ContentTitle,
     "content-excerpt": ContentExcerpt,
@@ -47,22 +47,26 @@ const renderAst = new RehypeReact({
   }
 }).Compiler;
 
-const Footer = css`
+const Footer = styled.footer`
   max-width: var(--global-width);
   margin: 64px 0 auto;
 `;
+
 const SectionLinks = css`
   padding: 32px 0 0 0;
   display: grid;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   grid-template-columns: 20ch auto;
 `;
-const SectionLinks__Previous = css`
+
+const SectionLinksPrevious = css`
   text-align: left;
 `;
-const SectionLinks__Next = css`
+
+const SectionLinksNext = css`
   text-align: right;
 `;
+
 const ContentWrapper = styled.div`
   max-width: var(--global-width);
   margin: 120px auto 0;
@@ -104,16 +108,16 @@ export default ({ data, pageContext }) => {
       </Header>
       <ContentWrapper>
         {renderAst(post.htmlAst)}
-        <div css={Footer}>
+        <Footer>
           <div css={SectionLinks}>
-            <div css={SectionLinks__Previous}>
+            <div css={SectionLinksPrevious}>
               <p>
                 {prev && (
                   <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
                 )}
               </p>
             </div>
-            <div css={SectionLinks__Next}>
+            <div css={SectionLinksNext}>
               <p>
                 {next && (
                   <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
@@ -121,7 +125,7 @@ export default ({ data, pageContext }) => {
               </p>
             </div>
           </div>
-        </div>
+        </Footer>
       </ContentWrapper>
     </Page>
   );

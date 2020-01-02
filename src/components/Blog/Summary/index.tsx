@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-const Summary__Style = css`
+const SummaryStyle = styled.div`
   background-color: rgba(230, 96, 0, 0.12);
   max-width: var(--content-width);
   margin: 32px auto;
@@ -21,10 +21,10 @@ const SummaryTitle = styled.h6`
 class Summary extends Component {
   render() {
     return (
-      <div css={Summary__Style}>
+      <SummaryStyle>
         <SummaryTitle>TL;DR</SummaryTitle>
         {this.props.children}
-      </div>
+      </SummaryStyle>
     );
   }
 }

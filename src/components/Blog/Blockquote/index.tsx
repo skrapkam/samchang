@@ -4,7 +4,7 @@ import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
-const BlockquoteStyle = css`
+const BlockquoteStyle = styled.blockquote`
   background-color: #fff3e6;
   max-width: var(--content-width);
   margin: 32px auto;
@@ -16,12 +16,9 @@ const BlockquoteStyle = css`
 class Blockquote extends Component {
   render() {
     return (
-      <blockquote>
-
-      <div css={BlockquoteStyle}>
+      <BlockquoteStyle>
         {this.props.children}
-      </div>
-      </blockquote>
+      </BlockquoteStyle>
     );
   }
 }

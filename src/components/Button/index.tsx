@@ -1,9 +1,10 @@
 /** @jsx jsx */
 
 import { Component } from 'react'
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
+import styled from "@emotion/styled";
 
-const Button__Styled = css`
+const ButtonStyled = styled.div`
   margin-top: 24px;
   font-weight: 600;
   text-align: left;
@@ -42,7 +43,7 @@ const Button__Styled = css`
 `
 class Button extends Component {
   render() {
-    return <div css={Button__Styled}>{this.props.children}</div>
+    return <ButtonStyled>{this.props.children}</ButtonStyled>
   }
 }
 
