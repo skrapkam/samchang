@@ -14,8 +14,6 @@ const H2Styled = styled.h2`
   font-size: ${defaultTheme.fontSizes[3]};
   color: ${defaultTheme.color.text};
   line-height: 5rem;
-
-
 `;
 class H2 extends Component {
   render() {

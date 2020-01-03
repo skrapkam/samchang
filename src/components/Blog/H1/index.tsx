@@ -14,10 +14,6 @@ const H1Style = styled.h1`
   padding-top: ${defaultTheme.space[2]};
   font-size: ${defaultTheme.fontSizes[5]};
   line-height: 6rem;
-
-
-
-
 `;
 class H1 extends Component {
   render() {
