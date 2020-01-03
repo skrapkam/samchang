@@ -23,7 +23,7 @@ export const SectionWrapper = styled.div`
 export const MediumSectionWrapper = styled.div`
   padding-left: ${defaultTheme.space[5]};
   margin-top: ${defaultTheme.space[11]};
-  max-width: 750px;
+  max-width: ${defaultTheme.width[0]};
   padding-bottom: ${defaultTheme.space[3]};
 
   ${mq[1]} {

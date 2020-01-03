@@ -150,7 +150,7 @@ const info = props => (
           </li>
           <li>
             <a href="https://github.com/skrapkam/samchang/commits/master">
-              Last updated 01/01/20
+              Last updated 01/03/20
             </a>
           </li>
         </ul>

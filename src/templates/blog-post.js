@@ -23,7 +23,7 @@ import Nav from "../components/Nav/index.tsx";
 import Menu from "../components/Menu/index.tsx";
 import Button from "../components/Button/index.tsx";
 import GIF from "../components/GIF/index.tsx";
-import "../styles/styles.js";
+import "../styles/styles.tsx";
 import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
