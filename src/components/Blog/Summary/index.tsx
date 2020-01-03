@@ -7,7 +7,7 @@ import defaultTheme from "../../Theme"
 
 const SummaryStyle = styled.div`
   background-color: rgba(230, 96, 0, 0.12);
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[4]} auto;
   border-radius: 8px;
   padding: ${defaultTheme.space[3]};

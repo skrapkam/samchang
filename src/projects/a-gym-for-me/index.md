@@ -29,6 +29,6 @@ The code that powers A Gym for Me is <a href="https://github.com/skrapkam/gym-fi
 <a href="https://agymfor.me/">Visit</a>
 </blog-button>
 
-![](./images/img_gym_five.png)
+![](./images/img_gym_five.png " ")
 
-![](./images/img_gym_six.png)
+![](./images/img_gym_six.png " ")

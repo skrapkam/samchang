@@ -16,6 +16,10 @@ Google
 Designing for Google in partnership with Left Field Labs 
 </content-excerpt>
 
+<summary>
+I designed some product marketing pages for Google. 
+</summary>
+
 #Introduction
 
 I’ve had the privilege of designing for Google’s product pages through working at <a href="https://leftfieldlabs.com">Left Field Labs</a>. Here, I showcase some of the sites I’ve worked on.

@@ -7,7 +7,7 @@ import defaultTheme from "../../Theme"
 
 const ContentExcerptStyle = styled.section`
   font-size: ${defaultTheme.fontSizes[2]};
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[3]} auto 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: ${defaultTheme.space[3]} ;

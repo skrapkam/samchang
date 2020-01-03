@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 import defaultTheme from "../../Theme"
 
 const H1Style = styled.h1`
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: 0 auto ${defaultTheme.space[2]};
   font-family: Georgia, Cambria, "Times New Roman", Times;
   color: var(--text-color);

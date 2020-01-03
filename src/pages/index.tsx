@@ -54,7 +54,7 @@ const hidden = css`
     display: block;
     position: relative;
     height: 37px;
-    width: 100%;
+    width: ${defaultTheme.width[2]};
     bottom: 23px;
   } 
 `;
@@ -84,7 +84,7 @@ const SectionContainer = styled.div`
   margin: auto;
   padding: 0 ${defaultTheme.space[5]} 0 ${defaultTheme.space[5]};
   ${mq[1]} {
-    max-width: 100%;
+    max-width: ${defaultTheme.width[2]};
     padding: 0;
   } 
 `;

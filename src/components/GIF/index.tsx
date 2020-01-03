@@ -15,7 +15,7 @@ const GIFStyle = styled.div`
   img {
     text-align: center;
     margin: auto;
-    width: 100%;
+    width: ${defaultTheme.width[2]};
   }
 `
 class GIF extends Component {

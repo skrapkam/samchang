@@ -8,11 +8,11 @@ export const breakpoints = [425, 1260];
 export const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
 
 export const SectionWrapper = styled.div`
-  max-width: 100%;
+  max-width: ${defaultTheme.width[2]};
   margin: ${defaultTheme.space[11]} auto 0;
 
   ${mq[1]} {
-    max-width: 100%;
+    max-width: ${defaultTheme.width[2]};
   }
 
   ${mq[0]} {

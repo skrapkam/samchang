@@ -9,7 +9,7 @@ import defaultTheme from "../Theme"
 const Header = styled.div`
   padding: ${defaultTheme.space[4]} ${defaultTheme.space[5]};
   position: fixed;
-  width: 100%;
+  width: ${defaultTheme.width[2]};
   top: 0;
   z-index: 999;
   background: #fff;
@@ -23,7 +23,7 @@ const Header = styled.div`
   ${mq[0]} {
     padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]} ${defaultTheme.space[3]};
     position: fixed;
-    width: 100%;
+    width: ${defaultTheme.width[2]};
     box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
     background-color: #fff;
     top: 0;

@@ -7,7 +7,7 @@ import { mq } from "../../../styles/styles";
 import defaultTheme from "../../Theme"
 
 const H2Styled = styled.h2`
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: 0 auto ${defaultTheme.space[2]};
   font-weight: 500;
   font-family: Georgia, Cambria, "Times New Roman", Times;

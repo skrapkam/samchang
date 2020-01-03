@@ -7,7 +7,7 @@ import defaultTheme from "../../Theme"
 
 const BlockquoteStyle = styled.blockquote`
   background-color: #fff3e6;
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[4]} auto;
   padding: ${defaultTheme.space[3]}; 
   border-left: 8px solid #ffcfb8;

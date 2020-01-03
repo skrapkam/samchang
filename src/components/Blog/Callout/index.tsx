@@ -7,7 +7,7 @@ import defaultTheme from "../../Theme"
 
 const CalloutStyle = styled.aside`
   background-color: rgba(0, 0, 0, 0.03);
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[4]} auto;
   padding: ${defaultTheme.space[3]};
   border-radius: 8px;

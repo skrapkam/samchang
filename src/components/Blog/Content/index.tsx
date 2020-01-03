@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import defaultTheme from "../../Theme"
 
 const ContentStyle = styled.p`
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: 0 auto ${defaultTheme.space[3]};
 `;
 

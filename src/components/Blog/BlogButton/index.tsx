@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import defaultTheme from "../../Theme"
 
 const BlogButtonStyle = styled.div`
-  max-width: var(--content-width);
+  max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[2]} auto 0;
 `;
 

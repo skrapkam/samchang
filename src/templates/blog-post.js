@@ -26,7 +26,6 @@ import GIF from "../components/GIF/index.tsx";
 import "../styles/styles.js";
 import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
-
 import defaultTheme from "../components/Theme";
 
 const renderAst = new RehypeReact({
@@ -50,7 +49,7 @@ const renderAst = new RehypeReact({
 }).Compiler;
 
 const Footer = styled.footer`
-  max-width: var(--global-width);
+  max-width: ${defaultTheme.width[1]};
   margin: ${defaultTheme.space[8]} 0 auto;
 `;
 
@@ -70,16 +69,16 @@ const SectionLinksNext = css`
 `;
 
 const ContentWrapper = styled.div`
-  max-width: var(--global-width);
+  max-width: ${defaultTheme.width[1]};
   margin: ${defaultTheme.space[11]} auto 0;
   padding: 0 ${defaultTheme.space[3]};
 
   li {
-    padding: ${defaultTheme.space[1]} 0;
+    padding: ${defaultTheme.space[1]} 0 ${defaultTheme.space[3]};
   }
 
   ${mq[1]} {
-    max-width: 100%;
+    max-width: ${defaultTheme.width[2]};
   }
 
   ${mq[0]} {
