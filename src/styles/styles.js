@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import "./base.css";
 import defaultTheme from "../components/Theme";
 
 export const breakpoints = [425, 1260];

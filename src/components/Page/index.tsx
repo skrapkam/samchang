@@ -3,8 +3,9 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { throttle } from "throttle-debounce";
-import Emoji from 'a11y-react-emoji'
-import defaultTheme from "../Theme"
+import Emoji from "a11y-react-emoji";
+import defaultTheme from "../Theme";
+import { GlobalStyle } from "../../styles/reset";
 
 const ScrollToTop = styled.div`
   cursor: pointer;
@@ -37,7 +38,7 @@ const ScrollToTop = styled.div`
 
 const PageStyled = styled.div`
   padding-bottom: ${defaultTheme.space[10]};
-`
+`;
 
 export default function ScrollButton({ children }) {
   const [scrollToTopVisible, setScrollToTopVisible] = useState(false);
@@ -69,6 +70,7 @@ export default function ScrollButton({ children }) {
 
   return (
     <PageStyled>
+      <GlobalStyle />
       {children}
       <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
         <Emoji symbol="☝" label="up" />

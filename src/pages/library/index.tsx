@@ -66,12 +66,13 @@ export default library;
 
 export const BooksQuery = graphql`
   query {
-    books: allBooksJson(sort: { fields: [title], order: ASC }) {
+    books: allBooksJson(sort: { fields: [date], order: DESC }) {
       edges {
         node {
           title
           url
           author
+          date
           image {
             src {
               childImageSharp {

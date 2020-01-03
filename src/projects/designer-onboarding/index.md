@@ -70,12 +70,12 @@ Our high-level goal was to make the vetting process more efficient so qualified 
 
 This was a fundamental shift from how designers joined 99d. Designers now had to show us that they're qualified enough to join 99d.
 
-##Our specific goals were to:
+##Our specific goals:
 
 1. **Introduce hurdles** in the sign-up process designed to triage our designers, set the qualified designers up for success, and deter unqualified designers.
 2. Collect **more information** and **improve tools** for a more efficient curation workflow.
 
-##Our measures of success were:
+##Our measures of success:
 
 - **Reduced time in reviewing new designers by the Curation team**. This includes time to promote qualified designers and demote/ban unqualified designers.
 - **Reduced ID verification costs**. To work on the platform, designers must verify their IDs for fraud purposes. Each ID verification _attempt_, however, costs us money (around \$54k last quarter). Most of these attempts are wasted since the designer making that attempt is usually low-quality or fraudulent. An increased barrier would reduce the number of attempts by fraudulent designers as a majority of them wouldn't be approved.
@@ -83,7 +83,7 @@ This was a fundamental shift from how designers joined 99d. Designers now had to
 
 #Introducing Designer Onboarding
 
-A fundamental shift in how designers join 99d. This new onboarding process will guide designers towards success and improve the quality of our design community.
+A fundamental shift in how designers join 99d, this new onboarding process will guide designers towards success and improve the quality of our design community.
 
 Here's what we shipped in December of 2019:
 
@@ -97,7 +97,7 @@ Here's what we shipped in December of 2019:
 
 ##My strategy
 
-I knew from the onset that this wasn't your typical "onboarding" project. When one thinks of onboarding, images of pretty illustrations with explainer text and checklists come to mind. Onboarding users is supposed to be about the users. It's about communicating a product's value proposition to users to help set them up for long-term success.
+I knew from the beginning that this wasn't your typical "onboarding" project. When one thinks of onboarding, images of pretty illustrations with explainer text and checklists come to mind. Onboarding users is supposed to be about the users. It's about communicating a product's value proposition to users to help set them up for long-term success.
 
 I realized, however, that this project was more than that. Yes, we wanted to ensure that our designers succeeded from the very beginning, but we also had other goals (e.g. finding the _right_ designers, improving the design quality of our community, improving the workflow of our Curation team, etc.).
 

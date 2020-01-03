@@ -10,17 +10,16 @@ const ButtonStyled = styled.div`
   font-weight: 600;
   text-align: left;
   -webkit-user-select: none;
-  a:visited {
+  a {
     &:hover {
-      background: white: 
-      color: ${defaultTheme.color.link};
+      color: #fff; 
+      background: ${defaultTheme.color.link}; 
       border-bottom: 2px solid ${defaultTheme.color.link});
     }
   }
   a,
   a:active,
   a:focus,
-  a:hover,
   a:link {
     font-weight: 600;
     text-decoration: none;
