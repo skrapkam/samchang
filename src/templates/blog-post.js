@@ -57,7 +57,7 @@ const SectionLinks = css`
   padding: ${defaultTheme.space[4]} 0 0 0;
   display: grid;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  grid-template-columns: 20ch auto;
+  grid-template-columns: 15ch auto;
 `;
 
 const SectionLinksPrevious = css`
