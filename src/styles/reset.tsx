@@ -12,9 +12,7 @@ export const GlobalStyle = () => (
       }
 
       html {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-          "Segoe UI Symbol";
+        font-family: ${defaultTheme.fonts.body};
         -webkit-font-smoothing: antialiased;
         font-smoothing: antialiased;
         font-size: 62.5%;

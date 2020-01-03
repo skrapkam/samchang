@@ -8,7 +8,7 @@ import defaultTheme from "../../Theme"
 const H3Style = styled.h3`
   max-width: ${defaultTheme.width[0]};
   margin: 0 auto ${defaultTheme.space[1]};
-  font-family: Georgia, Cambria, "Times New Roman", Times;
+  font-family: ${defaultTheme.fonts.serif};
   font-weight: 400;
   font-size: ${defaultTheme.fontSizes[2]};
   color: ${defaultTheme.color.text};

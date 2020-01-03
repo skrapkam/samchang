@@ -24,7 +24,8 @@ const defaultTheme = {
     '6.4rem' // 7
   ],
   fonts: {
-    body: ''
+    body: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    serif: "Georgia, Cambria, 'Times New Roman', Times",
   },
   width: [
     `75rem`, // 0 // content width

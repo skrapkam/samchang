@@ -10,7 +10,7 @@ const ContentTitleStyle = styled.header`
   max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[4]} auto 0;
   font-size: ${defaultTheme.fontSizes[6]};
-  font-family: Georgia, Cambria, 'Times New Roman', Times;
+  font-family: ${defaultTheme.fonts.serif};
   color: ${defaultTheme.color.link};
   line-height: 1.2;
 
