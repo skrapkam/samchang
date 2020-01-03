@@ -27,7 +27,11 @@ const defaultTheme = {
     `75rem`, // 0 // content width
     `95rem`, // 1 // global width
     `100%`, // 2 // fill
-  ]
+  ], 
+  color: {
+    text: '#000000',
+    link: '#0050e6',
+  },
 };
 
 export default defaultTheme;

@@ -15,9 +15,9 @@ import defaultTheme from "../../components/Theme"
 
 const SummaryPopout = css`
   margin-bottom: ${defaultTheme.space[1]};
-  color: var(--link-color);
+  color: ${defaultTheme.color.link};
   text-decoration: none;
-  border-bottom: 1px solid var(--link-color);
+  border-bottom: 1px solid ${defaultTheme.color.link};
   padding: 0 0 2px;
   line-height: 1.5em;
 `;

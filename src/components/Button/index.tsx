@@ -13,8 +13,8 @@ const ButtonStyled = styled.div`
   a:visited {
     &:hover {
       background: white: 
-      color: var(--link-color);
-      border-bottom: 2px solid var(--link-color);
+      color: ${defaultTheme.color.link};
+      border-bottom: 2px solid ${defaultTheme.color.link});
     }
   }
   a,
@@ -24,17 +24,17 @@ const ButtonStyled = styled.div`
   a:link {
     font-weight: 600;
     text-decoration: none;
-    color: var(--link-color);
+    color: ${defaultTheme.color.link});
     font-size: 0.8em;
-    border: 2px solid var(--link-color);
+    border: 2px solid ${defaultTheme.color.link};
     border-radius: 2px;
     text-transform: uppercase;
     box-sizing: border-box;
     padding: 7px 10px;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--link-color);
+    border-bottom: 2px solid ${defaultTheme.color.link};
     &:hover {
-      background: var(--link-color);
+      background: ${defaultTheme.color.link};
       color: #fff;
     }
     &:after {

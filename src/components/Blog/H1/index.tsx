@@ -10,7 +10,7 @@ const H1Style = styled.h1`
   max-width: ${defaultTheme.width[0]};
   margin: 0 auto ${defaultTheme.space[2]};
   font-family: Georgia, Cambria, "Times New Roman", Times;
-  color: var(--text-color);
+  color: ${defaultTheme.color.text};
   padding-top: ${defaultTheme.space[2]};
   font-size: ${defaultTheme.fontSizes[5]};
   line-height: 6rem;

@@ -24,9 +24,9 @@ const hide = css`
 `;
 const action = css`
   text-decoration: none;
-  color: var(--link-color);
+  color: ${defaultTheme.color.link};
   font-size: 0.8em;
-  border: 2px solid var(--link-color);
+  border: 2px solid ${defaultTheme.color.link};
   border-radius: 2px;
   text-transform: uppercase;
   box-sizing: border-box;

@@ -47,7 +47,7 @@ const DropdownStyle = styled.div`
 
   @media (hover: hover) {
     ul li a:hover {
-      background: var(--link-color);
+      background: ${defaultTheme.color.link};
       color: white;
     }
 
@@ -111,7 +111,7 @@ const MenuButton = styled.button`
   padding: 0;
   font: inherit;
   cursor: pointer;
-  color: var(--link-color);
+  color: ${defaultTheme.color.link};
 
   &:focus {
     outline: none;

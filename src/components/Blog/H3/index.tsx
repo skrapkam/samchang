@@ -11,7 +11,7 @@ const H3Style = styled.h3`
   font-family: Georgia, Cambria, "Times New Roman", Times;
   font-weight: 400;
   font-size: ${defaultTheme.fontSizes[2]};
-  color: var(--text-color);
+  color: ${defaultTheme.color.text};
 `;
 class H3 extends Component {
   render() {

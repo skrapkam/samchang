@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import "./variables.css";
 import "./base.css";
 import defaultTheme from "../components/Theme";
 
