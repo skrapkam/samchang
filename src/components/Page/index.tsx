@@ -73,7 +73,7 @@ export default function ScrollButton({ children }) {
       <GlobalStyle />
       {children}
       <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
-        <Emoji symbol="☝" label="up" />
+        <Emoji symbol="☝️" label="up" />
       </ScrollToTop>
     </PageStyled>
   );
