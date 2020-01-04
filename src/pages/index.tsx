@@ -53,14 +53,14 @@ const hidden = css`
     background: white;
     display: block;
     position: relative;
-    height: 37px;
+    height: 24px;
     width: ${defaultTheme.width[2]};
     bottom: 23px;
   } 
 `;
 
 const TextWrapper = styled.div`
-  margin-top: ${defaultTheme.space[4]};
+  margin-top: ${defaultTheme.space[3]};
   ${mq[1]} {
     padding-left: ${defaultTheme.space[3]};
     padding-right: ${defaultTheme.space[3]};
@@ -95,6 +95,9 @@ const ImageWrapper = styled.div`
   grid-row: auto auto;
   grid-column-gap: 16px;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
   img {
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
