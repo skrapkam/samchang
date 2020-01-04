@@ -74,7 +74,8 @@ const ContentWrapper = styled.div`
   padding: 0 ${defaultTheme.space[3]};
 
   li {
-    padding: ${defaultTheme.space[1]} 0 ${defaultTheme.space[2]};
+    margin: 2.4rem auto ${defaultTheme.space[3]};
+    padding: 0;
   }
 
   ${mq[1]} {

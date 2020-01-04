@@ -7,7 +7,7 @@ import defaultTheme from "../../Theme"
 
 const ContentStyle = styled.p`
   max-width: ${defaultTheme.width[0]};
-  margin: 0 auto ${defaultTheme.space[3]};
+  margin: ${defaultTheme.space[3]} auto ${defaultTheme.space[3]};
 `;
 
 class Content extends Component {
