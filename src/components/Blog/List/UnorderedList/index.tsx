@@ -7,7 +7,7 @@ import defaultTheme from "../../../Theme"
 
 const ListStyle = styled.ul`
   max-width: ${defaultTheme.width[0]};
-  padding: 0 0 0 ${defaultTheme.space[2]};
+  padding: 0 0 0 1.8rem;
   margin: 0 auto ${defaultTheme.space[2]};
 `;
 
