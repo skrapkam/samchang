@@ -21,6 +21,6 @@ Open the site:
 
 🎉
 
-## Hosted on Netlify
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/de7e95bd-d26f-424f-b53f-375663b8e4d8/deploy-status)](https://app.netlify.com/sites/tender-hodgkin-e3ad79/deploys)
+
+[![Build Status](https://travis-ci.org/skrapkam/samchang.svg?branch=master)](https://travis-ci.org/skrapkam/samchang)
