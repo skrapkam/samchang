@@ -12,8 +12,10 @@ jobs:
             npm install
             gem install percy-cli
       
-      # - run: 
-      #     name: run our tests
-      #     command: |
-      #       npm run build
-      #       percy snapshot public
+     - run:
+          name: Run visual test
+          command: |
+            yarn build
+            percy snapshot public
+
+      
