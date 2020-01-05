@@ -90,7 +90,7 @@ My final solution was heavily inspired by a menu that Google was already using w
 
 I also changed the label from “Google VR” to “More from Google VR”. This made the affordance clearer. Moreover, since the initial state is a text link, it can sit on top of moving backgrounds such as in Earth VR and Blocks without having a solid colored background.
 
-A possible trade-off I considered was deciding which products would come first within the menu. Some product links would inevitably be buried beneath the menu fold, potentially upsetting many product teams who’d like their products to come first. A solution that hasn’t been implemented yet would be to alphabetize the order, thus removing any favoritism.
+A trade-off I considered was deciding which products would come first within the menu. Some product links would inevitably be buried beneath the menu fold, potentially upsetting many product teams who’d like their products to come first. A solution that hasn’t been implemented yet would be to alphabetize the order, thus removing any favoritism.
 
 #Google Hangouts Chat
 
