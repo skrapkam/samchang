@@ -60,7 +60,8 @@
   "license": "MIT",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "lint": "tslint --project ."
+    "lint": "tslint --project .",
+    "test": "echo 'Run your tests here'"
   },
   "devDependencies": {
     "@types/react": "^16.9.17",
