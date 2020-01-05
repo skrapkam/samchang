@@ -1,35 +1,20 @@
-version: 2
+version: 2.1
 
-defaults: &defaults
-  docker:
-    - image: circleci/node:10.15.1
-  working_directory: ~/repo
+orbs:
+ percy: percy/agent@0.1.2
 
 jobs:
-  # install: ...
-
-  # lint: ...
-
-  visual:
-    - image: circleci/ruby:2.6.2-node-browsers
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            yarn install
-            gem install percy-cli
-      - run:
-          name: Run visual test
-          command: |
-            yarn build
-            percy snapshot public
+ run_tests:
+   parallelism: 3
+   steps:
+     - attach_workspace:
+         at: .
+     - run: echo "your tests run here"
 
 workflows:
-  version: 2
-  # test: ....
-  visual-test:
-      jobs:
-        - visual
+ test:
+   jobs:
+     - run_tests
+     - percy/finalize_all:
+         requires:
+           - run_tests
