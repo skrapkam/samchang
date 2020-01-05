@@ -1,20 +1,19 @@
-version: 2.1
-
-orbs:
- percy: percy/agent@0.1.3
-
+version: 2
 jobs:
- run_tests:
-   parallelism: 3
-   steps:
-     - attach_workspace:
-         at: .
-     - run: echo "your tests run here"
-
-workflows:
- test:
-   jobs:
-     - run_tests
-     - percy/finalize_all:
-         requires:
-           - run_tests
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            npm install
+            gem install percy-cli
+      
+      # - run: 
+      #     name: run our tests
+      #     command: |
+      #       npm run build
+      #       percy snapshot public
