@@ -1,19 +1,35 @@
 version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:10.15.1
+  working_directory: ~/repo
+
 jobs:
-  build:
-    docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+  # install: ...
+
+  # lint: ...
+
+  visual:
+    - image: circleci/ruby:2.6.2-node-browsers
     working_directory: ~/repo
+
     steps:
       - checkout
       - run:
           name: install dependencies
           command: |
-            npm install
+            yarn install
             gem install percy-cli
-      
-      - run: 
-          name: run our tests
+      - run:
+          name: Run visual test
           command: |
-            npm run build
+            yarn build
             percy snapshot public
+
+workflows:
+  version: 2
+  # test: ...
+  visual-test:
+      jobs:
+        - visual
