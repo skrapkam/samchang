@@ -139,7 +139,7 @@ _Since this is an internal tool I cannot share what it looked like._
 
 I designed a new onboarding process that took into consideration the project goals, our hypothesis, and insights from the Curation team. It was a highly collaborative process that involved a myriad of meetings, [Loom](https://loom.com) screen recordings, and Slack threads.
 
-![Onboarding - A New Process](./images/img_onboarding_new_process.png "A new onboarding process... shout-out to Whimsical.")
+![Onboarding - A New Process](./images/img_onboarding_new_process.png "A new onboarding process... shout-out to Whimsical")
 
 After signing up, designers will have to complete an application for review. They can then work on 99d once our Curation team approves their applications. This is, of course, a high-level description. There are three pieces to this flow:
 
