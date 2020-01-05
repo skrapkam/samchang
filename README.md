@@ -19,7 +19,7 @@ Run `gatsby develop`
 Open the site:
 `localhost:8000`
 
-🎉
+🎉🎉🎉
 
 ## Hosted on Netlify
 
