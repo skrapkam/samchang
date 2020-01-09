@@ -21,7 +21,7 @@
     "a11y-react-emoji": "^1.1.1",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
-    "gatsby": "^2.18.18",
+    "gatsby": "^2.18.20",
     "gatsby-image": "2.2.37",
     "gatsby-plugin-catch-links": "^2.1.21",
     "gatsby-plugin-emotion": "^4.1.18",
