@@ -40,7 +40,7 @@
     "gatsby-remark-images": "^3.1.39",
     "gatsby-source-filesystem": "^2.1.43",
     "gatsby-transformer-json": "^2.2.24",
-    "gatsby-transformer-remark": "^2.6.45",
+    "gatsby-transformer-remark": "^2.6.47",
     "gatsby-transformer-sharp": "^2.3.11",
     "joi": "^14.3.1",
     "mem": "^6.0.1",
