@@ -265,15 +265,25 @@ On December 03, we began rolling out the new onboarding experience for designers
 
 The first immediate change was a dramatic reduction in the number of ID verification attempts by designers. Now, only approved designers could request ID verifications; and since each verification attempt costs us money, we now are saving a considerable amount of money.
 
-![Onboarding - ID Verifications](./images/img_onboarding_id_verification.png "Chart illustrating the drop in the number of verification attempts")
-
 Since the launch of this project, we began to see a **97% drop in verification attempts**. At that rate, we're projecting to **save \$230,000 per year** from ID verifications alone.
+
+![Onboarding - ID Verifications](./images/img_onboarding_id_verification.png "Chart illustrating the drop in the number of verification attempts")
 
 ###Designer quality
 
 We also began to see a **improvement in the quality of designers** participating in contests. After launching, all designers will have been reviewed by our Curation team. This translates to **lower refund rates, fewer support tickets**, and an **increase in client NPS**.
 
 Moreover, our Curation team has been able to quickly identify professional designers through the new application process. Since the launch, we've been able to expedite 5 designers to our highest designer level. For perspective, before shipping onboarding, we only identified an average of 2 designers of that caliber per year.
+
+![Onboarding - Designer quality](./images/img_onboarding_designer_quality.jpg "Chart illustrating the increase in our designer quality")
+
+###Time to perform a meaningful action
+
+Finally, we saw that the median **time for designers to perform a meaningful action is shorter** now compared to before launch. We defined a meaningful action as: the number of days between account creation and the first of four actions 1. Enter a contest 2. Provide a project quote 3. Invite a client to a project, or 4. Add a public design to their portfolio.
+
+Although during the first 11 days the percentage having performed a meaningful action is higher in the Old cohort, thereafter the new cohort is much higher.
+
+![Onboarding - Meaningful actions](./images/img_onboarding_meaningful_action.jpg "Chart illustrating comparison between old and new cohorts in performing a meaningful action")
 
 ##Community reception
 
