@@ -41,7 +41,7 @@ const library = ({ data }) => {
       </Header>
       <MediumSectionWrapper>
         <p>
-          Reading is a big part of my life. Here's a collection of books that have shaped who I am, how I work, or how I think about the world around me. 
+          Reading is a big part of my life. Here are the books I've read in 2020 so far. For a full list of books I've read over the years, please visit my <a href="https://www.librarything.com/catalog/samchang">LibraryThing catalog</a>.  
         </p>
       </MediumSectionWrapper>
       <BookGrid>

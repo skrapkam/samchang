@@ -149,9 +149,9 @@ const info = props => (
             <a href="https://github.com/skrapkam/samchang">open source</a>
           </li>
           <li>
-            <a href="https://github.com/skrapkam/samchang/commits/master">
-              Last updated 01/03/20
-            </a>
+            <Link to="/changelog">
+              Last updated 01/21/20
+            </Link>
           </li>
         </ul>
       </MediumSectionWrapper>
