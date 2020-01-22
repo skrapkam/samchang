@@ -353,4 +353,4 @@ This project took a year to complete, and naturally there were moments when stak
 
 #Special thanks
 
-**Product**: Krystal Fister, Jason Aiken; **Engineering**: Justin Lefurjah, Ben Turner, Adam Scarr, Lachlan Bird, Ash Smridhi, Josh Amos, Topaz T., Matthew Diamant; **Design**: Megan Dell, Caio Braga; **Curation**: Rebecca Creger, Johnny Johnson; **Community**: Tara Eudy, Kelsey Bryant, Steph Thai, Jess Curzon-Roza
+**Product**: Krystal Fister, Jason Aiken; **Engineering**: Justin Lefurjah, Ben Turner, Adam Scarr, Lachlan Bird, Ash Smridhi, Josh Amos, Topaz T., Matthew Diamant; **Design**: Megan Dell, Caio Braga; **Curation**: Rebecca Creger, Johnny Johnson; **Community**: Tara Eudy, Kelsey Bryant, Steph Thai, Jess Curzon-Roza; **Data**: Murray Pung, Connie Wang
