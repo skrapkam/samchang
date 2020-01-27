@@ -2084,10 +2084,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-a11y-react-emoji@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/a11y-react-emoji/-/a11y-react-emoji-1.1.1.tgz#c1645b818d378d8c031bbffd0f023a0c78e7635b"
-  integrity sha512-VoTx3dZF2DI+4bdjq+nHVdf81TnLJ1RqhEsBtNLEY68RRiatAQguRY0TR7vdweAN5ljwB0niOugGTtfGOxzEaA==
+a11y-react-emoji@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/a11y-react-emoji/-/a11y-react-emoji-1.1.2.tgz#352a0802522d5a9e137c3239d10bc7b9a3416ed5"
+  integrity sha512-spdYr/mgaGAYOFD/a250CUQ1MIvybK1clZgSfkzO2nxLQQQZbM7FEQrisOQntqGVm6fm0Ye57H3euSUJYpX9NQ==
 
 accepts@^1.3.7, accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
