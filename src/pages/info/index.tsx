@@ -68,9 +68,7 @@ const info = props => (
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
-            Product Designer for <a href="https://99designs.com/">99designs</a>.
-            There, I'm designing core platform experiences for Clients,
-            Designers, and internal teams
+            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>.
           </li>
 
           <li>
@@ -84,6 +82,10 @@ const info = props => (
         </ul>
         <h2>Past</h2>
         <ul>
+        <li>
+            Product Designer at{" "}
+            <a href="https://www.99designs.com/">99designs</a>
+          </li>
           <li>
             Designer at{" "}
             <a href="https://www.leftfieldlabs.com/">Left Field Labs</a>
@@ -150,7 +152,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 01/21/20
+              Last updated 03/02/20
             </Link>
           </li>
         </ul>

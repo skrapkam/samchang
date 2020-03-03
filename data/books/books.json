@@ -7,5 +7,14 @@
     "image": {
       "src": "../../src/images/books/on-writing-well.jpg"
     }
+  },
+  {
+    "title": "The Creedal Imperative",
+    "author": "Carl Trueman",
+    "date": "01/25/2020",
+    "url": "https://www.amazon.com/Creedal-Imperative-Carl-R-Trueman/dp/1433521903",
+    "image": {
+      "src": "../../src/images/books/creedal-imperative.jpg"
+    }
   }
 ]
