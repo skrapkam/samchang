@@ -64,7 +64,7 @@
     "test": "echo 'Run your tests here'"
   },
   "devDependencies": {
-    "@percy/agent": "^0.23.0",
+    "@percy/agent": "^0.25.0",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "dotenv": "^8.0.0",
