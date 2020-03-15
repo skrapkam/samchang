@@ -16,5 +16,14 @@
     "image": {
       "src": "../../src/images/books/creedal-imperative.jpg"
     }
+  },
+  {
+    "title": "Creative Selection",
+    "author": "Ken Kocienda",
+    "date": "02/15/2020",
+    "url": "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466",
+    "image": {
+      "src": "../../src/images/books/creative-selection.jpg"
+    }
   }
 ]

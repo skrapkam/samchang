@@ -32,6 +32,10 @@ const changelog = ({}) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>March 14, 2020</strong>
+            <p>Added Creative Selection to library.</p>
+          </li>
+        <li>
             <strong>March 02, 2020</strong>
             <p>Updated job description. Added new book.</p>
           </li>
