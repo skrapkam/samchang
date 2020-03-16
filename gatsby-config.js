@@ -13,7 +13,6 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
-    `gatsby-plugin-remove-serviceworker`,
     `gatsby-transformer-json`,
     {
       resolve: `gatsby-source-filesystem`,
