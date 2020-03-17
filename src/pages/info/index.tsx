@@ -68,7 +68,7 @@ const info = props => (
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
-            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>.
+            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>
           </li>
 
           <li>
