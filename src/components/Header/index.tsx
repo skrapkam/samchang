@@ -25,7 +25,7 @@ const Header = styled.div`
     position: fixed;
     width: ${defaultTheme.width[2]};
     box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
-    background-color: #fff;
+    background-color: var(--bg);
     top: 0;
     z-index: 999;
   }
