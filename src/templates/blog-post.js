@@ -56,7 +56,7 @@ const Footer = styled.footer`
 const SectionLinks = css`
   padding: ${defaultTheme.space[4]} 0 0 0;
   display: grid;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border);
   grid-template-columns: 15ch auto;
 `;
 

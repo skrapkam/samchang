@@ -50,7 +50,7 @@ const Excerpt = css`
 const hidden = css`
   display: none;
   ${mq[1]} {
-    background: white;
+    background: var(--bg);
     display: block;
     position: relative;
     height: 24px;
@@ -76,7 +76,7 @@ const Projects = css`
   &:not(:last-child) {
     padding-bottom: ${defaultTheme.space[7]};
     margin-bottom: ${defaultTheme.space[7]};
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border);
   }
 `;
 

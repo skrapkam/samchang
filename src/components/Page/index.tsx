@@ -7,6 +7,7 @@ import Emoji from "a11y-react-emoji";
 import defaultTheme from "../Theme";
 import { GlobalStyle } from "../../styles/reset";
 
+
 const ScrollToTop = styled.div`
   cursor: pointer;
   font-size: 2em;
@@ -38,6 +39,8 @@ const ScrollToTop = styled.div`
 
 const PageStyled = styled.div`
   padding-bottom: ${defaultTheme.space[10]};
+  background: var(--bg);
+
 `;
 
 export default function ScrollButton({ children }) {

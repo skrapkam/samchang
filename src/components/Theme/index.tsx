@@ -34,8 +34,8 @@ const defaultTheme = {
     `100%` // 2 // fill
   ],
   color: {
-    text: "#000000",
-    link: "#0050e6",
+    text: "var(--text)",
+    link: "var(--link)",
     gray: `#999`
   }
 };

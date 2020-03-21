@@ -17,10 +17,13 @@ export const GlobalStyle = () => (
         font-smoothing: antialiased;
         font-size: 62.5%;
         line-height: 1.8;
+
       }
 
+ 
       body {
         width: 100%;
+        background: var(--bg);
         font-size: 1.8rem;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -29,6 +32,26 @@ export const GlobalStyle = () => (
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
 
+      @media (prefers-color-scheme: light) {
+        body {
+          --bg: white;
+          --link: #0050e6;
+          --text: #000000;
+          --border: rgba(0, 0, 0, 0.1);
+          --shadow: rgba(0, 0, 0, 0.04);
+        }
+     }
+      
+      @media (prefers-color-scheme: dark) {
+         body {
+           --bg: rgb(5,5,5);
+           --link: rgb(255, 149, 0);
+           --text: rgb(227, 228, 232);
+           --border: rgba(255, 255, 255, 0.1);
+           --shadow: rgba(255,255,255, .04);
+         }
+      }
+      
       img {
         user-drag: none;
         user-select: none;
@@ -104,6 +127,7 @@ export const GlobalStyle = () => (
         border: 1px solid rgba(0, 0, 0, 0.05);
       }
 
+      
       @media (max-width: 1260px) {
         .wrapper .gatsby-image-wrapper {
           width: 40vw;

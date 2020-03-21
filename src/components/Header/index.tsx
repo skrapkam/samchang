@@ -12,9 +12,9 @@ const Header = styled.div`
   width: ${defaultTheme.width[2]};
   top: 0;
   z-index: 999;
-  background: #fff;
+  background: var(--bg);
   box-shadow: ${props =>
-    props.showHeaderShadow ? "rgba(0, 0, 0, 0.04) 0px 1px 0px" : "none"};
+    props.showHeaderShadow ? "var(--shadow) 0px 1px 0px" : "none"};
 
   ${mq[1]} {
     padding: ${defaultTheme.space[4]} ${defaultTheme.space[3]} ${defaultTheme.space[4]};
