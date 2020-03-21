@@ -11,7 +11,6 @@ import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
 import Img from "gatsby-image";
 
-
 const changelog = ({}) => {
   return (
     <Page>
@@ -32,16 +31,23 @@ const changelog = ({}) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>March 21, 2020</strong>
+            <p>Added dark mode.</p>
+          </li>
+          <li>
             <strong>March 14, 2020</strong>
             <p>Added Creative Selection to library.</p>
           </li>
-        <li>
+          <li>
             <strong>March 02, 2020</strong>
             <p>Updated job description. Added new book.</p>
           </li>
           <li>
             <strong>January 21, 2020</strong>
-            <p>Added Nothing Was Gained Under the Sun. Added a changelog. Updated library to only include 2020 books.</p>
+            <p>
+              Added Nothing Was Gained Under the Sun. Added a changelog. Updated
+              library to only include 2020 books.
+            </p>
           </li>
         </ul>
       </MediumSectionWrapper>

@@ -39,6 +39,7 @@ export const GlobalStyle = () => (
           --text: #000000;
           --border: rgba(0, 0, 0, 0.1);
           --shadow: rgba(0, 0, 0, 0.04);
+          --callout: rgba(0,0,0, .03);
         }
      }
       
@@ -49,6 +50,7 @@ export const GlobalStyle = () => (
            --text: rgb(227, 228, 232);
            --border: rgba(255, 255, 255, 0.1);
            --shadow: rgba(255,255,255, .04);
+           --callout: rgba(255,255,255, .03);
          }
       }
       
