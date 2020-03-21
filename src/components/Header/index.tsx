@@ -24,7 +24,7 @@ const Header = styled.div`
     padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]} ${defaultTheme.space[3]};
     position: fixed;
     width: ${defaultTheme.width[2]};
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
+    box-shadow: var(--shadow) 0px 1px 0px;
     background-color: var(--bg);
     top: 0;
     z-index: 999;
