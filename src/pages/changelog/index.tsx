@@ -32,7 +32,7 @@ const changelog = ({}) => {
         <ul>
         <li>
             <strong>March 21, 2020</strong>
-            <p>Added dark mode.</p>
+            <p>Added dark mode. AddedWhole Christ to library .</p>
           </li>
           <li>
             <strong>March 14, 2020</strong>

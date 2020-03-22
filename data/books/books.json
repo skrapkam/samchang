@@ -25,5 +25,14 @@
     "image": {
       "src": "../../src/images/books/creative-selection.jpg"
     }
+  },
+  {
+    "title": "The Whole Christ",
+    "author": "Sinclair B. Ferguson",
+    "date": "03/21/2020",
+    "url": "https://www.amazon.com/Whole-Christ-Antinomianism-Assurance-Controversy/dp/1633895955",
+    "image": {
+      "src": "../../src/images/books/whole-christ.jpeg"
+    }
   }
 ]
