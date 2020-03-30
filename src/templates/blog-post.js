@@ -50,7 +50,7 @@ const renderAst = new RehypeReact({
 
 const Footer = styled.footer`
   max-width: ${defaultTheme.width[1]};
-  margin: ${defaultTheme.space[8]} 0 auto;
+  margin: ${defaultTheme.space[8]} auto 0;
 `;
 
 const SectionLinks = css`
