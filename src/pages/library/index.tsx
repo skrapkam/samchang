@@ -41,7 +41,7 @@ const library = ({ data }) => {
       </Header>
       <MediumSectionWrapper>
         <p>
-          Reading is a big part of my life. Here are the books I've read in 2020 so far. For a full list of books I've read over the years, please visit my <a href="https://www.librarything.com/catalog/samchang">LibraryThing catalog</a>.  
+          Reading is a big part of my life. Here are the books I've read in 2020 so far. For a full list of books I've read over the years, please visit my <a href="https://www.librarything.com/catalog/samchang">LibraryThing catalog</a>. I also try to take notes as I read, which you can <a href="https://www.notion.so/Book-notes-9f3146bc77a04364bfd83e8f1f12919f">check out here</a>. 
         </p>
       </MediumSectionWrapper>
       <BookGrid>

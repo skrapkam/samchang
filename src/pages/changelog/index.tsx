@@ -1,15 +1,12 @@
 /** @jsx jsx */
 
-import styled from "@emotion/styled";
-import { graphql } from "gatsby";
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
-import { MediumSectionWrapper, Grid, CoverTitle } from "../../styles/styles";
+import { MediumSectionWrapper } from "../../styles/styles";
 import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
-import Img from "gatsby-image";
 
 const changelog = ({}) => {
   return (
@@ -31,8 +28,12 @@ const changelog = ({}) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>March 29, 2020</strong>
+            <p>Added book notes.</p>
+          </li>
+        <li>
             <strong>March 21, 2020</strong>
-            <p>Added dark mode. AddedWhole Christ to library .</p>
+            <p>Added dark mode. Added Whole Christ to library.</p>
           </li>
           <li>
             <strong>March 14, 2020</strong>
