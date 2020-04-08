@@ -40,6 +40,7 @@ export const GlobalStyle = () => (
           --border: rgba(0, 0, 0, 0.1);
           --shadow: rgba(0, 0, 0, 0.04);
           --callout: rgba(0,0,0, .03);
+          --blockquote: rgba(255, 207, 184, 0.30);
         }
      }
       
@@ -51,6 +52,7 @@ export const GlobalStyle = () => (
            --border: rgba(255, 255, 255, 0.1);
            --shadow: rgba(255,255,255, .04);
            --callout: rgba(255,255,255, .03);
+           --blockquote: rgba(150, 196, 226, 0.5);
          }
       }
       
