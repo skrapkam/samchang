@@ -8,7 +8,7 @@ import { MediumSectionWrapper } from "../../styles/styles";
 import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
 
-const changelog = ({}) => {
+const changelog = ({ }) => {
   return (
     <Page>
       <Helmet>
@@ -28,10 +28,14 @@ const changelog = ({}) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>April 07, 2020</strong>
+            <p>Fix dark mode.</p>
+          </li>
+          <li>
             <strong>March 29, 2020</strong>
             <p>Added book notes.</p>
           </li>
-        <li>
+          <li>
             <strong>March 21, 2020</strong>
             <p>Added dark mode. Added Whole Christ to library.</p>
           </li>
