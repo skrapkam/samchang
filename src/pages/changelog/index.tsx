@@ -28,8 +28,12 @@ const changelog = ({ }) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>April 11, 2020</strong>
+            <p>Added The Making of a Manager to library.</p>
+          </li>
+          <li>
             <strong>April 07, 2020</strong>
-            <p>Fix dark mode.</p>
+            <p>Fixed dark mode.</p>
           </li>
           <li>
             <strong>March 29, 2020</strong>

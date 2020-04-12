@@ -68,7 +68,7 @@ const info = props => (
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
-            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>
+            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>.
           </li>
 
           <li>
@@ -152,7 +152,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 03/29/20
+              Last updated 04/11/20
             </Link>
           </li>
         </ul>
