@@ -34,5 +34,14 @@
     "image": {
       "src": "../../src/images/books/whole-christ.jpeg"
     }
+  },
+  {
+    "title": "The Making of a Manager",
+    "author": "Julie Zhuo",
+    "date": "04/11/2020",
+    "url": "https://www.amazon.com/Making-Manager-What-Everyone-Looks/dp/0735219567",
+    "image": {
+      "src": "../../src/images/books/making-of-manager.jpg"
+    }
   }
 ]
