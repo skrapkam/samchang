@@ -143,7 +143,7 @@ const info = props => (
           <li>
             Built with <a href="https://www.gatsbyjs.org/">Gatsby</a> and{" "}
             <a href="https://emotion.sh">Emotion</a>; deployed on{" "}
-            <a href="https://zeit.co/home/">ZEIT Now</a>
+            <a href="https://zeit.co/home/">Vercel</a>
           </li>
           <li>Fonts: System Fonts and Georgia</li>
           <li>
@@ -152,7 +152,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 04/11/20
+              Last updated 04/25/20
             </Link>
           </li>
         </ul>
