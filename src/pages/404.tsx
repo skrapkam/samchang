@@ -2,6 +2,7 @@
 
 import { Component } from "react";
 import { jsx } from "@emotion/core";
+import Page from "../components/Page";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import { MediumSectionWrapper } from "../styles/styles";
@@ -12,7 +13,7 @@ import Link from "gatsby-link";
 class info extends Component {
   render() {
     return (
-      <div>
+      <Page>
         <Helmet>
           <meta charSet="utf-8" />
           <title>404 Page Not Found | Sam Chang</title>
@@ -34,7 +35,7 @@ class info extends Component {
             <Link to="/music">music</Link>.
           </p>
         </MediumSectionWrapper>
-      </div>
+      </Page>
     );
   }
 }
