@@ -20,10 +20,7 @@ export default class HTML extends React.Component {
             content="Sam Chang's Design and Development Portfolio"
           />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            content="https://samchang.design/social.jpg"
-          />
+          <meta property="og:image" content="https://i.imgur.com/tTZRH0l.jpg" />
           <meta property="og:url" content="https://samchang.design/" />
 
           <meta name="author" content="Sam Chang" />
