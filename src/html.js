@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default class HTML extends React.Component {
   render() {
@@ -20,7 +20,11 @@ export default class HTML extends React.Component {
             content="Sam Chang's Design and Development Portfolio"
           />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="http://samchang.design/" />
+          <meta
+            property="og:image"
+            content="https://samchang.design/social.jpg"
+          />
+          <meta property="og:url" content="https://samchang.design/" />
 
           <meta name="author" content="Sam Chang" />
           <meta name="twitter:card" content="summary_large_image" />
@@ -41,6 +45,6 @@ export default class HTML extends React.Component {
           {this.props.postBodyComponents}
         </body>
       </html>
-    )
+    );
   }
 }
