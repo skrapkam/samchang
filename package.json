@@ -44,7 +44,7 @@
     "mem": "^6.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.1",
+    "react-helmet": "^6.0.0",
     "rehype-react": "^5.0.1",
     "serialize-javascript": "^2.1.2",
     "set-value": "^3.0.2",
