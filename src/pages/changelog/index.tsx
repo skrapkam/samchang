@@ -28,6 +28,10 @@ const changelog = ({ }) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>April 26, 2020</strong>
+            <p>Added art section.</p>
+          </li>
+        <li>
             <strong>April 25, 2020</strong>
             <p>Added OG image. Updated ZEIT to Vercel.</p>
           </li>

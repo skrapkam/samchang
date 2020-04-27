@@ -152,7 +152,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 04/25/20
+              Last updated 04/26/20
             </Link>
           </li>
         </ul>
