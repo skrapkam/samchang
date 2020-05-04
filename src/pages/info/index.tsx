@@ -117,10 +117,6 @@ const info = props => (
                   website dedicated to Lil Wayne
                 </li>
                 <li>
-                  <a href="https://theyodelkid.com">theyodelkid</a> is a website
-                  dedicated to the yodel kid
-                </li>
-                <li>
                   <a href="http://chloeburbankgenerator.com">
                     Chloe Burbank album cover generator
                   </a>
@@ -152,7 +148,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 04/26/20
+              Last updated 05/03/20
             </Link>
           </li>
         </ul>

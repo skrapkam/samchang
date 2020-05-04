@@ -39,7 +39,7 @@ const music = ({ data }) => {
         <p>
           <p>
             Written and produced by{" "}
-            <a href="http://groveralleyway.bandcamp.com">Grover Alleyway</a>.
+            <a href="http://groveralleyway.com">Grover Alleyway</a>.
             All tunes created on a laptop computer using Ableton Live software
             to control and mix VST plugins as well as manipulations of audio
             recordings.

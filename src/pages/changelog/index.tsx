@@ -28,6 +28,10 @@ const changelog = ({ }) => {
       <MediumSectionWrapper>
         <ul>
         <li>
+            <strong>May 03, 2020</strong>
+            <p>Removed Yodel Kid. Edited URL for Grover Alleyway.</p>
+          </li>
+        <li>
             <strong>April 26, 2020</strong>
             <p>Added art section.</p>
           </li>
