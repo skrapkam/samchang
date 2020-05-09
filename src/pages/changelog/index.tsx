@@ -1,12 +1,63 @@
 /** @jsx jsx */
 
-import { jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
+import styled from "@emotion/styled";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
-import { MediumSectionWrapper } from "../../styles/styles";
+import { SectionWrapper } from "../../styles/styles";
 import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
+import defaultTheme from "../../components/Theme";
+
+
+const ChangeLog = styled.div`
+max-width: ${defaultTheme.width[0]};
+
+ul {
+  padding-top: 0;
+}
+
+margin: auto;
+
+li {
+  border-bottom: 1px solid ${defaultTheme.color.lightGray};
+}
+
+& li:not(:first-child) {
+  padding-top: ${defaultTheme.space[4]};
+}
+& li:last-child {
+  border-bottom: none;
+}
+  li {
+    list-style: none;
+    margin-left: 0;
+  }
+
+  @media (max-width: 1065px) {
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[3]};
+  }
+
+`
+
+const ChangeLogContent = styled.article`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding-bottom: ${defaultTheme.space[4]};
+
+  @media (max-width: 1065px) {
+    display: block;
+  }
+
+`
+
+const date = css`
+  color: ${defaultTheme.color.gray};
+`;
+
+const content = css` 
+`
 
 const changelog = ({ }) => {
   return (
@@ -25,53 +76,106 @@ const changelog = ({ }) => {
         <Nav title="Changelog" />
         <Menu />
       </Header>
-      <MediumSectionWrapper>
-        <ul>
-        <li>
-            <strong>May 03, 2020</strong>
-            <p>Removed Yodel Kid. Edited URL for Grover Alleyway.</p>
-          </li>
-        <li>
-            <strong>April 26, 2020</strong>
-            <p>Added art section.</p>
-          </li>
-        <li>
-            <strong>April 25, 2020</strong>
-            <p>Added OG image. Updated ZEIT to Vercel.</p>
-          </li>
-        <li>
-            <strong>April 11, 2020</strong>
-            <p>Added The Making of a Manager to library.</p>
-          </li>
+      <SectionWrapper>
+        <ChangeLog>
+          <ul>
           <li>
-            <strong>April 07, 2020</strong>
-            <p>Fixed dark mode.</p>
-          </li>
-          <li>
-            <strong>March 29, 2020</strong>
-            <p>Added book notes.</p>
-          </li>
-          <li>
-            <strong>March 21, 2020</strong>
-            <p>Added dark mode. Added Whole Christ to library.</p>
-          </li>
-          <li>
-            <strong>March 14, 2020</strong>
-            <p>Added Creative Selection to library.</p>
-          </li>
-          <li>
-            <strong>March 02, 2020</strong>
-            <p>Updated job description. Added new book.</p>
-          </li>
-          <li>
-            <strong>January 21, 2020</strong>
-            <p>
-              Added Nothing Was Gained Under the Sun. Added a changelog. Updated
-              library to only include 2020 books.
-            </p>
-          </li>
-        </ul>
-      </MediumSectionWrapper>
+              <ChangeLogContent>
+                <time css={date}><h4>May 08, 2020</h4></time>
+                <div css={content}>
+                  <p>Updated changelog styling.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>May 03, 2020</h4></time>
+                <div css={content}>
+                  <p>Removed Yodel Kid.</p>
+                  <p>Edited URL for Grover Alleyway.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>April 26, 2020</h4></time>
+                <div css={content}>
+                  <p>Added art section.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>April 25, 2020</h4></time>
+                <div css={content}>
+                  <p>Added OG image.</p>
+                  <p>Updated ZEIT to Vercel.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>April 11, 2020</h4></time>
+                <div css={content}>
+                  <p>Added The Making of a Manager to library.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>April 07, 2020</h4></time>
+                <div css={content}>
+                  <p>Fixed dark mode.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>March 29, 2020</h4></time>
+                <div css={content}>
+                  <p>Added book notes.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>March 21, 2020</h4></time>
+                <div css={content}>
+                  <p>Added dark mode.</p>
+                  <p>Added Whole Christ to library.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>March 14, 2020</h4></time>
+                <div css={content}>
+                  <p>Added Creative Selection to library.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>March 02, 2020</h4></time>
+                <div css={content}>
+                  <p>Updated job description.</p>
+                  <p>Added new book.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+            <li>
+              <ChangeLogContent>
+                <time css={date}><h4>January 21, 2020</h4></time>
+                <div css={content}>
+                  <p>Added Nothing Was Gained Under the Sun.</p>
+                  <p>Added a changelog.</p>
+                  <p>Updated library to only include 2020 books.</p>
+                </div>
+              </ChangeLogContent>
+            </li>
+          </ul>
+        </ChangeLog>
+      </SectionWrapper>
     </Page>
   );
 };

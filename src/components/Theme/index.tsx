@@ -36,7 +36,8 @@ const defaultTheme = {
   color: {
     text: "var(--text)",
     link: "var(--link)",
-    gray: `#999`
+    gray: `#999`,
+    lightGray:`#eee`,
   }
 };
 
