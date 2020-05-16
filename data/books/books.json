@@ -43,5 +43,14 @@
     "image": {
       "src": "../../src/images/books/making-of-manager.jpg"
     }
+  },
+  {
+    "title": "User Friendly",
+    "author": "Cliff Kuang",
+    "date": "05/15/2020",
+    "url": "https://www.amazon.com/User-Friendly-Hidden-Design-Changing/dp/0374279756",
+    "image": {
+      "src": "../../src/images/books/user-friendly.jpg"
+    }
   }
 ]

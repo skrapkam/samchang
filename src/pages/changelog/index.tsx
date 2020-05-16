@@ -9,7 +9,9 @@ import { SectionWrapper } from "../../styles/styles";
 import Header from "../../components/Header";
 import { Helmet } from "react-helmet";
 import defaultTheme from "../../components/Theme";
-
+import Fixed from "../../components/Changelog/Fixed";
+import Updated from "../../components/Changelog/Updated";
+import New from "../../components/Changelog/New";
 
 const ChangeLog = styled.div`
 max-width: ${defaultTheme.width[0]};
@@ -46,8 +48,25 @@ const ChangeLogContent = styled.article`
   grid-template-columns: 1fr 2fr;
   padding-bottom: ${defaultTheme.space[4]};
 
+  ul:not(:last-child) {
+    margin-bottom: ${defaultTheme.space[2]};
+  }
+
+  li {
+    border-bottom: none;
+  }
+
+  & li:not(:first-child) {
+    padding-top: 0;
+  }
+  
+
   @media (max-width: 1065px) {
     display: block;
+
+    h4 {
+      margin-bottom: ${defaultTheme.space[1]};
+    }
   }
 
 `
@@ -58,6 +77,8 @@ const date = css`
 
 const content = css` 
 `
+
+
 
 const changelog = ({ }) => {
   return (
@@ -81,9 +102,27 @@ const changelog = ({ }) => {
           <ul>
           <li>
               <ChangeLogContent>
+                <time css={date}><h4>May 15, 2020</h4></time>
+                <div css={content}>
+                  <ul>
+                  <Updated />
+                  <li><p>Added categorical pills for changelog.</p></li>
+                  </ul>
+                  <ul>
+                  <New />
+                  <li><p>Added User Friendly to library.</p></li>
+                  </ul>
+                </div>
+              </ChangeLogContent>
+            </li>
+          <li>
+              <ChangeLogContent>
                 <time css={date}><h4>May 08, 2020</h4></time>
                 <div css={content}>
-                  <p>Updated changelog styling.</p>
+                  <ul>
+                  <Updated />
+                  <li><p>Updated changelog styling.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -91,8 +130,11 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>May 03, 2020</h4></time>
                 <div css={content}>
-                  <p>Removed Yodel Kid.</p>
-                  <p>Edited URL for Grover Alleyway.</p>
+                <ul>
+                  <Fixed />
+                  <li><p>Removed Yodel Kid.</p></li>
+                  <li><p>Edited URL for Grover Alleyway.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -100,7 +142,10 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>April 26, 2020</h4></time>
                 <div css={content}>
-                  <p>Added art section.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added art section.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -108,8 +153,14 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>April 25, 2020</h4></time>
                 <div css={content}>
-                  <p>Added OG image.</p>
-                  <p>Updated ZEIT to Vercel.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added OG image.</p></li>
+                  </ul>
+                  <ul>
+                  <Fixed />
+                  <li><p>Updated ZEIT to Vercel.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -117,7 +168,10 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>April 11, 2020</h4></time>
                 <div css={content}>
-                  <p>Added The Making of a Manager to library.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added The Making of a Manager to library.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -125,7 +179,10 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>April 07, 2020</h4></time>
                 <div css={content}>
-                  <p>Fixed dark mode.</p>
+                  <ul>
+                  <Fixed />
+                  <li><p>Fixed dark mode.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -133,7 +190,10 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>March 29, 2020</h4></time>
                 <div css={content}>
-                  <p>Added book notes.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added book notes.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -141,8 +201,11 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>March 21, 2020</h4></time>
                 <div css={content}>
-                  <p>Added dark mode.</p>
-                  <p>Added Whole Christ to library.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added dark mode.</p></li>
+                  <li><p>Added Whole Christ to library.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -150,7 +213,10 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>March 14, 2020</h4></time>
                 <div css={content}>
-                  <p>Added Creative Selection to library.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added Creative Selection to library.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -158,8 +224,14 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>March 02, 2020</h4></time>
                 <div css={content}>
-                  <p>Updated job description.</p>
-                  <p>Added new book.</p>
+                  <ul>
+                  <Updated />
+                  <li><p>Updated job description.</p></li>
+                  </ul>
+                  <ul>
+                  <New />
+                  <li><p>Added new book.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
@@ -167,9 +239,15 @@ const changelog = ({ }) => {
               <ChangeLogContent>
                 <time css={date}><h4>January 21, 2020</h4></time>
                 <div css={content}>
-                  <p>Added Nothing Was Gained Under the Sun.</p>
-                  <p>Added a changelog.</p>
-                  <p>Updated library to only include 2020 books.</p>
+                  <ul>
+                  <New />
+                  <li><p>Added Nothing Was Gained Under the Sun.</p></li>
+                  <li><p>Added a changelog.</p></li>
+                  </ul>
+                  <ul>
+                  <Updated />
+                  <li><p>Updated library to only include 2020 books.</p></li>
+                  </ul>
                 </div>
               </ChangeLogContent>
             </li>
