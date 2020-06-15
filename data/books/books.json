@@ -52,5 +52,14 @@
     "image": {
       "src": "../../src/images/books/user-friendly.jpg"
     }
+  },
+  {
+    "title": "Why Are We Yelling?",
+    "author": "Buster Benson",
+    "date": "06/14/2020",
+    "url": "https://www.amazon.com/Why-Are-We-Yelling-hardcover/dp/0525540105",
+    "image": {
+      "src": "../../src/images/books/why-are-we-yelling.jpg"
+    }
   }
 ]
