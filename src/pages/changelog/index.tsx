@@ -102,6 +102,23 @@ const changelog = ({ }) => {
           <ul>
           <li>
               <ChangeLogContent>
+                <time css={date}><h4>July 12, 2020</h4></time>
+                <div css={content}>
+                  <ul>
+                  <New />
+                  <li><p>Added Elon Musk to the library.</p></li>
+                  <li><p>Added Inverted Love Song to music.</p></li>
+                  <li><p>Added music project to info.</p></li>
+                  </ul>
+                  <ul>
+                    <Fixed />
+                    <li><p>Removed Chloe Burbank.</p></li>
+                  </ul>
+                </div>
+              </ChangeLogContent>
+            </li>
+          <li>
+              <ChangeLogContent>
                 <time css={date}><h4>June 14, 2020</h4></time>
                 <div css={content}>
                   <ul>

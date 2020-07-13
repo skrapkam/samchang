@@ -61,5 +61,14 @@
     "image": {
       "src": "../../src/images/books/why-are-we-yelling.jpg"
     }
+  },
+  {
+    "title": "Elon Musk",
+    "author": "Ashlee Vance",
+    "date": "07/05/2020",
+    "url": "https://www.amazon.com/Elon-Musk-SpaceX-Fantastic-Future-ebook/dp/B00KVI76ZS",
+    "image": {
+      "src": "../../src/images/books/elon-musk.jpg"
+    }
   }
 ]

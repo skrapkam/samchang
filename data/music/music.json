@@ -1,5 +1,21 @@
 [
   {
+    "title": "Inverted Love Song",
+    "date": "2020",
+    "url": "https://groveralleyway.com/inverted-love-song/",
+    "image": {
+      "src": "../../src/images/music/inverted-love-song.jpg"
+    }
+  },
+  {
+    "title": "Nothing Was Gained Under the Sun",
+    "date": "2020",
+    "url": "https://album.link/i/1495702669",
+    "image": {
+      "src": "../../src/images/music/nothing-was-gained-under-the-sun.jpg"
+    }
+  },
+  {
     "title": "bl33ding' luv",
     "date": "2019",
     "url": "https://song.link/i/1474641684",
@@ -13,14 +29,6 @@
     "url": "https://song.link/album/us/i/1469600060",
     "image": {
       "src": "../../src/images/music/barely-tolerable.jpg"
-    }
-  },
-  {
-    "title": "Nothing Was Gained Under the Sun",
-    "date": "2020",
-    "url": "https://album.link/i/1495702669",
-    "image": {
-      "src": "../../src/images/music/nothing-was-gained-under-the-sun.jpg"
     }
   }
 ]

@@ -103,6 +103,9 @@ const info = props => (
             specialized gyms
           </li>
           <li>
+            <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
+          </li>
+          <li>
             <details>
               <summary>
                 <span css={SummaryPopout}>Dumb websites made for fun</span>
@@ -115,11 +118,6 @@ const info = props => (
                 <li>
                   <a href="http://youngmulababy.com">youngmulababy</a> is a
                   website dedicated to Lil Wayne
-                </li>
-                <li>
-                  <a href="http://chloeburbankgenerator.com">
-                    Chloe Burbank album cover generator
-                  </a>
                 </li>
               </ul>
             </details>
@@ -148,7 +146,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 06/14/20
+              Last updated 07/12/20
             </Link>
           </li>
         </ul>
