@@ -124,10 +124,6 @@ export const GlobalStyle = () => (
         transition: 0.1s ease-in background;
       }
 
-      a:hover {
-        background: var(--hover);
-      }
-
       figcaption {
         margin: 0 auto;
         padding: 8px 0;
@@ -137,6 +133,13 @@ export const GlobalStyle = () => (
       }
       .gatsby-resp-image-wrapper {
         border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      
+      @media (hover: hover) {
+        a:hover {
+          background: var(--hover);
+        }
       }
 
       
