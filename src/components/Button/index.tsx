@@ -21,6 +21,8 @@ const ButtonStyled = styled.div`
   a:active,
   a:focus,
   a:link {
+    -webkit-transition: auto;
+    transition: auto;
     font-weight: 600;
     text-decoration: none;
     color: ${defaultTheme.color.link});

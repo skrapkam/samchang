@@ -77,6 +77,8 @@ const MenuStyled = styled.div`
   a:link,
   a:visited {
     width: 100%;
+    -webkit-transition: auto;
+    transition: auto;
     cursor: pointer;
     position: static;
     -webkit-touch-callout: none;

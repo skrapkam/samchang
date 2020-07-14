@@ -41,6 +41,7 @@ export const GlobalStyle = () => (
           --shadow: rgba(0, 0, 0, 0.04);
           --callout: rgba(0,0,0, .03);
           --blockquote: rgba(255, 207, 184, 0.30);
+          --hover: #F3F3F3;
         }
      }
       
@@ -53,6 +54,7 @@ export const GlobalStyle = () => (
            --shadow: rgba(255,255,255, .04);
            --callout: rgba(255,255,255, .03);
            --blockquote: rgba(150, 196, 226, 0.5);
+           --hover: #2D2D2D;
          }
       }
       
@@ -118,6 +120,12 @@ export const GlobalStyle = () => (
         text-decoration: none;
         border-bottom: 1px solid ${defaultTheme.color.link};
         padding: 0 0 2px;
+        -webkit-transition: 0.1s ease-in background;
+        transition: 0.1s ease-in background;
+      }
+
+      a:hover {
+        background: var(--hover);
       }
 
       figcaption {
