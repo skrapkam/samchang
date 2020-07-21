@@ -70,5 +70,14 @@
     "image": {
       "src": "../../src/images/books/elon-musk.jpg"
     }
+  },
+  {
+    "title": "The God who Justifies",
+    "author": "James White",
+    "date": "07/19/2020",
+    "url": "https://www.amazon.com/God-Who-Justifies-James-White/dp/0764204815",
+    "image": {
+      "src": "../../src/images/books/god-who-justifies.jpg"
+    }
   }
 ]
