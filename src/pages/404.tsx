@@ -32,7 +32,7 @@ class info extends Component {
           <p>
             The page you tried to access cannot be found. Maybe try going{" "}
             <Link to="/">home</Link> or listening to some of my{" "}
-            <Link to="/music">music</Link>.
+            <Link to="/music">music</Link>. Thanks!
           </p>
         </MediumSectionWrapper>
       </Page>
