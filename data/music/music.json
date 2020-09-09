@@ -1,5 +1,13 @@
 [
   {
+    "title": "Dither",
+    "date": "2020",
+    "url": "https://groveralleyway.com/dither/",
+    "image": {
+      "src": "../../src/images/music/dither.png"
+    }
+  },
+  {
     "title": "Inverted Love Song",
     "date": "2020",
     "url": "https://groveralleyway.com/inverted-love-song/",
