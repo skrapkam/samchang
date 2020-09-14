@@ -7321,15 +7321,15 @@ gatsby-plugin-google-fonts@^1.0.1:
   resolved "https://registry.yarnpkg.com/gatsby-plugin-google-fonts/-/gatsby-plugin-google-fonts-1.0.1.tgz#d71054f7bf207b9a8da227380369e18e6f4e0201"
   integrity sha512-p1NVkn27GUnDA5qHM+Z4cCcLCJIardzZXMon3640sT4xuL/AZJbsx3HEt2KY/5oZu0UXIkytkxzV2Da4rQeUIg==
 
-gatsby-plugin-manifest@^2.4.24:
-  version "2.4.24"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.24.tgz#836fac2fc60f03cee9d155451a1353a12dc8c505"
-  integrity sha512-ub2KvHPUcKHzsSdkRcpVzp43sTnnof7bG7w5cVHWUDfNIrxW+Pt3S6XYycqHGOB+Xd7cja1sW56qr+DR5pU49Q==
+gatsby-plugin-manifest@^2.4.28:
+  version "2.4.28"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.28.tgz#f65a0f60e15112829981607df54b46faa09a3257"
+  integrity sha512-/8huYUzf0L8N5g3FlVlpCkV+nycBajU8nrbEfJTH/VecxGPlDJrHJ/WRM8lG+/XwpPnEwddFiZ6BBgHdIQEn3Q==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    gatsby-core-utils "^1.3.16"
+    gatsby-core-utils "^1.3.19"
     semver "^7.3.2"
-    sharp "^0.25.1"
+    sharp "^0.25.4"
 
 gatsby-plugin-page-creator@^2.3.27:
   version "2.3.27"
