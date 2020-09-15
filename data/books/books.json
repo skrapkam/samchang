@@ -79,5 +79,14 @@
     "image": {
       "src": "../../src/images/books/god-who-justifies.jpg"
     }
+  },
+  {
+    "title": "The Last Punisher",
+    "author": "Kevin Lacz",
+    "date": "09/15/2020",
+    "url": "https://www.amazon.com/Last-Punisher-Snipers-Account-Battle/dp/1501127268",
+    "image": {
+      "src": "../../src/images/books/last-punisher.jpg"
+    }
   }
 ]

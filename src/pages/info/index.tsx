@@ -146,7 +146,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 09/08/20
+              Last updated 09/15/20
             </Link>
           </li>
         </ul>
