@@ -41,7 +41,7 @@
     "gatsby-transformer-remark": "^2.8.38",
     "gatsby-transformer-sharp": "^2.5.17",
     "joi": "^17.2.1",
-    "mem": "^6.1.1",
+    "mem": "^8.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
