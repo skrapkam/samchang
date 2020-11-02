@@ -39,7 +39,7 @@
     "gatsby-source-filesystem": "^2.3.36",
     "gatsby-transformer-json": "^2.4.15",
     "gatsby-transformer-remark": "^2.8.47",
-    "gatsby-transformer-sharp": "^2.5.20",
+    "gatsby-transformer-sharp": "^2.5.21",
     "joi": "^17.3.0",
     "mem": "^8.0.0",
     "react": "^16.14.0",
