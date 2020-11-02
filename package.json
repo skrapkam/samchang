@@ -43,7 +43,7 @@
     "joi": "^17.3.0",
     "mem": "^8.0.0",
     "react": "^16.14.0",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-helmet": "^6.1.0",
     "rehype-react": "^6.1.0",
     "serialize-javascript": "^5.0.1",
