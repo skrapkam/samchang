@@ -105,23 +105,6 @@ const info = props => (
           <li>
             <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
           </li>
-          <li>
-            <details>
-              <summary>
-                <span css={SummaryPopout}>Dumb websites made for fun</span>
-              </summary>
-              <ul>
-                <li>
-                  <a href="https://kanyeomariwest.com">kanyeomariwest</a> is a
-                  Kanye West wisdom generator
-                </li>
-                <li>
-                  <a href="http://youngmulababy.com">youngmulababy</a> is a
-                  website dedicated to Lil Wayne
-                </li>
-              </ul>
-            </details>
-          </li>
         </ul>
         <h2>Contact</h2>
         <ul>
