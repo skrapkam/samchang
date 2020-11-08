@@ -88,5 +88,14 @@
     "image": {
       "src": "../../src/images/books/last-punisher.jpg"
     }
+  },
+  {
+    "title": "A Quest for Godliness",
+    "author": "J.I. Packer",
+    "date": "10/31/2020",
+    "url": "https://www.amazon.com/Quest-Godliness-Puritan-Vision-Christian/dp/1433515814",
+    "image": {
+      "src": "../../src/images/books/quest-for-godliness.jpg"
+    }
   }
 ]
