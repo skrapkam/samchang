@@ -97,5 +97,14 @@
     "image": {
       "src": "../../src/images/books/quest-for-godliness.jpg"
     }
+  },
+  {
+    "title": "Inspired",
+    "author": "Marty Cagan",
+    "date": "11/16/2020",
+    "url": "https://www.amazon.com/INSPIRED-Create-Tech-Products-Customers/dp/1119387507",
+    "image": {
+      "src": "../../src/images/books/inspired.jpg"
+    }
   }
 ]
