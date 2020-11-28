@@ -103,6 +103,17 @@ const changelog = ({ }) => {
           <li>
           <li>
               <ChangeLogContent>
+                <time css={date}><h4>November 27, 2020</h4></time>
+                <div css={content}>
+                  <ul>
+                  <New />
+                  <li><p>Added Ladder page.</p></li>                  
+                  </ul>
+                </div>
+              </ChangeLogContent>
+          </li>
+          <li>
+              <ChangeLogContent>
                 <time css={date}><h4>November 17, 2020</h4></time>
                 <div css={content}>
                   <ul>
@@ -112,6 +123,7 @@ const changelog = ({ }) => {
                 </div>
               </ChangeLogContent>
           </li>
+          <li>
               <ChangeLogContent>
                 <time css={date}><h4>November 07, 2020</h4></time>
                 <div css={content}>
@@ -125,6 +137,7 @@ const changelog = ({ }) => {
                   </ul>
                 </div>
               </ChangeLogContent>
+              </li>
           </li>
           <li>
               <ChangeLogContent>
