@@ -37,7 +37,7 @@
     "gatsby-remark-external-links": "0.0.4",
     "gatsby-remark-images": "^3.4.1",
     "gatsby-source-filesystem": "^2.4.2",
-    "gatsby-transformer-json": "^2.4.15",
+    "gatsby-transformer-json": "^2.6.0",
     "gatsby-transformer-remark": "^2.9.2",
     "gatsby-transformer-sharp": "^2.7.0",
     "joi": "^17.3.0",
