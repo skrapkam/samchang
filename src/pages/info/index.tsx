@@ -82,7 +82,7 @@ const info = props => (
         </ul>
         <h2>Past</h2>
         <ul>
-        <li>
+          <li>
             Product Designer at{" "}
             <a href="https://www.99designs.com/">99designs</a>
           </li>
@@ -99,11 +99,14 @@ const info = props => (
 
         <ul>
           <li>
-            <a href="https://agymfor.me">A Gym for Me</a> is a curated list of
-            specialized gyms
+            <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
           </li>
           <li>
-            <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
+            <a href="https://glitches.computer">Glitches</a> is where I capture glitches in reality
+          </li>
+          <li>
+            <a href="https://agymfor.me">A Gym for Me</a> is a curated list of
+            specialized gyms
           </li>
         </ul>
         <h2>Contact</h2>
@@ -129,7 +132,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 11/27/20
+              Last updated 12/13/20
             </Link>
           </li>
         </ul>
