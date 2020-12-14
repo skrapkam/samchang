@@ -1,10 +1,10 @@
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`
+  path: `.env.${process.env.NODE_ENV}`,
 });
 
 module.exports = {
   siteMetadata: {
-    title: "Sam Chang, Designer"
+    title: "Sam Chang, Designer",
   },
   plugins: [
     `gatsby-plugin-sharp`,
@@ -17,43 +17,43 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/data/books/books.json`
-      }
+        path: `${__dirname}/data/books/books.json`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/data/music/music.json`
-      }
+        path: `${__dirname}/data/music/music.json`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `index`,
-        path: `${__dirname}/src/projects/`
-      }
+        path: `${__dirname}/src/projects/`,
+      },
     },
 
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `index`,
-        path: `${__dirname}/src/images/`
-      }
+        path: `${__dirname}/src/images/`,
+      },
     },
 
     {
       resolve: `gatsby-remark-images`,
       options: {
-        maxWidth: 480
-      }
+        maxWidth: 480,
+      },
     },
 
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [`gatsby-remark-copy-linked-files`]
-      }
+        plugins: [`gatsby-remark-copy-linked-files`],
+      },
     },
     {
       resolve: `gatsby-transformer-remark`,
@@ -69,18 +69,18 @@ module.exports = {
                 margin-top: 32px;
                 margin-bottom: 32px;
                 `,
-              quality: 100
-            }
-          }
-        ]
-      }
+              quality: 100,
+            },
+          },
+        ],
+      },
     },
 
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`inconsolata`, `monospace`]
-      }
+        fonts: [`inconsolata`, `monospace`],
+      },
     },
     {
       resolve: `gatsby-plugin-favicon`,
@@ -96,16 +96,16 @@ module.exports = {
           firefox: true,
           twitter: false,
           yandex: false,
-          windows: false
-        }
-      }
+          windows: false,
+        },
+      },
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: "UA-78963509-1",
-        head: true
-      }
+        head: true,
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -114,8 +114,9 @@ module.exports = {
         short_name: `samchang.design`,
         start_url: `/`,
         background_color: `#fefefe`,
-        theme_color: `#fefefe`
-      }
-    }
-  ]
+        theme_color: `#fefefe`,
+        icon: `src/favicon.png`,
+      },
+    },
+  ],
 };
