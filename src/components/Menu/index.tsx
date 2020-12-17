@@ -115,9 +115,10 @@ const MenuButton = styled.button`
   cursor: pointer;
   color: ${defaultTheme.color.link};
 
-  &:focus {
+  /* &:focus {
     outline: none;
-  }
+  } */
+
 `;
 
 class Menu extends Component {
