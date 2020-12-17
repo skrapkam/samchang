@@ -41,7 +41,7 @@ export const GlobalStyle = () => (
           --shadow: rgba(0, 0, 0, 0.04);
           --callout: rgba(0,0,0, .03);
           --blockquote: rgba(255, 207, 184, 0.30);
-          --hover: #F3F3F3;
+          --hover: #E6F0FD;
         }
      }
       

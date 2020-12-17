@@ -12,8 +12,8 @@ const ButtonStyled = styled.div`
   -webkit-user-select: none;
   a {
     &:hover {
-      color: #fff; 
-      background: ${defaultTheme.color.link}; 
+      color: ${defaultTheme.color.link});
+      background-color: ${defaultTheme.color.hover});
       border-bottom: 2px solid ${defaultTheme.color.link});
     }
   }
@@ -35,7 +35,7 @@ const ButtonStyled = styled.div`
     letter-spacing: 0.5px;
     border-bottom: 2px solid ${defaultTheme.color.link};
     &:hover {
-      background: ${defaultTheme.color.link};
+      background: ${defaultTheme.color.lightGray});
       color: #fff;
     }
     &:after {

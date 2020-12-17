@@ -33,8 +33,8 @@ const action = css`
   padding: 7px 10px;
   letter-spacing: 0.5px;
   &:hover {
-    background: #00f;
-    color: #fff;
+    background: ${defaultTheme.color.hover});
+    color: ${defaultTheme.color.link});
   }
   &:after {
     background: 0 0;

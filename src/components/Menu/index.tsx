@@ -47,8 +47,8 @@ const DropdownStyle = styled.div`
 
   @media (hover: hover) {
     ul li a:hover {
-      background: ${defaultTheme.color.link};
-      color: white;
+      background: ${defaultTheme.color.hover});
+      color: ${defaultTheme.color.link};
     }
 
     li a:active {

@@ -38,6 +38,7 @@ const defaultTheme = {
     link: "var(--link)",
     gray: `#999`,
     lightGray:`#eee`,
+    hover:`#E6F0FD`,
   }
 };
 
