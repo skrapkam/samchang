@@ -115,9 +115,13 @@ const MenuButton = styled.button`
   cursor: pointer;
   color: ${defaultTheme.color.link};
 
-  /* &:focus {
+  &:focus {
     outline: none;
-  } */
+  } 
+
+  &:focus-visible {
+    outline: 2px solid #275FC5;
+  }
 
 `;
 
