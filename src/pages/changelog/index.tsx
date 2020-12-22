@@ -111,7 +111,7 @@ const changelog = ({ }) => {
                     </ul>
                     <ul>
                       <New />
-                      <li><p>Added Masculine Mandate and Punchable Face to library.</p></li>
+                      <li><p>Added Masculine Mandate and A Punchable Face to library.</p></li>
                     </ul>
                   </div>
                 </ChangeLogContent>
