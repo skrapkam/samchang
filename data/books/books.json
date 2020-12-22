@@ -106,5 +106,23 @@
     "image": {
       "src": "../../src/images/books/inspired.jpg"
     }
+  },
+  {
+    "title": "A Very Punchable Face: A Memoir",
+    "author": "Colin Jost",
+    "date": "12/16/2020",
+    "url": "https://www.amazon.com/Very-Punchable-Face-Memoir/dp/1101906324",
+    "image": {
+      "src": "../../src/images/books/punchable-face.jpg"
+    }
+  },
+  {
+    "title": "The Masculine Mandate",
+    "author": "Richard Phillips",
+    "date": "12/20/2020",
+    "url": "https://www.amazon.com/Very-Punchable-Face-Memoir/dp/1101906324",
+    "image": {
+      "src": "../../src/images/books/masculine-mandate.jpg"
+    }
   }
 ]
