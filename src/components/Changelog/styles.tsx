@@ -9,10 +9,10 @@ padding-bottom: 4px;
 font-size: 1.2rem;
 display: inline-block;
 line-height: 1;
-color: rgb(255, 255, 255);
+color: white;
 font-weight: bold;
 margin: 0px;
-border-radius: 4px;
+border-radius: 100px;
 text-transform: uppercase;
 `
  

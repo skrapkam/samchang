@@ -6,7 +6,7 @@ import styled from "@emotion/styled"
 import { PillStyle } from '../styles'
  
 const FixedStyled = styled(PillStyle)`
-    background: rgb(92, 194, 238);
+    background: rgb(92,194,238);
 `
  
 class Fixed extends Component {
