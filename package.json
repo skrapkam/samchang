@@ -33,7 +33,7 @@
     "gatsby-plugin-sharp": "^2.12.2",
     "gatsby-plugin-tslint": "^0.0.2",
     "gatsby-plugin-typescript": "^2.10.0",
-    "gatsby-remark-copy-linked-files": "^2.7.0",
+    "gatsby-remark-copy-linked-files": "^2.8.0",
     "gatsby-remark-external-links": "0.0.4",
     "gatsby-remark-images": "^3.9.0",
     "gatsby-source-filesystem": "^2.9.1",
