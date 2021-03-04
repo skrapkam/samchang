@@ -1,128 +1,29 @@
 [
   {
-    "title": "On Writing Well",
-    "author": "William Zinsser",
-    "date": "01/19/2020",
-    "url": "https://www.amazon.com/Writing-Well-Classic-Guide-Nonfiction/dp/0060891548",
+    "title": "Based on a True Story: A Memoir",
+    "author": "Norm Macdonald",
+    "date": "01/15/2021",
+    "url": "https://www.amazon.com/Based-True-Story-Not-Memoir/dp/0812983866",
     "image": {
-      "src": "../../src/images/books/on-writing-well.jpg"
+      "src": "../../src/images/books/based-on-a-true-story.jpeg"
     }
   },
   {
-    "title": "The Creedal Imperative",
-    "author": "Carl Trueman",
-    "date": "01/25/2020",
-    "url": "https://www.amazon.com/Creedal-Imperative-Carl-R-Trueman/dp/1433521903",
+    "title": "Gentle and Lowly",
+    "author": "Dane Ortlund",
+    "date": "02/27/2021",
+    "url": "https://www.amazon.com/Gentle-Lowly-Christ-Sinners-Sufferers/dp/1433566133",
     "image": {
-      "src": "../../src/images/books/creedal-imperative.jpg"
+      "src": "../../src/images/books/gentle-and-lowly.jpg"
     }
   },
   {
-    "title": "Creative Selection",
-    "author": "Ken Kocienda",
-    "date": "02/15/2020",
-    "url": "https://www.amazon.com/Creative-Selection-Inside-Apples-Process/dp/1250194466",
+    "title": "What the Bible Says About Israel",
+    "author": "Cliff McManis",
+    "date": "02/28/2021",
+    "url": "https://www.amazon.com/What-Bible-Says-About-Israel/dp/19522210214",
     "image": {
-      "src": "../../src/images/books/creative-selection.jpg"
-    }
-  },
-  {
-    "title": "The Whole Christ",
-    "author": "Sinclair B. Ferguson",
-    "date": "03/21/2020",
-    "url": "https://www.amazon.com/Whole-Christ-Antinomianism-Assurance-Controversy/dp/1633895955",
-    "image": {
-      "src": "../../src/images/books/whole-christ.jpeg"
-    }
-  },
-  {
-    "title": "The Making of a Manager",
-    "author": "Julie Zhuo",
-    "date": "04/11/2020",
-    "url": "https://www.amazon.com/Making-Manager-What-Everyone-Looks/dp/0735219567",
-    "image": {
-      "src": "../../src/images/books/making-of-manager.jpg"
-    }
-  },
-  {
-    "title": "User Friendly",
-    "author": "Cliff Kuang",
-    "date": "05/15/2020",
-    "url": "https://www.amazon.com/User-Friendly-Hidden-Design-Changing/dp/0374279756",
-    "image": {
-      "src": "../../src/images/books/user-friendly.jpg"
-    }
-  },
-  {
-    "title": "Why Are We Yelling?",
-    "author": "Buster Benson",
-    "date": "06/14/2020",
-    "url": "https://www.amazon.com/Why-Are-We-Yelling-hardcover/dp/0525540105",
-    "image": {
-      "src": "../../src/images/books/why-are-we-yelling.jpg"
-    }
-  },
-  {
-    "title": "Elon Musk",
-    "author": "Ashlee Vance",
-    "date": "07/05/2020",
-    "url": "https://www.amazon.com/Elon-Musk-SpaceX-Fantastic-Future-ebook/dp/B00KVI76ZS",
-    "image": {
-      "src": "../../src/images/books/elon-musk.jpg"
-    }
-  },
-  {
-    "title": "The God who Justifies",
-    "author": "James White",
-    "date": "07/19/2020",
-    "url": "https://www.amazon.com/God-Who-Justifies-James-White/dp/0764204815",
-    "image": {
-      "src": "../../src/images/books/god-who-justifies.jpg"
-    }
-  },
-  {
-    "title": "The Last Punisher",
-    "author": "Kevin Lacz",
-    "date": "09/15/2020",
-    "url": "https://www.amazon.com/Last-Punisher-Snipers-Account-Battle/dp/1501127268",
-    "image": {
-      "src": "../../src/images/books/last-punisher.jpg"
-    }
-  },
-  {
-    "title": "A Quest for Godliness",
-    "author": "J.I. Packer",
-    "date": "10/31/2020",
-    "url": "https://www.amazon.com/Quest-Godliness-Puritan-Vision-Christian/dp/1433515814",
-    "image": {
-      "src": "../../src/images/books/quest-for-godliness.jpg"
-    }
-  },
-  {
-    "title": "Inspired",
-    "author": "Marty Cagan",
-    "date": "11/16/2020",
-    "url": "https://www.amazon.com/INSPIRED-Create-Tech-Products-Customers/dp/1119387507",
-    "image": {
-      "src": "../../src/images/books/inspired.jpg"
-    }
-  },
-  {
-    "title": "A Very Punchable Face: A Memoir",
-    "author": "Colin Jost",
-    "date": "12/16/2020",
-    "url": "https://www.amazon.com/Very-Punchable-Face-Memoir/dp/1101906324",
-    "image": {
-      "src": "../../src/images/books/punchable-face.jpg"
-    }
-  },
-  {
-    "title": "The Masculine Mandate",
-    "author": "Richard Phillips",
-    "date": "12/20/2020",
-    "url": "https://www.amazon.com/Very-Punchable-Face-Memoir/dp/1101906324",
-    "image": {
-      "src": "../../src/images/books/masculine-mandate.jpg"
+      "src": "../../src/images/books/israel.jpg"
     }
   }
 ]
