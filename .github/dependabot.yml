@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "13:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: gatsby-plugin-sharp
+    versions:
+    - 3.3.0
+  - dependency-name: gatsby-plugin-react-helmet
+    versions:
+    - 4.3.0
+  - dependency-name: gatsby-plugin-emotion
+    versions:
+    - 6.3.0
