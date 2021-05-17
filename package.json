@@ -48,7 +48,7 @@
     "rehype-react": "^6.2.0",
     "serialize-javascript": "^5.0.1",
     "set-value": "^4.0.0",
-    "sharp": "^0.28.1",
+    "sharp": "^0.28.2",
     "throttle-debounce": "^3.0.1"
   },
   "keywords": [
