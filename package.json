@@ -61,7 +61,7 @@
     "test": "echo 'Run your tests here'"
   },
   "devDependencies": {
-    "@types/react": "^17.0.5",
+    "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "dotenv": "^9.0.2",
     "husky": "^6.0.0",
