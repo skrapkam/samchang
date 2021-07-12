@@ -64,7 +64,7 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.8",
     "dotenv": "^10.0.0",
-    "husky": "^7.0.0",
+    "husky": "^7.0.1",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.2",
     "tslint": "^5.20.1",
