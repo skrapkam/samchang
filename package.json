@@ -40,7 +40,7 @@
     "gatsby-transformer-json": "^3.10.0",
     "gatsby-transformer-remark": "^2.16.1",
     "gatsby-transformer-sharp": "^2.12.1",
-    "joi": "^17.4.1",
+    "joi": "^17.4.2",
     "mem": "^9.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
