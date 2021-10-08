@@ -1,5 +1,13 @@
 [
   {
+    "title": "Rave Type Song",
+    "date": "2021",
+    "url": "https://groveralleyway.com/rave-type-song/",
+    "image": {
+      "src": "../../src/images/music/rave-type-song.png"
+    }
+  },
+  {
     "title": "An Amalgam of Waves",
     "date": "2021",
     "url": "https://groveralleyway.com/an-amalgam-of-waves/",
