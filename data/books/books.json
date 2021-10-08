@@ -25,5 +25,41 @@
     "image": {
       "src": "../../src/images/books/israel.jpg"
     }
+  },
+  {
+    "title": "The Bogleheads' Guide to Investing",
+    "author": "Taylor Larimore",
+    "date": "03/19/2021",
+    "url": "https://www.amazon.com/Bogleheads-Guide-Investing-Taylor-Larimore/dp/0470067365",
+    "image": {
+      "src": "../../src/images/books/boglehead.jpeg"
+    }
+  },
+  {
+    "title": "My Grandfather's Son: A Memoir",
+    "author": "Clarence Thomas",
+    "date": "04/05/2021",
+    "url": "https://www.amazon.com/My-Grandfathers-Son-Clarence-Thomas/dp/006056556X",
+    "image": {
+      "src": "../../src/images/books/grandfather.jpg"
+    }
+  },
+  {
+    "title": "What He Must Be: ...If He Wants to Marry My Daughter",
+    "author": "Voddie Baucham Jr.",
+    "date": "05/01/2021",
+    "url": "https://www.amazon.com/What-He-Must-Be-Daughter/dp/1581349300/ref=sr_1_1?dchild=1&keywords=what+he+must+be&qid=1633651287&s=books&sr=1-1",
+    "image": {
+      "src": "../../src/images/books/daughter.jpeg"
+    }
+  },
+  {
+    "title": "Super Thinking: The Big Book of Mental Models",
+    "author": "Gabriel Weinberg",
+    "date": "10/01/2021",
+    "url": "https://www.amazon.com/Super-Thinking-Book-Mental-Models/dp/0525533583",
+    "image": {
+      "src": "../../src/images/books/thinking.png"
+    }
   }
 ]
