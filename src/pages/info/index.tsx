@@ -102,9 +102,6 @@ const info = props => (
             <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
           </li>
           <li>
-            <a href="https://glitches.computer">Glitches</a> is where I capture glitches in reality
-          </li>
-          <li>
             <a href="https://agymfor.me">A Gym for Me</a> is a curated list of
             specialized gyms
           </li>
@@ -132,7 +129,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 10/07/21
+              Last updated 12/28/21
             </Link>
           </li>
         </ul>
