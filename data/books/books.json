@@ -1,65 +1,20 @@
 [
   {
-    "title": "Based on a True Story: A Memoir",
-    "author": "Norm Macdonald",
-    "date": "01/15/2021",
-    "url": "https://www.amazon.com/Based-True-Story-Not-Memoir/dp/0812983866",
+    "title": "Men Without Women",
+    "author": "Haruki Murakami",
+    "date": "01/28/2022",
+    "url": "https://www.amazon.com/Men-Without-Women-Stories-International/dp/1101974524/ref=sr_1_1?crid=2QO1LW6W8SEIG&keywords=men+without+women&qid=1644953552&sprefix=men+without+wome%2Caps%2C184&sr=8-1",
     "image": {
-      "src": "../../src/images/books/based-on-a-true-story.jpeg"
+      "src": "../../src/images/books/men.jpeg"
     }
   },
   {
-    "title": "Gentle and Lowly",
-    "author": "Dane Ortlund",
-    "date": "02/27/2021",
-    "url": "https://www.amazon.com/Gentle-Lowly-Christ-Sinners-Sufferers/dp/1433566133",
+    "title": "The Rise and Triumph of the Modern Self",
+    "author": "Carl R. Trueman",
+    "date": "01/17/2022",
+    "url": "https://www.amazon.com/Rise-Triumph-Modern-Self-Individualism/dp/1433556332/ref=sr_1_1?keywords=the+rise+and+triumph+of+modern+self&qid=1644953439&sprefix=the+rise+and%2Caps%2C272&sr=8-1",
     "image": {
-      "src": "../../src/images/books/gentle-and-lowly.jpg"
-    }
-  },
-  {
-    "title": "What the Bible Says About Israel",
-    "author": "Cliff McManis",
-    "date": "02/28/2021",
-    "url": "https://www.amazon.com/What-Bible-Says-About-Israel/dp/19522210214",
-    "image": {
-      "src": "../../src/images/books/israel.jpg"
-    }
-  },
-  {
-    "title": "The Bogleheads' Guide to Investing",
-    "author": "Taylor Larimore",
-    "date": "03/19/2021",
-    "url": "https://www.amazon.com/Bogleheads-Guide-Investing-Taylor-Larimore/dp/0470067365",
-    "image": {
-      "src": "../../src/images/books/boglehead.jpeg"
-    }
-  },
-  {
-    "title": "My Grandfather's Son: A Memoir",
-    "author": "Clarence Thomas",
-    "date": "04/05/2021",
-    "url": "https://www.amazon.com/My-Grandfathers-Son-Clarence-Thomas/dp/006056556X",
-    "image": {
-      "src": "../../src/images/books/grandfather.jpg"
-    }
-  },
-  {
-    "title": "What He Must Be: ...If He Wants to Marry My Daughter",
-    "author": "Voddie Baucham Jr.",
-    "date": "05/01/2021",
-    "url": "https://www.amazon.com/What-He-Must-Be-Daughter/dp/1581349300/ref=sr_1_1?dchild=1&keywords=what+he+must+be&qid=1633651287&s=books&sr=1-1",
-    "image": {
-      "src": "../../src/images/books/daughter.jpeg"
-    }
-  },
-  {
-    "title": "Super Thinking: The Big Book of Mental Models",
-    "author": "Gabriel Weinberg",
-    "date": "10/01/2021",
-    "url": "https://www.amazon.com/Super-Thinking-Book-Mental-Models/dp/0525533583",
-    "image": {
-      "src": "../../src/images/books/thinking.png"
+      "src": "../../src/images/books/rise-and-triumph.jpeg"
     }
   }
 ]
