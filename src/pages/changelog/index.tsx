@@ -103,6 +103,23 @@ const changelog = ({ }) => {
             <li>
             <li>
                 <ChangeLogContent>
+                  <time css={date}><h4>December 29, 2022</h4></time>
+                  <div css={content}>
+                    <ul>
+                      <New />
+                      <li><p>Added MY LOVE WAS A FOOL.</p></li>
+                      <li><p>Added new Ladder projects for 2022.</p></li>
+                    </ul>
+                    <ul>
+                      <Updated />
+                      <li><p>Updated dependencies.</p></li>
+                      <li><p><a href="https://github.com/skrapkam/samchang/commit/8e0859d5a8ca03482b37e291823393c296b80459#diff-a6f3904c41211be170d9b0eb87e49ea8d02d0fd5a7224d6772174b425dacf90fR23">Updated GraphQL ordering schema</a>.</p></li>
+                    </ul>
+                  </div>
+                </ChangeLogContent>
+              </li>
+            <li>
+                <ChangeLogContent>
                   <time css={date}><h4>February 15, 2022</h4></time>
                   <div css={content}>
                     <ul>
