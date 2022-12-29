@@ -1,14 +1,14 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 import Page from "../components/Page";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
 import { MediumSectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import Header from "../components/Header";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 
 class info extends Component {
   render() {

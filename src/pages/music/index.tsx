@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/core";
-import Nav from "../../components/Nav";
+import { css, jsx } from "@emotion/react";
+import  Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import {
   MediumSectionWrapper,
@@ -68,7 +68,7 @@ export default music;
 
 export const MusicQuery = graphql`
   query {
-    books: allMusicJson(sort: { fields: [date], order: DESC }) {
+    books: allMusicJson(sort: {date: DESC}) {
       edges {
         node {
           title

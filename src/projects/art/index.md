@@ -1,6 +1,7 @@
 ---
 title: ???
-date: "2012-01-20"
+date: "2012"
+customField: VALUE_5
 section: blog
 image1: "./images/img_art_01.jpg"
 image2: "./images/img_art_02.jpg"
@@ -16,7 +17,7 @@ excerpt: Stuff I've made before working as a product designer.
 Stuff I've made before working as a product designer
 </content-excerpt>
 
-#Introduction
+# Introduction
 
 My career as a product designer began with photography and graphic design. Below is a curated selection of work made between 2012 and 2014. To see more work, please visit my old blog below.
 

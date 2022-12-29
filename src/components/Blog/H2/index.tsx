@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import { mq } from "../../../styles/styles";
 import defaultTheme from "../../Theme"

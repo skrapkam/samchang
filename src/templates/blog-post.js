@@ -2,8 +2,8 @@
 import styled from "@emotion/styled";
 import { graphql } from "gatsby";
 import React from "react";
-import { css, jsx } from "@emotion/core";
-import Link from "gatsby-link";
+import { css, jsx } from "@emotion/react";
+import { Link } from "gatsby";
 import RehypeReact from "rehype-react"; // This is so I can write components in my markdown file
 import Content from "../components/Blog/Content/index.tsx";
 import H1 from "../components/Blog/H1/index.tsx";
@@ -19,7 +19,7 @@ import Callout from "../components/Blog/Callout/index.tsx";
 import Blockquote from "../components/Blog/Blockquote/index.tsx";
 import Page from "../components/Page/index.tsx";
 import Header from "../components/Header/index.tsx";
-import Nav from "../components/Nav/index.tsx";
+import  Nav  from "../components/Nav/index.tsx";
 import Menu from "../components/Menu/index.tsx";
 import Button from "../components/Button/index.tsx";
 import GIF from "../components/GIF/index.tsx";
@@ -70,8 +70,9 @@ const SectionLinksNext = css`
 
 const ContentWrapper = styled.div`
   max-width: ${defaultTheme.width[1]};
-  margin: ${defaultTheme.space[11]} auto 0;
-  padding: 0 ${defaultTheme.space[3]};
+  margin: 0 auto 0;
+  padding: ${defaultTheme.space[11]}  ${defaultTheme.space[3]};
+  padding-bottom: ${defaultTheme.space[3]};
 
   li {
     margin: 2.4rem auto ${defaultTheme.space[3]};

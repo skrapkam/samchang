@@ -1,7 +1,8 @@
-/** @jsx jsx */ import Link from "gatsby-link";
+/** @jsx jsx */ 
+import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { Component } from "react";
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 
 const NavStyled = styled.div`
   font-weight: 400;

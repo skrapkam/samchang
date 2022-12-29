@@ -2,7 +2,7 @@
 
 import styled from "@emotion/styled";
 import { graphql } from "gatsby";
-import { css, jsx } from "@emotion/core";
+import { css, jsx } from "@emotion/react";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
@@ -44,6 +44,7 @@ const library = ({ data }) => {
           Reading is a big part of my life. Here are the books I've read in 2022 so far. For a full list of books I've read over the years, please visit my <a href="https://www.librarything.com/catalog/samchang">LibraryThing catalog</a>. I also try to take notes as I read, which you can <a href="https://www.notion.so/samchang/91d9159c48c144b8bdcb3ff2a595d369?v=c591ebc4b67b43d5a6198d31176018ff">check out here</a>. 
         </p>
       </MediumSectionWrapper>
+      
       <BookGrid>
         {data.books.edges.map(({ node }) => (
           <div>
@@ -66,7 +67,7 @@ export default library;
 
 export const BooksQuery = graphql`
   query {
-    books: allBooksJson(sort: { fields: [date], order: DESC }) {
+    books: allBooksJson(sort: {date: DESC}) {
       edges {
         node {
           title

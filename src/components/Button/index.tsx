@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { Component } from 'react'
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 import styled from "@emotion/styled";
 import defaultTheme from "../Theme"
 
@@ -36,7 +36,7 @@ const ButtonStyled = styled.div`
     border-bottom: 2px solid ${defaultTheme.color.link};
     &:hover {
       background: ${defaultTheme.color.lightGray});
-      color: #fff;
+      color: ${defaultTheme.color.link};
     }
     &:after {
       background: 0 0;

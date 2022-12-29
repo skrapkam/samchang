@@ -1,13 +1,13 @@
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/core";
+import { css, jsx } from "@emotion/react";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import Page from "../../components/Page";
 import Header from "../../components/Header";
 import { MediumSectionWrapper } from "../../styles/styles";
 import { Helmet } from "react-helmet";
-import Link from "gatsby-link";
+import { Link } from "gatsby";
 import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import styled from "@emotion/styled";
@@ -68,7 +68,7 @@ const info = props => (
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
-            Product Designer for <a href="https://www.ladderlife.com/">Ladder</a>.
+            Product Design Manager for <a href="https://www.ladderlife.com/">Ladder</a>.
           </li>
 
           <li>
@@ -101,10 +101,6 @@ const info = props => (
           <li>
             <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
           </li>
-          <li>
-            <a href="https://agymfor.me">A Gym for Me</a> is a curated list of
-            specialized gyms
-          </li>
         </ul>
         <h2>Contact</h2>
         <ul>
@@ -129,7 +125,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 02/15/22
+              Last updated 12/29/22
             </Link>
           </li>
         </ul>

@@ -45,7 +45,7 @@ module.exports = {
     {
       resolve: `gatsby-remark-images`,
       options: {
-        maxWidth: 480,
+        maxWidth: 800,
       },
     },
 
@@ -62,14 +62,14 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 950,
+              quality: 100,
+              maxWidth: 1200,
               showCaptions: true,
               linkImagesToOriginal: false,
               wrapperStyle: `
                 margin-top: 32px;
                 margin-bottom: 32px;
                 `,
-              quality: 100,
             },
           },
         ],
@@ -80,24 +80,6 @@ module.exports = {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
         fonts: [`inconsolata`, `monospace`],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-favicon`,
-      options: {
-        logo: "./src/favicon.png",
-        injectHTML: true,
-        icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: true,
-          coast: false,
-          favicons: true,
-          firefox: true,
-          twitter: false,
-          yandex: false,
-          windows: false,
-        },
       },
     },
     {

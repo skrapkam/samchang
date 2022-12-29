@@ -7,8 +7,8 @@ export const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
 
 export const SectionWrapper = styled.div`
   max-width: ${defaultTheme.width[2]};
-  margin: ${defaultTheme.space[11]} auto 0;
-
+  margin: auto 0;
+  padding-top: ${defaultTheme.space[11]} ;
   ${mq[1]} {
     max-width: ${defaultTheme.width[2]};
   }
@@ -22,12 +22,13 @@ export const SectionWrapper = styled.div`
 
 export const MediumSectionWrapper = styled.div`
   padding-left: ${defaultTheme.space[5]};
-  margin-top: ${defaultTheme.space[11]};
+  padding-top: ${defaultTheme.space[11]};
   max-width: ${defaultTheme.width[0]};
   padding-bottom: ${defaultTheme.space[3]};
 
   ${mq[1]} {
-    padding: 0 ${defaultTheme.space[3]} ${defaultTheme.space[3]};
+    padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]};
+    padding-top:  ${defaultTheme.space[11]};
   }
 
   ${mq[0]} {

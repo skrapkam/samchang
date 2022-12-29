@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { graphql } from "gatsby";
 import Img from "gatsby-image";
-import Link from "gatsby-link";
-import { css, jsx } from "@emotion/core";
+import { Link } from "gatsby";
+import { css, jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import Page from "../components/Page";
 import Header from "../components/Header";
@@ -139,16 +139,16 @@ export default ({ data }) => {
                 <SectionContainer>
                   <ImageWrapper>
                     <Img
-                      sizes={node.frontmatter.image1.childImageSharp.sizes}
+                      sizes={node.frontmatter.image1.childImageSharp.fluid}
                     />
                     <Img
-                      sizes={node.frontmatter.image2.childImageSharp.sizes}
+                      sizes={node.frontmatter.image2.childImageSharp.fluid}
                     />
                     <Img
-                      sizes={node.frontmatter.image3.childImageSharp.sizes}
+                      sizes={node.frontmatter.image3.childImageSharp.fluid}
                     />
                     <Img
-                      sizes={node.frontmatter.image4.childImageSharp.sizes}
+                      sizes={node.frontmatter.image4.childImageSharp.fluid}
                     />
                    
                     <div css={hide} />
@@ -156,9 +156,9 @@ export default ({ data }) => {
                   <div css={hidden} />
                   <TextWrapper>
                     <p>
-                      <strong>{node.frontmatter.title}</strong>,{" "}
-                      {node.frontmatter.date}
-                    </p>
+                    <strong>{node.frontmatter.title}</strong>,{" "}
+            {node.frontmatter.date}
+                      </p>
 
                     <span css={Excerpt}>{node.frontmatter.excerpt}</span>
                     <Button>
@@ -179,46 +179,43 @@ export default ({ data }) => {
 
 export const query = graphql`
   query IndexQuery {
-    allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-      limit: 1000
-    ) {
+    allMarkdownRemark(sort: {frontmatter: {customField: ASC}}) {
       edges {
         node {
           id
           frontmatter {
             title
-            date(formatString: "YYYY")
+            date
             excerpt
-
+            customField
             image1 {
               childImageSharp {
-                sizes(maxWidth: 700) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 700) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }
 
             image2 {
               childImageSharp {
-                sizes(maxWidth: 700) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 700) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }
 
             image3 {
               childImageSharp {
-                sizes(maxWidth: 700) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 700) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }
 
             image4 {
               childImageSharp {
-                sizes(maxWidth: 700) {
-                  ...GatsbyImageSharpSizes
+                fluid(maxWidth: 700) {
+                  ...GatsbyImageSharpFluid
                 }
               }
             }

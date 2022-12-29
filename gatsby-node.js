@@ -18,25 +18,45 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
+
+
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
+  const typeDefs = `
+  type MarkdownRemarkFrontmatter {
+    customField: CustomOrder
+  }
+
+  enum CustomOrder {
+    VALUE_1
+    VALUE_2
+    VALUE_3
+    VALUE_4
+    VALUE_5
+  }
+`;
+  createTypes(typeDefs)
+}
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
   return new Promise((resolve, reject) => {
     graphql(`
-      {
-        allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
-          edges {
-            node {
-              fields {
-                slug
-              }
-              frontmatter {
-                date
-                title
-              }
+    {
+      allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+        edges {
+          node {
+            fields {
+              slug
+            }
+            frontmatter {
+              date
+              title
             }
           }
         }
       }
+    }
     `).then(result => {
       const posts = result.data.allMarkdownRemark.edges;
 
