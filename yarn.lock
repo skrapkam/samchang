@@ -2862,16 +2862,9 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
-  dependencies:
-    ansi-styles "^4.1.0"
-    supports-color "^7.1.0"
-
-chalk@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.1.tgz"
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
@@ -4894,9 +4887,9 @@ gatsby-worker@^2.3.0:
     fs-extra "^10.0.0"
     signal-exit "^3.0.5"
 
-gatsby@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.npmjs.org/gatsby/-/gatsby-5.3.2.tgz"
+gatsby@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-5.3.3.tgz#d4584bd4dc026fb672e2b2db4fd8e7c79fdf8635"
   dependencies:
     "@babel/code-frame" "^7.14.0"
     "@babel/core" "^7.15.5"
