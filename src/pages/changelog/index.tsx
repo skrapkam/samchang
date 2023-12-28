@@ -103,6 +103,18 @@ const changelog = ({ }) => {
             <li>
             <li>
                 <ChangeLogContent>
+                  <time css={date}><h4>December 28, 2023</h4></time>
+                  <div css={content}>
+                    <ul>
+                      <New />
+                      <li><p>Added A Heart Like Mine Is Hard To Find.</p></li>
+                      <li><p>Added new Ladder project for 2023.</p></li>
+                    </ul>
+                  </div>
+                </ChangeLogContent>
+              </li>
+            <li>
+                <ChangeLogContent>
                   <time css={date}><h4>December 29, 2022</h4></time>
                   <div css={content}>
                     <ul>
