@@ -27,6 +27,18 @@ Improved payments conversion by 11%. Created a scaleable set of solutions for La
 
 Ladder is an insurtech company that provides term life insurance policies through a digitized process. At Ladder, I currently work on a variety of surfaces, from rethinking how our life insurance application looks to shipping a new payments experience. Here are a selection of projects I've worked on since 2020.
 
+# 2023
+
+## Re-route
+Ladder’s mission is to protect families by helping people get covered through a policy. Still, we've had setbacks matching everyone with the best policy, which is not great for both our users and Ladder. In 2023, our Machine Learning team developed a model to improve these matches. I helped  design a solution that utilizes this model.
+
+<blog-button>
+<button-visit>
+<a href="https://samchang.notion.site/Re-route-698b1c6667544f97be9f3ae6bd77afeb?pvs=4">View case study 🔗</a>
+</blog-button>
+
+![Re-route](./images/img_re-route.png " ")
+
 # 2022
 
 ## First payment failure
