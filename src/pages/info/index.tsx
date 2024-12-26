@@ -68,16 +68,16 @@ const info = props => (
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
-            Product Design Manager for <a href="https://www.ladderlife.com/">Ladder</a>.
+            Senior Product Design Manager for <a href="https://www.ladderlife.com/">Ladder</a>.
           </li>
 
           <li>
             In my spare time I enjoy{" "}
             <a href="https://github.com/skrapkam">coding</a>,{" "}
             <Link to="/music">producing music</Link>,{" "}
-            <Link to="/library">reading</Link>,{" "}
+            <a href="https://www.librarything.com/catalog/samchang">reading</a>,{" "}
             <a href="https://writing.samchang.design">writing</a>, and taking{" "}
-            <a href="https://photos.samchang.design">mediocre photos</a>
+            <a href="https://www.instagram.com/samchangsucks/">mediocre photos</a>
           </li>
         </ul>
         <h2>Past</h2>
@@ -125,7 +125,7 @@ const info = props => (
           </li>
           <li>
             <Link to="/changelog">
-              Last updated 12/28/23
+              Last updated 12/25/24
             </Link>
           </li>
         </ul>

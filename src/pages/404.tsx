@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { Component } from "react";
-import { jsx } from "@emotion/react";
+import { jsx, keyframes } from "@emotion/react";
 import Page from "../components/Page";
 import Nav from "../components/Nav";
 import Menu from "../components/Menu";
@@ -9,6 +9,16 @@ import { MediumSectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import Header from "../components/Header";
 import { Link } from "gatsby";
+
+// Add this bounce animation
+const bounce = keyframes`
+  0%, 100% { 
+    transform: translateY(0);
+  }
+  50% { 
+    transform: translateY(-20px);
+  }
+`;
 
 class info extends Component {
   render() {
@@ -28,7 +38,11 @@ class info extends Component {
           <Nav title="404" />
           <Menu />
         </Header>
-        <MediumSectionWrapper>
+        <MediumSectionWrapper
+          css={{
+            animation: `${bounce} 2s ease-in-out infinite`,
+          }}
+        >
           <p>
             The page you tried to access cannot be found. Maybe try going{" "}
             <Link to="/">home</Link> or listening to some of my{" "}

@@ -27,6 +27,28 @@ Improved payments conversion by 11%. Created a scaleable set of solutions for La
 
 Ladder is an insurtech company that provides term life insurance policies through a digitized process. At Ladder, I currently work on a variety of surfaces, from rethinking how our life insurance application looks to shipping a new payments experience. Here are a selection of projects I've worked on since 2020.
 
+# 2024
+
+## Design leadership
+For the past three years, I’ve had the privilege of leading most of our design team (product and visual) at Ladder as a senior product design manager. Read below to learn more about my experience leading the team.
+
+<blog-button>
+<button-visit>
+<a href="https://samchang.notion.site/Design-Leadership-1651f660b60c805abed5d056dfef85be?pvs=4">View case study 🔗</a>
+</blog-button>
+
+![Design leadership](./images/img_team.jpg " ")
+
+## Billing checkout
+Over the past few years, our company faced challenges in selling policies efficiently, with revenue impacted by spending on individuals who ultimately didn’t make a purchase. In 2024, I designed a solution that transformed how policies are evaluated and purchased, significantly improving our contribution margin.
+
+<blog-button>
+<button-visit>
+<a href="https://samchang.notion.site/Billing-Checkout-1651f660b60c805abed5d056dfef85be?pvs=4">View case study 🔗</a>
+</blog-button>
+
+![Billing checkout](./images/img_billing_checkout.png " ")
+
 # 2023
 
 ## Re-route

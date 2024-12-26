@@ -175,10 +175,6 @@ class Menu extends Component {
             <li>
               <Link to="/music">Music</Link>
             </li>
-
-            <li>
-              <Link to="/library">Library</Link>
-            </li>
           </ul>
         </DropdownStyle>
       );

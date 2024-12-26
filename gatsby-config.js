@@ -14,12 +14,7 @@ module.exports = {
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
     `gatsby-transformer-json`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/data/books/books.json`,
-      },
-    },
+  
     {
       resolve: `gatsby-source-filesystem`,
       options: {
