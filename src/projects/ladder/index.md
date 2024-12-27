@@ -34,7 +34,7 @@ For the past three years, I’ve had the privilege of leading most of our design
 
 <blog-button>
 <button-visit>
-<a href="https://samchang.notion.site/Design-Leadership-1651f660b60c805abed5d056dfef85be?pvs=4">View case study 🔗</a>
+<a href="https://samchang.notion.site/Design-leadership-1661f660b60c8017bf0fec61d3a64e19?pvs=4">View case study 🔗</a>
 </blog-button>
 
 ![Design leadership](./images/img_team.jpg " ")
