@@ -19,7 +19,7 @@ import Callout from "../components/Blog/Callout/index.tsx";
 import Blockquote from "../components/Blog/Blockquote/index.tsx";
 import Page from "../components/Page/index.tsx";
 import Header from "../components/Header/index.tsx";
-import  Nav  from "../components/Nav/index.tsx";
+import Nav from "../components/Nav/index.tsx";
 import Menu from "../components/Menu/index.tsx";
 import Button from "../components/Button/index.tsx";
 import GIF from "../components/GIF/index.tsx";
@@ -44,8 +44,8 @@ const renderAst = new RehypeReact({
     "content-excerpt": ContentExcerpt,
     summary: Summary,
     callout: Callout,
-    blockquote: Blockquote
-  }
+    blockquote: Blockquote,
+  },
 }).Compiler;
 
 const Footer = styled.footer`
@@ -71,9 +71,8 @@ const SectionLinksNext = css`
 const ContentWrapper = styled.div`
   max-width: ${defaultTheme.width[1]};
   margin: 0 auto 0;
-  padding: ${defaultTheme.space[11]}  ${defaultTheme.space[3]};
+  padding: ${defaultTheme.space[11]} ${defaultTheme.space[3]};
   padding-bottom: ${defaultTheme.space[3]};
-
 
   li {
     margin: 2.4rem auto ${defaultTheme.space[3]};
@@ -90,7 +89,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-export default ({ data, pageContext }) => {
+const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark;
 
   const { next, prev } = pageContext;
@@ -102,8 +101,8 @@ export default ({ data, pageContext }) => {
           {
             name: "viewport",
             content:
-              "width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover"
-          }
+              "width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover",
+          },
         ]}
       />
       <Header>
@@ -134,6 +133,8 @@ export default ({ data, pageContext }) => {
     </Page>
   );
 };
+
+export default BlogPostTemplate;
 
 export const query = graphql`
   query BlogPostQuery($slug: String!) {
