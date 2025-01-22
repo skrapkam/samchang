@@ -85,6 +85,9 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-vercel`,
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Sam Chang, Product Designer`,
