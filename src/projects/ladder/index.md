@@ -20,7 +20,7 @@ Reimagining life insurance for the digital age
 <summary>
 Contributed to major redesign and rebrand of entire
 platform. Responsible for redesign of application process.
-Improved payments conversion by 11%. Created a scaleable set of solutions for Ladder's partners. View all projects I worked on at Ladder <a href ="https://samchang.notion.site/0b89e27be0264018bfd23e661651fdd4?v=8f6998c23e9d429cb8cf6dee21dac6fd">here</a>. 
+Improved payments conversion by 11%. Created a scalable set of solutions for Ladder's partners. View all projects I worked on at Ladder <a href ="https://samchang.notion.site/0b89e27be0264018bfd23e661651fdd4?v=8f6998c23e9d429cb8cf6dee21dac6fd">here</a>. 
 </summary>
 
 # Introduction
