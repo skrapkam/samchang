@@ -8,7 +8,9 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       trailingSlash: false,
       getNode,
-      basePath: `pages`
+      // Remove the `src/projects` prefix so nested project
+      // directories generate clean URLs like `/ladder/example`.
+      basePath: `src/projects`
     });
     createNodeField({
       node,
