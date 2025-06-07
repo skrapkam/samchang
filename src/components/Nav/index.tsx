@@ -17,7 +17,7 @@ const NavStyled = styled.div`
   }
 
   ${mq[0]} {
-    width: 100%;
+    width: 70%;
   }
 `;
 

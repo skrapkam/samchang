@@ -70,6 +70,7 @@ const MenuStyled = styled.div`
   display: inline-block;
   width: 30%;
   text-align: right;
+  white-space: nowrap;
   a,
   a:active,
   a:focus,
