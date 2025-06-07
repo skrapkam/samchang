@@ -10,13 +10,32 @@ const NavStyled = styled.div`
   display: inline-block;
 `;
 
-class Nav extends Component {
+interface NavProps {
+  title?: string;
+  parentTitle?: string;
+  parentSlug?: string;
+}
+
+class Nav extends Component<NavProps> {
   render() {
+    const { title, parentTitle, parentSlug } = this.props as NavProps;
+
     return (
       <NavStyled>
         <p>
           <Link to="/">Sam Chang</Link>
-          {this.props.title ? " / " + this.props.title : null}
+          {parentTitle && parentSlug && (
+            <>
+              {" / "}
+              <Link to={parentSlug}>{parentTitle}</Link>
+            </>
+          )}
+          {title && (
+            <>
+              {" / "}
+              {title}
+            </>
+          )}
         </p>{" "}
         <p />
       </NavStyled>
