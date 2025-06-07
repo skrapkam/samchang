@@ -25,16 +25,16 @@ class Nav extends Component<NavProps> {
         <p>
           <Link to="/">Sam Chang</Link>
           {parentTitle && parentSlug && (
-            <>
+            <span>
               {" / "}
               <Link to={parentSlug}>{parentTitle}</Link>
-            </>
+            </span>
           )}
           {title && (
-            <>
+            <span>
               {" / "}
               {title}
-            </>
+            </span>
           )}
         </p>{" "}
         <p />
