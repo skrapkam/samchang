@@ -3,11 +3,22 @@ import { Link } from "gatsby";
 import styled from "@emotion/styled";
 import { Component } from "react";
 import { jsx } from "@emotion/react";
+import { mq } from "../../styles/styles";
 
 const NavStyled = styled.div`
   font-weight: 400;
   width: 70%;
   display: inline-block;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  ${mq[0]} {
+    width: 100%;
+  }
 `;
 
 interface NavProps {
