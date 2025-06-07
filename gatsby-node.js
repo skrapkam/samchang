@@ -67,7 +67,9 @@ exports.createPages = ({ graphql, actions }) => {
         let parentTitle = null;
         const parts = node.fields.slug.split('/').filter(Boolean);
         if (parts.length > 1) {
-          parentSlug = `/${parts[0]}/`;
+          // Use the first path segment as the parent slug. Do not include a
+          // trailing slash so it matches the slug created by `createFilePath`.
+          parentSlug = `/${parts[0]}`;
           const parent = posts.find(p => p.node.fields.slug === parentSlug);
           if (parent) {
             parentTitle = parent.node.frontmatter.title;
