@@ -106,7 +106,11 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         ]}
       />
       <Header>
-        <Nav title={post.frontmatter.title} />
+        <Nav
+          title={post.frontmatter.title}
+          parentTitle={pageContext.parentTitle}
+          parentSlug={pageContext.parentSlug}
+        />
         <Menu />
       </Header>
       <ContentWrapper>
@@ -140,6 +144,9 @@ export const query = graphql`
   query BlogPostQuery($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       htmlAst
+      fields {
+        slug
+      }
       frontmatter {
         title
       }
