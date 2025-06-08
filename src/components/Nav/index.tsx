@@ -9,8 +9,10 @@ const NavStyled = styled.div`
   font-weight: 400;
   width: 70%;
   display: inline-block;
+  vertical-align: top;
 
   p {
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
