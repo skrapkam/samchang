@@ -35,7 +35,6 @@ For the past three years, I’ve had the privilege of leading most of our design
 <blog-button>
 <button-visit>
 <Link to="/ladder/design-leadership">View case study</Link>
-</button-visit>
 </blog-button>
 
 ![Design leadership](./images/img_team.jpg " ")

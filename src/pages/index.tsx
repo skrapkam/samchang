@@ -12,7 +12,7 @@ import Button from "../components/Button";
 import { SectionWrapper } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import { mq } from "../styles/styles";
-import defaultTheme from "../components/Theme";
+import defaultTheme from "../components/Theme"
 
 const hide = css`
   display: none;
@@ -20,7 +20,7 @@ const hide = css`
     visibility: hidden;
     width: 2px;
     display: inline-block;
-  }
+  } 
 `;
 const action = css`
   text-decoration: none;
@@ -56,7 +56,7 @@ const hidden = css`
     height: 24px;
     width: ${defaultTheme.width[2]};
     bottom: 23px;
-  }
+  } 
 `;
 
 const TextWrapper = styled.div`
@@ -65,7 +65,7 @@ const TextWrapper = styled.div`
     padding-left: ${defaultTheme.space[3]};
     padding-right: ${defaultTheme.space[3]};
     margin-top: -26px;
-  }
+  } 
 `;
 
 const ProjectWrapper = styled.div`
@@ -86,7 +86,7 @@ const SectionContainer = styled.div`
   ${mq[1]} {
     max-width: ${defaultTheme.width[2]};
     padding: 0;
-  }
+  } 
 `;
 
 const ImageWrapper = styled.div`
@@ -108,7 +108,8 @@ const ImageWrapper = styled.div`
     grid-column-gap: 24px;
     overflow: auto;
     padding-bottom: ${defaultTheme.space[3]};
-  }
+
+  } 
 `;
 export default ({ data }) => {
   return (
@@ -124,6 +125,7 @@ export default ({ data }) => {
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <script async src="https://cdn.splitbee.io/sb.js"></script>
+
         </Helmet>
         <Header>
           <Nav />
@@ -148,15 +150,15 @@ export default ({ data }) => {
                     <Img
                       sizes={node.frontmatter.image4.childImageSharp.fluid}
                     />
-
+                   
                     <div css={hide} />
                   </ImageWrapper>
                   <div css={hidden} />
                   <TextWrapper>
                     <p>
-                      <strong>{node.frontmatter.title}</strong>,{" "}
-                      {node.frontmatter.date}
-                    </p>
+                    <strong>{node.frontmatter.title}</strong>,{" "}
+            {node.frontmatter.date}
+                      </p>
 
                     <span css={Excerpt}>{node.frontmatter.excerpt}</span>
                     <Button>
