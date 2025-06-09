@@ -32,9 +32,11 @@ Ladder is an insurtech company that provides term life insurance policies throug
 ## Design leadership
 For the past three years, I’ve had the privilege of leading most of our design team (product and visual) at Ladder as a senior product design manager. Read below to learn more about my experience leading the team.
 
+<blog-button>
 <Button>
 <Link to="/ladder/design-leadership">View case study</Link>
 </Button>
+</blog-button>
 
 ![Design leadership](./images/img_team.jpg " ")
 
