@@ -40,6 +40,8 @@ const renderAst = new RehypeReact({
     ol: OrderedList,
     "blog-button": BlogButton,
     "button-visit": Button,
+    Button: Button,
+    Link: Link,
     "content-title": ContentTitle,
     "content-excerpt": ContentExcerpt,
     summary: Summary,
