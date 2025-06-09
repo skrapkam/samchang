@@ -2,7 +2,7 @@
 title: Design Leadership
 date: "2024"
 customField: VALUE_1
-section: blog
+section: ladder
 excerpt: Reflections on leading Ladder's design team.
 image1: "../images/img_team.jpg"
 image2: "../images/img_team.jpg"
