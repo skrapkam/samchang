@@ -38,6 +38,7 @@ const renderAst = new RehypeReact({
     gif: GIF,
     ul: UnorderedList,
     ol: OrderedList,
+    link: Link,
     "blog-button": BlogButton,
     "button-visit": Button,
     "content-title": ContentTitle,
