@@ -5,10 +5,16 @@ import { useEffect, useState } from "react";
 import defaultTheme from "../Theme";
 
 const Wrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 48px 1fr;
   align-items: center;
-  gap: ${defaultTheme.space[3]};
+  column-gap: ${defaultTheme.space[3]};
   min-height: 64px; /* Reserve space to prevent jump */
+`;
+
+const AlbumArtWrapper = styled.div`
+  width: 48px;
+  height: 48px;
 `;
 
 const SongInfo = styled.div`
@@ -42,8 +48,8 @@ export default function NowPlaying() {
 
   useEffect(() => {
     fetch("/api/now-playing")
-      .then(res => res.json())
-      .then(data => setSong(data))
+      .then((res) => res.json())
+      .then((data) => setSong(data))
       .catch(() => setSong(null));
   }, []);
 
@@ -57,16 +63,21 @@ export default function NowPlaying() {
 
   return (
     <Wrapper>
-   
+      <AlbumArtWrapper>
+        {song.albumImageUrl && (
+          <AlbumArt
+            src={song.albumImageUrl}
+            alt={`${song.title} album cover`}
+          />
+        )}
+      </AlbumArtWrapper>
+
       <SongInfo>
-        <span>Currently listening to:{" "}</span>
+        <span>Currently listening to: </span>
         <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
-           {song.title} – {song.artist}
+          {song.title} – {song.artist}
         </SongLink>
       </SongInfo>
-      {song.albumImageUrl && (
-        <AlbumArt src={song.albumImageUrl} alt={`${song.title} album cover`} />
-      )}
     </Wrapper>
   );
 }
