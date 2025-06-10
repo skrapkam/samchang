@@ -15,7 +15,6 @@ import defaultTheme from "../../components/Theme"
 import NowPlaying from "../../components/NowPlaying";
 
 const NoBulletItem = styled.li`
-  list-style: none;
   margin-left: 0;
 `;
 

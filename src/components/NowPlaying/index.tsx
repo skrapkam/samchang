@@ -12,13 +12,12 @@ const Wrapper = styled.div`
 `;
 
 const AlbumArtWrapper = styled.div`
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
 `;
 
 const SongInfo = styled.div`
-  display: flex;
   flex-direction: column;
   min-width: 0;
 `;
@@ -29,8 +28,8 @@ const SongLink = styled.a`
 `;
 
 const AlbumArt = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   object-fit: cover;
   border-radius: 8px;
   display: block;
@@ -64,6 +63,12 @@ export default function NowPlaying() {
 
   return (
     <Wrapper>
+      <SongInfo>
+        <span>Currently listening to: </span>
+        <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
+          {song.title} – {song.artist}
+        </SongLink>
+      </SongInfo>
       <AlbumArtWrapper>
         {song.albumImageUrl && (
           <AlbumArt
@@ -72,13 +77,6 @@ export default function NowPlaying() {
           />
         )}
       </AlbumArtWrapper>
-
-      <SongInfo>
-        <span>Currently listening to: </span>
-        <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
-          {song.title} – {song.artist}
-        </SongLink>
-      </SongInfo>
     </Wrapper>
   );
 }
