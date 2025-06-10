@@ -5,11 +5,23 @@ import { useEffect, useState } from "react";
 import defaultTheme from "../Theme";
 
 const Wrapper = styled.div`
-  margin-top: ${defaultTheme.space[4]};
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: ${defaultTheme.space[3]};
+`;
+
+const AlbumArt = styled.img`
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+`;
+
+const SongInfo = styled.div`
 `;
 
 const SongLink = styled.a`
-  color: ${defaultTheme.color.link};
+ 
 `;
 
 interface Song {
@@ -40,10 +52,16 @@ export default function NowPlaying() {
 
   return (
     <Wrapper>
-      Now Playing: {" "}
-      <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
-        {song.title} – {song.artist}
-      </SongLink>
+   
+      <SongInfo>
+        <span>Currently listening to:{" "}</span>
+        <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
+           {song.title} – {song.artist}
+        </SongLink>
+      </SongInfo>
+      {song.albumImageUrl && (
+        <AlbumArt src={song.albumImageUrl} alt={`${song.title} album cover`} />
+      )}
     </Wrapper>
   );
 }
