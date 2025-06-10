@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: ${defaultTheme.space[3]};
   min-height: 64px; /* Reserve space to prevent jump */
+  margin-bottom:  ${defaultTheme.space[3]};
 `;
 
 const AlbumArtWrapper = styled.div`
