@@ -48,10 +48,16 @@ export default function NowPlaying() {
   const [song, setSong] = useState<Song | null>(null);
 
   useEffect(() => {
-    fetch("/api/now-playing")
-      .then((res) => res.json())
-      .then((data) => setSong(data))
-      .catch(() => setSong(null));
+    const fetchSong = () => {
+      fetch("/api/now-playing")
+        .then((res) => res.json())
+        .then((data) => setSong(data))
+        .catch(() => setSong(null));
+    };
+
+    fetchSong();
+    const interval = setInterval(fetchSong, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   if (!song) {
