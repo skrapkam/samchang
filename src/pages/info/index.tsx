@@ -80,6 +80,9 @@ const info = props => (
             <a href="https://writing.samchang.design">writing</a>, and taking{" "}
             <a href="https://www.instagram.com/samchangsucks/">mediocre photos</a>
           </li>
+          <li>
+          <NowPlaying />
+          </li>
         </ul>
         <h2>Past</h2>
         <ul>
@@ -112,7 +115,6 @@ const info = props => (
             <a href="https://twitter.com/samchangsucks">@samchangsucks</a>
           </li>
         </ul>
-        <NowPlaying />
         <h2>Site Colophon</h2>
         <ul>
           <li>
