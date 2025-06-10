@@ -58,7 +58,7 @@ export default function NowPlaying() {
   }
 
   if (!song.isPlaying) {
-    return <Wrapper>Not listening to anything right now.</Wrapper>;
+    return null;
   }
 
   return (
