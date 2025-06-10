@@ -5,23 +5,28 @@ import { useEffect, useState } from "react";
 import defaultTheme from "../Theme";
 
 const Wrapper = styled.div`
-  margin-top: 0;
   display: flex;
   align-items: center;
   gap: ${defaultTheme.space[3]};
+  min-height: 64px; /* Reserve space to prevent jump */
+`;
+
+const SongInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SongLink = styled.a`
+  color: ${defaultTheme.color.link};
+  text-decoration: none;
 `;
 
 const AlbumArt = styled.img`
   width: 48px;
   height: 48px;
-  border-radius: 4px;
-`;
-
-const SongInfo = styled.div`
-`;
-
-const SongLink = styled.a`
- 
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 `;
 
 interface Song {
