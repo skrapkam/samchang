@@ -70,7 +70,8 @@ const info = props => (
     </Header>
     <GridContainer>
       <MediumSectionWrapper>
-        <h2>Present</h2>
+             <NowPlaying />
+         <h2>Present</h2>
         <ul>
           <li>
             I'm currently living in San Jose, California and working as a
@@ -85,9 +86,7 @@ const info = props => (
             <a href="https://writing.samchang.design">writing</a>, and taking{" "}
             <a href="https://www.instagram.com/samchangsucks/">mediocre photos</a>
           </li>
-          <NoBulletItem>
-            <NowPlaying />
-          </NoBulletItem>
+
         </ul>
         <h2>Past</h2>
         <ul>
