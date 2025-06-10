@@ -32,3 +32,16 @@ SPOTIFY_REFRESH_TOKEN=your_refresh_token
 ```
 
 These values are used by `api/now-playing.js` to query Spotify's API.
+
+## Remote Mouse Mirroring
+
+Run the WebSocket server:
+```bash
+npm start
+```
+
+In a separate terminal run Gatsby:
+```bash
+gatsby develop
+```
+Open multiple tabs at `localhost:8000` to see ghost cursors following other visitors.

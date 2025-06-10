@@ -51,13 +51,15 @@
     "serialize-javascript": "^6.0.0",
     "set-value": "^4.1.0",
     "sharp": "^0.31.2",
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.0",
+    "ws": "^8.13.0"
   },
   "keywords": [
     "gatsby"
   ],
   "license": "MIT",
   "scripts": {
+    "start": "node server.js",
     "type-check": "tsc --noEmit",
     "lint": "tslint --project .",
     "test": "jest && node tests/validate-content.js"
