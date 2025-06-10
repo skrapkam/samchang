@@ -14,6 +14,11 @@ import styled from "@emotion/styled";
 import defaultTheme from "../../components/Theme"
 import NowPlaying from "../../components/NowPlaying";
 
+const NoBulletItem = styled.li`
+  list-style: none;
+  margin-left: 0;
+`;
+
 const SummaryPopout = css`
   margin-bottom: ${defaultTheme.space[1]};
   color: ${defaultTheme.color.link};
@@ -80,9 +85,9 @@ const info = props => (
             <a href="https://writing.samchang.design">writing</a>, and taking{" "}
             <a href="https://www.instagram.com/samchangsucks/">mediocre photos</a>
           </li>
-          <li>
-          <NowPlaying />
-          </li>
+          <NoBulletItem>
+            <NowPlaying />
+          </NoBulletItem>
         </ul>
         <h2>Past</h2>
         <ul>

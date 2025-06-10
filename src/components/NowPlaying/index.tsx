@@ -5,21 +5,22 @@ import { useEffect, useState } from "react";
 import defaultTheme from "../Theme";
 
 const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 48px 1fr;
+  display: flex;
   align-items: center;
-  column-gap: ${defaultTheme.space[3]};
+  gap: ${defaultTheme.space[3]};
   min-height: 64px; /* Reserve space to prevent jump */
 `;
 
 const AlbumArtWrapper = styled.div`
   width: 48px;
   height: 48px;
+  flex-shrink: 0;
 `;
 
 const SongInfo = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 0;
 `;
 
 const SongLink = styled.a`
