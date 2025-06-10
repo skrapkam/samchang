@@ -12,6 +12,7 @@ import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import styled from "@emotion/styled";
 import defaultTheme from "../../components/Theme"
+import NowPlaying from "../../components/NowPlaying";
 
 const SummaryPopout = css`
   margin-bottom: ${defaultTheme.space[1]};
@@ -111,6 +112,7 @@ const info = props => (
             <a href="https://twitter.com/samchangsucks">@samchangsucks</a>
           </li>
         </ul>
+        <NowPlaying />
         <h2>Site Colophon</h2>
         <ul>
           <li>
