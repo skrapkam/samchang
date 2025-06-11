@@ -20,6 +20,7 @@
     "@fastly/performance-observer-polyfill": "^2.0.0",
     "@vercel/analytics": "^1.4.1",
     "a11y-react-emoji": "^1.2.0",
+    "color-thief-browser": "^2.0.1",
     "emotion": "^11.0.0",
     "emotion-server": "^11.0.0",
     "gatsby": "^5.3.2",
@@ -44,6 +45,7 @@
     "gatsby-transformer-sharp": "^5.3.1",
     "joi": "^17.7.0",
     "mem": "^9.0.2",
+    "openai": "^4.104.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -51,9 +53,7 @@
     "serialize-javascript": "^6.0.0",
     "set-value": "^4.1.0",
     "sharp": "^0.31.2",
-    "throttle-debounce": "^5.0.0",
-    "color-thief-browser": "^2.0.1",
-    "openai": "^4.33.0"
+    "throttle-debounce": "^5.0.0"
   },
   "keywords": [
     "gatsby"
@@ -65,18 +65,18 @@
     "test": "jest && node tests/validate-content.js"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.0",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "dotenv": "^10.0.0",
     "husky": "^7.0.1",
+    "jest": "^29.5.0",
     "lint-staged": "^11.1.1",
     "prettier": "^2.3.2",
-    "typescript": "^4.3.5",
-    "@types/jest": "^29.5.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "jest": "^29.5.0",
-    "ts-jest": "^29.1.0"
+    "ts-jest": "^29.1.0",
+    "typescript": "^4.3.5"
   },
   "repository": {
     "type": "git",
