@@ -2,6 +2,8 @@
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState, useRef, useEffect, FormEvent } from 'react';
+import { projectSummaries } from "../src/api/data/projectSummaries";
+
 
 const Bubble = styled.button`
   position: fixed;
@@ -67,6 +69,8 @@ const MessageBubble = styled.div<{ from: 'user' | 'bot' }>`
   max-width: 85%;
 `;
 
+
+
 type ChatMessage = { from: 'user' | 'bot'; text: string };
 
 export default function PortfolioChatBot({ projectSlug }: { projectSlug: string }) {
@@ -75,6 +79,9 @@ export default function PortfolioChatBot({ projectSlug }: { projectSlug: string 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  const projectSummary =
+  projectSummaries.find((proj) => proj.slug === projectSlug)?.summary || "";
 
   useEffect(() => {
     if (endRef.current) {
@@ -89,10 +96,13 @@ export default function PortfolioChatBot({ projectSlug }: { projectSlug: string 
     setInput('');
     setLoading(true);
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userMessage: userText, projectSlug }),
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userMessage: input,
+          projectSlug: window.location.pathname.replace(/^\/|\/$/g, ""),
+        }),
       });
       const data = await res.json();
       setMessages(prev => [...prev, { from: 'bot', text: data.reply ?? 'No reply.' }]);
