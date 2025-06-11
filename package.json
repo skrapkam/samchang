@@ -51,7 +51,8 @@
     "serialize-javascript": "^6.0.0",
     "set-value": "^4.1.0",
     "sharp": "^0.31.2",
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.0",
+    "color-thief-browser": "^2.0.1"
   },
   "keywords": [
     "gatsby"
