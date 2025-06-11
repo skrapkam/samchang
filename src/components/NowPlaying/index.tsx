@@ -207,15 +207,15 @@ export default function NowPlaying() {
         )}
       </AlbumArtWrapper>
       <ContentRow>
-  <SongInfo>
-    <NowPlayingLabel>Currently listening to</NowPlayingLabel>
-    <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
-    <TextBlock>
-    {song.title} by {song.artist}
-  </TextBlock>    </SongLink>
-  </SongInfo>
-  <LiveBars />
-</ContentRow>
+        <SongInfo>
+          <NowPlayingLabel>Sam is jamming to</NowPlayingLabel>
+          <SongLink href={song.songUrl} target="_blank" rel="noopener noreferrer">
+            <TextBlock>
+              {song.title} by {song.artist}
+            </TextBlock>    </SongLink>
+        </SongInfo>
+        <LiveBars />
+      </ContentRow>
     </Wrapper>
   );
 }
