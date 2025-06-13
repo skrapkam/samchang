@@ -1,7 +1,14 @@
 import type { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
-import OpenAI from "openai";
-import { projectSummaries } from "../../lib/projectSummaries"; // adjust path if needed
+import { OpenAI } from "openai";
+import {
+  samPersona,
+  samAnswerStyle,
+  samPrinciples,
+  samFunFacts,
+  projectSummaries,
+} from "../../lib/projectSummaries";
 
+// This is fine!
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
@@ -15,49 +22,59 @@ export default async function handler(
     return;
   }
 
+  const { userMessage } = req.body;
+
+  const projectInfo = projectSummaries
+    .map((p) => `Project: ${p.slug}\n\n${p.fullText}`)
+    .join("\n\n---\n\n");
+
+  const funFactsFormatted = Object.entries(samFunFacts)
+    .map(([key, value]) =>
+      Array.isArray(value)
+        ? `${key}: ${value.join(", ")}`
+        : `${key}: ${value}`
+    )
+    .join("\n");
+
+  const messages = [
+    {
+      role: "system",
+      content: `
+You are Sam Chang, not an AI. You're chatting with someone visiting your portfolio site.
+
+Here’s who you are:
+${samPersona}
+
+How you should respond:
+${samAnswerStyle}
+
+Your core design principles:
+${samPrinciples.join("\n")}
+
+Fun facts:
+${funFactsFormatted}
+
+Your projects:
+${projectInfo}
+      `.trim(),
+    },
+    {
+      role: "user",
+      content: userMessage,
+    },
+  ];
+
   try {
-    const { userMessage, projectSlug } = req.body;
-    console.log("📩 Request Body:", req.body);
-
-    if (!userMessage || !projectSlug) {
-      res.status(400).json({ error: "Missing required fields" });
-      return;
-    }
-
-    const project = projectSummaries.find((p) => p.slug === projectSlug);
-
-    if (!project) {
-      res.status(404).json({ error: "Project not found" });
-      return;
-    }
-
-    const systemPrompt = project.fullText
-      ? `You are a helpful portfolio assistant. Here is the full case study:\n${project.fullText}`
-      : `You are a helpful portfolio assistant. Here is the project background:\n${project.summary}`;
-
-    const messages = [
-      {
-        role: "system",
-        content: systemPrompt,
-      },
-      {
-        role: "user",
-        content: userMessage,
-      },
-    ];
-
-    const completion = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4",
       messages,
+      temperature: 0.7,
     });
 
-    const reply =
-      completion.choices[0]?.message?.content ??
-      "Sorry, I couldn't generate a response.";
-
+    const reply = response.choices[0].message?.content || "Sorry, no response generated.";
     res.status(200).json({ reply });
   } catch (error) {
-    console.error("❌ Error generating response:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error(error);
+    res.status(500).json({ error: "Failed to generate response" });
   }
 }
