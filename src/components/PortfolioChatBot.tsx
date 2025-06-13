@@ -1,12 +1,10 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ChatWrapper = styled.div`
   position: fixed;
-  bottom: 20px;
-  right: 20px;
   z-index: 999;
 `;
 
@@ -40,16 +38,66 @@ const Message = styled.div<{ isUser?: boolean }>`
   border-radius: 6px;
 `;
 
+type ChatMessage = { text: string; isUser: boolean };
+
 const PortfolioChatBot = () => {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = window.localStorage.getItem("portfolioChatHistory");
+      if (stored) {
+        try {
+          return JSON.parse(stored) as ChatMessage[];
+        } catch {}
+      }
+    }
+    return [];
+  });
   const [input, setInput] = useState("");
+  const [position, setPosition] = useState({ x: 24, y: 24 });
+  const dragRef = useRef<{x: number; y: number} | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  const startDrag = (e: React.MouseEvent) => {
+    dragRef.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    };
+    window.addEventListener("mousemove", onDrag);
+    window.addEventListener("mouseup", endDrag);
+  };
+
+  const onDrag = (e: MouseEvent) => {
+    if (!dragRef.current) return;
+    setPosition({
+      x: e.clientX - dragRef.current.x,
+      y: e.clientY - dragRef.current.y,
+    });
+  };
+
+  const endDrag = () => {
+    dragRef.current = null;
+    window.removeEventListener("mousemove", onDrag);
+    window.removeEventListener("mouseup", endDrag);
+  };
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", onDrag);
+      window.removeEventListener("mouseup", endDrag);
+    };
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     const userMessage = { text: input, isUser: true };
-    setMessages([...messages, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput("");
 
     const res = await fetch("/api/chat", {
@@ -67,7 +115,10 @@ const PortfolioChatBot = () => {
   };
 
   return (
-    <ChatWrapper>
+    <ChatWrapper
+      style={{ bottom: position.y, right: position.x }}
+      onMouseDown={startDrag}
+    >
       <ChatButton onClick={() => setOpen(!open)}>💬</ChatButton>
       {open && (
         <ChatBox>

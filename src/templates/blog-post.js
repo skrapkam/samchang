@@ -28,7 +28,6 @@ import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
 
 // ✅ Add these imports
-import PortfolioChatBot from "../components/PortfolioChatBot";
 import { projectSummaries } from "../../lib/projectSummaries";
 
 
@@ -146,8 +145,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         </Footer>
       </ContentWrapper>
 
-      {/* ✅ Mount the chatbot only if this is a project */}
-      <PortfolioChatBot projectSlug={slug} />
+      {/* Chatbot mounted globally */}
     </Page>
   );
 };
