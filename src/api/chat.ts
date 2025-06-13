@@ -1,5 +1,5 @@
-import type { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import { OpenAI } from "openai";
+import type { GatsbyFunctionRequest, GatsbyFunctionResponse } from "gatsby";
 import {
   samPersona,
   samAnswerStyle,
@@ -8,26 +8,27 @@ import {
   projectSummaries,
 } from "../../lib/projectSummaries";
 
-// This is fine!
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 export default async function handler(
   req: GatsbyFunctionRequest,
   res: GatsbyFunctionResponse
 ) {
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method Not Allowed" });
+    res.status(405).end();
     return;
   }
 
   const { userMessage } = req.body;
 
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  // Compose the system prompt
   const projectInfo = projectSummaries
     .map((p) => `Project: ${p.slug}\n\n${p.fullText}`)
     .join("\n\n---\n\n");
-
   const funFactsFormatted = Object.entries(samFunFacts)
     .map(([key, value]) =>
       Array.isArray(value)
@@ -58,23 +59,21 @@ Your projects:
 ${projectInfo}
       `.trim(),
     },
-    {
-      role: "user",
-      content: userMessage,
-    },
+    { role: "user", content: userMessage },
   ];
 
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages,
-      temperature: 0.7,
-    });
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o", // Or gpt-4 if you prefer
+    messages,
+    stream: true,
+  });
 
-    const reply = response.choices[0].message?.content || "Sorry, no response generated.";
-    res.status(200).json({ reply });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to generate response" });
+  for await (const chunk of completion) {
+    const content = chunk.choices[0]?.delta?.content;
+    if (content) {
+      res.write(`data: ${content}\n\n`);
+    }
   }
+  res.write("data: [DONE]\n\n");
+  res.end();
 }
