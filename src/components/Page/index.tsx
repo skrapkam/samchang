@@ -30,7 +30,7 @@ const ScrollToTop = styled.div`
   justify-content: center;
   position: fixed;
   bottom: 32px;
-  right: 32px;
+  left: 32px;
 
   @media (max-width: 1070px) {
     display: none;
