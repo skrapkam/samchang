@@ -1,12 +1,14 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/react";
+import { jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect, useRef } from "react";
 
 const CHAT_API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api/chat"
-    : "https://sam-chat-api.vercel.app/api/chat";
+    process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/chat"
+        : "https://sam-chat-api.vercel.app/api/chat";
+
+
 
 const ChatWrapper = styled.div<{ x: number; y: number }>`
   position: fixed;
@@ -15,11 +17,11 @@ const ChatWrapper = styled.div<{ x: number; y: number }>`
   right: ${(props) => props.x}px;
 `;
 
-const ChatButton = styled.button`
-background-color: transparent;
-user-select: none; /* Standard syntax */
-
-backdrop-filter: blur(2px);
+const ChatButton = styled.button<{ isOpen: boolean }>`
+  background-color: transparent;
+  user-select: none;
+  opacity: ${(props) => (props.isOpen ? 0.4 : 1)};
+  backdrop-filter: blur(2px);
   color: #000;
   padding: 1rem 1.5rem;
   border-radius: 10px;
@@ -33,7 +35,22 @@ backdrop-filter: blur(2px);
   }
 `;
 
-const ChatBox = styled.div`
+const popIn = keyframes`
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+interface ChatBoxProps {
+    visible: boolean;
+}
+
+const ChatBox = styled.div<ChatBoxProps>`
   position: absolute;
   bottom: 60px;
   right: 0;
@@ -48,38 +65,55 @@ const ChatBox = styled.div`
   box-shadow: 0 8px 28px rgba(50, 60, 120, 0.13);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
+  transform-origin: bottom right;
+  transform: scale(${props => (props.visible ? 1 : 0.8)});
+  opacity: ${props => (props.visible ? 1 : 0)};
+  transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: ${props => (props.visible ? 'auto' : 'none')};
 `;
 
-const TopBar = styled.div`
+const TopBar = styled.div<{ showBorder: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.7rem 0.6rem 0.9rem;
+  padding: 1rem 0.7rem 1rem 0.9rem;
   border-bottom: 1px solid #e7eaf2;
-  background: #f5f7fa;
   height: 5rem;
+  border-bottom: ${(props) => (props.showBorder ? ".5px solid #e7eaf2" : "none")};
+  user-select: none;
+
 `;
 
+
 const IconButton = styled.button`
-  background: none;
-  border: none;
-  color: #b2b8c7;
-  font-size: 1.2rem;
-  padding: 2px 6px;
-  cursor: pointer;
-  transition: color 0.18s;
-  &:hover {
-    color: #6267a2;
-  }
   display: flex;
   align-items: center;
+  gap: 6px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  border: none;
+  color: #7a7a7a;
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  &:hover {
+    color: #000;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    
+  }
 `;
 
 const MessageArea = styled.div`
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: 1.1rem 1rem 0.3rem 1rem;
+  padding: 1.1rem 1.8rem 3rem 1.8rem;
   background: #f9fafd;
 `;
 
@@ -91,7 +125,7 @@ const MessageWrapper = styled.div<{ isUser?: boolean }>`
 `;
 
 const Meta = styled.div`
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #b2b8c7;
   margin-bottom: 2px;
   display: flex;
@@ -117,19 +151,25 @@ const Message = styled.div<{ isUser?: boolean }>`
   font-size: 1.5rem;
   line-height: 1.6;
   box-shadow: ${(props) =>
-    props.isUser
-      ? "0 1px 3px rgba(230,220,130,0.06)"
-      : "0 1px 3px rgba(130,180,220,0.07)"};
+        props.isUser
+            ? "0 1px 3px rgba(230,220,130,0.06)"
+            : "0 1px 3px rgba(130,180,220,0.07)"};
   max-width: 80%;
   word-break: break-word;
 `;
 
 const BottomBar = styled.form<{ focused: boolean }>`
+height: 64px; /* Set a fixed height */
+  box-sizing: border-box;
+
   display: flex;
   align-items: center;
   border-top: 1px solid #e7eaf2;
   background: #fff;
-  border: ${(props) => (props.focused ? "2px solid #000" : "1px solid #e7eaf2")};
+  border: 1px solid #e7eaf2;
+  box-shadow: ${(props) => (props.focused ? "0 0 0 1px #000" : "none")};
+
+  border-color: ${(props) => (props.focused ? "#000" : "#e7eaf2")};
   border-radius: 15px;
   padding: 0.6rem 0.8rem;
   margin: 0 0.8rem;
@@ -159,14 +199,13 @@ const SendButton = styled.button<{ visible: boolean }>`
   margin-left: ${(props) => (props.visible ? "8px" : "0")};
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transform: ${(props) =>
-    props.visible ? "translateX(0)" : "translateX(10px)"};
+        props.visible ? "translateX(0)" : "translateX(10px)"};
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: ${(props) => (props.visible ? "pointer" : "default")};
   pointer-events: ${(props) => (props.visible ? "auto" : "none")};
-
   svg {
     width: 20px;
     height: 20px;
@@ -175,162 +214,208 @@ const SendButton = styled.button<{ visible: boolean }>`
   }
 `;
 
-const MIN_HEIGHT = 350;
-const MAX_HEIGHT = 520;
+const Ellipsis = styled.div`
+  font-size: 1.5rem;
+  padding: 0.72rem 1rem;
+  color: #999;
+  font-style: italic;
+`;
+
+const useEllipsis = () => {
+    const [dots, setDots] = useState(".");
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setDots((prev) => (prev.length === 3 ? "." : prev + "."));
+        }, 400);
+        return () => clearInterval(interval);
+    }, []);
+    return dots;
+};
+
+
+
 
 type ChatMessage = {
-  text: string;
-  isUser: boolean;
-  timestamp: string;
-  streaming?: boolean;
+    text: string;
+    isUser: boolean;
+    timestamp: string;
+    streaming?: boolean;
 };
 
 const getInitialMsg = (): ChatMessage => ({
-  text: "Hi! I'm Sam. Feel free to ask me anything about my background, projects, or interests.",
-  isUser: false,
-  timestamp: new Date().toISOString(),
+    text: "Hi! I'm Sam. Feel free to ask me anything about my background, projects, or interests.",
+    isUser: false,
+    timestamp: new Date().toISOString(),
 });
 
 function formatTime(iso: string) {
-  const date = new Date(iso);
-  return isNaN(date.getTime()) ? "" : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    const date = new Date(iso);
+    return isNaN(date.getTime()) ? "" : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
 
 async function fetchStreamedResponse(message: string, onChunk: (text: string) => void) {
-  const response = await fetch(CHAT_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userMessage: message }),
-  });
+    const response = await fetch(CHAT_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userMessage: message }),
+    });
 
-  const reader = response.body?.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
 
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    if (value) {
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n").filter(line => line.startsWith("data: "));
-      let text = "";
-      for (const line of lines) {
-        const chunk = line.replace("data: ", "");
-        if (chunk === "[DONE]") return;
-        text += chunk;
-      }
-      if (text) onChunk(text);
-      buffer = buffer.split("\n").filter(l => !l.startsWith("data: ")).join("\n");
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        if (value) {
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n").filter(line => line.startsWith("data: "));
+            let text = "";
+            for (const line of lines) {
+                const chunk = line.replace("data: ", "");
+                if (chunk === "[DONE]") return;
+                text += chunk;
+            }
+            if (text) onChunk(text);
+            buffer = buffer.split("\n").filter(l => !l.startsWith("data: ")).join("\n");
+        }
     }
-  }
 }
 
 const PortfolioChatBot = () => {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>(() => {
-    try {
-      const stored = localStorage.getItem("portfolioChatHistory");
-      if (stored) return JSON.parse(stored);
-    } catch {}
-    return [getInitialMsg()];
-  });
-  const [input, setInput] = useState("");
-  const [focused, setFocused] = useState(false);
-  const [isStreaming, setIsStreaming] = useState(false);
-  const msgEndRef = useRef<HTMLDivElement | null>(null);
-  const dragRef = useRef<{ x: number; y: number } | null>(null);
-
-  useEffect(() => {
-    msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, open]);
-
-  useEffect(() => {
-    localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
-  }, [messages]);
-
-
-  const sendMessage = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!input.trim() || isStreaming) return;
-
-    const now = new Date().toISOString();
-    const userMessage = { text: input, isUser: true, timestamp: now };
-    setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    setIsStreaming(true);
-
-    setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
-
-    let streamedText = "";
-    await fetchStreamedResponse(input, chunk => {
-      streamedText += chunk;
-      setMessages(prev => {
-        const newMsgs = [...prev];
-        const i = newMsgs.findIndex(m => m.streaming);
-        if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
-        return newMsgs;
-      });
+    const [open, setOpen] = useState(false);
+    const [messages, setMessages] = useState<ChatMessage[]>(() => {
+        try {
+            const stored = localStorage.getItem("portfolioChatHistory");
+            if (stored) return JSON.parse(stored);
+        } catch { }
+        return [getInitialMsg()];
     });
+    const [input, setInput] = useState("");
+    const [focused, setFocused] = useState(false);
+    const [isStreaming, setIsStreaming] = useState(false);
+    const msgEndRef = useRef<HTMLDivElement | null>(null);
+    const dots = useEllipsis();
 
-    setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false } : m));
-    setIsStreaming(false);
-  };
+    const [isScrollable, setIsScrollable] = useState(false);
+    const messageAreaRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        const el = messageAreaRef.current;
+        if (!el) return;
+      
+        const handleScroll = () => {
+          setIsScrollable(el.scrollTop > 0);
+        };
+      
+        // Set once initially
+        handleScroll();
+      
+        el.addEventListener("scroll", handleScroll);
+        return () => el.removeEventListener("scroll", handleScroll);
+      }, [messages]);
 
-  return (
-    <ChatWrapper x={30} y={30}>
-      <ChatButton onClick={() => setOpen(!open)}>💬 Chat</ChatButton>
-      {open && (
-        <ChatBox>
-          <TopBar>
-          <IconButton onClick={() => setMessages([getInitialMsg()])} title="New chat">
-  <svg
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
-  </svg>
-  <span style={{ marginLeft: "6px", fontSize: "0.95rem", color: "#5e647a" }}>New chat</span>
-</IconButton>
-            <IconButton onClick={() => setOpen(false)} title="Close">×</IconButton>
-          </TopBar>
-          <MessageArea>
-            {messages.map((m, i) => (
-              <MessageWrapper key={i} isUser={m.isUser}>
-                <Meta>
-                  <Sender>{m.isUser ? "You" : "Sam"}</Sender>
-                  <Time>{formatTime(m.timestamp)}</Time>
-                </Meta>
-                <Message isUser={m.isUser}>{m.text}</Message>
-              </MessageWrapper>
-            ))}
-            <div ref={msgEndRef} />
-          </MessageArea>
-          <BottomBar focused={focused} onSubmit={sendMessage}>
-            <Input
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              placeholder="Ask a question"
-              disabled={isStreaming}
-            />
-            <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }} >
-                <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
-              </svg>
-            </SendButton>
-          </BottomBar>
-        </ChatBox>
-      )}
-    </ChatWrapper>
-  );
+    useEffect(() => {
+        msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, open]);
+
+    useEffect(() => {
+        localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
+    }, [messages]);
+
+    const sendMessage = async (e?: React.FormEvent) => {
+        e?.preventDefault();
+        if (!input.trim() || isStreaming) return;
+
+        const now = new Date().toISOString();
+        const userMessage = { text: input, isUser: true, timestamp: now };
+        setMessages(prev => [...prev, userMessage]);
+        setInput("");
+        setIsStreaming(true);
+
+        setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
+
+        let streamedText = "";
+        await fetchStreamedResponse(input, chunk => {
+            streamedText += chunk;
+            setMessages(prev => {
+                const newMsgs = [...prev];
+                const i = newMsgs.findIndex(m => m.streaming);
+                if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
+                return newMsgs;
+            });
+        });
+
+        setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false } : m));
+        setIsStreaming(false);
+    };
+
+    return (
+        <ChatWrapper x={30} y={30}>
+            <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
+            <ChatBox visible={open}>
+            <TopBar showBorder={isScrollable}>
+                    <IconButton onClick={() => setMessages([getInitialMsg()])} title="New Chat">
+                        <svg
+                            width="25"
+                            height="24"
+                            viewBox="0 0 25 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            style={{ marginRight: "2px" }}
+                        >
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
+                                fill="#7a7a7a"
+                            />
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
+                                fill="#7a7a7a"
+                            />
+                        </svg>
+                        <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
+                    </IconButton>
+                    <IconButton onClick={() => setOpen(false)} title="Close">×</IconButton>
+                </TopBar>
+                <MessageArea ref={messageAreaRef}>
+                    {messages.map((m, i) => (
+                        <MessageWrapper key={i} isUser={m.isUser}>
+                            <Meta>
+                                <Sender>{m.isUser ? "You" : "Sam"}</Sender>
+                                <Time>{formatTime(m.timestamp)}</Time>
+                            </Meta>
+                            {m.streaming && !m.text ? (
+                                <Ellipsis>{dots}</Ellipsis>
+                            ) : (
+                                <Message isUser={m.isUser}>{m.text}</Message>
+                            )}
+                        </MessageWrapper>
+                    ))}
+                    <div ref={msgEndRef} />
+                </MessageArea>
+                <BottomBar focused={focused} onSubmit={sendMessage}>
+                    <Input
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        onFocus={() => setFocused(true)}
+                        onBlur={() => setFocused(false)}
+                        placeholder="Type a message..."
+                        disabled={isStreaming}
+                    />
+                    <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
+                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
+                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
+                        </svg>
+                    </SendButton>
+                </BottomBar>
+            </ChatBox>
+
+        </ChatWrapper>
+    );
 };
 
 export default PortfolioChatBot;
