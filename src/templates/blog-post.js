@@ -1,10 +1,9 @@
 /** @jsx jsx */
 import styled from "@emotion/styled";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import React from "react";
 import { css, jsx } from "@emotion/react";
-import { Link } from "gatsby";
-import RehypeReact from "rehype-react"; // This is so I can write components in my markdown file
+import RehypeReact from "rehype-react";
 import Content from "../components/Blog/Content/index.tsx";
 import H1 from "../components/Blog/H1/index.tsx";
 import H2 from "../components/Blog/H2/index.tsx";
@@ -27,6 +26,10 @@ import "../styles/styles.tsx";
 import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
+
+// ✅ Add these imports
+import { projectSummaries } from "../../lib/projectSummaries";
+
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -95,8 +98,11 @@ const ContentWrapper = styled.div`
 
 const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark;
+  const { next, prev, slug } = pageContext;
 
-  const { next, prev } = pageContext;
+  // ✅ Check if this post is a known project
+  const isProject = projectSummaries.some((p) => p.slug === slug);
+
   return (
     <Page>
       <Helmet
@@ -138,6 +144,8 @@ const BlogPostTemplate = ({ data, pageContext }) => {
           </div>
         </Footer>
       </ContentWrapper>
+
+      {/* Chatbot mounted globally */}
     </Page>
   );
 };
