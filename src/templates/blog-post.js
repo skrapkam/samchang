@@ -29,6 +29,7 @@ import defaultTheme from "../components/Theme";
 
 // ✅ Add these imports
 import { projectSummaries } from "../../lib/projectSummaries";
+import ClickablePrompt from "../components/ClickablePrompt";
 
 
 const renderAst = new RehypeReact({
@@ -52,6 +53,7 @@ const renderAst = new RehypeReact({
     summary: Summary,
     callout: Callout,
     blockquote: Blockquote,
+    "clickable-prompt": ClickablePrompt,
   },
 }).Compiler;
 
