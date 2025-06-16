@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useChat } from "./ChatContext";
 
 const CHAT_API_URL =
@@ -98,7 +98,7 @@ const IconButton = styled.button`
   color: #7a7a7a;
   font-size: 1.8rem;
   font-weight: 500;
-  padding: 4px 8px;
+  padding: 4px 10px;
   cursor: pointer;
   transition: color 0.2s ease;
   &:hover {
@@ -161,6 +161,76 @@ const Message = styled.div<{ isUser?: boolean }>`
             : "0 1px 3px rgba(130,180,220,0.07)"};
   max-width: 80%;
   word-break: break-word;
+`;
+
+const rotate = keyframes`
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 400% 0%;
+  }
+`;
+
+const borderMove = keyframes`
+  0% {
+    clip-path: inset(0 0 95% 0);
+  }
+  25% {
+    clip-path: inset(0 0 0 95%);
+  }
+  50% {
+    clip-path: inset(95% 0 0 0);
+  }
+  75% {
+    clip-path: inset(0 95% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 95% 0);
+  }
+`;
+
+const PromptButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 1.2rem 0;
+  align-items: flex-start;
+`;
+
+const PromptButton = styled.button`
+  background: transparent;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  font-size: 1.4rem;
+  color: #181f2a;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+  position: relative;
+  border: 1px solid #7a7a7a;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background:transparent;
+    border-radius: 8px;
+    z-index: -1;
+  }
+  
+  &:hover {
+  
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 `;
 
 const BottomBar = styled.form<{ focused: boolean }>`
@@ -245,12 +315,14 @@ type ChatMessage = {
     isUser: boolean;
     timestamp: string;
     streaming?: boolean;
+    showPrompts?: boolean;
 };
 
 const getInitialMsg = (): ChatMessage => ({
     text: "Hi! I'm Sam. Feel free to ask me anything about my background, projects, or interests.",
     isUser: false,
     timestamp: new Date().toISOString(),
+    showPrompts: true
 });
 
 function formatTime(iso: string) {
@@ -286,6 +358,12 @@ async function fetchStreamedResponse(message: string, onChunk: (text: string) =>
         }
     }
 }
+
+const SUGGESTED_PROMPTS = [
+    "Tell me about your experience and background",
+    "What projects have you worked on?",
+    "What are your main technical skills?"
+];
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialPrompt, setInitialPrompt } = useChat();
@@ -365,12 +443,17 @@ const PortfolioChatBot = () => {
         setIsStreaming(false);
     };
 
+    // Reset chat and show prompts
+    const resetChat = () => {
+        setMessages([getInitialMsg()]);
+    };
+
     return (
         <ChatWrapper x={30} y={30}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
             <ChatBox visible={open}>
             <TopBar showBorder={isScrollable}>
-                    <IconButton onClick={() => setMessages([getInitialMsg()])} title="New Chat">
+                    <IconButton onClick={resetChat} title="New Chat">
                         <svg
                             width="25"
                             height="24"
@@ -406,7 +489,22 @@ const PortfolioChatBot = () => {
                             {m.streaming && !m.text ? (
                                 <Ellipsis>{dots}</Ellipsis>
                             ) : (
-                                <Message isUser={m.isUser}>{m.text}</Message>
+                                <Fragment>
+                                    <Message isUser={m.isUser}>{m.text}</Message>
+                                    {m.showPrompts && (
+                                        <PromptButtonsContainer>
+                                        <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
+                                            {SUGGESTED_PROMPTS.map((prompt, index) => (
+                                                <PromptButton
+                                                    key={index}
+                                                    onClick={() => sendMessage(prompt)}
+                                                >
+                                                    {prompt}
+                                                </PromptButton>
+                                            ))}
+                                        </PromptButtonsContainer>
+                                    )}
+                                </Fragment>
                             )}
                         </MessageWrapper>
                     ))}
