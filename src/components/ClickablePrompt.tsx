@@ -5,13 +5,37 @@ import React from "react";
 import { useChat } from "./ChatContext";
 
 const Styled = styled.button`
-  border: 1px solid var(--border);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
   background: transparent;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  font-size: 1.4rem;
+  color: #181f2a;
+  text-align: left;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+  position: relative;
+  border: 1.5px solid black;
+  margin-right: .5rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background:transparent;
+    border-radius: 8px;
+    z-index: -1;
+  }
+  
   &:hover {
-    background: var(--border);
+  
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 

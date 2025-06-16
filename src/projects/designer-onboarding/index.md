@@ -19,6 +19,17 @@ Overhauling 99designs' designer onboarding experience
 
 <summary>
 I led the design of a new onboarding process for designers. This new and improved process is helping 99designs find great designers, improving the quality of work on the platform, and saving the company over $230,000 a year.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?">What was your process?
+</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?">What constraints shaped your work?
+</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?">What impact did it have?
+</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 # Introduction
@@ -35,9 +46,6 @@ But this also meant that we didn’t know anything about these designers until t
 
 Unfortunately, most of the designers who sign up are banned due to the low-quality work they produce. This project aimed to **expedite the progression for qualified designers** while **identifying and blocking the bad actors** who don't contribute positively to our community.
 
-This project aimed to improve the quality of designers on the platform by requiring applications, limiting early activity, and revamping the review tools.
-
-<clickable-prompt prompt="What problem were you solving with this project?">Ask about the problem</clickable-prompt>
 
 ## My role
 
@@ -155,10 +163,6 @@ After signing up, designers will have to complete an application for review. The
 ## Application
 
 Remember the information we wanted from designers to determine whether they're qualified to join? In order for designers to provide us this information I essentially designed a glorified form. This application process contains the first major touchpoint that new designers will have after sign-up.
-
-The onboarding UI went through three major iterations based on usability testing and internal feedback.
-
-<clickable-prompt prompt="How many design iterations were there?">How many design versions?</clickable-prompt>
 
 ### First iteration
 
@@ -294,9 +298,6 @@ Although during the first 11 days the percentage having performed a meaningful a
 
 ![Onboarding - Meaningful actions](./images/img_onboarding_meaningful_action.jpg "Chart illustrating comparison between old and new cohorts in performing a meaningful action")
 
-The result was a 97% drop in ID verification costs and a faster time to meaningful action.
-
-<clickable-prompt prompt="What was the impact of this project?">See the outcomes</clickable-prompt>
 
 ## Community reception
  
