@@ -83,15 +83,16 @@ const TopBar = styled.div<{ showBorder: boolean }>`
   height: 5rem;
   border-bottom: ${(props) => (props.showBorder ? ".5px solid #e7eaf2" : "none")};
   user-select: none;
-
+background:transparent;
 `;
 
 
 const IconButton = styled.button`
+
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #f2f2f2;
+  background:transparent;
   border-radius: 5px;
   border: none;
   color: #7a7a7a;
@@ -102,12 +103,15 @@ const IconButton = styled.button`
   transition: color 0.2s ease;
   &:hover {
     color: #000;
+    background-color: #f2f2f2;
+
   }
   svg {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    
+    fill: currentColor; /* this is what makes the icon match the text */
+    transition: fill 0.2s ease;
   }
 `;
 
@@ -182,7 +186,7 @@ const Input = styled.input`
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1.4rem;
+  font-size: max(1.4rem, 16px); /* Prevent zoom on iOS */
   color: #222;
   padding: 0.38rem 0.3rem;
   &::placeholder {
@@ -379,18 +383,18 @@ const PortfolioChatBot = () => {
                                 fillRule="evenodd"
                                 clipRule="evenodd"
                                 d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
-                                fill="#7a7a7a"
-                            />
+                                fill="currentColor"
+                                                            />
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
                                 d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
-                                fill="#7a7a7a"
-                            />
+                                fill="currentColor"
+                                                            />
                         </svg>
                         <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
                     </IconButton>
-                    <IconButton onClick={() => setOpen(false)} title="Close">×</IconButton>
+                    <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2.3rem"}}>×</IconButton>
                 </TopBar>
                 <MessageArea ref={messageAreaRef}>
                     {messages.map((m, i) => (
@@ -430,3 +434,6 @@ const PortfolioChatBot = () => {
 };
 
 export default PortfolioChatBot;
+
+
+
