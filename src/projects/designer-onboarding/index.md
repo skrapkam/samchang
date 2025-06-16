@@ -35,6 +35,10 @@ But this also meant that we didn’t know anything about these designers until t
 
 Unfortunately, most of the designers who sign up are banned due to the low-quality work they produce. This project aimed to **expedite the progression for qualified designers** while **identifying and blocking the bad actors** who don't contribute positively to our community.
 
+This project aimed to improve the quality of designers on the platform by requiring applications, limiting early activity, and revamping the review tools.
+
+<clickable-prompt prompt="What problem were you solving with this project?">Ask about the problem</clickable-prompt>
+
 ## My role
 
 I led the design of this project between Oct 2018 and Dec 2019 and collaborated with two other designers.
@@ -151,6 +155,10 @@ After signing up, designers will have to complete an application for review. The
 ## Application
 
 Remember the information we wanted from designers to determine whether they're qualified to join? In order for designers to provide us this information I essentially designed a glorified form. This application process contains the first major touchpoint that new designers will have after sign-up.
+
+The onboarding UI went through three major iterations based on usability testing and internal feedback.
+
+<clickable-prompt prompt="How many design iterations were there?">How many design versions?</clickable-prompt>
 
 ### First iteration
 
@@ -285,6 +293,10 @@ Finally, we saw that the median **time for designers to perform a meaningful act
 Although during the first 11 days the percentage having performed a meaningful action is higher in the Old cohort, thereafter the new cohort is much higher.
 
 ![Onboarding - Meaningful actions](./images/img_onboarding_meaningful_action.jpg "Chart illustrating comparison between old and new cohorts in performing a meaningful action")
+
+The result was a 97% drop in ID verification costs and a faster time to meaningful action.
+
+<clickable-prompt prompt="What was the impact of this project?">See the outcomes</clickable-prompt>
 
 ## Community reception
  
