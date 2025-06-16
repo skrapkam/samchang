@@ -2,6 +2,7 @@
 import { jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect, useRef } from "react";
+import { useChat } from "./ChatContext";
 
 const CHAT_API_URL =
     process.env.NODE_ENV === "development"
@@ -283,7 +284,7 @@ async function fetchStreamedResponse(message: string, onChunk: (text: string) =>
 }
 
 const PortfolioChatBot = () => {
-    const [open, setOpen] = useState(false);
+    const { open, setOpen, initialPrompt, setInitialPrompt } = useChat();
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
         try {
             const stored = localStorage.getItem("portfolioChatHistory");
@@ -323,20 +324,30 @@ const PortfolioChatBot = () => {
         localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
     }, [messages]);
 
-    const sendMessage = async (e?: React.FormEvent) => {
+    useEffect(() => {
+        if (!initialPrompt) return;
+        setMessages([getInitialMsg()]);
+        setTimeout(() => {
+            sendMessage(initialPrompt);
+            setInitialPrompt(undefined);
+        }, 120);
+    }, [initialPrompt]);
+
+    const sendMessage = async (msg?: string, e?: React.FormEvent) => {
         e?.preventDefault();
-        if (!input.trim() || isStreaming) return;
+        const text = msg ?? input.trim();
+        if (!text || isStreaming) return;
 
         const now = new Date().toISOString();
-        const userMessage = { text: input, isUser: true, timestamp: now };
+        const userMessage = { text, isUser: true, timestamp: now };
         setMessages(prev => [...prev, userMessage]);
-        setInput("");
+        if (!msg) setInput("");
         setIsStreaming(true);
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
         let streamedText = "";
-        await fetchStreamedResponse(input, chunk => {
+        await fetchStreamedResponse(text, chunk => {
             streamedText += chunk;
             setMessages(prev => {
                 const newMsgs = [...prev];
@@ -397,7 +408,7 @@ const PortfolioChatBot = () => {
                     ))}
                     <div ref={msgEndRef} />
                 </MessageArea>
-                <BottomBar focused={focused} onSubmit={sendMessage}>
+                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, e)}>
                     <Input
                         value={input}
                         onChange={e => setInput(e.target.value)}
