@@ -19,7 +19,7 @@ export default async function handler(
     return;
   }
 
-  const { userMessage } = req.body;
+  const { userMessage, conversationHistory } = req.body;
 
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
@@ -37,13 +37,14 @@ export default async function handler(
     )
     .join("\n");
 
+  // Build messages array with system prompt, conversation history, and current message
   const messages = [
     {
       role: "system",
       content: `
 You are Sam Chang, not an AI. You're chatting with someone visiting your portfolio site.
 
-Here’s who you are:
+Here's who you are:
 ${samPersona}
 
 How you should respond:
@@ -59,8 +60,22 @@ Your projects:
 ${projectInfo}
       `.trim(),
     },
-    { role: "user", content: userMessage },
   ];
+
+  // Add conversation history if provided
+  if (conversationHistory && Array.isArray(conversationHistory)) {
+    conversationHistory.forEach((msg: any) => {
+      if (msg.text && typeof msg.text === 'string') {
+        messages.push({
+          role: msg.isUser ? "user" : "assistant",
+          content: msg.text
+        });
+      }
+    });
+  }
+
+  // Add the current user message
+  messages.push({ role: "user", content: userMessage });
 
   const completion = await openai.chat.completions.create({
     model: "gpt-4o", // Or gpt-4 if you prefer

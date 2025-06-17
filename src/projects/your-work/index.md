@@ -18,13 +18,24 @@ Redesigning the client project management experience for 99designs
 </content-excerpt>
 <summary>
 I redesigned a dashboard to empower clients. This redesigned client experience helped speed up their workflows and encouraged them to engage more with the people they work with.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Your Work">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Your Work">What was your process?
+</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Your Work">What constraints shaped your work?
+</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?" projectContext="Your Work">What impact did it have?
+</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 # Introduction
 
 ## Background
 
-I joined <a href="https://99designs.com">99designs</a> in June 2018 as a product designer on our Designer Discovery team. One of the products that our team is responsible for is “Your work”, a consolidated dashboard for clients that presents their contests, direct work, and drafts. My first major project at 99designs was to help redesign this product.
+I joined <a href="https://99designs.com">99designs</a> in June 2018 as a product designer on our Designer Discovery team. One of the products that our team is responsible for is "Your work", a consolidated dashboard for clients that presents their contests, direct work, and drafts. My first major project at 99designs was to help redesign this product.
 
 ## Problem Framing
 
@@ -36,7 +47,7 @@ Specifically, we wanted to speed up the workflows of our clients by <strong>high
 
 ## My Involvement
 
-I worked on this project with my design lead, <a href="https://twitter.com/caioab">Caio Braga</a> (he’s awesome, btw). I helped Caio out by designing interfaces, thinking of new interaction paradigms, and continuously presenting our work to the rest of our design team.
+I worked on this project with my design lead, <a href="https://twitter.com/caioab">Caio Braga</a> (he's awesome, btw). I helped Caio out by designing interfaces, thinking of new interaction paradigms, and continuously presenting our work to the rest of our design team.
 
 Caio had already given this project much thought before I joined 99designs, so I was fortunate to be building on top of his ideas and further pushing the project forward.
 
@@ -52,7 +63,7 @@ Our takeaway was that features such as search, filtering, and quick actions will
 
 # Design
 
-The design process was centered around continuous iteration. I explored various layouts and interaction patterns to share with my team for feedback. From that feedback I’d go back and explore new ideas.
+The design process was centered around continuous iteration. I explored various layouts and interaction patterns to share with my team for feedback. From that feedback I'd go back and explore new ideas.
 
 Here are some of the changes we ended up making:
 
@@ -64,11 +75,11 @@ We changed the navigation pattern from a pill pattern to a sidebar pattern. We f
 
 ## Avatars
 
-We added designer avatars to each listing item in order to help clients quickly recognize who’s working on their project. This is especially useful for the clients who expressed frustration with finding designers that they’ve worked with.
+We added designer avatars to each listing item in order to help clients quickly recognize who's working on their project. This is especially useful for the clients who expressed frustration with finding designers that they've worked with.
 
 ![Your Work](./images/img_yourwork_avatars.png "Shipped avatar permutations")
 
-Since multiple designers are in a contest, we thought that showing clients multiple avatars would help them not only quickly see who’s in their contests, but also distinguish contests from direct work (direct work items only show 1 avatar). I explored a couple of ideas for how we can display these avatars as well the number of entries and designers.
+Since multiple designers are in a contest, we thought that showing clients multiple avatars would help them not only quickly see who's in their contests, but also distinguish contests from direct work (direct work items only show 1 avatar). I explored a couple of ideas for how we can display these avatars as well the number of entries and designers.
 
 ![Your Work](./images/img_yourwork_avatars-iterations.png "A few early explorations")
 
@@ -84,13 +95,13 @@ I also took the time to see how we can show these action buttons in mobile since
 
 ## Context Messages
 
-We also added context messages for each project depending on the project stage. Information such as quote amount or completion requests would be displayed here. Again, this is to help clients get an early snapshot of where their projects are at to make quick decisions. One consideration we made when deciding on what messages to show was our current notification system. While we wanted to display useful messages, we also didn’t want to replace our notifications with them.
+We also added context messages for each project depending on the project stage. Information such as quote amount or completion requests would be displayed here. Again, this is to help clients get an early snapshot of where their projects are at to make quick decisions. One consideration we made when deciding on what messages to show was our current notification system. While we wanted to display useful messages, we also didn't want to replace our notifications with them.
 
 ![Your Work](./images/img_yourwork_context-message.png "Quote and completion request messages")
 
 # Constraints
 
-We didn’t get to ship search and filter features as well as test throughout the design process because of constraints such as time and other product initiatives.
+We didn't get to ship search and filter features as well as test throughout the design process because of constraints such as time and other product initiatives.
 
 # User Testing
 
@@ -108,11 +119,11 @@ From these tests we learned that:
 
 ## No perfect solution
 
-Even though our goal was to deliver value for our clients (e.g. speeding up their workflow), not achieving that goal for everyone isn’t necessarily a “bad” thing. At best, the changes improve their workflow and at worst, they don’t affect any change. Every client is different and has a different workflow which means that there isn’t a one-size-fits-all approach to making everyone’s experience better.
+Even though our goal was to deliver value for our clients (e.g. speeding up their workflow), not achieving that goal for everyone isn't necessarily a "bad" thing. At best, the changes improve their workflow and at worst, they don't affect any change. Every client is different and has a different workflow which means that there isn't a one-size-fits-all approach to making everyone's experience better.
 
 ## An invisible refresh
 
-Interestingly, most clients didn’t even notice the changes we implemented and yet were still able to successfully navigate through Your work. Sometimes it’s okay and even desirable if our customers don’t immediately notice a change. If they’re able to still quickly get in and out and accomplish their goals, then that’s a win for us.
+Interestingly, most clients didn't even notice the changes we implemented and yet were still able to successfully navigate through Your work. Sometimes it's okay and even desirable if our customers don't immediately notice a change. If they're able to still quickly get in and out and accomplish their goals, then that's a win for us.
 
 ## Share work often
 
@@ -120,4 +131,4 @@ Part of what made this project so fun was getting to constantly share my designs
 
 # Special Thanks
 
-**Design lead**: Caio Braga. **Product**: Jason Aiken. **Engineering**: Matthew Diamant, Vy Cu, Robert McNeil, and Dan Williams.
+**Design lead**: Caio Braga. **Product**: Jason Aiken. **Engineering**: Matthew Diamant, Vy Cu, Robert McNeil, and Dan Williams.

@@ -21,12 +21,12 @@ Overhauling 99designs' designer onboarding experience
 I led the design of a new onboarding process for designers. This new and improved process is helping 99designs find great designers, improving the quality of work on the platform, and saving the company over $230,000 a year.
 
 <prompt-container>
-<clickable-prompt prompt="What problem were you solving with this project?">What problem did you solve?</clickable-prompt>
-<clickable-prompt prompt="What was your process?">What was your process?
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Onboarding">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Onboarding">What was your process?
 </clickable-prompt>
-<clickable-prompt prompt="What constraints shaped your work?">What constraints shaped your work?
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Onboarding">What constraints shaped your work?
 </clickable-prompt>
-<clickable-prompt prompt="What impact did it have?">What impact did it have?
+<clickable-prompt prompt="What impact did it have?" projectContext="Onboarding">What impact did it have?
 </clickable-prompt>
 </prompt-container>
 
@@ -42,7 +42,7 @@ Before launching this project, 99d was open to any designer—which was pretty g
 
 ![Onboarding - Old flow](./images/img_onboarding_old_flow.png "Old flow (1. Sign-up → 2. Optionally fill out some information → 3. Start working)")
 
-But this also meant that we didn’t know anything about these designers until they started work on our platform.
+But this also meant that we didn't know anything about these designers until they started work on our platform.
 
 Unfortunately, most of the designers who sign up are banned due to the low-quality work they produce. This project aimed to **expedite the progression for qualified designers** while **identifying and blocking the bad actors** who don't contribute positively to our community.
 
@@ -236,9 +236,9 @@ All unreviewed designers:
 
 - **Cannot** work in contests
 - **Cannot** access the community forum
-- **Can** be invited to a project from their profile or from a client contact
-- **Can** invite a client via email
-- **Can** invite a client contact (which would be someone who had previously invited them or a client they previously invited via email)
+- **Can** be invited to a project from their profile or from a client contact
+- **Can** invite a client via email
+- **Can** invite a client contact (which would be someone who had previously invited them or a client they previously invited via email)
 
 From these requirements I began to map out their implications in the interface. In other words, what I'd need to design to communicate these limitations on the front-end.
 
