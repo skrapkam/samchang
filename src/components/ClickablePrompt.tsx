@@ -41,12 +41,51 @@ const Styled = styled.button`
 
 interface Props {
   prompt: string;
+  projectContext?: string;
   children?: React.ReactNode;
+  onPromptClick?: (displayText: string, apiPrompt: string) => void;
+  [key: string]: any;
 }
 
-const ClickablePrompt: React.FC<Props> = ({ prompt, children }) => {
+const ClickablePrompt: React.FC<Props> = (props) => {
   const { openChatWithPrompt } = useChat();
-  return <Styled onClick={() => openChatWithPrompt(prompt)}>{children || prompt}</Styled>;
+  
+  // Extract props - try multiple ways to get projectContext
+  const prompt = props.prompt || props['prompt'];
+  const projectContext = props.projectContext || props['projectcontext'] || props['projectContext'];
+  const children = props.children;
+  
+  // Fallback: try to get project context from current page URL
+  const getProjectContextFromURL = () => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      if (path.includes('/your-work')) return 'Your Work';
+      if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
+    }
+    return null;
+  };
+  
+  const finalProjectContext = projectContext || getProjectContextFromURL();
+  
+  const contextualizedPrompt = finalProjectContext 
+    ? `[Regarding the ${finalProjectContext} project] ${prompt}`
+    : prompt;
+
+  // Ensure displayText is always a string. If children is an array, join it. If it's a single ReactNode, stringify it.
+  const displayText = (children && typeof children === 'string')
+    ? children
+    : (Array.isArray(children) ? children.join('') : (children ? String(children) : prompt));
+  
+  const handleClick = () => {
+    if (props.onPromptClick) {
+      props.onPromptClick(displayText, contextualizedPrompt);
+    } else {
+      // Fallback for cases where onPromptClick is not provided (e.g., direct usage)
+      openChatWithPrompt(displayText, contextualizedPrompt);
+    }
+  };
+  
+  return <Styled onClick={handleClick}>{displayText}</Styled>;
 };
 
 export default ClickablePrompt;

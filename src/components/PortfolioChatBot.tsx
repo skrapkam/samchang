@@ -22,7 +22,7 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   background-color: transparent;
   user-select: none;
   opacity: ${(props) => (props.isOpen ? 0.4 : 1)};
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(8px);
   color: #000;
   padding: 1rem 1.5rem;
   border-radius: 10px;
@@ -62,7 +62,7 @@ const ChatBox = styled.div<ChatBoxProps>`
   background: #f9fafd;
   border: 1px solid #e7eaf2;
   border-radius: 10px;
-  padding: 0 0 0.5rem 0;
+  padding: 0 0 calc(1.2rem + env(safe-area-inset-bottom, 0px)) 0;
   box-shadow: 0 8px 28px rgba(50, 60, 120, 0.13);
   display: flex;
   flex-direction: column;
@@ -79,38 +79,36 @@ const TopBar = styled.div<{ showBorder: boolean }>`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 0.7rem 1rem 0.9rem;
-  border-bottom: 1px solid #e7eaf2;
   height: 5rem;
-  border-bottom: ${(props) => (props.showBorder ? ".5px solid #e7eaf2" : "none")};
   user-select: none;
-background:transparent;
+  background: transparent;
+  box-shadow: ${(props) => (props.showBorder ? "inset 0 -1px 0 rgba(231, 234, 242, 1)" : "none")};
 `;
 
 
 const IconButton = styled.button`
-
   display: flex;
   align-items: center;
   gap: 6px;
-  background:transparent;
+  background: transparent;
   border-radius: 5px;
   border: none;
   color: #7a7a7a;
   font-size: 1.8rem;
   font-weight: 500;
   padding: 4px 10px;
+  height: 32px;
   cursor: pointer;
   transition: color 0.2s ease;
   &:hover {
     color: #000;
     background-color: #f2f2f2;
-
   }
   svg {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    fill: currentColor; /* this is what makes the icon match the text */
+    fill: currentColor;
     transition: fill 0.2s ease;
   }
 `;
@@ -234,16 +232,13 @@ const PromptButton = styled.button`
 `;
 
 const BottomBar = styled.form<{ focused: boolean }>`
-height: 64px; /* Set a fixed height */
+  height: 52px; /* Set a fixed height */
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
-  border-top: 1px solid #e7eaf2;
   background: #fff;
   border: 1px solid #e7eaf2;
   box-shadow: ${(props) => (props.focused ? "0 0 0 1px #000" : "none")};
-
   border-color: ${(props) => (props.focused ? "#000" : "#e7eaf2")};
   border-radius: 15px;
   padding: 0.6rem 0.8rem;
@@ -330,14 +325,21 @@ function formatTime(iso: string) {
     return isNaN(date.getTime()) ? "" : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
 
-async function fetchStreamedResponse(message: string, onChunk: (text: string) => void) {
+async function fetchStreamedResponse(message: string, conversationHistory: ChatMessage[], onChunk: (text: string) => void) {
     const response = await fetch(CHAT_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userMessage: message }),
+        body: JSON.stringify({ 
+            userMessage: message,
+            conversationHistory: conversationHistory
+        }),
     });
 
     const reader = response.body?.getReader();
+    if (!reader) {
+        throw new Error("Failed to get response reader");
+    }
+    
     const decoder = new TextDecoder();
     let buffer = "";
 
@@ -359,14 +361,29 @@ async function fetchStreamedResponse(message: string, onChunk: (text: string) =>
     }
 }
 
-const SUGGESTED_PROMPTS = [
+const ALL_PROMPTS = [
     "Tell me about your experience and background",
     "What projects have you worked on?",
-    "What are your main technical skills?"
+    "What music do you like?",
+    "What are your technical skills?",
+    "What's your favorite programming language?",
+    "Tell me about your education",
+    "What are your hobbies?",
+    "What's your work style?",
+    "What are your career goals?",
+    "What's your favorite project you've worked on?",
+    "What technologies are you most passionate about?",
+    "What's your approach to problem-solving?",
+    "What do you do for fun?"
 ];
 
+const getRandomPrompts = () => {
+    const shuffled = [...ALL_PROMPTS].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 3);
+};
+
 const PortfolioChatBot = () => {
-    const { open, setOpen, initialPrompt, setInitialPrompt } = useChat();
+    const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
         try {
             const stored = localStorage.getItem("portfolioChatHistory");
@@ -378,10 +395,24 @@ const PortfolioChatBot = () => {
     const [focused, setFocused] = useState(false);
     const [isStreaming, setIsStreaming] = useState(false);
     const msgEndRef = useRef<HTMLDivElement | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
 
     const [isScrollable, setIsScrollable] = useState(false);
     const messageAreaRef = useRef<HTMLDivElement>(null);
+    
+    const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
+    
+    // Function to detect project context from current URL
+    const getProjectContextFromURL = () => {
+        if (typeof window !== 'undefined') {
+            const path = window.location.pathname;
+            if (path.includes('/your-work')) return 'Your Work';
+            if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
+            // Add more project paths as needed
+        }
+        return null;
+    };
     
     useEffect(() => {
         const el = messageAreaRef.current;
@@ -407,29 +438,64 @@ const PortfolioChatBot = () => {
     }, [messages]);
 
     useEffect(() => {
-        if (!initialPrompt) return;
-        setMessages([getInitialMsg()]);
-        setTimeout(() => {
-            sendMessage(initialPrompt);
-            setInitialPrompt(undefined);
-        }, 120);
-    }, [initialPrompt]);
+        if (!initialApiPrompt && !initialDisplayPrompt) return; // Check both new prompts
+        const handleInitialPrompt = async () => {
+            // Only reset if this is the first message
+            if (messages.length === 1 && messages[0].text === getInitialMsg().text) {
+                setMessages([getInitialMsg()]);
+            }
+            await sendMessage(initialDisplayPrompt, initialApiPrompt);
+            setInitialApiPrompt(undefined); // Clear after use
+            setInitialDisplayPrompt(undefined); // Clear after use
+        };
+        handleInitialPrompt();
+    }, [initialApiPrompt, initialDisplayPrompt]); // Depend on both initial prompts
 
-    const sendMessage = async (msg?: string, e?: React.FormEvent) => {
+    useEffect(() => {
+        if (open) {
+            inputRef.current?.focus();
+        }
+    }, [open]);
+
+    useEffect(() => {
+        if (!isStreaming) {
+            inputRef.current?.focus();
+        }
+    }, [isStreaming]);
+
+    const sendMessage = async (
+        displayText?: string, // Used for displaying in UI
+        apiPrompt?: string,   // Used for sending to API
+        e?: React.FormEvent
+    ) => {
         e?.preventDefault();
-        const text = msg ?? input.trim();
-        if (!text || isStreaming) return;
+        const textToDisplay = displayText ?? input.trim();
+        const textToSendToApi = apiPrompt ?? textToDisplay;
+
+        if (!textToDisplay || isStreaming) return; // Use textToDisplay for check
+
+        // Auto-detect project context for user-typed messages
+        let finalApiText = textToSendToApi;
+        if (!apiPrompt) { // Only add context if this is a user-typed message (not from clickable prompts)
+            const projectContext = getProjectContextFromURL();
+            if (projectContext) {
+                finalApiText = `[Regarding the ${projectContext} project] ${textToSendToApi}`;
+            }
+        }
 
         const now = new Date().toISOString();
-        const userMessage = { text, isUser: true, timestamp: now };
+        const userMessage = { text: textToDisplay, isUser: true, timestamp: now }; // Use textToDisplay for user message
         setMessages(prev => [...prev, userMessage]);
-        if (!msg) setInput("");
+        if (!displayText) setInput(""); // Only clear input if it was typed, not from prompt click
         setIsStreaming(true);
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
+        // Get the conversation history up to the current user message (excluding the streaming message)
+        const conversationHistory = messages.concat(userMessage);
+
         let streamedText = "";
-        await fetchStreamedResponse(text, chunk => {
+        await fetchStreamedResponse(finalApiText, conversationHistory, chunk => { // Use finalApiText with context
             streamedText += chunk;
             setMessages(prev => {
                 const newMsgs = [...prev];
@@ -445,7 +511,13 @@ const PortfolioChatBot = () => {
 
     // Reset chat and show prompts
     const resetChat = () => {
+        setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
+    };
+
+    // Helper for clickable prompts: pass both clean and contextualized prompt
+    const handlePromptClick = (cleanText: string, contextualizedPrompt: string) => {
+        sendMessage(cleanText, contextualizedPrompt);
     };
 
     return (
@@ -477,7 +549,7 @@ const PortfolioChatBot = () => {
                         </svg>
                         <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
                     </IconButton>
-                    <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2.3rem"}}>×</IconButton>
+                    <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
                 </TopBar>
                 <MessageArea ref={messageAreaRef}>
                     {messages.map((m, i) => (
@@ -494,10 +566,10 @@ const PortfolioChatBot = () => {
                                     {m.showPrompts && (
                                         <PromptButtonsContainer>
                                         <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
-                                            {SUGGESTED_PROMPTS.map((prompt, index) => (
+                                            {currentPrompts.map((prompt, index) => (
                                                 <PromptButton
                                                     key={index}
-                                                    onClick={() => sendMessage(prompt)}
+                                                    onClick={() => handlePromptClick(prompt, prompt)}
                                                 >
                                                     {prompt}
                                                 </PromptButton>
@@ -510,8 +582,9 @@ const PortfolioChatBot = () => {
                     ))}
                     <div ref={msgEndRef} />
                 </MessageArea>
-                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, e)}>
+                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
                     <Input
+                        ref={inputRef}
                         value={input}
                         onChange={e => setInput(e.target.value)}
                         onFocus={() => setFocused(true)}
