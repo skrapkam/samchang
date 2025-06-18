@@ -11,14 +11,62 @@ const CHAT_API_URL =
 
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
-    // If no URLs, just return the text as-is to preserve spacing
-    if (!text.includes('http')) {
+    // If no URLs or markdown links, just return the text as-is to preserve spacing
+    if (!text.includes('http') && !text.includes('[')) {
         return text;
     }
     
-    // URL regex pattern that matches http/https URLs
+    // First, handle Markdown-style links [text](url)
+    const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let processedText = text;
+    const markdownMatches: RegExpExecArray[] = [];
+    let match;
+    
+    // Collect all markdown matches
+    while ((match = markdownLinkRegex.exec(processedText)) !== null) {
+        markdownMatches.push(match);
+    }
+    
+    if (markdownMatches.length > 0) {
+        // Split the text by markdown links and reconstruct with React elements
+        const parts: (string | JSX.Element)[] = [];
+        let lastIndex = 0;
+        
+        markdownMatches.forEach((match, index) => {
+            const [fullMatch, linkText, url] = match;
+            const matchIndex = match.index!;
+            
+            // Add text before the markdown link
+            if (matchIndex > lastIndex) {
+                parts.push(processedText.slice(lastIndex, matchIndex));
+            }
+            
+            // Add the markdown link as a React element
+            parts.push(
+                <StyledLink 
+                    key={`markdown-${index}`}
+                    href={url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
+                    {linkText}
+                </StyledLink>
+            );
+            
+            lastIndex = matchIndex + fullMatch.length;
+        });
+        
+        // Add remaining text after the last markdown link
+        if (lastIndex < processedText.length) {
+            parts.push(processedText.slice(lastIndex));
+        }
+        
+        return parts;
+    }
+    
+    // Handle plain URLs that weren't already converted
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = text.split(urlRegex);
+    const parts = processedText.split(urlRegex);
     
     return parts.map((part, index) => {
         if (urlRegex.test(part)) {
@@ -620,13 +668,13 @@ const PortfolioChatBot = () => {
                                 <Ellipsis>{dots}</Ellipsis>
                             ) : m.streaming && m.text ? (
                                 <Message isUser={m.isUser}>
-                                    {m.text.includes('http') ? convertUrlsToLinks(m.text) : m.text}
+                                    {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
                                     <span>{dots}</span>
                                 </Message>
                             ) : (
                                 <Fragment>
                                     <Message isUser={m.isUser}>
-                                        {m.text.includes('http') ? convertUrlsToLinks(m.text) : m.text}
+                                        {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
                                     </Message>
                                     {m.showPrompts && (
                                         <PromptButtonsContainer>
