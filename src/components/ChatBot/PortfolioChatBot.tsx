@@ -481,7 +481,8 @@ const getRandomPrompts = () => {
 // Add after helper functions
 function postProcessText(text: string) {
     return text
-        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after punctuation if missing
+        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
+        .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
