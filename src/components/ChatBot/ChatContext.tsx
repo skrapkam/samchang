@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface ChatContextValue {
   open: boolean;
@@ -10,9 +10,13 @@ interface ChatContextValue {
   openChatWithPrompt: (displayText: string, apiPrompt: string) => void;
 }
 
-const ChatContext = createContext<ChatContextValue | undefined>(undefined);
+const ChatContext = createContext<ChatContextValue | null>(null);
 
-export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface ChatProviderProps {
+  children: ReactNode;
+}
+
+export const ChatProvider = ({ children }: ChatProviderProps) => {
   const [open, setOpen] = useState(false);
   const [initialApiPrompt, setInitialApiPrompt] = useState<string | undefined>(undefined);
   const [initialDisplayPrompt, setInitialDisplayPrompt] = useState<string | undefined>(undefined);
@@ -23,19 +27,17 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setOpen(true);
   };
 
-  return (
-    <ChatContext.Provider value={{
-      open,
-      setOpen,
-      initialApiPrompt,
-      setInitialApiPrompt,
-      initialDisplayPrompt,
-      setInitialDisplayPrompt,
-      openChatWithPrompt
-    }}>
-      {children}
-    </ChatContext.Provider>
-  );
+  const value: ChatContextValue = {
+    open,
+    setOpen,
+    initialApiPrompt,
+    setInitialApiPrompt,
+    initialDisplayPrompt,
+    setInitialDisplayPrompt,
+    openChatWithPrompt
+  };
+
+  return React.createElement(ChatContext.Provider, { value }, children);
 };
 
 export const useChat = () => {

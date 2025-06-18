@@ -1,7 +1,6 @@
 import React from "react";
 import { inject } from "@vercel/analytics";
-import PortfolioChatBot from "./src/components/PortfolioChatBot";
-import { ChatProvider } from "./src/components/ChatContext";
+import { PortfolioChatBot, ChatProvider } from "./src/components/ChatBot";
 
 // Inject Vercel Analytics
 export const onInitialClientRender = () => {

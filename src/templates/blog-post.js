@@ -28,7 +28,7 @@ import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
 
 // ✅ Add these imports
-import ClickablePrompt from "../components/ClickablePrompt";
+import { ClickablePrompt } from "../components/ChatBot";
 import PromptContainer from "../components/Blog/PromptContainer";
 
 const renderAst = new RehypeReact({
