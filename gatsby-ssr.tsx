@@ -1,6 +1,5 @@
 import React from "react";
-import PortfolioChatBot from "./src/components/PortfolioChatBot";
-import { ChatProvider } from "./src/components/ChatContext";
+import { PortfolioChatBot, ChatProvider } from "./src/components/ChatBot";
 
 export const wrapRootElement = ({ element }: { element: React.ReactNode }) => (
   <ChatProvider>

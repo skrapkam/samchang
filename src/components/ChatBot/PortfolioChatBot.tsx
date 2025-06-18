@@ -160,7 +160,7 @@ const MessageArea = styled.div`
   background: #f9fafd;
 `;
 
-const MessageWrapper = styled.div<{ iser?: boolean }>`
+const MessageWrapper = styled.div<{ isUser?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
