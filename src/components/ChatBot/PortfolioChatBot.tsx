@@ -11,6 +11,11 @@ const CHAT_API_URL =
 
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
+    // If no URLs, just return the text as-is to preserve spacing
+    if (!text.includes('http')) {
+        return text;
+    }
+    
     // URL regex pattern that matches http/https URLs
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const parts = text.split(urlRegex);
@@ -28,6 +33,7 @@ const convertUrlsToLinks = (text: string) => {
                 </StyledLink>
             );
         }
+        // Return the text part as-is to preserve original spacing
         return part;
     });
 };
@@ -395,7 +401,9 @@ async function fetchStreamedResponse(message: string, conversationHistory: ChatM
                 if (chunk === "[DONE]") return;
                 text += chunk;
             }
-            if (text) onChunk(text);
+            if (text) {
+                onChunk(text);
+            }
             buffer = buffer.split("\n").filter(l => !l.startsWith("data: ")).join("\n");
         }
     }
@@ -421,6 +429,13 @@ const getRandomPrompts = () => {
     const shuffled = [...ALL_PROMPTS].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 3);
 };
+
+// Add after helper functions
+function postProcessText(text: string) {
+    return text
+        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after punctuation if missing
+        .replace(/\s{2,}/g, " ");             // collapse multiple spaces
+}
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
@@ -538,7 +553,7 @@ const PortfolioChatBot = () => {
         const conversationHistory = messages.concat(userMessage);
 
         let streamedText = "";
-        await fetchStreamedResponse(finalApiText, conversationHistory, chunk => { // Use finalApiText with context
+        await fetchStreamedResponse(finalApiText, conversationHistory, chunk => {
             streamedText += chunk;
             setMessages(prev => {
                 const newMsgs = [...prev];
@@ -548,7 +563,7 @@ const PortfolioChatBot = () => {
             });
         });
 
-        setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false } : m));
+        setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
         setIsStreaming(false);
     };
 
@@ -605,13 +620,13 @@ const PortfolioChatBot = () => {
                                 <Ellipsis>{dots}</Ellipsis>
                             ) : m.streaming && m.text ? (
                                 <Message isUser={m.isUser}>
-                                    {convertUrlsToLinks(m.text)}
+                                    {m.text.includes('http') ? convertUrlsToLinks(m.text) : m.text}
                                     <span>{dots}</span>
                                 </Message>
                             ) : (
                                 <Fragment>
                                     <Message isUser={m.isUser}>
-                                        {convertUrlsToLinks(m.text)}
+                                        {m.text.includes('http') ? convertUrlsToLinks(m.text) : m.text}
                                     </Message>
                                     {m.showPrompts && (
                                         <PromptButtonsContainer>
