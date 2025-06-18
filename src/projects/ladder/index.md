@@ -21,6 +21,13 @@ Reimagining life insurance for the digital age
 Contributed to major redesign and rebrand of entire
 platform. Responsible for redesign of application process.
 Improved payments conversion by 11%. Created a scalable set of solutions for Ladder's partners. View all projects I worked on at Ladder <a href ="https://samchang.notion.site/0b89e27be0264018bfd23e661651fdd4?v=8f6998c23e9d429cb8cf6dee21dac6fd">here</a>. 
+
+<prompt-container>
+<clickable-prompt prompt="What kind of projects did you work on here?" projectContext="Ladder">What kind of projects did you work on here?</clickable-prompt>
+<clickable-prompt prompt="Can you describe the scope of your design leadership responsibilities?" projectContext="Ladder">What was the scope your design leadership responsibilities?</clickable-prompt>
+</prompt-container>
+
+ 
 </summary>
 
 # Introduction

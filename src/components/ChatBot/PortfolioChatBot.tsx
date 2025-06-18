@@ -516,6 +516,7 @@ const PortfolioChatBot = () => {
             if (path.includes('/google')) return 'Google';
             if (path.includes('/music')) return 'Music';
             if (path.includes('/info')) return 'Info';
+            if (path.includes('/ladder')) return 'Ladder';
             // Add more project paths as needed
         }
         return null;

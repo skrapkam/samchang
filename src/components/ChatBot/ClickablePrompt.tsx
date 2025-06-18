@@ -62,6 +62,7 @@ const ClickablePrompt: React.FC<Props> = (props) => {
       if (path.includes('/your-work')) return 'Your Work';
       if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
       if (path.includes('/google')) return 'Google';
+      if (path.includes('/ladder')) return 'Ladder';
     }
     return null;
   };
