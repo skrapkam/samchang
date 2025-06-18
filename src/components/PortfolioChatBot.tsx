@@ -9,7 +9,47 @@ const CHAT_API_URL =
         ? "http://localhost:3000/api/chat"
         : "https://sam-chat-api.vercel.app/api/chat";
 
+// Utility function to detect URLs and convert them to clickable links
+const convertUrlsToLinks = (text: string) => {
+    // URL regex pattern that matches http/https URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, index) => {
+        if (urlRegex.test(part)) {
+            return (
+                <StyledLink 
+                    key={index} 
+                    href={part} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
+                    {part}
+                </StyledLink>
+            );
+        }
+        return part;
+    });
+};
 
+// Styled link component with underline styling
+const StyledLink = styled.a`
+    color: #0066cc;
+    text-decoration: underline;
+    text-decoration-color: #0066cc;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s ease;
+    
+    &:hover {
+        color: #004499;
+        text-decoration-color: #004499;
+    }
+    
+    &:visited {
+        color: #660099;
+        text-decoration-color: #660099;
+    }
+`;
 
 const ChatWrapper = styled.div<{ x: number; y: number }>`
   position: fixed;
@@ -409,6 +449,7 @@ const PortfolioChatBot = () => {
             const path = window.location.pathname;
             if (path.includes('/your-work')) return 'Your Work';
             if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
+            if (path.includes('/google')) return 'Google';
             // Add more project paths as needed
         }
         return null;
@@ -560,9 +601,16 @@ const PortfolioChatBot = () => {
                             </Meta>
                             {m.streaming && !m.text ? (
                                 <Ellipsis>{dots}</Ellipsis>
+                            ) : m.streaming && m.text ? (
+                                <Message isUser={m.isUser}>
+                                    {convertUrlsToLinks(m.text)}
+                                    <span>{dots}</span>
+                                </Message>
                             ) : (
                                 <Fragment>
-                                    <Message isUser={m.isUser}>{m.text}</Message>
+                                    <Message isUser={m.isUser}>
+                                        {convertUrlsToLinks(m.text)}
+                                    </Message>
                                     {m.showPrompts && (
                                         <PromptButtonsContainer>
                                         <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>

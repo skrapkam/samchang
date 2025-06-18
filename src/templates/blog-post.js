@@ -28,7 +28,6 @@ import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
 
 // ✅ Add these imports
-import { projectSummaries } from "../../lib/projectSummaries";
 import ClickablePrompt from "../components/ClickablePrompt";
 import PromptContainer from "../components/Blog/PromptContainer";
 
@@ -103,8 +102,6 @@ const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark;
   const { next, prev, slug } = pageContext;
 
-  // ✅ Check if this post is a known project
-  const isProject = projectSummaries.some((p) => p.slug === slug);
 
   return (
     <Page>
