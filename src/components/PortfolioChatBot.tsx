@@ -160,7 +160,7 @@ const MessageArea = styled.div`
   background: #f9fafd;
 `;
 
-const MessageWrapper = styled.div<{ isUser?: boolean }>`
+const MessageWrapper = styled.div<{ iser?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
@@ -450,6 +450,8 @@ const PortfolioChatBot = () => {
             if (path.includes('/your-work')) return 'Your Work';
             if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
             if (path.includes('/google')) return 'Google';
+            if (path.includes('/music')) return 'Music';
+            if (path.includes('/info')) return 'Info';
             // Add more project paths as needed
         }
         return null;
