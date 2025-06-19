@@ -598,7 +598,10 @@ const PortfolioChatBot = () => {
 
     useEffect(() => {
         if (open) {
-            inputRef.current?.focus();
+            // Only auto-focus on desktop/tablet, not on mobile to prevent keyboard from opening immediately
+            if (typeof window !== 'undefined' && window.innerWidth > 600) {
+                inputRef.current?.focus();
+            }
         }
     }, [open]);
 
