@@ -217,19 +217,6 @@ const Overlay = styled.div<{ visible: boolean; isMobile: boolean }>`
   display: ${props => (props.isMobile ? 'block' : 'none')};
 `;
 
-// Add scroll prevention styles
-const ScrollPrevention = styled.div<{ isMobile: boolean }>`
-  ${props => props.isMobile && `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9997;
-    pointer-events: none;
-  `}
-`;
-
 const TopBar = styled.div<{ showBorder: boolean }>`
   display: flex;
   align-items: center;
@@ -571,24 +558,6 @@ const PortfolioChatBot = () => {
     
     // Mobile detection
     const [isMobile, setIsMobile] = useState(false);
-    
-    // Scroll position management
-    const [scrollPosition, setScrollPosition] = useState(0);
-    
-    // Function to detect project context from current URL
-    const getProjectContextFromURL = () => {
-        if (typeof window !== 'undefined') {
-            const path = window.location.pathname;
-            if (path.includes('/your-work')) return 'Your Work';
-            if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
-            if (path.includes('/google')) return 'Google';
-            if (path.includes('/music')) return 'Music';
-            if (path.includes('/info')) return 'Info';
-            if (path.includes('/ladder')) return 'Ladder';
-            // Add more project paths as needed
-        }
-        return null;
-    };
 
     // Mobile detection effect
     useEffect(() => {
@@ -604,139 +573,6 @@ const PortfolioChatBot = () => {
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
-
-    // Scroll position management for mobile
-    useEffect(() => {
-        if (!isMobile) return;
-
-        const handleFocus = () => {
-            // Store current scroll position when input is focused
-            setScrollPosition(window.scrollY);
-        };
-
-        const handleBlur = () => {
-            // Restore scroll position when input loses focus
-            setTimeout(() => {
-                window.scrollTo(0, scrollPosition);
-            }, 100);
-        };
-
-        const input = inputRef.current;
-        if (input) {
-            input.addEventListener('focus', handleFocus);
-            input.addEventListener('blur', handleBlur);
-        }
-
-        return () => {
-            if (input) {
-                input.removeEventListener('focus', handleFocus);
-                input.removeEventListener('blur', handleBlur);
-            }
-        };
-    }, [isMobile, scrollPosition]);
-
-    // Prevent scroll when chat is open on mobile
-    useEffect(() => {
-        if (!isMobile) return;
-
-        if (open) {
-            // Store current scroll position
-            const currentScroll = window.scrollY;
-            setScrollPosition(currentScroll);
-            
-            // Prevent scrolling by fixing body position
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${currentScroll}px`;
-            document.body.style.width = '100%';
-        } else {
-            // Restore scrolling
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            
-            // Restore scroll position
-            setTimeout(() => {
-                window.scrollTo(0, scrollPosition);
-            }, 50);
-        }
-
-        return () => {
-            // Cleanup on unmount
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-        };
-    }, [open, isMobile, scrollPosition]);
-
-    // Handle keyboard appearance without forcing scroll to top
-    useEffect(() => {
-        if (!isMobile || !open) return;
-
-        let initialViewportHeight = window.visualViewport?.height || window.innerHeight;
-        let isKeyboardVisible = false;
-
-        const handleViewportChange = () => {
-            if (!window.visualViewport) return;
-            
-            const currentHeight = window.visualViewport.height;
-            const heightDifference = initialViewportHeight - currentHeight;
-            
-            // If keyboard is appearing (significant height reduction)
-            if (heightDifference > 150 && !isKeyboardVisible) {
-                isKeyboardVisible = true;
-                // Prevent the automatic scroll by maintaining current position
-                const currentScroll = window.scrollY;
-                setTimeout(() => {
-                    window.scrollTo(0, currentScroll);
-                }, 10);
-            }
-            // If keyboard is disappearing
-            else if (heightDifference < 50 && isKeyboardVisible) {
-                isKeyboardVisible = false;
-            }
-        };
-
-        const handleScroll = (e: Event) => {
-            // Only prevent scrolling when keyboard is visible
-            if (isKeyboardVisible) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        };
-
-        // Listen for viewport changes and scroll events
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleViewportChange);
-        }
-        window.addEventListener('scroll', handleScroll, { passive: false });
-        document.addEventListener('scroll', handleScroll, { passive: false });
-
-        return () => {
-            if (window.visualViewport) {
-                window.visualViewport.removeEventListener('resize', handleViewportChange);
-            }
-            window.removeEventListener('scroll', handleScroll);
-            document.removeEventListener('scroll', handleScroll);
-        };
-    }, [isMobile, open]);
-
-    useEffect(() => {
-        const el = messageAreaRef.current;
-        if (!el) return;
-      
-        const handleScroll = () => {
-          setIsScrollable(el.scrollTop > 0);
-        };
-      
-        // Set once initially
-        handleScroll();
-      
-        el.addEventListener("scroll", handleScroll);
-        return () => el.removeEventListener("scroll", handleScroll);
-      }, [messages]);
 
     useEffect(() => {
         msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -829,10 +665,24 @@ const PortfolioChatBot = () => {
         sendMessage(cleanText, contextualizedPrompt);
     };
 
+    // Function to detect project context from current URL
+    const getProjectContextFromURL = () => {
+        if (typeof window !== 'undefined') {
+            const path = window.location.pathname;
+            if (path.includes('/your-work')) return 'Your Work';
+            if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
+            if (path.includes('/google')) return 'Google';
+            if (path.includes('/music')) return 'Music';
+            if (path.includes('/info')) return 'Info';
+            if (path.includes('/ladder')) return 'Ladder';
+            // Add more project paths as needed
+        }
+        return null;
+    };
+
     return (
         <>
             <Overlay visible={open} isMobile={isMobile} onClick={() => setOpen(false)} />
-            <ScrollPrevention isMobile={isMobile && open} />
             <ChatWrapper x={30} y={30} isMobile={isMobile}>
                 <ChatButton 
                     onClick={() => setOpen(!open)} 
