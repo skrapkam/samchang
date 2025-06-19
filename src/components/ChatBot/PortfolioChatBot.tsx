@@ -113,12 +113,15 @@ const ChatWrapper = styled.div<{ x: number; y: number; isMobile: boolean }>`
   
   /* Mobile-specific styling */
   ${props => props.isMobile && `
-    top: 20px;
-    right: 20px;
-    left: 20px;
-    height: calc(50vh - 40px);
-    max-height: 360px;
-    min-height: 280px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 50vh;
+    max-height: 400px;
+    min-height: 300px;
+    transform: translateZ(0);
+    will-change: transform;
   `}
 `;
 
@@ -199,6 +202,8 @@ const ChatBox = styled.div<ChatBoxProps>`
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 1px solid #e7eaf2;
+    transform: none;
+    transform-origin: unset;
   `}
 `;
 
@@ -215,6 +220,20 @@ const Overlay = styled.div<{ visible: boolean; isMobile: boolean }>`
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
   transition: opacity 350ms ease;
   display: ${props => (props.isMobile ? 'block' : 'none')};
+`;
+
+// Add viewport stabilization styles
+const ViewportStabilizer = styled.div<{ isMobile: boolean; isOpen: boolean }>`
+  ${props => props.isMobile && props.isOpen && `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9997;
+    pointer-events: none;
+    overflow: hidden;
+  `}
 `;
 
 const TopBar = styled.div<{ showBorder: boolean }>`
@@ -574,6 +593,47 @@ const PortfolioChatBot = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    // Handle viewport changes on mobile when chat is open
+    useEffect(() => {
+        if (!isMobile || !open) return;
+
+        const handleViewportChange = () => {
+            // Force the viewport to stay stable
+            if (window.visualViewport) {
+                const currentHeight = window.visualViewport.height;
+                const windowHeight = window.innerHeight;
+                
+                // If viewport is shrinking (keyboard appearing), prevent scroll
+                if (currentHeight < windowHeight * 0.8) {
+                    document.documentElement.style.height = `${currentHeight}px`;
+                    document.body.style.height = `${currentHeight}px`;
+                }
+            }
+        };
+
+        const handleResize = () => {
+            // Reset heights when window resizes
+            document.documentElement.style.height = '';
+            document.body.style.height = '';
+        };
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleViewportChange);
+            }
+            window.removeEventListener('resize', handleResize);
+            
+            // Cleanup
+            document.documentElement.style.height = '';
+            document.body.style.height = '';
+        };
+    }, [isMobile, open]);
+
     useEffect(() => {
         msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, open]);
@@ -683,6 +743,7 @@ const PortfolioChatBot = () => {
     return (
         <>
             <Overlay visible={open} isMobile={isMobile} onClick={() => setOpen(false)} />
+            <ViewportStabilizer isMobile={isMobile} isOpen={open} />
             <ChatWrapper x={30} y={30} isMobile={isMobile}>
                 <ChatButton 
                     onClick={() => setOpen(!open)} 
