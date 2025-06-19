@@ -231,8 +231,11 @@ const IconButton = styled.button`
 const MessageArea = styled.div<{ isMobile: boolean; isFullScreen: boolean }>`
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: ${(props) => (props.isMobile && props.isFullScreen ? '1.1rem 1rem 3rem 1rem' : '1.1rem 1.8rem 3rem 1.8rem')};
+  padding: 1.1rem 1.8rem 3rem 1.8rem;
   background: #f9fafd;
+  ${(props) => props.isMobile && props.isFullScreen && `
+    padding-bottom: 80px;
+  `}
 `;
 
 const MessageWrapper = styled.div<{ isUser?: boolean }>`
@@ -356,6 +359,7 @@ const InputWrapper = styled.div<{ isMobile: boolean; isFullScreen: boolean; focu
   border: 1px solid ${props => props.focused ? '#000' : '#e7eaf2'};
   box-shadow: ${props => props.focused ? '0 0 0 1px #000' : 'none'};
   transition: border 0.2s, box-shadow 0.2s;
+
 `;
 
 const Input = styled.input<{ isMobile: boolean; isFullScreen: boolean }>`
@@ -513,8 +517,19 @@ const BottomBar = styled.form<{ focused: boolean; isMobile: boolean; isFullScree
   border: none;
   box-shadow: none;
   border-radius: 0;
-  padding: 0.8rem 1rem;
+  padding: 0rem 1rem;
   margin: 0;
+  ${(props) => props.isMobile && props.isFullScreen && `
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    z-index: 10000;
+    background: #f9fafd;
+    border-top: 1px solid #e7eaf2;
+    padding: 1rem 1rem 1.2rem 1rem;
+  `}
 `;
 
 const PortfolioChatBot = () => {
