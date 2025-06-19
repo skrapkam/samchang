@@ -1,7 +1,7 @@
 /** @jsx jsx */
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState, useEffect, useRef, Fragment } from "react";
 import { useChat } from "./ChatContext";
 
 const CHAT_API_URL =
@@ -113,16 +113,16 @@ const ChatWrapper = styled.div<{ x: number; y: number; isMobile: boolean }>`
   
   /* Mobile-specific styling */
   ${props => props.isMobile && `
-    bottom: 0;
-    right: 0;
-    left: 0;
-    height: 50vh;
-    max-height: 400px;
-    min-height: 300px;
+    top: 20px;
+    right: 20px;
+    left: 20px;
+    height: calc(50vh - 40px);
+    max-height: 360px;
+    min-height: 280px;
   `}
 `;
 
-const ChatButton = styled.button<{ isOpen: boolean }>`
+const ChatButton = styled.button<{ isOpen: boolean; isMobile: boolean }>`
   background-color: transparent;
   user-select: none;
   opacity: ${(props) => (props.isOpen ? 0.4 : 1)};
@@ -138,6 +138,14 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   &:hover {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
   }
+  
+  /* Mobile-specific styling */
+  ${props => props.isMobile && `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+  `}
 `;
 
 const popIn = keyframes`
@@ -188,11 +196,25 @@ const ChatBox = styled.div<ChatBoxProps>`
     height: 100%;
     min-height: auto;
     max-height: none;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    border-top: 1px solid #e7eaf2;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e7eaf2;
   `}
+`;
+
+// Add overlay component
+const Overlay = styled.div<{ visible: boolean; isMobile: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
+  opacity: ${props => (props.visible ? 1 : 0)};
+  pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  transition: opacity 350ms ease;
+  display: ${props => (props.isMobile ? 'block' : 'none')};
 `;
 
 const TopBar = styled.div<{ showBorder: boolean }>`
@@ -674,95 +696,103 @@ const PortfolioChatBot = () => {
     };
 
     return (
-        <ChatWrapper x={30} y={30} isMobile={isMobile}>
-            {!isMobile && (
-                <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
-            )}
-            <ChatBox visible={open || isMobile} isMobile={isMobile}>
-            <TopBar showBorder={isScrollable}>
-                    <IconButton onClick={resetChat} title="New Chat">
-                        <svg
-                            width="25"
-                            height="24"
-                            viewBox="0 0 25 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            style={{ marginRight: "2px" }}
-                        >
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
-                                fill="currentColor"
-                                                            />
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
-                                fill="currentColor"
-                                                            />
-                        </svg>
-                        <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
-                    </IconButton>
-                    <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
-                </TopBar>
-                <MessageArea ref={messageAreaRef}>
-                    {messages.map((m, i) => (
-                        <MessageWrapper key={i} isUser={m.isUser}>
-                            <Meta>
-                                <Sender>{m.isUser ? "You" : "Sam"}</Sender>
-                                <Time>{formatTime(m.timestamp)}</Time>
-                            </Meta>
-                            {m.streaming && !m.text ? (
-                                <Ellipsis>{dots}</Ellipsis>
-                            ) : m.streaming && m.text ? (
-                                <Message isUser={m.isUser}>
-                                    {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
-                                    <span>{dots}</span>
-                                </Message>
-                            ) : (
-                                <Fragment>
+        <>
+            <Overlay visible={open} isMobile={isMobile} onClick={() => setOpen(false)} />
+            <ChatWrapper x={30} y={30} isMobile={isMobile}>
+                <ChatButton 
+                    onClick={() => setOpen(!open)} 
+                    isOpen={open} 
+                    isMobile={isMobile}
+                    aria-label="Open chat"
+                >
+                    💬 Chat
+                </ChatButton>
+                <ChatBox visible={open} isMobile={isMobile}>
+                <TopBar showBorder={isScrollable}>
+                        <IconButton onClick={resetChat} title="New Chat">
+                            <svg
+                                width="25"
+                                height="24"
+                                viewBox="0 0 25 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style={{ marginRight: "2px" }}
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
+                                    fill="currentColor"
+                                                                />
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
+                                    fill="currentColor"
+                                                                />
+                            </svg>
+                            <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
+                        </IconButton>
+                        <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
+                    </TopBar>
+                    <MessageArea ref={messageAreaRef}>
+                        {messages.map((m, i) => (
+                            <MessageWrapper key={i} isUser={m.isUser}>
+                                <Meta>
+                                    <Sender>{m.isUser ? "You" : "Sam"}</Sender>
+                                    <Time>{formatTime(m.timestamp)}</Time>
+                                </Meta>
+                                {m.streaming && !m.text ? (
+                                    <Ellipsis>{dots}</Ellipsis>
+                                ) : m.streaming && m.text ? (
                                     <Message isUser={m.isUser}>
                                         {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
+                                        <span>{dots}</span>
                                     </Message>
-                                    {m.showPrompts && (
-                                        <PromptButtonsContainer>
-                                        <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
-                                            {currentPrompts.map((prompt, index) => (
-                                                <PromptButton
-                                                    key={index}
-                                                    onClick={() => handlePromptClick(prompt, prompt)}
-                                                >
-                                                    {prompt}
-                                                </PromptButton>
-                                            ))}
-                                        </PromptButtonsContainer>
-                                    )}
-                                </Fragment>
-                            )}
-                        </MessageWrapper>
-                    ))}
-                    <div ref={msgEndRef} />
-                </MessageArea>
-                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
-                    <Input
-                        ref={inputRef}
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onFocus={() => setFocused(true)}
-                        onBlur={() => setFocused(false)}
-                        placeholder="Type a message..."
-                        disabled={isStreaming}
-                    />
-                    <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
-                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
-                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
-                        </svg>
-                    </SendButton>
-                </BottomBar>
-            </ChatBox>
+                                ) : (
+                                    <Fragment>
+                                        <Message isUser={m.isUser}>
+                                            {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
+                                        </Message>
+                                        {m.showPrompts && (
+                                            <PromptButtonsContainer>
+                                            <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
+                                                {currentPrompts.map((prompt, index) => (
+                                                    <PromptButton
+                                                        key={index}
+                                                        onClick={() => handlePromptClick(prompt, prompt)}
+                                                    >
+                                                        {prompt}
+                                                    </PromptButton>
+                                                ))}
+                                            </PromptButtonsContainer>
+                                        )}
+                                    </Fragment>
+                                )}
+                            </MessageWrapper>
+                        ))}
+                        <div ref={msgEndRef} />
+                    </MessageArea>
+                    <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
+                        <Input
+                            ref={inputRef}
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
+                            placeholder="Type a message..."
+                            disabled={isStreaming}
+                        />
+                        <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
+                            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
+                                <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
+                            </svg>
+                        </SendButton>
+                    </BottomBar>
+                </ChatBox>
 
-        </ChatWrapper>
+            </ChatWrapper>
+        </>
     );
 };
 
