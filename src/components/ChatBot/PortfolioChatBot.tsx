@@ -468,26 +468,41 @@ async function fetchStreamedResponse(message: string, conversationHistory: ChatM
     if (!reader) {
         throw new Error("Failed to get response reader");
     }
-    
+
     const decoder = new TextDecoder();
     let buffer = "";
 
+    const processBuffer = () => {
+        let newlineIndex: number;
+        // Process complete lines delimited by a newline character
+        while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+            const fullLine = buffer.slice(0, newlineIndex).trim();
+            buffer = buffer.slice(newlineIndex + 1);
+
+            if (!fullLine.startsWith("data: ")) continue;
+            const chunk = fullLine.replace("data: ", "");
+            if (chunk === "[DONE]") {
+                return true; // signal completion
+            }
+            if (chunk) {
+                onChunk(chunk);
+            }
+        }
+        return false; // not done yet
+    };
+
     while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
         if (value) {
             buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split("\n").filter(line => line.startsWith("data: "));
-            let text = "";
-            for (const line of lines) {
-                const chunk = line.replace("data: ", "");
-                if (chunk === "[DONE]") return;
-                text += chunk;
-            }
-            if (text) {
-                onChunk(text);
-            }
-            buffer = buffer.split("\n").filter(l => !l.startsWith("data: ")).join("\n");
+            const finished = processBuffer();
+            if (finished) return;
+        }
+        if (done) {
+            // Flush any remaining bytes from the decoder and process once more
+            buffer += decoder.decode();
+            processBuffer();
+            break;
         }
     }
 }
