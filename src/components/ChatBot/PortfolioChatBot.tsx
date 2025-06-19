@@ -511,8 +511,10 @@ const PortfolioChatBot = () => {
         const viewport = window.visualViewport!;
 
         const handleViewportResize = () => {
-            // Difference between layout viewport and visual viewport approximates keyboard height
-            const diff = window.innerHeight - viewport.height - viewport.offsetTop;
+            // Estimate keyboard height as the difference between the layout viewport and the visual viewport.
+            // We intentionally ignore `viewport.offsetTop` because it can grow when the page scrolls while the
+            // keyboard is open (especially on iOS Safari), causing the widget to move too far up.
+            const diff = window.innerHeight - viewport.height;
             setKeyboardOffset(diff > 0 ? diff : 0);
         };
 
