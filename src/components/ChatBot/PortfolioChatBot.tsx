@@ -110,6 +110,15 @@ const ChatWrapper = styled.div<{ x: number; y: number }>`
   z-index: 9999;
   bottom: ${(props) => props.y}px;
   right: ${(props) => props.x}px;
+
+  /* Mobile: pin wrapper to the top to keep chat visible when keyboard shows */
+  @media (max-width: 600px) {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+    width: 100%;
+  }
 `;
 
 const ChatButton = styled.button<{ isOpen: boolean }>`
@@ -125,8 +134,17 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   transition: box-shadow 0.2s;
+
   &:hover {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  }
+
+  /* Keep the button accessible on mobile even when ChatWrapper is moved */
+  @media (max-width: 600px) {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
   }
 `;
 
@@ -166,6 +184,22 @@ const ChatBox = styled.div<ChatBoxProps>`
   opacity: ${props => (props.visible ? 1 : 0)};
   transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+
+  /* Mobile: occupy the top half of the viewport so the keyboard can use the bottom half */
+  @media (max-width: 600px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+    width: 100vw;
+    height: 50dvh;
+    max-width: 100vw;
+    max-height: 50dvh;
+    min-height: 50dvh;
+    border-radius: 0 0 10px 10px;
+    transform-origin: top center;
+  }
 `;
 
 const TopBar = styled.div<{ showBorder: boolean }>`
@@ -502,28 +536,6 @@ const PortfolioChatBot = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
 
-    // Detect on-screen keyboard height (mobile browsers) and offset the chat accordingly
-    const [keyboardOffset, setKeyboardOffset] = useState(0);
-
-    useEffect(() => {
-        if (typeof window === "undefined" || !("visualViewport" in window)) return;
-
-        const viewport = window.visualViewport!;
-
-        const handleViewportResize = () => {
-            // Estimate keyboard height as the difference between the layout viewport and the visual viewport.
-            // We intentionally ignore `viewport.offsetTop` because it can grow when the page scrolls while the
-            // keyboard is open (especially on iOS Safari), causing the widget to move too far up.
-            const diff = window.innerHeight - viewport.height;
-            setKeyboardOffset(diff > 0 ? diff : 0);
-        };
-
-        // Run once initially and then on every resize
-        handleViewportResize();
-        viewport.addEventListener("resize", handleViewportResize);
-        return () => viewport.removeEventListener("resize", handleViewportResize);
-    }, []);
-
     const [isScrollable, setIsScrollable] = useState(false);
     const messageAreaRef = useRef<HTMLDivElement>(null);
     
@@ -651,7 +663,7 @@ const PortfolioChatBot = () => {
     };
 
     return (
-        <ChatWrapper x={30} y={30 + keyboardOffset}>
+        <ChatWrapper x={30} y={30}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
             <ChatBox visible={open}>
             <TopBar showBorder={isScrollable}>
