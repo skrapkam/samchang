@@ -3,11 +3,15 @@ import { jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useChat } from "./ChatContext";
+import { getBypassToken } from "../Bypass/useBypassToken";
 
 const CHAT_API_URL =
     process.env.NODE_ENV === "development"
         ? "http://localhost:3000/api/chat"
         : "https://sam-chat-api.vercel.app/api/chat";
+
+// Rate limit bypass token from environment variable
+const RATE_LIMIT_BYPASS_TOKEN = process.env.GATSBY_RATE_LIMIT_BYPASS_TOKEN;
 
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
@@ -454,56 +458,202 @@ function formatTime(iso: string) {
     return isNaN(date.getTime()) ? "" : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
 
+// Add new styled components for rate limit error display
+const RateLimitError = styled.div`
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: #c53030;
+  font-size: 1.4rem;
+  line-height: 1.5;
+`;
+
+const RateLimitInfo = styled.div`
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+  color: #744210;
+  background: #fef5e7;
+  border-radius: 6px;
+  padding: 0.6rem;
+`;
+
+const RateLimitCountdown = styled.div`
+  font-weight: 500;
+  color: #d69e2e;
+  margin-top: 0.4rem;
+`;
+
+const RetryButton = styled.button`
+  background: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: #2c5aa0;
+  }
+  
+  &:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+  }
+`;
+
+// Add rate limit error type
+interface RateLimitError {
+    limit: number;
+    remaining: number;
+    reset: number;
+    message: string;
+}
+
 async function fetchStreamedResponse(message: string, conversationHistory: ChatMessage[], onChunk: (text: string) => void) {
-    const response = await fetch(CHAT_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-            userMessage: message,
-            conversationHistory: conversationHistory
-        }),
-    });
-
-    const reader = response.body?.getReader();
-    if (!reader) {
-        throw new Error("Failed to get response reader");
-    }
-
-    const decoder = new TextDecoder();
-    let buffer = "";
-
-    const processBuffer = () => {
-        let newlineIndex: number;
-        // Process complete lines delimited by a newline character
-        while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-            const fullLine = buffer.slice(0, newlineIndex).trim();
-            buffer = buffer.slice(newlineIndex + 1);
-
-            if (!fullLine.startsWith("data: ")) continue;
-            const chunk = fullLine.replace("data: ", "");
-            if (chunk === "[DONE]") {
-                return true; // signal completion
-            }
-            if (chunk) {
-                onChunk(chunk);
-            }
-        }
-        return false; // not done yet
+    // Prepare headers with bypass token if available
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json",
     };
 
-    while (true) {
-        const { value, done } = await reader.read();
-        if (value) {
-            buffer += decoder.decode(value, { stream: true });
-            const finished = processBuffer();
-            if (finished) return;
+    const storedToken = getBypassToken();
+    if (storedToken) {
+        headers["x-bypass-token"] = storedToken;
+    } else if (RATE_LIMIT_BYPASS_TOKEN) {
+        // fallback to build-time env token if exists
+        headers["x-bypass-token"] = RATE_LIMIT_BYPASS_TOKEN;
+    }
+
+    try {
+        console.log('Attempting to fetch from:', CHAT_API_URL);
+        console.log('Headers:', headers);
+        
+        const response = await fetch(CHAT_API_URL, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ 
+                userMessage: message,
+                conversationHistory: conversationHistory
+            }),
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        // Handle rate limit error
+        if (response.status === 429) {
+            const limit = response.headers.get("X-RateLimit-Limit");
+            const remaining = response.headers.get("X-RateLimit-Remaining");
+            const reset = response.headers.get("X-RateLimit-Reset");
+            
+            const rateLimitError: RateLimitError = {
+                limit: limit ? parseInt(limit) : 0,
+                remaining: remaining ? parseInt(remaining) : 0,
+                reset: reset ? parseInt(reset) : 0,
+                message: "You've reached your daily message limit. Please try again later."
+            };
+            
+            throw rateLimitError;
         }
-        if (done) {
-            // Flush any remaining bytes from the decoder and process once more
-            buffer += decoder.decode();
-            processBuffer();
-            break;
+
+        // Handle other HTTP errors
+        if (!response.ok) {
+            let errorMessage = `HTTP error! status: ${response.status}`;
+            
+            // Try to get error details from response
+            try {
+                const errorData = await response.text();
+                if (errorData) {
+                    errorMessage += ` - ${errorData}`;
+                }
+            } catch (e) {
+                // Ignore error reading response body
+            }
+            
+            throw new Error(errorMessage);
         }
+
+        const reader = response.body?.getReader();
+        if (!reader) {
+            throw new Error("Failed to get response reader");
+        }
+
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        const processBuffer = () => {
+            let newlineIndex: number;
+            // Process complete lines delimited by a newline character
+            while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+                const fullLine = buffer.slice(0, newlineIndex).trim();
+                buffer = buffer.slice(newlineIndex + 1);
+
+                if (!fullLine.startsWith("data: ")) continue;
+                const chunk = fullLine.replace("data: ", "");
+                if (chunk === "[DONE]") {
+                    return true; // signal completion
+                }
+                if (chunk) {
+                    onChunk(chunk);
+                }
+            }
+            return false; // not done yet
+        };
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (value) {
+                buffer += decoder.decode(value, { stream: true });
+                const finished = processBuffer();
+                if (finished) return;
+            }
+            if (done) {
+                // Flush any remaining bytes from the decoder and process once more
+                buffer += decoder.decode();
+                processBuffer();
+                break;
+            }
+        }
+    } catch (error) {
+        console.error('Chat API error:', error);
+        
+        // Provide more specific error messages
+        if (error instanceof TypeError && error.message.includes('fetch')) {
+            if (process.env.NODE_ENV === 'development') {
+                throw new Error(`Network error: Unable to connect to ${CHAT_API_URL}. Make sure your backend server is running on port 3000.`);
+            } else {
+                throw new Error('Network error: Unable to connect to the chat service. Please check your internet connection and try again.');
+            }
+        }
+        
+        // Re-throw the original error
+        throw error;
+    }
+}
+
+// Helper function to format reset time
+function formatResetTime(resetTimestamp: number): string {
+    const now = Math.floor(Date.now() / 1000);
+    const timeUntilReset = resetTimestamp - now;
+    
+    if (timeUntilReset <= 0) {
+        return "now";
+    }
+    
+    const hours = Math.floor(timeUntilReset / 3600);
+    const minutes = Math.floor((timeUntilReset % 3600) / 60);
+    
+    if (hours > 24) {
+        const days = Math.floor(hours / 24);
+        return `in ${days} day${days > 1 ? 's' : ''}`;
+    } else if (hours > 0) {
+        return `in ${hours} hour${hours > 1 ? 's' : ''} and ${minutes} minute${minutes > 1 ? 's' : ''}`;
+    } else {
+        return `in ${minutes} minute${minutes > 1 ? 's' : ''}`;
     }
 }
 
@@ -533,6 +683,8 @@ function postProcessText(text: string) {
     return text
         .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
+        .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
+        .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
@@ -548,6 +700,8 @@ const PortfolioChatBot = () => {
     const [input, setInput] = useState("");
     const [focused, setFocused] = useState(false);
     const [isStreaming, setIsStreaming] = useState(false);
+    const [rateLimitError, setRateLimitError] = useState<RateLimitError | null>(null);
+    const [countdown, setCountdown] = useState<string>("");
     const msgEndRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
@@ -631,6 +785,32 @@ const PortfolioChatBot = () => {
         }
     }, [isStreaming]);
 
+    // Countdown effect for rate limit reset
+    useEffect(() => {
+        if (!rateLimitError) {
+            setCountdown("");
+            return;
+        }
+
+        const updateCountdown = () => {
+            const now = Math.floor(Date.now() / 1000);
+            const timeUntilReset = rateLimitError.reset - now;
+            
+            if (timeUntilReset <= 0) {
+                setRateLimitError(null);
+                setCountdown("");
+                return;
+            }
+            
+            setCountdown(formatResetTime(rateLimitError.reset));
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 60000); // Update every minute
+
+        return () => clearInterval(interval);
+    }, [rateLimitError]);
+
     const sendMessage = async (
         displayText?: string, // Used for displaying in UI
         apiPrompt?: string,   // Used for sending to API
@@ -640,7 +820,7 @@ const PortfolioChatBot = () => {
         const textToDisplay = displayText ?? input.trim();
         const textToSendToApi = apiPrompt ?? textToDisplay;
 
-        if (!textToDisplay || isStreaming) return; // Use textToDisplay for check
+        if (!textToDisplay || isStreaming || rateLimitError) return; // Check for rate limit error
 
         // Auto-detect project context for user-typed messages
         let finalApiText = textToSendToApi;
@@ -656,37 +836,60 @@ const PortfolioChatBot = () => {
         setMessages(prev => [...prev, userMessage]);
         if (!displayText) setInput(""); // Only clear input if it was typed, not from prompt click
         setIsStreaming(true);
+        setRateLimitError(null); // Clear any previous rate limit errors
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
         // Get the conversation history up to the current user message (excluding the streaming message)
         const conversationHistory = messages.concat(userMessage);
 
-        let streamedText = "";
-        await fetchStreamedResponse(finalApiText, conversationHistory, chunk => {
-            streamedText += chunk;
-            setMessages(prev => {
-                const newMsgs = [...prev];
-                const i = newMsgs.findIndex(m => m.streaming);
-                if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
-                return newMsgs;
+        try {
+            let streamedText = "";
+            await fetchStreamedResponse(finalApiText, conversationHistory, chunk => {
+                streamedText += chunk;
+                setMessages(prev => {
+                    const newMsgs = [...prev];
+                    const i = newMsgs.findIndex(m => m.streaming);
+                    if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
+                    return newMsgs;
+                });
             });
-        });
 
-        setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
-        setIsStreaming(false);
+            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
+        } catch (error) {
+            // Handle rate limit error
+            if (error && typeof error === 'object' && 'limit' in error) {
+                setRateLimitError(error as RateLimitError);
+                // Remove the streaming message and user message on rate limit error
+                setMessages(prev => prev.filter(m => !m.streaming && m.text !== textToDisplay));
+            } else {
+                // Handle other errors
+                const errorMessage = error instanceof Error ? error.message : "An error occurred";
+                setMessages(prev => prev.map(m => m.streaming ? { 
+                    ...m, 
+                    streaming: false, 
+                    text: `Sorry, I encountered an error: ${errorMessage}` 
+                } : m));
+            }
+        } finally {
+            setIsStreaming(false);
+        }
     };
 
     // Reset chat and show prompts
     const resetChat = () => {
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
+        setRateLimitError(null); // Clear rate limit errors on reset
     };
 
     // Helper for clickable prompts: pass both clean and contextualized prompt
     const handlePromptClick = (cleanText: string, contextualizedPrompt: string) => {
         sendMessage(cleanText, contextualizedPrompt);
     };
+
+    // Check if chat is disabled due to rate limiting
+    const isChatDisabled = isStreaming || !!rateLimitError;
 
     return (
         <ChatWrapper x={30} y={30}>
@@ -708,13 +911,13 @@ const PortfolioChatBot = () => {
                                 clipRule="evenodd"
                                 d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
                                 fill="currentColor"
-                                                            />
+                            />
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
                                 d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
                                 fill="currentColor"
-                                                            />
+                            />
                         </svg>
                         <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
                     </IconButton>
@@ -746,6 +949,7 @@ const PortfolioChatBot = () => {
                                                 <PromptButton
                                                     key={index}
                                                     onClick={() => handlePromptClick(prompt, prompt)}
+                                                    disabled={isChatDisabled}
                                                 >
                                                     {prompt}
                                                 </PromptButton>
@@ -756,6 +960,29 @@ const PortfolioChatBot = () => {
                             )}
                         </MessageWrapper>
                     ))}
+                    
+                    {/* Rate limit error display */}
+                    {rateLimitError && (
+                        <RateLimitError>
+                            <div>{rateLimitError.message}</div>
+                            <RateLimitInfo>
+                                <div>Daily limit: {rateLimitError.limit} messages</div>
+                                <div>Remaining: {rateLimitError.remaining} messages</div>
+                                {countdown && (
+                                    <RateLimitCountdown>
+                                        Limit resets {countdown}
+                                    </RateLimitCountdown>
+                                )}
+                            </RateLimitInfo>
+                            <RetryButton 
+                                onClick={() => setRateLimitError(null)}
+                                disabled={countdown !== ""}
+                            >
+                                {countdown ? `Try again ${countdown}` : "Try again now"}
+                            </RetryButton>
+                        </RateLimitError>
+                    )}
+                    
                     <div ref={msgEndRef} />
                 </MessageArea>
                 <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
@@ -765,10 +992,10 @@ const PortfolioChatBot = () => {
                         onChange={e => setInput(e.target.value)}
                         onFocus={() => setFocused(true)}
                         onBlur={() => setFocused(false)}
-                        placeholder="Type a message..."
-                        disabled={isStreaming}
+                        placeholder={rateLimitError ? "Rate limited - try again later" : "Type a message..."}
+                        disabled={isChatDisabled}
                     />
-                    <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
+                    <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
                         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
                             <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
                         </svg>

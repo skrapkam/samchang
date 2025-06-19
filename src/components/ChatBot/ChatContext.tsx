@@ -16,7 +16,7 @@ interface ChatProviderProps {
   children: ReactNode;
 }
 
-export const ChatProvider = ({ children }: ChatProviderProps) => {
+export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [initialApiPrompt, setInitialApiPrompt] = useState<string | undefined>(undefined);
   const [initialDisplayPrompt, setInitialDisplayPrompt] = useState<string | undefined>(undefined);
