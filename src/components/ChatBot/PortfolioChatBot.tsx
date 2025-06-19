@@ -169,8 +169,8 @@ const ChatBox = styled.div<ChatBoxProps>`
   right: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '0')};
   width: ${(props) => (props.isMobile && props.isFullScreen ? '100%' : '360px')};
   max-width: ${(props) => (props.isMobile && props.isFullScreen ? '100%' : '90vw')};
-  min-height: ${(props) => (props.isMobile && props.isFullScreen ? '100vh' : '350px')};
-  max-height: ${(props) => (props.isMobile && props.isFullScreen ? '100vh' : '520px')};
+  min-height: ${(props) => (props.isMobile && props.isFullScreen ? '100dvh' : '350px')};
+  max-height: ${(props) => (props.isMobile && props.isFullScreen ? '100dvh' : '520px')};
   background: #f9fafd;
   border: ${(props) => (props.isMobile && props.isFullScreen ? 'none' : '1px solid #e7eaf2')};
   border-radius: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '10px')};
@@ -184,6 +184,12 @@ const ChatBox = styled.div<ChatBoxProps>`
   opacity: ${props => (props.visible ? 1 : 0)};
   transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  @supports not (height: 100dvh) {
+    ${(props) => props.isMobile && props.isFullScreen && `
+      min-height: 100vh;
+      max-height: 100vh;
+    `}
+  }
 `;
 
 const TopBar = styled.div<{ showBorder: boolean; isMobile: boolean; isFullScreen: boolean }>`
@@ -306,12 +312,15 @@ const borderMove = keyframes`
   }
 `;
 
-const PromptButtonsContainer = styled.div`
+const PromptButtonsContainer = styled.div<{ isMobile?: boolean; isFullScreen?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 1.2rem 0;
+  margin: 1.2rem 0 2.2rem 0;
   align-items: flex-start;
+  ${(props) => props.isMobile && props.isFullScreen && `
+    margin-bottom: 0.6rem;
+  `}
 `;
 
 const PromptButton = styled.button`
@@ -641,6 +650,14 @@ const PortfolioChatBot = () => {
         }
     }, [isStreaming]);
 
+    useEffect(() => {
+        if (focused && isMobile && isFullScreen) {
+            setTimeout(() => {
+                msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 50);
+        }
+    }, [focused, isMobile, isFullScreen]);
+
     const sendMessage = async (
         displayText?: string, // Used for displaying in UI
         apiPrompt?: string,   // Used for sending to API
@@ -757,7 +774,7 @@ const PortfolioChatBot = () => {
                                         {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
                                     </Message>
                                     {m.showPrompts && (
-                                        <PromptButtonsContainer>
+                                        <PromptButtonsContainer isMobile={isMobile} isFullScreen={isFullScreen}>
                                         <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
                                             {currentPrompts.map((prompt, index) => (
                                                 <PromptButton
