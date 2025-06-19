@@ -575,7 +575,14 @@ const PortfolioChatBot = () => {
       }, [messages]);
 
     useEffect(() => {
-        msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        // Scroll to top for new chats, scroll to bottom for ongoing conversations
+        if (messages.length === 1) {
+            // New chat - scroll to top
+            messageAreaRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            // Ongoing conversation - scroll to bottom
+            msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
     }, [messages, open]);
 
     useEffect(() => {
