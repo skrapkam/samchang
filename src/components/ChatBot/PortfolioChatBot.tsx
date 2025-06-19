@@ -113,15 +113,12 @@ const ChatWrapper = styled.div<{ x: number; y: number; isMobile: boolean }>`
   
   /* Mobile-specific styling */
   ${props => props.isMobile && `
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 50vh;
-    max-height: 400px;
-    min-height: 300px;
-    transform: translateZ(0);
-    will-change: transform;
+    top: 20px;
+    right: 20px;
+    left: 20px;
+    height: calc(50vh - 40px);
+    max-height: 360px;
+    min-height: 280px;
   `}
 `;
 
@@ -202,8 +199,6 @@ const ChatBox = styled.div<ChatBoxProps>`
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 1px solid #e7eaf2;
-    transform: none;
-    transform-origin: unset;
   `}
 `;
 
@@ -222,17 +217,16 @@ const Overlay = styled.div<{ visible: boolean; isMobile: boolean }>`
   display: ${props => (props.isMobile ? 'block' : 'none')};
 `;
 
-// Add viewport stabilization styles
-const ViewportStabilizer = styled.div<{ isMobile: boolean; isOpen: boolean }>`
-  ${props => props.isMobile && props.isOpen && `
+// Add scroll prevention styles
+const ScrollPrevention = styled.div<{ isMobile: boolean }>`
+  ${props => props.isMobile && `
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
     z-index: 9997;
     pointer-events: none;
-    overflow: hidden;
   `}
 `;
 
@@ -577,6 +571,24 @@ const PortfolioChatBot = () => {
     
     // Mobile detection
     const [isMobile, setIsMobile] = useState(false);
+    
+    // Scroll position management
+    const [scrollPosition, setScrollPosition] = useState(0);
+    
+    // Function to detect project context from current URL
+    const getProjectContextFromURL = () => {
+        if (typeof window !== 'undefined') {
+            const path = window.location.pathname;
+            if (path.includes('/your-work')) return 'Your Work';
+            if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
+            if (path.includes('/google')) return 'Google';
+            if (path.includes('/music')) return 'Music';
+            if (path.includes('/info')) return 'Info';
+            if (path.includes('/ladder')) return 'Ladder';
+            // Add more project paths as needed
+        }
+        return null;
+    };
 
     // Mobile detection effect
     useEffect(() => {
@@ -593,50 +605,87 @@ const PortfolioChatBot = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Handle viewport changes on mobile when chat is open
+    // Prevent scroll when chat is open on mobile
+    useEffect(() => {
+        if (!isMobile) return;
+
+        if (open) {
+            // Store current scroll position
+            const currentScroll = window.scrollY;
+            setScrollPosition(currentScroll);
+            
+            // Prevent scrolling by fixing body position
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${currentScroll}px`;
+            document.body.style.width = '100%';
+        } else {
+            // Restore scrolling
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            
+            // Restore scroll position
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 50);
+        }
+
+        return () => {
+            // Cleanup on unmount
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+        };
+    }, [open, isMobile, scrollPosition]);
+
+    // Handle keyboard appearance without forcing scroll to top
     useEffect(() => {
         if (!isMobile || !open) return;
 
-        const handleViewportChange = () => {
-            // Force the viewport to stay stable
-            if (window.visualViewport) {
-                const currentHeight = window.visualViewport.height;
-                const windowHeight = window.innerHeight;
-                
-                // If viewport is shrinking (keyboard appearing), prevent scroll
-                if (currentHeight < windowHeight * 0.8) {
-                    document.documentElement.style.height = `${currentHeight}px`;
-                    document.body.style.height = `${currentHeight}px`;
-                }
-            }
-        };
-
         const handleResize = () => {
-            // Reset heights when window resizes
-            document.documentElement.style.height = '';
-            document.body.style.height = '';
+            // When viewport changes (keyboard appears), maintain current position
+            // Don't force scroll to top, just prevent further scrolling
         };
 
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleViewportChange);
-        }
+        const handleScroll = (e: Event) => {
+            // Only prevent scrolling, don't force position
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        // Listen for viewport changes and scroll events
         window.addEventListener('resize', handleResize);
+        window.addEventListener('scroll', handleScroll, { passive: false });
+        document.addEventListener('scroll', handleScroll, { passive: false });
 
         return () => {
-            if (window.visualViewport) {
-                window.visualViewport.removeEventListener('resize', handleViewportChange);
-            }
             window.removeEventListener('resize', handleResize);
-            
-            // Cleanup
-            document.documentElement.style.height = '';
-            document.body.style.height = '';
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('scroll', handleScroll);
         };
     }, [isMobile, open]);
 
     useEffect(() => {
+        const el = messageAreaRef.current;
+        if (!el) return;
+      
+        const handleScroll = () => {
+          setIsScrollable(el.scrollTop > 0);
+        };
+      
+        // Set once initially
+        handleScroll();
+      
+        el.addEventListener("scroll", handleScroll);
+        return () => el.removeEventListener("scroll", handleScroll);
+      }, [messages]);
+
+    useEffect(() => {
         msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages, open]);
+    }, [messages]);
 
     useEffect(() => {
         localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
@@ -656,17 +705,20 @@ const PortfolioChatBot = () => {
         handleInitialPrompt();
     }, [initialApiPrompt, initialDisplayPrompt]); // Depend on both initial prompts
 
+    // Remove auto-focus on mobile to prevent scroll jump.
+    // We only auto-focus on desktop if desired.
     useEffect(() => {
-        if (open) {
+        if (open && !isMobile) {
             inputRef.current?.focus();
         }
-    }, [open]);
+    }, [open, isMobile]);
 
     useEffect(() => {
-        if (!isStreaming) {
+        // When streaming ends, focus input only on desktop to aid rapid chatting.
+        if (!isStreaming && !isMobile) {
             inputRef.current?.focus();
         }
-    }, [isStreaming]);
+    }, [isStreaming, isMobile]);
 
     const sendMessage = async (
         displayText?: string, // Used for displaying in UI
@@ -725,25 +777,10 @@ const PortfolioChatBot = () => {
         sendMessage(cleanText, contextualizedPrompt);
     };
 
-    // Function to detect project context from current URL
-    const getProjectContextFromURL = () => {
-        if (typeof window !== 'undefined') {
-            const path = window.location.pathname;
-            if (path.includes('/your-work')) return 'Your Work';
-            if (path.includes('/designer-onboarding') || path.includes('/onboarding')) return 'Onboarding';
-            if (path.includes('/google')) return 'Google';
-            if (path.includes('/music')) return 'Music';
-            if (path.includes('/info')) return 'Info';
-            if (path.includes('/ladder')) return 'Ladder';
-            // Add more project paths as needed
-        }
-        return null;
-    };
-
     return (
         <>
             <Overlay visible={open} isMobile={isMobile} onClick={() => setOpen(false)} />
-            <ViewportStabilizer isMobile={isMobile} isOpen={open} />
+            <ScrollPrevention isMobile={isMobile && open} />
             <ChatWrapper x={30} y={30} isMobile={isMobile}>
                 <ChatButton 
                     onClick={() => setOpen(!open)} 
