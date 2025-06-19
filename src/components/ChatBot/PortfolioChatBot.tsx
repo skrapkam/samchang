@@ -538,6 +538,8 @@ const PortfolioChatBot = () => {
 
         checkMobile();
 
+        const MAX_KEYBOARD_OFFSET_RATIO = 0.5; // never move more than 50% of the screen
+
         // Handle visual viewport changes for mobile keyboard
         const handleViewportChange = () => {
             if (!isMobile || typeof window === 'undefined' || !window.visualViewport) {
@@ -547,7 +549,13 @@ const PortfolioChatBot = () => {
             const viewport = window.visualViewport;
             const windowHeight = window.innerHeight;
             const viewportHeight = viewport.height;
-            const keyboardHeight = windowHeight - viewportHeight;
+            let keyboardHeight = windowHeight - viewportHeight;
+
+            // Clamp to a max of 50% of the window height
+            const maxOffset = windowHeight * MAX_KEYBOARD_OFFSET_RATIO;
+            if (keyboardHeight > maxOffset) {
+                keyboardHeight = maxOffset;
+            }
 
             // Only adjust if keyboard is actually visible (more than 150px difference)
             if (keyboardHeight > 150) {
