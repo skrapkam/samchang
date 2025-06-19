@@ -368,9 +368,7 @@ const BottomBar = styled.form<{ focused: boolean }>`
   display: flex;
   align-items: center;
   background: #fff;
-  border: 1px solid #e7eaf2;
-  box-shadow: ${(props) => (props.focused ? "0 0 0 1px #000" : "none")};
-  border-color: ${(props) => (props.focused ? "#000" : "#e7eaf2")};
+  border: 2px solid ${(props) => (props.focused ? "#000" : "#e7eaf2")};
   border-radius: 15px;
   padding: 0.6rem 0.8rem;
   margin: 0 0.8rem;
