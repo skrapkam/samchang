@@ -199,6 +199,7 @@ const ChatBox = styled.div<ChatBoxProps>`
     min-height: 60dvh;
     border-radius: 0 0 10px 10px;
     transform-origin: top center;
+    z-index: 9999;
   }
 `;
 
@@ -665,8 +666,9 @@ const PortfolioChatBot = () => {
     return (
         <ChatWrapper x={30} y={30}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
+            <MobileOverlay visible={open} />
             <ChatBox visible={open}>
-            <TopBar showBorder={isScrollable}>
+                <TopBar showBorder={isScrollable}>
                     <IconButton onClick={resetChat} title="New Chat">
                         <svg
                             width="25"
@@ -748,10 +750,25 @@ const PortfolioChatBot = () => {
                     </SendButton>
                 </BottomBar>
             </ChatBox>
-
         </ChatWrapper>
     );
 };
+
+const MobileOverlay = styled.div<{ visible: boolean }>`
+  display: none;
+  
+  @media (max-width: 600px) {
+    display: ${props => (props.visible ? 'block' : 'none')};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  }
+`;
 
 export default PortfolioChatBot;
 
