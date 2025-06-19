@@ -217,6 +217,19 @@ const Overlay = styled.div<{ visible: boolean; isMobile: boolean }>`
   display: ${props => (props.isMobile ? 'block' : 'none')};
 `;
 
+// Add scroll prevention styles
+const ScrollPrevention = styled.div<{ isMobile: boolean }>`
+  ${props => props.isMobile && `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9997;
+    pointer-events: none;
+  `}
+`;
+
 const TopBar = styled.div<{ showBorder: boolean }>`
   display: flex;
   align-items: center;
@@ -559,6 +572,9 @@ const PortfolioChatBot = () => {
     // Mobile detection
     const [isMobile, setIsMobile] = useState(false);
     
+    // Scroll position management
+    const [scrollPosition, setScrollPosition] = useState(0);
+    
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
         if (typeof window !== 'undefined') {
@@ -588,6 +604,70 @@ const PortfolioChatBot = () => {
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    // Scroll position management for mobile
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const handleFocus = () => {
+            // Store current scroll position when input is focused
+            setScrollPosition(window.scrollY);
+        };
+
+        const handleBlur = () => {
+            // Restore scroll position when input loses focus
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 100);
+        };
+
+        const input = inputRef.current;
+        if (input) {
+            input.addEventListener('focus', handleFocus);
+            input.addEventListener('blur', handleBlur);
+        }
+
+        return () => {
+            if (input) {
+                input.removeEventListener('focus', handleFocus);
+                input.removeEventListener('blur', handleBlur);
+            }
+        };
+    }, [isMobile, scrollPosition]);
+
+    // Prevent scroll when chat is open on mobile
+    useEffect(() => {
+        if (!isMobile) return;
+
+        if (open) {
+            // Store current scroll position
+            const currentScroll = window.scrollY;
+            setScrollPosition(currentScroll);
+            
+            // Prevent scrolling
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${currentScroll}px`;
+            document.body.style.width = '100%';
+        } else {
+            // Restore scrolling
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            
+            // Restore scroll position
+            window.scrollTo(0, scrollPosition);
+        }
+
+        return () => {
+            // Cleanup on unmount
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+        };
+    }, [open, isMobile, scrollPosition]);
 
     useEffect(() => {
         const el = messageAreaRef.current;
@@ -698,6 +778,7 @@ const PortfolioChatBot = () => {
     return (
         <>
             <Overlay visible={open} isMobile={isMobile} onClick={() => setOpen(false)} />
+            <ScrollPrevention isMobile={isMobile && open} />
             <ChatWrapper x={30} y={30} isMobile={isMobile}>
                 <ChatButton 
                     onClick={() => setOpen(!open)} 
