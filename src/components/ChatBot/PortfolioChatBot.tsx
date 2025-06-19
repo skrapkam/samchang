@@ -656,17 +656,49 @@ const PortfolioChatBot = () => {
             e.stopPropagation();
         };
 
+        const handleInputFocus = (e: FocusEvent) => {
+            // Prevent any scroll behavior when input is focused on mobile
+            if (isMobile) {
+                e.preventDefault();
+                // Force scroll to stay at current position
+                setTimeout(() => {
+                    window.scrollTo(0, scrollPosition);
+                }, 10);
+            }
+        };
+
+        const handleInputBlur = () => {
+            // Ensure we stay at the correct position when input loses focus
+            if (isMobile) {
+                setTimeout(() => {
+                    window.scrollTo(0, scrollPosition);
+                }, 100);
+            }
+        };
+
         // Listen for viewport changes and scroll events
         window.addEventListener('resize', handleResize);
         window.addEventListener('scroll', handleScroll, { passive: false });
         document.addEventListener('scroll', handleScroll, { passive: false });
 
+        // Add input focus/blur listeners
+        const input = inputRef.current;
+        if (input) {
+            input.addEventListener('focus', handleInputFocus);
+            input.addEventListener('blur', handleInputBlur);
+        }
+
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('scroll', handleScroll);
             document.removeEventListener('scroll', handleScroll);
+            
+            if (input) {
+                input.removeEventListener('focus', handleInputFocus);
+                input.removeEventListener('blur', handleInputBlur);
+            }
         };
-    }, [isMobile, open]);
+    }, [isMobile, open, scrollPosition]);
 
     useEffect(() => {
         const el = messageAreaRef.current;
