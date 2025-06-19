@@ -105,25 +105,14 @@ const StyledLink = styled.a`
     }
 `;
 
-const ChatWrapper = styled.div<{ x: number; y: number; isMobile: boolean; isFullScreen: boolean }>`
-  position: ${(props) => (props.isMobile && props.isFullScreen ? 'fixed' : 'fixed')};
+const ChatWrapper = styled.div<{ x: number; y: number }>`
+  position: fixed;
   z-index: 9999;
   bottom: ${(props) => props.y}px;
   right: ${(props) => props.x}px;
-  
-  ${(props) => props.isMobile && props.isFullScreen && `
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #f9fafd;
-    border-radius: 0;
-  `}
 `;
 
-const ChatButton = styled.button<{ isOpen: boolean; isMobile: boolean; isFullScreen: boolean }>`
+const ChatButton = styled.button<{ isOpen: boolean }>`
   background-color: transparent;
   user-select: none;
   opacity: ${(props) => (props.isOpen ? 0.4 : 1)};
@@ -136,11 +125,6 @@ const ChatButton = styled.button<{ isOpen: boolean; isMobile: boolean; isFullScr
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   transition: box-shadow 0.2s;
-  
-  ${(props) => props.isMobile && props.isFullScreen && `
-    display: none;
-  `}
-  
   &:hover {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
   }
@@ -159,23 +143,21 @@ const popIn = keyframes`
 
 interface ChatBoxProps {
     visible: boolean;
-    isMobile: boolean;
-    isFullScreen: boolean;
 }
 
 const ChatBox = styled.div<ChatBoxProps>`
-  position: ${(props) => (props.isMobile && props.isFullScreen ? 'absolute' : 'absolute')};
-  bottom: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '60px')};
-  right: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '0')};
-  width: ${(props) => (props.isMobile && props.isFullScreen ? '100%' : '360px')};
-  max-width: ${(props) => (props.isMobile && props.isFullScreen ? '100%' : '90vw')};
-  min-height: ${(props) => (props.isMobile && props.isFullScreen ? '100dvh' : '350px')};
-  max-height: ${(props) => (props.isMobile && props.isFullScreen ? '100dvh' : '520px')};
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  width: 360px;
+  max-width: 90vw;
+  min-height: 350px;
+  max-height: 520px;
   background: #f9fafd;
-  border: ${(props) => (props.isMobile && props.isFullScreen ? 'none' : '1px solid #e7eaf2')};
-  border-radius: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '10px')};
-  padding: ${(props) => (props.isMobile && props.isFullScreen ? '0' : '0 0 calc(1.2rem + env(safe-area-inset-bottom, 0px)) 0')};
-  box-shadow: ${(props) => (props.isMobile && props.isFullScreen ? 'none' : '0 8px 28px rgba(50, 60, 120, 0.13)')};
+  border: 1px solid #e7eaf2;
+  border-radius: 10px;
+  padding: 0 0 calc(1.2rem + env(safe-area-inset-bottom, 0px)) 0;
+  box-shadow: 0 8px 28px rgba(50, 60, 120, 0.13);
   display: flex;
   flex-direction: column;
   overflow: visible;
@@ -184,28 +166,19 @@ const ChatBox = styled.div<ChatBoxProps>`
   opacity: ${props => (props.visible ? 1 : 0)};
   transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
-  @supports not (height: 100dvh) {
-    ${(props) => props.isMobile && props.isFullScreen && `
-      min-height: 100vh;
-      max-height: 100vh;
-    `}
-  }
 `;
 
-const TopBar = styled.div<{ showBorder: boolean; isMobile: boolean; isFullScreen: boolean }>`
+const TopBar = styled.div<{ showBorder: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${(props) => (props.isMobile && props.isFullScreen ? '1rem 1rem 1rem 1rem' : '1rem 0.7rem 1rem 0.9rem')};
+  padding: 1rem 0.7rem 1rem 0.9rem;
   height: 5rem;
   user-select: none;
   background: transparent;
   box-shadow: ${(props) => (props.showBorder ? "inset 0 -1px 0 rgba(231, 234, 242, 1)" : "none")};
-  
-  ${(props) => props.isMobile && props.isFullScreen && `
-    border-bottom: 1px solid #e7eaf2;
-  `}
 `;
+
 
 const IconButton = styled.button`
   display: flex;
@@ -234,14 +207,11 @@ const IconButton = styled.button`
   }
 `;
 
-const MessageArea = styled.div<{ isMobile: boolean; isFullScreen: boolean }>`
+const MessageArea = styled.div`
   flex: 1 1 auto;
   overflow-y: auto;
   padding: 1.1rem 1.8rem 3rem 1.8rem;
   background: #f9fafd;
-  ${(props) => props.isMobile && props.isFullScreen && `
-    padding-bottom: 80px;
-  `}
 `;
 
 const MessageWrapper = styled.div<{ isUser?: boolean }>`
@@ -312,15 +282,12 @@ const borderMove = keyframes`
   }
 `;
 
-const PromptButtonsContainer = styled.div<{ isMobile?: boolean; isFullScreen?: boolean }>`
+const PromptButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 1.2rem 0 2.2rem 0;
+  margin: 1.2rem 0;
   align-items: flex-start;
-  ${(props) => props.isMobile && props.isFullScreen && `
-    margin-bottom: 0.6rem;
-  `}
 `;
 
 const PromptButton = styled.button`
@@ -358,29 +325,29 @@ const PromptButton = styled.button`
   }
 `;
 
-const InputWrapper = styled.div<{ isMobile: boolean; isFullScreen: boolean; focused: boolean }>`
-  position: relative;
-  width: 100%;
+const BottomBar = styled.form<{ focused: boolean }>`
+  height: 52px; /* Set a fixed height */
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  background: ${(props) => (props.isMobile && props.isFullScreen ? '#f5f5f5' : '#fff')};
-  border-radius: 8px;
-  border: 1px solid ${props => props.focused ? '#000' : '#e7eaf2'};
-  box-shadow: ${props => props.focused ? '0 0 0 1px #000' : 'none'};
-  transition: border 0.2s, box-shadow 0.2s;
-
+  background: #fff;
+  border: 1px solid #e7eaf2;
+  box-shadow: ${(props) => (props.focused ? "0 0 0 1px #000" : "none")};
+  border-color: ${(props) => (props.focused ? "#000" : "#e7eaf2")};
+  border-radius: 15px;
+  padding: 0.6rem 0.8rem;
+  margin: 0 0.8rem;
+  transition: all 0.2s ease;
 `;
 
-const Input = styled.input<{ isMobile: boolean; isFullScreen: boolean }>`
-  width: 100%;
+const Input = styled.input`
+  flex: 1 1 auto;
   border: none;
   outline: none;
   background: transparent;
-  font-size: max(1.4rem, 16px);
+  font-size: max(1.4rem, 16px); /* Prevent zoom on iOS */
   color: #222;
-  padding: 0.8rem 3.2rem 0.8rem 0.8rem;
-  border-radius: 8px;
-  min-height: 44px;
+  padding: 0.38rem 0.3rem;
   &::placeholder {
     color: #b2b8c7;
     opacity: 1;
@@ -388,22 +355,21 @@ const Input = styled.input<{ isMobile: boolean; isFullScreen: boolean }>`
 `;
 
 const SendButton = styled.button<{ visible: boolean }>`
-  position: absolute;
-  right: 0.4rem;
-  top: 50%;
-  transform: translateY(-50%) scale(${props => props.visible ? 1 : 0.7});
-  opacity: ${props => props.visible ? 1 : 0};
-  transition: opacity 0.2s, transform 0.2s;
   background: #262626;
   border: none;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  margin-left: ${(props) => (props.visible ? "8px" : "0")};
+  opacity: ${(props) => (props.visible ? 1 : 0)};
+  transform: ${(props) =>
+        props.visible ? "translateX(0)" : "translateX(10px)"};
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: ${props => props.visible ? 'pointer' : 'default'};
-  pointer-events: ${props => props.visible ? 'auto' : 'none'};
+  cursor: ${(props) => (props.visible ? "pointer" : "default")};
+  pointer-events: ${(props) => (props.visible ? "auto" : "none")};
   svg {
     width: 20px;
     height: 20px;
@@ -429,6 +395,9 @@ const useEllipsis = () => {
     }, []);
     return dots;
 };
+
+
+
 
 type ChatMessage = {
     text: string;
@@ -517,30 +486,6 @@ function postProcessText(text: string) {
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
-const BottomBar = styled.form<{ focused: boolean; isMobile: boolean; isFullScreen: boolean }>`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0rem 1rem;
-  margin: 0;
-  ${(props) => props.isMobile && props.isFullScreen && `
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    z-index: 10000;
-    background: #f9fafd;
-    border-top: 1px solid #e7eaf2;
-    padding: 1rem 1rem 1.2rem 1rem;
-  `}
-`;
-
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -557,14 +502,30 @@ const PortfolioChatBot = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
 
+    // Detect on-screen keyboard height (mobile browsers) and offset the chat accordingly
+    const [keyboardOffset, setKeyboardOffset] = useState(0);
+
+    useEffect(() => {
+        if (typeof window === "undefined" || !("visualViewport" in window)) return;
+
+        const viewport = window.visualViewport!;
+
+        const handleViewportResize = () => {
+            // Difference between layout viewport and visual viewport approximates keyboard height
+            const diff = window.innerHeight - viewport.height - viewport.offsetTop;
+            setKeyboardOffset(diff > 0 ? diff : 0);
+        };
+
+        // Run once initially and then on every resize
+        handleViewportResize();
+        viewport.addEventListener("resize", handleViewportResize);
+        return () => viewport.removeEventListener("resize", handleViewportResize);
+    }, []);
+
     const [isScrollable, setIsScrollable] = useState(false);
     const messageAreaRef = useRef<HTMLDivElement>(null);
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
-    
-    // Mobile detection and full-screen state
-    const [isMobile, setIsMobile] = useState(false);
-    const [isFullScreen, setIsFullScreen] = useState(false);
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -580,27 +541,7 @@ const PortfolioChatBot = () => {
         }
         return null;
     };
-
-    // Mobile detection effect
-    useEffect(() => {
-        const checkMobile = () => {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-            setIsMobile(isMobileDevice);
-        };
-
-        checkMobile();
-    }, []);
-
-    // Handle full-screen mode on mobile
-    useEffect(() => {
-        if (isMobile && open) {
-            setIsFullScreen(true);
-        } else if (!open) {
-            setIsFullScreen(false);
-        }
-    }, [isMobile, open]);
-
+    
     useEffect(() => {
         const el = messageAreaRef.current;
         if (!el) return;
@@ -649,14 +590,6 @@ const PortfolioChatBot = () => {
             inputRef.current?.focus();
         }
     }, [isStreaming]);
-
-    useEffect(() => {
-        if (focused && isMobile && isFullScreen) {
-            setTimeout(() => {
-                msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-            }, 50);
-        }
-    }, [focused, isMobile, isFullScreen]);
 
     const sendMessage = async (
         displayText?: string, // Used for displaying in UI
@@ -716,18 +649,10 @@ const PortfolioChatBot = () => {
     };
 
     return (
-        <ChatWrapper x={30} y={30} isMobile={isMobile} isFullScreen={isFullScreen}>
-            <ChatButton 
-                onClick={() => setOpen(!open)} 
-                isOpen={open} 
-                isMobile={isMobile}
-                isFullScreen={isFullScreen}
-                aria-label="Open chat"
-            >
-                💬 Chat
-            </ChatButton>
-            <ChatBox visible={open} isMobile={isMobile} isFullScreen={isFullScreen}>
-            <TopBar showBorder={isScrollable} isMobile={isMobile} isFullScreen={isFullScreen}>
+        <ChatWrapper x={30} y={30 + keyboardOffset}>
+            <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
+            <ChatBox visible={open}>
+            <TopBar showBorder={isScrollable}>
                     <IconButton onClick={resetChat} title="New Chat">
                         <svg
                             width="25"
@@ -754,7 +679,7 @@ const PortfolioChatBot = () => {
                     </IconButton>
                     <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
                 </TopBar>
-                <MessageArea ref={messageAreaRef} isMobile={isMobile} isFullScreen={isFullScreen}>
+                <MessageArea ref={messageAreaRef}>
                     {messages.map((m, i) => (
                         <MessageWrapper key={i} isUser={m.isUser}>
                             <Meta>
@@ -774,7 +699,7 @@ const PortfolioChatBot = () => {
                                         {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
                                     </Message>
                                     {m.showPrompts && (
-                                        <PromptButtonsContainer isMobile={isMobile} isFullScreen={isFullScreen}>
+                                        <PromptButtonsContainer>
                                         <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>
                                             {currentPrompts.map((prompt, index) => (
                                                 <PromptButton
@@ -792,30 +717,21 @@ const PortfolioChatBot = () => {
                     ))}
                     <div ref={msgEndRef} />
                 </MessageArea>
-                <BottomBar 
-                    focused={focused} 
-                    isMobile={isMobile}
-                    isFullScreen={isFullScreen}
-                    onSubmit={(e) => sendMessage(undefined, undefined, e)}
-                >
-                    <InputWrapper isMobile={isMobile} isFullScreen={isFullScreen} focused={focused}>
-                        <Input
-                            ref={inputRef}
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onFocus={() => setFocused(true)}
-                            onBlur={() => setFocused(false)}
-                            placeholder="Type a message..."
-                            disabled={isStreaming}
-                            isMobile={isMobile}
-                            isFullScreen={isFullScreen}
-                        />
-                        <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
-                            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
-                                <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
-                            </svg>
-                        </SendButton>
-                    </InputWrapper>
+                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
+                    <Input
+                        ref={inputRef}
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        onFocus={() => setFocused(true)}
+                        onBlur={() => setFocused(false)}
+                        placeholder="Type a message..."
+                        disabled={isStreaming}
+                    />
+                    <SendButton type="submit" visible={!!input.trim() && !isStreaming}>
+                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
+                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
+                        </svg>
+                    </SendButton>
                 </BottomBar>
             </ChatBox>
 
