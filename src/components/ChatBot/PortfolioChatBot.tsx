@@ -200,6 +200,8 @@ const ChatBox = styled.div<ChatBoxProps>`
     border-radius: 0 0 10px 10px;
     transform-origin: top center;
     z-index: 9999;
+    transform: ${props => (props.visible ? 'translateY(0)' : 'translateY(-100%)')};
+    transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 `;
 
@@ -764,9 +766,11 @@ const MobileOverlay = styled.div<{ visible: boolean }>`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 9998;
     pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+    opacity: ${props => (props.visible ? 1 : 0)};
+    transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 `;
 
