@@ -675,24 +675,49 @@ const PortfolioChatBot = () => {
     useEffect(() => {
         if (!isMobile || !open) return;
 
-        const handleResize = () => {
-            // When viewport changes (keyboard appears), maintain current position
-            // Don't force scroll to top, just prevent further scrolling
+        let initialViewportHeight = window.visualViewport?.height || window.innerHeight;
+        let isKeyboardVisible = false;
+
+        const handleViewportChange = () => {
+            if (!window.visualViewport) return;
+            
+            const currentHeight = window.visualViewport.height;
+            const heightDifference = initialViewportHeight - currentHeight;
+            
+            // If keyboard is appearing (significant height reduction)
+            if (heightDifference > 150 && !isKeyboardVisible) {
+                isKeyboardVisible = true;
+                // Prevent the automatic scroll by maintaining current position
+                const currentScroll = window.scrollY;
+                setTimeout(() => {
+                    window.scrollTo(0, currentScroll);
+                }, 10);
+            }
+            // If keyboard is disappearing
+            else if (heightDifference < 50 && isKeyboardVisible) {
+                isKeyboardVisible = false;
+            }
         };
 
         const handleScroll = (e: Event) => {
-            // Only prevent scrolling, don't force position
-            e.preventDefault();
-            e.stopPropagation();
+            // Only prevent scrolling when keyboard is visible
+            if (isKeyboardVisible) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         };
 
         // Listen for viewport changes and scroll events
-        window.addEventListener('resize', handleResize);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+        }
         window.addEventListener('scroll', handleScroll, { passive: false });
         document.addEventListener('scroll', handleScroll, { passive: false });
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleViewportChange);
+            }
             window.removeEventListener('scroll', handleScroll);
             document.removeEventListener('scroll', handleScroll);
         };
