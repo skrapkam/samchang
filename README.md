@@ -20,15 +20,3 @@ Open the site:
 `localhost:8000`
 
 🎉🎉🎉
-
-## Spotify Now Playing
-
-Create a `.env` file (or `.env.development`/`.env.production` depending on the environment) with the following variables:
-
-```
-SPOTIFY_CLIENT_ID=your_spotify_client_id
-SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
-SPOTIFY_REFRESH_TOKEN=your_refresh_token
-```
-
-These values are used by `api/now-playing.js` to query Spotify's API.
