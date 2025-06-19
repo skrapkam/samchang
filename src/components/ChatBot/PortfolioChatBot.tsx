@@ -105,12 +105,21 @@ const StyledLink = styled.a`
     }
 `;
 
-const ChatWrapper = styled.div<{ x: number; y: number; bottomOffset: number }>`
+const ChatWrapper = styled.div<{ x: number; y: number; isMobile: boolean }>`
   position: fixed;
   z-index: 9999;
-  bottom: ${(props) => props.y + props.bottomOffset}px;
+  bottom: ${(props) => props.y}px;
   right: ${(props) => props.x}px;
-  transition: bottom 150ms ease-out;
+  
+  /* Mobile-specific styling */
+  ${props => props.isMobile && `
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 50vh;
+    max-height: 400px;
+    min-height: 300px;
+  `}
 `;
 
 const ChatButton = styled.button<{ isOpen: boolean }>`
@@ -144,6 +153,7 @@ const popIn = keyframes`
 
 interface ChatBoxProps {
     visible: boolean;
+    isMobile: boolean;
 }
 
 const ChatBox = styled.div<ChatBoxProps>`
@@ -167,6 +177,22 @@ const ChatBox = styled.div<ChatBoxProps>`
   opacity: ${props => (props.visible ? 1 : 0)};
   transition: all 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  
+  /* Mobile-specific styling */
+  ${props => props.isMobile && `
+    position: relative;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: auto;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid #e7eaf2;
+  `}
 `;
 
 const TopBar = styled.div<{ showBorder: boolean }>`
@@ -508,8 +534,7 @@ const PortfolioChatBot = () => {
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
     
-    // Mobile keyboard handling state
-    const [bottomOffset, setBottomOffset] = useState(0);
+    // Mobile detection
     const [isMobile, setIsMobile] = useState(false);
     
     // Function to detect project context from current URL
@@ -527,9 +552,8 @@ const PortfolioChatBot = () => {
         return null;
     };
 
-    // Mobile keyboard handling effect
+    // Mobile detection effect
     useEffect(() => {
-        // Detect if we're on mobile
         const checkMobile = () => {
             const userAgent = navigator.userAgent.toLowerCase();
             const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
@@ -537,48 +561,11 @@ const PortfolioChatBot = () => {
         };
 
         checkMobile();
-
-        const MAX_KEYBOARD_OFFSET_RATIO = 0.5; // never move more than 50% of the screen
-
-        // Handle visual viewport changes for mobile keyboard
-        const handleViewportChange = () => {
-            if (!isMobile || typeof window === 'undefined' || !window.visualViewport) {
-                return;
-            }
-
-            const viewport = window.visualViewport;
-            const windowHeight = window.innerHeight;
-            const viewportHeight = viewport.height;
-            let keyboardHeight = windowHeight - viewportHeight;
-
-            // Clamp to a max of 50% of the window height
-            const maxOffset = windowHeight * MAX_KEYBOARD_OFFSET_RATIO;
-            if (keyboardHeight > maxOffset) {
-                keyboardHeight = maxOffset;
-            }
-
-            // Only adjust if keyboard is actually visible (more than 150px difference)
-            if (keyboardHeight > 150) {
-                setBottomOffset(keyboardHeight);
-            } else {
-                setBottomOffset(0);
-            }
-        };
-
-        // Add event listeners
-        if (typeof window !== 'undefined' && window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleViewportChange);
-            window.visualViewport.addEventListener('scroll', handleViewportChange);
-        }
-
-        // Cleanup
-        return () => {
-            if (typeof window !== 'undefined' && window.visualViewport) {
-                window.visualViewport.removeEventListener('resize', handleViewportChange);
-                window.visualViewport.removeEventListener('scroll', handleViewportChange);
-            }
-        };
-    }, [isMobile]);
+        
+        // Re-check on resize
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         const el = messageAreaRef.current;
@@ -687,9 +674,11 @@ const PortfolioChatBot = () => {
     };
 
     return (
-        <ChatWrapper x={30} y={30} bottomOffset={bottomOffset}>
-            <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
-            <ChatBox visible={open}>
+        <ChatWrapper x={30} y={30} isMobile={isMobile}>
+            {!isMobile && (
+                <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
+            )}
+            <ChatBox visible={open || isMobile} isMobile={isMobile}>
             <TopBar showBorder={isScrollable}>
                     <IconButton onClick={resetChat} title="New Chat">
                         <svg
