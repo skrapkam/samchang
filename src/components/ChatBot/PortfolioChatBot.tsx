@@ -161,6 +161,7 @@ const popIn = keyframes`
 
 interface ChatBoxProps {
     visible: boolean;
+    mobileHeight?: number;
 }
 
 const ChatBox = styled.div<ChatBoxProps>`
@@ -193,10 +194,10 @@ const ChatBox = styled.div<ChatBoxProps>`
     left: 0;
     bottom: auto;
     width: 100vw;
-    height: 60dvh;
+    height: ${props => props.mobileHeight ? `${props.mobileHeight}px` : '50vh'};
     max-width: 100vw;
-    max-height: 60dvh;
-    min-height: 60dvh;
+    max-height: ${props => props.mobileHeight ? `${props.mobileHeight}px` : '50vh'};
+    min-height: ${props => props.mobileHeight ? `${props.mobileHeight}px` : '50vh'};
     border-radius: 0 0 10px 10px;
     transform-origin: top center;
     z-index: 9999;
@@ -433,8 +434,40 @@ const useEllipsis = () => {
     return dots;
 };
 
-
-
+// Custom hook to detect viewport height changes (keyboard visibility)
+const useViewportHeight = () => {
+    const [viewportHeight, setViewportHeight] = useState<number>(0);
+    
+    useEffect(() => {
+        const updateHeight = () => {
+            // Use visual viewport API if available (more accurate for mobile)
+            if (window.visualViewport) {
+                setViewportHeight(window.visualViewport.height);
+            } else {
+                setViewportHeight(window.innerHeight);
+            }
+        };
+        
+        updateHeight();
+        
+        // Listen for viewport changes
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateHeight);
+        } else {
+            window.addEventListener('resize', updateHeight);
+        }
+        
+        return () => {
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', updateHeight);
+            } else {
+                window.removeEventListener('resize', updateHeight);
+            }
+        };
+    }, []);
+    
+    return viewportHeight;
+};
 
 type ChatMessage = {
     text: string;
@@ -525,6 +558,7 @@ function postProcessText(text: string) {
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
+    const viewportHeight = useViewportHeight();
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
         try {
             const stored = localStorage.getItem("portfolioChatHistory");
@@ -543,6 +577,21 @@ const PortfolioChatBot = () => {
     const messageAreaRef = useRef<HTMLDivElement>(null);
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
+    
+    // Calculate optimal mobile height based on viewport
+    const getMobileHeight = () => {
+        if (typeof window === 'undefined' || window.innerWidth > 600) return undefined;
+        
+        // If we have viewport height data, use it to calculate optimal height
+        if (viewportHeight > 0) {
+            // Reserve space for keyboard (typically ~40% of screen)
+            // Use 45% of viewport height to ensure input field is always visible
+            return Math.min(viewportHeight * 0.60, 400); // Cap at 400px max
+        }
+        
+        // Fallback to 50vh if no viewport data
+        return undefined;
+    };
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -669,7 +718,7 @@ const PortfolioChatBot = () => {
         <ChatWrapper x={30} y={30}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
             <MobileOverlay visible={open} />
-            <ChatBox visible={open}>
+            <ChatBox visible={open} mobileHeight={getMobileHeight()}>
                 <TopBar showBorder={isScrollable}>
                     <IconButton onClick={resetChat} title="New Chat">
                         <svg
