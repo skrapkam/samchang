@@ -144,7 +144,7 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 10000;
+    z-index: 9997;
   }
 `;
 
@@ -188,19 +188,19 @@ const ChatBox = styled.div<ChatBoxProps>`
   /* Mobile: occupy the top half of the viewport so the keyboard can use the bottom half */
   @media (max-width: 600px) {
     position: fixed;
-    top: 0;
+    bottom: 0;
     right: 0;
     left: 0;
-    bottom: auto;
+    top: auto;
     width: 100vw;
     height: 50dvh;
     max-width: 100vw;
     max-height: 50dvh;
     min-height: 50dvh;
-    border-radius: 0 0 10px 10px;
-    transform-origin: top center;
+    border-radius: 10px 10px 0 0;
+    transform-origin: bottom center;
     z-index: 9999;
-    transform: ${props => (props.visible ? 'translateY(0)' : 'translateY(-100%)')};
+    transform: ${props => (props.visible ? 'translateY(0)' : 'translateY(100%)')};
     transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 `;
@@ -766,7 +766,7 @@ const MobileOverlay = styled.div<{ visible: boolean }>`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 9998;
     pointer-events: ${props => (props.visible ? 'auto' : 'none')};
     opacity: ${props => (props.visible ? 1 : 0)};
