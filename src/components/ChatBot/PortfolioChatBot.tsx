@@ -605,6 +605,36 @@ const PortfolioChatBot = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    // Scroll position management for mobile
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const handleFocus = () => {
+            // Store current scroll position when input is focused
+            setScrollPosition(window.scrollY);
+        };
+
+        const handleBlur = () => {
+            // Restore scroll position when input loses focus
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 100);
+        };
+
+        const input = inputRef.current;
+        if (input) {
+            input.addEventListener('focus', handleFocus);
+            input.addEventListener('blur', handleBlur);
+        }
+
+        return () => {
+            if (input) {
+                input.removeEventListener('focus', handleFocus);
+                input.removeEventListener('blur', handleBlur);
+            }
+        };
+    }, [isMobile, scrollPosition]);
+
     // Prevent scroll when chat is open on mobile
     useEffect(() => {
         if (!isMobile) return;
@@ -614,17 +644,35 @@ const PortfolioChatBot = () => {
             const currentScroll = window.scrollY;
             setScrollPosition(currentScroll);
             
-            // Prevent scrolling by fixing body position
+            // More aggressive scroll prevention
             document.body.style.overflow = 'hidden';
             document.body.style.position = 'fixed';
             document.body.style.top = `-${currentScroll}px`;
             document.body.style.width = '100%';
+            document.body.style.height = '100%';
+            
+            // Prevent touch scrolling
+            document.body.style.touchAction = 'none';
+            
+            // Add viewport meta tag to prevent zoom and scroll
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+            }
         } else {
             // Restore scrolling
             document.body.style.overflow = '';
             document.body.style.position = '';
             document.body.style.top = '';
             document.body.style.width = '';
+            document.body.style.height = '';
+            document.body.style.touchAction = '';
+            
+            // Restore original viewport
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
+            }
             
             // Restore scroll position
             setTimeout(() => {
@@ -638,42 +686,29 @@ const PortfolioChatBot = () => {
             document.body.style.position = '';
             document.body.style.top = '';
             document.body.style.width = '';
+            document.body.style.height = '';
+            document.body.style.touchAction = '';
+            
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
+            }
         };
     }, [open, isMobile, scrollPosition]);
 
-    // Handle keyboard appearance without forcing scroll to top
+    // Additional effect to handle keyboard appearance
     useEffect(() => {
         if (!isMobile || !open) return;
 
         const handleResize = () => {
-            // When viewport changes (keyboard appears), maintain current position
-            // Don't force scroll to top, just prevent further scrolling
+            // Force scroll to top when viewport changes (keyboard appears)
+            window.scrollTo(0, 0);
         };
 
         const handleScroll = (e: Event) => {
-            // Only prevent scrolling, don't force position
+            // Prevent any scrolling
             e.preventDefault();
-            e.stopPropagation();
-        };
-
-        const handleInputFocus = (e: FocusEvent) => {
-            // Prevent any scroll behavior when input is focused on mobile
-            if (isMobile) {
-                e.preventDefault();
-                // Force scroll to stay at current position
-                setTimeout(() => {
-                    window.scrollTo(0, scrollPosition);
-                }, 10);
-            }
-        };
-
-        const handleInputBlur = () => {
-            // Ensure we stay at the correct position when input loses focus
-            if (isMobile) {
-                setTimeout(() => {
-                    window.scrollTo(0, scrollPosition);
-                }, 100);
-            }
+            window.scrollTo(0, 0);
         };
 
         // Listen for viewport changes and scroll events
@@ -681,24 +716,12 @@ const PortfolioChatBot = () => {
         window.addEventListener('scroll', handleScroll, { passive: false });
         document.addEventListener('scroll', handleScroll, { passive: false });
 
-        // Add input focus/blur listeners
-        const input = inputRef.current;
-        if (input) {
-            input.addEventListener('focus', handleInputFocus);
-            input.addEventListener('blur', handleInputBlur);
-        }
-
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('scroll', handleScroll);
             document.removeEventListener('scroll', handleScroll);
-            
-            if (input) {
-                input.removeEventListener('focus', handleInputFocus);
-                input.removeEventListener('blur', handleInputBlur);
-            }
         };
-    }, [isMobile, open, scrollPosition]);
+    }, [isMobile, open]);
 
     useEffect(() => {
         const el = messageAreaRef.current;
@@ -717,7 +740,7 @@ const PortfolioChatBot = () => {
 
     useEffect(() => {
         msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages, open]);
 
     useEffect(() => {
         localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
@@ -737,20 +760,17 @@ const PortfolioChatBot = () => {
         handleInitialPrompt();
     }, [initialApiPrompt, initialDisplayPrompt]); // Depend on both initial prompts
 
-    // Remove auto-focus on mobile to prevent scroll jump.
-    // We only auto-focus on desktop if desired.
     useEffect(() => {
-        if (open && !isMobile) {
+        if (open) {
             inputRef.current?.focus();
         }
-    }, [open, isMobile]);
+    }, [open]);
 
     useEffect(() => {
-        // When streaming ends, focus input only on desktop to aid rapid chatting.
-        if (!isStreaming && !isMobile) {
+        if (!isStreaming) {
             inputRef.current?.focus();
         }
-    }, [isStreaming, isMobile]);
+    }, [isStreaming]);
 
     const sendMessage = async (
         displayText?: string, // Used for displaying in UI
