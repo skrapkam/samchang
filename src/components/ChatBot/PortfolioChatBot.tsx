@@ -193,10 +193,10 @@ const ChatBox = styled.div<ChatBoxProps>`
     left: 0;
     bottom: auto;
     width: 100vw;
-    height: 50dvh;
+    height: 60dvh;
     max-width: 100vw;
-    max-height: 50dvh;
-    min-height: 50dvh;
+    max-height: 60dvh;
+    min-height: 60dvh;
     border-radius: 0 0 10px 10px;
     transform-origin: top center;
   }
