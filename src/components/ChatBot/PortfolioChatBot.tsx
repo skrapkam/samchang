@@ -644,20 +644,40 @@ const PortfolioChatBot = () => {
             const currentScroll = window.scrollY;
             setScrollPosition(currentScroll);
             
-            // Prevent scrolling
+            // More aggressive scroll prevention
             document.body.style.overflow = 'hidden';
             document.body.style.position = 'fixed';
             document.body.style.top = `-${currentScroll}px`;
             document.body.style.width = '100%';
+            document.body.style.height = '100%';
+            
+            // Prevent touch scrolling
+            document.body.style.touchAction = 'none';
+            
+            // Add viewport meta tag to prevent zoom and scroll
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+            }
         } else {
             // Restore scrolling
             document.body.style.overflow = '';
             document.body.style.position = '';
             document.body.style.top = '';
             document.body.style.width = '';
+            document.body.style.height = '';
+            document.body.style.touchAction = '';
+            
+            // Restore original viewport
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
+            }
             
             // Restore scroll position
-            window.scrollTo(0, scrollPosition);
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 50);
         }
 
         return () => {
@@ -666,8 +686,42 @@ const PortfolioChatBot = () => {
             document.body.style.position = '';
             document.body.style.top = '';
             document.body.style.width = '';
+            document.body.style.height = '';
+            document.body.style.touchAction = '';
+            
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
+            }
         };
     }, [open, isMobile, scrollPosition]);
+
+    // Additional effect to handle keyboard appearance
+    useEffect(() => {
+        if (!isMobile || !open) return;
+
+        const handleResize = () => {
+            // Force scroll to top when viewport changes (keyboard appears)
+            window.scrollTo(0, 0);
+        };
+
+        const handleScroll = (e: Event) => {
+            // Prevent any scrolling
+            e.preventDefault();
+            window.scrollTo(0, 0);
+        };
+
+        // Listen for viewport changes and scroll events
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('scroll', handleScroll, { passive: false });
+        document.addEventListener('scroll', handleScroll, { passive: false });
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, [isMobile, open]);
 
     useEffect(() => {
         const el = messageAreaRef.current;
