@@ -105,11 +105,12 @@ const StyledLink = styled.a`
     }
 `;
 
-const ChatWrapper = styled.div<{ x: number; y: number }>`
+const ChatWrapper = styled.div<{ x: number; y: number; bottomOffset: number }>`
   position: fixed;
   z-index: 9999;
-  bottom: ${(props) => props.y}px;
+  bottom: ${(props) => props.y + props.bottomOffset}px;
   right: ${(props) => props.x}px;
+  transition: bottom 150ms ease-out;
 `;
 
 const ChatButton = styled.button<{ isOpen: boolean }>`
@@ -507,6 +508,10 @@ const PortfolioChatBot = () => {
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
     
+    // Mobile keyboard handling state
+    const [bottomOffset, setBottomOffset] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+    
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
         if (typeof window !== 'undefined') {
@@ -521,7 +526,52 @@ const PortfolioChatBot = () => {
         }
         return null;
     };
-    
+
+    // Mobile keyboard handling effect
+    useEffect(() => {
+        // Detect if we're on mobile
+        const checkMobile = () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+            setIsMobile(isMobileDevice);
+        };
+
+        checkMobile();
+
+        // Handle visual viewport changes for mobile keyboard
+        const handleViewportChange = () => {
+            if (!isMobile || typeof window === 'undefined' || !window.visualViewport) {
+                return;
+            }
+
+            const viewport = window.visualViewport;
+            const windowHeight = window.innerHeight;
+            const viewportHeight = viewport.height;
+            const keyboardHeight = windowHeight - viewportHeight;
+
+            // Only adjust if keyboard is actually visible (more than 150px difference)
+            if (keyboardHeight > 150) {
+                setBottomOffset(keyboardHeight);
+            } else {
+                setBottomOffset(0);
+            }
+        };
+
+        // Add event listeners
+        if (typeof window !== 'undefined' && window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportChange);
+            window.visualViewport.addEventListener('scroll', handleViewportChange);
+        }
+
+        // Cleanup
+        return () => {
+            if (typeof window !== 'undefined' && window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleViewportChange);
+                window.visualViewport.removeEventListener('scroll', handleViewportChange);
+            }
+        };
+    }, [isMobile]);
+
     useEffect(() => {
         const el = messageAreaRef.current;
         if (!el) return;
@@ -629,7 +679,7 @@ const PortfolioChatBot = () => {
     };
 
     return (
-        <ChatWrapper x={30} y={30}>
+        <ChatWrapper x={30} y={30} bottomOffset={bottomOffset}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
             <ChatBox visible={open}>
             <TopBar showBorder={isScrollable}>
