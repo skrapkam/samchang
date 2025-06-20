@@ -13,6 +13,21 @@ const CHAT_API_URL =
 // Rate limit bypass token from environment variable
 const RATE_LIMIT_BYPASS_TOKEN = process.env.GATSBY_RATE_LIMIT_BYPASS_TOKEN;
 
+// After the RATE_LIMIT_BYPASS_TOKEN constant, add session id helpers
+const generateSessionId = () => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+const getOrCreateSessionId = (): string => {
+  if (typeof window === "undefined") {
+    return generateSessionId();
+  }
+  let sessionId = localStorage.getItem("chatSessionId");
+  if (!sessionId) {
+    sessionId = generateSessionId();
+    localStorage.setItem("chatSessionId", sessionId);
+  }
+  return sessionId;
+};
+
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
     // If no URLs or markdown links, just return the text as-is to preserve spacing
@@ -514,7 +529,7 @@ interface RateLimitError {
     message: string;
 }
 
-async function fetchStreamedResponse(message: string, conversationHistory: ChatMessage[], onChunk: (text: string) => void) {
+async function fetchStreamedResponse(message: string, sessionId: string, onChunk: (text: string) => void, onSessionId: (id: string) => void) {
     // Prepare headers with bypass token if available
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
@@ -537,12 +552,18 @@ async function fetchStreamedResponse(message: string, conversationHistory: ChatM
             headers,
             body: JSON.stringify({ 
                 userMessage: message,
-                conversationHistory: conversationHistory
+                sessionId
             }),
         });
 
         console.log('Response status:', response.status);
         console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        // Capture/propagate session id from headers
+        const responseSessionId = response.headers.get('X-Session-Id');
+        if (responseSessionId && responseSessionId !== sessionId) {
+            onSessionId(responseSessionId);
+        }
 
         // Handle rate limit error
         if (response.status === 429) {
@@ -711,6 +732,15 @@ const PortfolioChatBot = () => {
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
     
+    const [sessionId, setSessionId] = useState<string>(() => getOrCreateSessionId());
+
+    // Persist session id changes
+    useEffect(() => {
+        if (sessionId) {
+            localStorage.setItem('chatSessionId', sessionId);
+        }
+    }, [sessionId]);
+    
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
         if (typeof window !== 'undefined') {
@@ -840,12 +870,9 @@ const PortfolioChatBot = () => {
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
-        // Get the conversation history up to the current user message (excluding the streaming message)
-        const conversationHistory = messages.concat(userMessage);
-
         try {
             let streamedText = "";
-            await fetchStreamedResponse(finalApiText, conversationHistory, chunk => {
+            await fetchStreamedResponse(finalApiText, sessionId, chunk => {
                 streamedText += chunk;
                 setMessages(prev => {
                     const newMsgs = [...prev];
@@ -853,6 +880,8 @@ const PortfolioChatBot = () => {
                     if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
                     return newMsgs;
                 });
+            }, (newSessionId) => {
+                setSessionId(newSessionId);
             });
 
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
@@ -881,6 +910,8 @@ const PortfolioChatBot = () => {
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
         setRateLimitError(null); // Clear rate limit errors on reset
+        const newSessionId = generateSessionId();
+        setSessionId(newSessionId);
     };
 
     // Helper for clickable prompts: pass both clean and contextualized prompt
