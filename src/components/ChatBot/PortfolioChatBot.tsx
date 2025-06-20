@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useChat } from "./ChatContext";
 import { getBypassToken } from "../Bypass/useBypassToken";
+import ShimmerText from "../ShimmerText";
 
 const CHAT_API_URL =
     process.env.NODE_ENV === "development"
@@ -12,6 +13,21 @@ const CHAT_API_URL =
 
 // Rate limit bypass token from environment variable
 const RATE_LIMIT_BYPASS_TOKEN = process.env.GATSBY_RATE_LIMIT_BYPASS_TOKEN;
+
+// After the RATE_LIMIT_BYPASS_TOKEN constant, add session id helpers
+const generateSessionId = () => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+const getOrCreateSessionId = (): string => {
+  if (typeof window === "undefined") {
+    return generateSessionId();
+  }
+  let sessionId = localStorage.getItem("chatSessionId");
+  if (!sessionId) {
+    sessionId = generateSessionId();
+    localStorage.setItem("chatSessionId", sessionId);
+  }
+  return sessionId;
+};
 
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
@@ -393,6 +409,40 @@ const Input = styled.input`
   }
 `;
 
+const InputPlaceholder = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0.68rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: max(1.4rem, 16px);
+  color: #b2b8c7;
+  z-index: 1;
+`;
+
+const InputContainer = styled.div`
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: max(1.4rem, 16px); /* Prevent zoom on iOS */
+  color: #222;
+  padding: 0.38rem 0.3rem;
+  
+  /* Hide placeholder when shimmer is active */
+  &::placeholder {
+    color: transparent;
+    opacity: 0;
+  }
+`;
+
 const SendButton = styled.button<{ visible: boolean }>`
   background: #262626;
   border: none;
@@ -514,7 +564,7 @@ interface RateLimitError {
     message: string;
 }
 
-async function fetchStreamedResponse(message: string, conversationHistory: ChatMessage[], onChunk: (text: string) => void) {
+async function fetchStreamedResponse(message: string, sessionId: string, onChunk: (text: string) => void, onSessionId: (id: string) => void) {
     // Prepare headers with bypass token if available
     const headers: Record<string, string> = {
         "Content-Type": "application/json",
@@ -537,12 +587,18 @@ async function fetchStreamedResponse(message: string, conversationHistory: ChatM
             headers,
             body: JSON.stringify({ 
                 userMessage: message,
-                conversationHistory: conversationHistory
+                sessionId
             }),
         });
 
         console.log('Response status:', response.status);
         console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        // Capture/propagate session id from headers
+        const responseSessionId = response.headers.get('X-Session-Id');
+        if (responseSessionId && responseSessionId !== sessionId) {
+            onSessionId(responseSessionId);
+        }
 
         // Handle rate limit error
         if (response.status === 429) {
@@ -685,6 +741,14 @@ function postProcessText(text: string) {
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
         .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
         .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
+        // Fix email addresses with missing @ symbol or double @ symbols
+        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
+        .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+        // Fix social media handles with missing @ symbol
+        .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
+        // Fix LinkedIn URLs and names
+        .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
@@ -702,6 +766,7 @@ const PortfolioChatBot = () => {
     const [isStreaming, setIsStreaming] = useState(false);
     const [rateLimitError, setRateLimitError] = useState<RateLimitError | null>(null);
     const [countdown, setCountdown] = useState<string>("");
+    const [showShimmer, setShowShimmer] = useState(false);
     const msgEndRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
@@ -710,6 +775,15 @@ const PortfolioChatBot = () => {
     const messageAreaRef = useRef<HTMLDivElement>(null);
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
+    
+    const [sessionId, setSessionId] = useState<string>(() => getOrCreateSessionId());
+
+    // Persist session id changes
+    useEffect(() => {
+        if (sessionId) {
+            localStorage.setItem('chatSessionId', sessionId);
+        }
+    }, [sessionId]);
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -837,15 +911,13 @@ const PortfolioChatBot = () => {
         if (!displayText) setInput(""); // Only clear input if it was typed, not from prompt click
         setIsStreaming(true);
         setRateLimitError(null); // Clear any previous rate limit errors
+        setShowShimmer(true); // Show shimmer effect
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
-        // Get the conversation history up to the current user message (excluding the streaming message)
-        const conversationHistory = messages.concat(userMessage);
-
         try {
             let streamedText = "";
-            await fetchStreamedResponse(finalApiText, conversationHistory, chunk => {
+            await fetchStreamedResponse(finalApiText, sessionId, chunk => {
                 streamedText += chunk;
                 setMessages(prev => {
                     const newMsgs = [...prev];
@@ -853,6 +925,8 @@ const PortfolioChatBot = () => {
                     if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
                     return newMsgs;
                 });
+            }, (newSessionId) => {
+                setSessionId(newSessionId);
             });
 
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
@@ -873,6 +947,8 @@ const PortfolioChatBot = () => {
             }
         } finally {
             setIsStreaming(false);
+            // Hide shimmer with a slight delay for smooth transition
+            setTimeout(() => setShowShimmer(false), 300);
         }
     };
 
@@ -881,6 +957,8 @@ const PortfolioChatBot = () => {
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
         setRateLimitError(null); // Clear rate limit errors on reset
+        const newSessionId = generateSessionId();
+        setSessionId(newSessionId);
     };
 
     // Helper for clickable prompts: pass both clean and contextualized prompt
@@ -986,15 +1064,31 @@ const PortfolioChatBot = () => {
                     <div ref={msgEndRef} />
                 </MessageArea>
                 <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
-                    <Input
-                        ref={inputRef}
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onFocus={() => setFocused(true)}
-                        onBlur={() => setFocused(false)}
-                        placeholder={rateLimitError ? "Rate limited - try again later" : "Type a message..."}
-                        disabled={isChatDisabled}
-                    />
+                    <InputContainer>
+                        <StyledInput
+                            ref={inputRef}
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
+                            disabled={isChatDisabled}
+                        />
+                        {!input && (
+                            <InputPlaceholder>
+                                {showShimmer ? (
+                                    <ShimmerText
+                                        shimmerColor="#4a90e2"
+                                        baseColor="#b2b8c7"
+                                        duration={1200}
+                                    >
+                                        Thinking...
+                                    </ShimmerText>
+                                ) : (
+                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
+                                )}
+                            </InputPlaceholder>
+                        )}
+                    </InputContainer>
                     <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
                         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
                             <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
