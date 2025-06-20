@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useChat } from "./ChatContext";
 import { getBypassToken } from "../Bypass/useBypassToken";
+import ShimmerText from "../ShimmerText";
 
 const CHAT_API_URL =
     process.env.NODE_ENV === "development"
@@ -408,6 +409,40 @@ const Input = styled.input`
   }
 `;
 
+const InputPlaceholder = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0.68rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: max(1.4rem, 16px);
+  color: #b2b8c7;
+  z-index: 1;
+`;
+
+const InputContainer = styled.div`
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: max(1.4rem, 16px); /* Prevent zoom on iOS */
+  color: #222;
+  padding: 0.38rem 0.3rem;
+  
+  /* Hide placeholder when shimmer is active */
+  &::placeholder {
+    color: transparent;
+    opacity: 0;
+  }
+`;
+
 const SendButton = styled.button<{ visible: boolean }>`
   background: #262626;
   border: none;
@@ -723,6 +758,7 @@ const PortfolioChatBot = () => {
     const [isStreaming, setIsStreaming] = useState(false);
     const [rateLimitError, setRateLimitError] = useState<RateLimitError | null>(null);
     const [countdown, setCountdown] = useState<string>("");
+    const [showShimmer, setShowShimmer] = useState(false);
     const msgEndRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
@@ -867,6 +903,7 @@ const PortfolioChatBot = () => {
         if (!displayText) setInput(""); // Only clear input if it was typed, not from prompt click
         setIsStreaming(true);
         setRateLimitError(null); // Clear any previous rate limit errors
+        setShowShimmer(true); // Show shimmer effect
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
@@ -902,6 +939,8 @@ const PortfolioChatBot = () => {
             }
         } finally {
             setIsStreaming(false);
+            // Hide shimmer with a slight delay for smooth transition
+            setTimeout(() => setShowShimmer(false), 300);
         }
     };
 
@@ -1017,15 +1056,31 @@ const PortfolioChatBot = () => {
                     <div ref={msgEndRef} />
                 </MessageArea>
                 <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
-                    <Input
-                        ref={inputRef}
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
-                        onFocus={() => setFocused(true)}
-                        onBlur={() => setFocused(false)}
-                        placeholder={rateLimitError ? "Rate limited - try again later" : "Type a message..."}
-                        disabled={isChatDisabled}
-                    />
+                    <InputContainer>
+                        <StyledInput
+                            ref={inputRef}
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
+                            disabled={isChatDisabled}
+                        />
+                        {!input && (
+                            <InputPlaceholder>
+                                {showShimmer ? (
+                                    <ShimmerText
+                                        shimmerColor="#4a90e2"
+                                        baseColor="#b2b8c7"
+                                        duration={1200}
+                                    >
+                                        Thinking...
+                                    </ShimmerText>
+                                ) : (
+                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
+                                )}
+                            </InputPlaceholder>
+                        )}
+                    </InputContainer>
                     <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
                         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
                             <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
