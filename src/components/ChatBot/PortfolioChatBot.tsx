@@ -741,6 +741,14 @@ function postProcessText(text: string) {
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
         .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
         .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
+        // Fix email addresses with missing @ symbol or double @ symbols
+        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
+        .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+        // Fix social media handles with missing @ symbol
+        .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
+        // Fix LinkedIn URLs and names
+        .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
