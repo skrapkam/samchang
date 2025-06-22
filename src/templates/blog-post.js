@@ -30,6 +30,7 @@ import defaultTheme from "../components/Theme";
 // ✅ Add these imports
 import { ClickablePrompt } from "../components/ChatBot";
 import PromptContainer from "../components/Blog/PromptContainer";
+import ZoomImage from "../components/ZoomImage";
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -47,6 +48,7 @@ const renderAst = new RehypeReact({
     Button: Button,
     link: Link,
     Link: Link,
+    img: ZoomImage,
     "content-title": ContentTitle,
     "content-excerpt": ContentExcerpt,
     summary: Summary,
