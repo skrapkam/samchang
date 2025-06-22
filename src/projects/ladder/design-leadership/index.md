@@ -20,11 +20,19 @@ Growing a strong design team and deepening customer understanding at Ladder.
 
 <summary>
 I lead design at Ladder by growing a cohesive, cross-functional team and fostering customer empathy through guerrilla research and support team insights.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Ladder Design Leadership">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Ladder Design Leadership">What was your process?</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Ladder Design Leadership">What constraints shaped your work?</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?" projectContext="Ladder Design Leadership">What impact did it have?</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 # Introduction
 
-For the past three years, I’ve had the privilege of leading most of our design team (product and visual) at Ladder as a senior product design manager. At Ladder, my two main priorities are building a great team and fostering a customer-centric mindset. I’d like to share some of the ways I’ve worked toward achieving these goals.
+For the past three years, I've had the privilege of leading most of our design team (product and visual) at Ladder as a senior product design manager. At Ladder, my two main priorities are building a great team and fostering a customer-centric mindset. I'd like to share some of the ways I've worked toward achieving these goals.
 
 # Building a great team
 
@@ -48,7 +56,7 @@ Designers are constantly learning through hands-on project work and collaboratio
 
 In 2024, I collaborated with our product and visual design teams to define our team values—core beliefs and principles that guide our activities. This effort stemmed from the need to answer two key questions: **What does it mean to be a product or visual designer at Ladder?** and **What truly matters to us, and where do we want to excel?**
 
-Establishing team values helps my team understand who they are and provides a shared framework to guide their work in meaningful ways. It’s a foundation for creating impactful designs that align with their identity and aspirations.
+Establishing team values helps my team understand who they are and provides a shared framework to guide their work in meaningful ways. It's a foundation for creating impactful designs that align with their identity and aspirations.
 
 ![Michelle holding up values](../images/img_michelle.png "Michelle holding up a sticky note with our Product Design values.")
 
@@ -56,17 +64,17 @@ Establishing team values helps my team understand who they are and provides a sh
 
 ## Team alignment
 
-Team alignment has been a key focus for me since stepping into the design manager role. Historically, designers at Ladder have worked in silos across different disciplines. For instance, product designers and visual designers often operated on separate projects, with little exposure to each other’s work. This disconnect has led to misalignment in insights, business strategy, and goals.
+Team alignment has been a key focus for me since stepping into the design manager role. Historically, designers at Ladder have worked in silos across different disciplines. For instance, product designers and visual designers often operated on separate projects, with little exposure to each other's work. This disconnect has led to misalignment in insights, business strategy, and goals.
 
-Since taking on leadership of both product and visual design, I’ve prioritized building a shared consciousness within the team.
+Since taking on leadership of both product and visual design, I've prioritized building a shared consciousness within the team.
 
 ### Share consciousness
 
-Brian Chesky of Airbnb describes shared consciousness as a singular brain that fosters open communication and collaboration. To cultivate this, I hold monthly team meetings and check-ins to ensure each member understands how their work impacts others—and how others’ work affects theirs. My goal is to create a team where everyone has a general awareness of areas outside their own domain expertise, fostering stronger alignment and collaboration.
+Brian Chesky of Airbnb describes shared consciousness as a singular brain that fosters open communication and collaboration. To cultivate this, I hold monthly team meetings and check-ins to ensure each member understands how their work impacts others—and how others' work affects theirs. My goal is to create a team where everyone has a general awareness of areas outside their own domain expertise, fostering stronger alignment and collaboration.
 
 # Building a customer-centric muscle
 
-Obtaining user insights has always been a challenge at Ladder. While we have abundant quantitative data, qualitative insights are often harder to come by. Here are a few ways I’ve helped our team better understand our customers:
+Obtaining user insights has always been a challenge at Ladder. While we have abundant quantitative data, qualitative insights are often harder to come by. Here are a few ways I've helped our team better understand our customers:
 
 ## Establishing a guerrilla user research team
 

@@ -86,14 +86,13 @@ In mid-2022, I became the design lead for a new product team dedicated solely to
 ![Affordability](./images/img_FPF.png " ")
 
 
-
-
 ## Affordability 
 Ladder’s mission is to protect families by helping people get covered through a policy that is right for them. As policy offers become more expensive, however, the rate of users accepting their policies drops. Users who feel that life insurance is outside of their affordable budget will not get the coverage their loved ones need. And rather than lowering their coverage amount, users elect not to get life insurance altogether due to it feeling unaffordable. I designed a treatment in our funnel to help users select a policy that fits within their budget. 
 
 <blog-button>
 <button-visit>
-<a href="https://samchang.notion.site/Affordability-4887f28b06d24b699953f17017fc842a">View case study 🔗</a>
+<a href="/ladder/affordability">View case study</a>
+</button-visit>
 </blog-button>
 
 ![Affordability](./images/img_affordability.png " ")
