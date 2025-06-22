@@ -20,6 +20,14 @@ Designing a new quote experience powered by machine learning
 
 <summary>
 I led the design of a new quote experience that used a machine learning model to identify low-intent users and redirect them to better-fitting partners. By prioritizing transparency and trust, we increased revenue per impression by ~$4.6–$7.5 and partner impressions by 9%.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Ladder Reroute">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Ladder Reroute">What was your process?</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Ladder Reroute">What constraints shaped your work?</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?" projectContext="Ladder Reroute">What impact did it have?</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 
@@ -27,7 +35,7 @@ I led the design of a new quote experience that used a machine learning model to
 
 ## What is this?
 
-Ladder’s mission is to protect families by helping people get covered through a policy. Still, we've had setbacks matching everyone with the best policy, which is not great for both our users and Ladder. In 2023, our Machine Learning team developed a model to improve these matches. This project showcases how I designed a solution that utilizes this model.
+Ladder's mission is to protect families by helping people get covered through a policy. Still, we've had setbacks matching everyone with the best policy, which is not great for both our users and Ladder. In 2023, our Machine Learning team developed a model to improve these matches. This project showcases how I designed a solution that utilizes this model.
 
 ## My role
 
@@ -81,7 +89,7 @@ Understand → Identify → Execute
 
 ### Understanding the model
 
-One of the most formative lessons I’ve learned at Ladder, specifically in working in the life insurance space, is how data and design interplay together. Despite the apparent simplicity of the end designs, the decision-making process behind them is complex due to our interpretation of the data.
+One of the most formative lessons I've learned at Ladder, specifically in working in the life insurance space, is how data and design interplay together. Despite the apparent simplicity of the end designs, the decision-making process behind them is complex due to our interpretation of the data.
 
 ![I frequently parsed through SQL queries during this stage of the project](images/reroute_03.png "")
 
@@ -101,7 +109,7 @@ To help guide the design exploration process, I first came up with a few design 
 
 **Be transparent about the problem**
 
-Clearly outlining the problems that a solution addresses makes selling that solution easier. We shouldn’t sugarcoat things as a mixed message would actually be more confusing for users. In this case, the design, particularly the copy, needs to explicitly communicate to users the challenges they might encounter by choosing Ladder (e.g., higher prices, potential for rejection, overall mismatch).
+Clearly outlining the problems that a solution addresses makes selling that solution easier. We shouldn't sugarcoat things as a mixed message would actually be more confusing for users. In this case, the design, particularly the copy, needs to explicitly communicate to users the challenges they might encounter by choosing Ladder (e.g., higher prices, potential for rejection, overall mismatch).
 
 **Provide a solution**
 
@@ -109,7 +117,7 @@ Once the problem is presented, the solution should be evident to users. We need 
 
 **Align with the main user objective**
 
-We know that at this stage, the quote is top of mind for users. While our goal here is to redirect them to our partners, we still have to present them a quote. This doesn’t necessarily mean, however, that we have to use our existing quote page (more on this later).
+We know that at this stage, the quote is top of mind for users. While our goal here is to redirect them to our partners, we still have to present them a quote. This doesn't necessarily mean, however, that we have to use our existing quote page (more on this later).
 
 ### Identifying the design solutions
 
@@ -158,11 +166,11 @@ Directly beneath the partner options are the potential problems users could face
 
 With a potential design in view, I decided to de-risk our solution by presenting this design in front of our users. I created a user test plan that took users through our flow with this treatment. I was most curious about how jarring this page would be for users who came for a quote and what would make them more compelled to check out the other partners. 
 
-Surprisingly, users were very receptive to the transparency of the page and thought it actually created more trust for Ladder. They liked how Ladder wasn’t just trying to make money and were willing to lose out on potential business with them if it meant they could get better coverage elsewhere. 
+Surprisingly, users were very receptive to the transparency of the page and thought it actually created more trust for Ladder. They liked how Ladder wasn't just trying to make money and were willing to lose out on potential business with them if it meant they could get better coverage elsewhere. 
 
 I also learned that we had to provide a bit more detail on who these partners are and why exactly Ladder is less likely to offer the coverage they need. 
 
-Users also found that the page was a bit jarring to see immediately after providing the last input. To mitigate this feeling, I came up with a transitional loading page that gave a bit more transparency around what we were doing in the backend. I asked our engineer to create some artificial delay on this page to further reinforce the idea that we’re doing our due diligence with the inputs they have provided so far. 
+Users also found that the page was a bit jarring to see immediately after providing the last input. To mitigate this feeling, I came up with a transitional loading page that gave a bit more transparency around what we were doing in the backend. I asked our engineer to create some artificial delay on this page to further reinforce the idea that we're doing our due diligence with the inputs they have provided so far. 
 
 ![Loading page](images/reroute_12.png)
 

@@ -19,11 +19,19 @@ Designing an guided coverage slider to help budget-minded users
 
 <summary>
 I designed a lightweight coverage slider with affordability guidance to help users choose policies within budget. This reduced drop-off and led to a 14% lift in policy acceptance, contributing to a 4% increase in overall conversion.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Ladder Affordability">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Ladder Affordability">What was your process?</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Ladder Affordability">What constraints shaped your work?</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?" projectContext="Ladder Affordability">What impact did it have?</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 # Problem
 
-Ladder’s mission is to protect families by helping people get covered through a policy that is right for them. **As policy offers become more expensive, however, the rate of users accepting their policies drops**. Users who feel that life insurance is **outside of their affordable budget will not get the coverage their loved ones need**. And rather than lowering their coverage amount, users elect not to get life insurance altogether due to it feeling unaffordable. This leads to a coverage gap which we are aiming to decrease.
+Ladder's mission is to protect families by helping people get covered through a policy that is right for them. **As policy offers become more expensive, however, the rate of users accepting their policies drops**. Users who feel that life insurance is **outside of their affordable budget will not get the coverage their loved ones need**. And rather than lowering their coverage amount, users elect not to get life insurance altogether due to it feeling unaffordable. This leads to a coverage gap which we are aiming to decrease.
 
 ## Goal
 
@@ -61,7 +69,7 @@ Our treatment would bring value to users by informing them. We assume that users
 
 Our goal was to help users select a policy with an affordable coverage amount. However, we did not want to prevent users from selecting a coverage amount that would make the policy unaffordable. In other words, we did not want to impose anything on users. Users have individual needs, and making it difficult for them to get what they need would be a bad experience.
 
-### Don’t patronize
+### Don't patronize
 
 Affordability is an important consideration for users, but it can also be sensitive for some. We have their best interests in mind, but we don't want to appear condescending by implying they can't afford a certain policy.
 
@@ -95,7 +103,7 @@ We realized that versions 1 and 2 were too heavy-handed in their recommendations
 
 ### Slider bar
 
-I designed the coverage amount slider bar to include a `Recommended for you` range that would display where users should ideally select. The solution here is to make the range as lightweight as possible so as to not hinder the overall experience of selecting a coverage amount, but still pique a user’s interest and be obvious as to what the intention is. 
+I designed the coverage amount slider bar to include a `Recommended for you` range that would display where users should ideally select. The solution here is to make the range as lightweight as possible so as to not hinder the overall experience of selecting a coverage amount, but still pique a user's interest and be obvious as to what the intention is. 
 
 ![Slider bar](images/Screen_Shot_2022-12-27_at_6.15.22_PM.png)
 

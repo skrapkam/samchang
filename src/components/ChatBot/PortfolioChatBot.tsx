@@ -795,6 +795,11 @@ const PortfolioChatBot = () => {
             if (path.includes('/music')) return 'Music';
             if (path.includes('/info')) return 'Info';
             if (path.includes('/music')) return 'Music';
+            if (path.includes('/ladder/affordability')) return 'Ladder Affordability';
+            if (path.includes('/ladder/billing-checkout')) return 'Ladder Billing Checkout';
+            if (path.includes('/ladder/design-leadership')) return 'Ladder Design Leadership';
+            if (path.includes('/ladder/first-payment-failure')) return 'Ladder First Payment Failure';
+            if (path.includes('/ladder/reroute')) return 'Ladder Reroute';
             if (path.includes('/ladder')) return 'Ladder';
             // Add more project paths as needed
         }

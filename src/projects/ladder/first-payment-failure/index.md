@@ -14,12 +14,20 @@ image4: "../images/img_team.jpg"
 First Payment Failure
 </content-title>
 <content-excerpt>
-Redesigning Ladder’s payment experience to reduce payment failures
+Redesigning Ladder's payment experience to reduce payment failures
 </content-excerpt>
 
 
 <summary>
 I led the design for a new initiative focused on reducing first payment failure—a key cause of customer lapse. By introducing ACH balance checks, smarter alerts, improved notifications, and a clearer billing experience, we cut first payment failures by 50%, saving ~130 policies from lapsing each month.
+
+<prompt-container>
+<clickable-prompt prompt="What problem were you solving with this project?" projectContext="Ladder First Payment Failure">What problem did you solve?</clickable-prompt>
+<clickable-prompt prompt="What was your process?" projectContext="Ladder First Payment Failure">What was your process?</clickable-prompt>
+<clickable-prompt prompt="What constraints shaped your work?" projectContext="Ladder First Payment Failure">What constraints shaped your work?</clickable-prompt>
+<clickable-prompt prompt="What impact did it have?" projectContext="Ladder First Payment Failure">What impact did it have?</clickable-prompt>
+</prompt-container>
+
 </summary>
 
 # Background
@@ -38,7 +46,7 @@ We decided to prioritize addressing payment failure first, as it was the most st
 
 We looked at the data to gain a better understanding of the opportunity and impact of reducing first payment failure (FPF). We found that approximately **2.5% of all new customers** who purchase a policy fail to make their first payment. Of that cohort, only **38%** manage to resolve the issue. Although 2.5% may seem small, it accumulates to a significant number of policies that are ultimately cancelled.
 
-### What’s causing users to fail their first payment?
+### What's causing users to fail their first payment?
 
 Drilling into the data further helped us to understand how users fail their first payment. Users can pay for their policy with either a credit card or by connecting their ACH bank account. **All** **FPF occur for users who connect their ACH account, as they often don't have enough funds in their account to cover the first month's premium**.
 
@@ -62,9 +70,9 @@ To help guide the design exploration process, I first came up with a few design 
 
 **Inform**
 
-Users should immediately understand that they have insufficient funds in their account. They should also quickly understand the consequences of missing their first payment: specifically that their policy won’t be activated. 
+Users should immediately understand that they have insufficient funds in their account. They should also quickly understand the consequences of missing their first payment: specifically that their policy won't be activated. 
 
-**Don’t patronize**
+**Don't patronize**
 
 Potentially not being able to make a payment can be a sensitive matter. Avoid making users feel like it is their fault.
 
@@ -97,7 +105,7 @@ We implemented measures to intervene and help users fix their FPF in the followi
 - Users still choose to proceed with an incorrect payment method
 - If our balance check came back successful but the ACH account becomes insufficient during the delay before the transaction is completed
 
-These measures include a **revamped notification plan** and a more **robust billing section** in a user’s account settings. 
+These measures include a **revamped notification plan** and a more **robust billing section** in a user's account settings. 
 
 ### Notification plan
 
@@ -131,11 +139,11 @@ I designed a new component in our billing section to answer these questions. Thi
 
 ### Making a payment
 
-Prior to this project, fixing a FPF required users to update their payment method to initiate a charge on their credit card or account. This mental model of updating a payment method to fix the FPF issue didn’t make sense to me and I felt seemed confusing to users. So instead, I redesigned this mechanism to change the mental model from updating a payment method to making a payment. My reasoning was that if a payment failed, then there must be an outstanding payment to be made.
+Prior to this project, fixing a FPF required users to update their payment method to initiate a charge on their credit card or account. This mental model of updating a payment method to fix the FPF issue didn't make sense to me and I felt seemed confusing to users. So instead, I redesigned this mechanism to change the mental model from updating a payment method to making a payment. My reasoning was that if a payment failed, then there must be an outstanding payment to be made.
 
 **Before**
 
-![Old way of initiating a charge on a user’s payment method](images/payment_10.png "")
+![Old way of initiating a charge on a user's payment method](images/payment_10.png "")
 
 
 **After** 
