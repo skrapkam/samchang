@@ -10,6 +10,18 @@ image3: "../images/img_team.jpg"
 image4: "../images/img_team.jpg"
 ---
 
+<content-title>
+Design Leadership
+</content-title>
+<content-excerpt>
+Growing a strong design team and deepening customer understanding at Ladder.
+</content-excerpt>
+
+
+<summary>
+I lead design at Ladder by growing a cohesive, cross-functional team and fostering customer empathy through guerrilla research and support team insights.
+</summary>
+
 # Introduction
 
 For the past three years, I’ve had the privilege of leading most of our design team (product and visual) at Ladder as a senior product design manager. At Ladder, my two main priorities are building a great team and fostering a customer-centric mindset. I’d like to share some of the ways I’ve worked toward achieving these goals.
