@@ -1,9 +1,14 @@
 /** @jsx jsx */
 
-import { Component } from "react";
+import React from "react";
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import defaultTheme from "../../Theme"
+
+interface CalloutProps {
+  children: React.ReactNode;
+  emoji?: string;
+}
 
 const CalloutStyle = styled.aside`
   background-color: var(--callout);
@@ -25,15 +30,14 @@ const CalloutTitle = styled.h6`
   margin-bottom: ${defaultTheme.space[1]};
   letter-spacing: 1px;
 `;
-class Callout extends Component {
-  render() {
-    return (
-      <CalloutStyle>
-          <CalloutTitle>💡</CalloutTitle>
-          {this.props.children}
-      </CalloutStyle>
-    );
-  }
-}
+
+const Callout: React.FC<CalloutProps> = ({ children, emoji = "💡" }) => {
+  return (
+    <CalloutStyle>
+      <CalloutTitle>{emoji}</CalloutTitle>
+      {children}
+    </CalloutStyle>
+  );
+};
 
 export default Callout;

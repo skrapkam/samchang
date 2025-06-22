@@ -126,7 +126,7 @@ I conducted a series of [hypotheses generation workshops](https://jeffgothelf.co
 
 We came away with a few hypotheses but aligned on one:
 
-<callout>
+<callout emoji="💡">
 The Curation team will easily identify high-quality designers if we improve their workflow by filtering out designers before they get to the Curation team and adding more barriers to join the platform.
 </callout>
 
