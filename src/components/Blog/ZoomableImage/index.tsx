@@ -18,23 +18,48 @@ const RegularImage = styled.img`
 
 const Overlay = styled.div`
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1500;
+  opacity: 0;
+  animation: fadeIn 0.2s ease-out forwards;
+  
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const OverlayImage = styled.img`
   cursor: zoom-out;
   max-width: 80vw;
   max-height: 80vh;
-  height: auto;
   width: auto;
+  height: auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  display: block;
-  margin: auto;
+  transform: scale(0.8);
+  animation: scaleIn 0.2s ease-out forwards;
+  
+  @keyframes scaleIn {
+    to {
+      transform: scale(1);
+    }
+  }
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const ZoomableImage: React.FC<ZoomableImageProps> = props => {
@@ -60,8 +85,10 @@ const ZoomableImage: React.FC<ZoomableImageProps> = props => {
   if (isZoomed && typeof window !== "undefined") {
     return ReactDOM.createPortal(
       <Overlay onClick={toggleZoom} role="presentation">
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <OverlayImage {...props} />
+        <ImageWrapper>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <OverlayImage {...props} />
+        </ImageWrapper>
       </Overlay>,
       document.body
     );
