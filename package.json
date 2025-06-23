@@ -15,7 +15,7 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
+    "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.10.5",
     "@fastly/performance-observer-polyfill": "^2.0.0",
     "@vercel/analytics": "^1.4.1",
