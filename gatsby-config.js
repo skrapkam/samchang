@@ -7,6 +7,7 @@ module.exports = {
     title: "Sam Chang, Designer",
   },
   plugins: [
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-typescript`,
@@ -38,27 +39,16 @@ module.exports = {
     },
 
     {
-      resolve: `gatsby-remark-images`,
-      options: {
-        maxWidth: 480,
-      },
-    },
-
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [`gatsby-remark-copy-linked-files`],
-      },
-    },
-    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          `gatsby-remark-copy-linked-files`,
           {
             resolve: `gatsby-remark-images`,
             options: {
               quality: 100,
               maxWidth: 1500,
+              withWebp: true,
               showCaptions: true,
               linkImagesToOriginal: false,
               wrapperStyle: `
@@ -67,6 +57,7 @@ module.exports = {
                 `,
             },
           },
+          `gatsby-remark-images-medium-zoom`,
         ],
       },
     },

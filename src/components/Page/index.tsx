@@ -7,8 +7,11 @@ import Emoji from "a11y-react-emoji";
 import defaultTheme from "../Theme";
 import { GlobalStyle } from "../../styles/reset";
 
+interface ScrollToTopProps {
+  isVisible?: boolean;
+}
 
-const ScrollToTop = styled.div`
+const ScrollToTop = styled.div<ScrollToTopProps>`
   cursor: pointer;
   font-size: 2em;
   opacity: ${props => (props.isVisible ? "1" : "0")};
@@ -43,7 +46,11 @@ const PageStyled = styled.div`
 
 `;
 
-export default function ScrollButton({ children }) {
+interface PageProps {
+  children: React.ReactNode;
+}
+
+export default function ScrollButton({ children }: PageProps) {
   const [scrollToTopVisible, setScrollToTopVisible] = useState(false);
 
   function handleScroll() {
