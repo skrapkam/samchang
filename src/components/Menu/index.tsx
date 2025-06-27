@@ -155,11 +155,17 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress);
+    // Only add event listener on client side to prevent hydration issues
+    if (typeof document !== "undefined") {
+      document.addEventListener("keydown", this.handleKeyPress);
+    }
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyPress);
+    // Only remove event listener on client side
+    if (typeof document !== "undefined") {
+      document.removeEventListener("keydown", this.handleKeyPress);
+    }
   }
 
   render() {

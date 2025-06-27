@@ -52,6 +52,12 @@ interface PageProps {
 
 export default function ScrollButton({ children }: PageProps) {
   const [scrollToTopVisible, setScrollToTopVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure component only renders on client side to prevent hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function handleScroll() {
     const scrollToTopState = window && window.pageYOffset > 240;
@@ -67,7 +73,9 @@ export default function ScrollButton({ children }: PageProps) {
   };
 
   useEffect(() => {
-    if (window) {
+    if (window && isClient) {
+      // Set initial state
+      handleScroll();
       window.addEventListener("scroll", throttledScroll);
     }
 
@@ -76,7 +84,7 @@ export default function ScrollButton({ children }: PageProps) {
         window.removeEventListener("scroll", throttledScroll);
       }
     };
-  }, []);
+  }, [isClient]);
 
   return (
     <PageStyled>

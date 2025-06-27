@@ -33,6 +33,12 @@ const Header = styled.div`
 
 export default function ScrollHeader({ children }) {
   const [showHeaderShadow, setHeaderShadow] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure component only renders on client side to prevent hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function handleScroll() {
     const headerShadowState = window && window.pageYOffset > 0;
@@ -42,7 +48,9 @@ export default function ScrollHeader({ children }) {
   const throttledScroll = throttle(300, handleScroll); //delay
 
   useEffect(() => {
-    if (window) {
+    if (window && isClient) {
+      // Set initial state
+      handleScroll();
       window.addEventListener("scroll", throttledScroll);
     }
 
@@ -51,7 +59,7 @@ export default function ScrollHeader({ children }) {
         window.removeEventListener("scroll", throttledScroll);
       }
     };
-  }, []);
+  }, [isClient]);
 
   return <Header showHeaderShadow={showHeaderShadow}>{children}</Header>;
 }
