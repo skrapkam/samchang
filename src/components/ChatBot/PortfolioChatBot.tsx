@@ -947,65 +947,63 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     mainText = cleanText.trim();
   }
 
-  // If no [[cite:]] format found, look for numbers at the end
+  // If no [[cite:]] format found, look for inline citations throughout the text
   if (sources.length === 0) {
-    // Look for trailing numbers with optional spaces between them
-    const endingNumbers = mainText.match(/(\d+)\s*$/);
-    if (endingNumbers) {
-      const numbers = endingNumbers[1].split('');
-      let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
-      
-      // Normalize the text - replace multiple spaces and ensure proper formatting
-      newText = newText.replace(/\s+/g, ' ');
-      
-      // Split text into sections (e.g., "Impact:", "Constraints:")
-      const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
-      
-      let citationCount = 0;
-      const processedSections = sections.map((section) => {
-        // Split section into header and content
-        const colonIndex = section.indexOf(':');
-        if (colonIndex === -1) return section;
-        
-        const header = section.slice(0, colonIndex + 1);
-        let content = section.slice(colonIndex + 1).trim();
-        
-        // Split content into bullet points
-        // Handle both "-" and "•" bullets, and also split by "-" if no proper bullets
-        let bulletPoints;
-        if (content.includes('-')) {
-          bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
-        } else {
-          // If no bullets, split by sentences or key phrases
-          bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
+    // Only use matchAll for global regexes
+    const inlineCitationPatterns: RegExp[] = [
+      /\[(\d+)\]/g,
+      /\((\d+)\)/g
+    ];
+
+    let foundCitations = false;
+    
+    for (const pattern of inlineCitationPatterns) {
+      const matches = Array.from(mainText.matchAll(pattern));
+      if (matches.length > 0) {
+        foundCitations = true;
+        // Handle inline citations that are already in the text
+        const citationNumbers = new Set<number>();
+        matches.forEach(match => {
+          const num = parseInt(match[1], 10);
+          citationNumbers.add(num);
+        });
+        Array.from(citationNumbers).sort((a, b) => a - b).forEach(num => {
+          sources.push({
+            index: num,
+            title: `Reference ${num}`,
+            url: '#',
+            slug: `reference-${num}`,
+            section: `citation-${num}`
+          });
+        });
+        // Convert (1) format to [1] format for consistency
+        if (pattern.source === '\\((\\d+)\\)') {
+          mainText = mainText.replace(/\((\d+)\)/g, '[$1]');
         }
-        
-        // If we still don't have good splits, split by sentences
-        if (bulletPoints.length <= 1) {
-          bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-        }
-        
-        const processedBulletPoints = bulletPoints.map((point, idx) => {
-          // For the last bullet point, use all remaining citations
-          const isLastPoint = idx === bulletPoints.length - 1;
-          const citationsForThisPoint = isLastPoint 
+        break; // Use the first pattern that finds matches
+      }
+    }
+    // If no inline citations found, check for trailing numbers (non-global regex)
+    if (!foundCitations) {
+      const endingNumbers = mainText.match(/(\d+)\s*$/);
+      if (endingNumbers) {
+        const numbers = endingNumbers[1].split('');
+        let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
+        // Normalize the text
+        newText = newText.replace(/\s+/g, ' ');
+        // Split into sentences and distribute citations
+        const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+        let citationCount = 0;
+        const processedSentences = sentences.map((sentence, idx) => {
+          const isLastSentence = idx === sentences.length - 1;
+          const citationsForThisSentence = isLastSentence 
             ? numbers.length - citationCount
-            : Math.min(1, numbers.length - citationCount); // One citation per point
-          
-          let processedPoint = point.trim();
-          
-          // Remove leading "-" if present and add it back properly
-          if (processedPoint.startsWith('-')) {
-            processedPoint = processedPoint.slice(1).trim();
+            : Math.min(1, numbers.length - citationCount);
+          let processedSentence = sentence.trim();
+          if (!processedSentence.match(/[.!?]$/)) {
+            processedSentence += '.';
           }
-          
-          // Ensure point ends with proper punctuation
-          if (!processedPoint.match(/[.!?]$/)) {
-            processedPoint += '.';
-          }
-          
-          // Add citations for this point
-          for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+          for (let i = 0; i < citationsForThisSentence && citationCount < numbers.length; i++) {
             citationCount++;
             sources.push({
               index: citationCount,
@@ -1014,19 +1012,69 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
               slug: `reference-${citationCount}`,
               section: `citation-${citationCount}`
             });
-            processedPoint += ` [${citationCount}]`;
+            processedSentence += ` [${citationCount}]`;
           }
-          
-          return `- ${processedPoint}`;
+          return processedSentence;
         });
-        
-        return `${header}\n${processedBulletPoints.join('\n')}`;
-      });
-      
-      mainText = processedSections.join('\n\n').trim();
+        mainText = processedSentences.join(' ').trim();
+      }
+    }
+    // If still no citations found, check for structured content with trailing numbers
+    if (sources.length === 0) {
+      const endingNumbers = mainText.match(/(\d+)\s*$/);
+      if (endingNumbers) {
+        const numbers = endingNumbers[1].split('');
+        let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
+        // Normalize the text
+        newText = newText.replace(/\s+/g, ' ');
+        // Split text into sections (e.g., "Impact:", "Constraints:")
+        const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
+        let citationCount = 0;
+        const processedSections = sections.map((section) => {
+          const colonIndex = section.indexOf(':');
+          if (colonIndex === -1) return section;
+          const header = section.slice(0, colonIndex + 1);
+          let content = section.slice(colonIndex + 1).trim();
+          let bulletPoints;
+          if (content.includes('-')) {
+            bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
+          } else {
+            bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
+          }
+          if (bulletPoints.length <= 1) {
+            bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+          }
+          const processedBulletPoints = bulletPoints.map((point, idx) => {
+            const isLastPoint = idx === bulletPoints.length - 1;
+            const citationsForThisPoint = isLastPoint 
+              ? numbers.length - citationCount
+              : Math.min(1, numbers.length - citationCount); // One citation per point
+            let processedPoint = point.trim();
+            if (processedPoint.startsWith('-')) {
+              processedPoint = processedPoint.slice(1).trim();
+            }
+            if (!processedPoint.match(/[.!?]$/)) {
+              processedPoint += '.';
+            }
+            for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+              citationCount++;
+              sources.push({
+                index: citationCount,
+                title: `Reference ${citationCount}`,
+                url: '#',
+                slug: `reference-${citationCount}`,
+                section: `citation-${citationCount}`
+              });
+              processedPoint += ` [${citationCount}]`;
+            }
+            return `- ${processedPoint}`;
+          });
+          return `${header}\n${processedBulletPoints.join('\n')}`;
+        });
+        mainText = processedSections.join('\n\n').trim();
+      }
     }
   }
-
   return { mainText, sources };
 }
 
