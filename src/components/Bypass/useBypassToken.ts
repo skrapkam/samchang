@@ -36,7 +36,13 @@ import { useState, useEffect } from "react";
  * React hook that returns the current bypass token and provides a setter.
  */
 export function useBypassToken(): [string | undefined, (t: string | undefined) => void] {
-  const [token, setTokenState] = useState<string | undefined>(() => getBypassToken());
+  const [token, setTokenState] = useState<string | undefined>(() => {
+    // Only access localStorage on client side to prevent hydration mismatch
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+    return getBypassToken();
+  });
 
   const setToken = (t: string | undefined) => {
     setTokenState(t);

@@ -39,8 +39,6 @@ const AlbumArtWrapper = styled.div`
   flex-shrink: 0;
 `;
 
-
-
 const AlbumArt = styled.img`
   width: 64px;
   height: 64px;
@@ -144,8 +142,14 @@ const LiveBars = () => {
 };
 
 export default function NowPlaying() {
+  const [isClient, setIsClient] = useState(false);
   const [song, setSong] = useState<Song | null>(null);
   const [bgColor, setBgColor] = useState<string | null>(null);
+
+  // Ensure component only renders on client side to prevent hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const fetchSong = () => {
@@ -186,6 +190,11 @@ export default function NowPlaying() {
       canceled = true;
     };
   }, [song?.albumImageUrl]);
+
+  // Don't render anything until client-side hydration is complete
+  if (!isClient) {
+    return null;
+  }
 
   if (!song) {
     return <Wrapper>Loading current song…</Wrapper>;
