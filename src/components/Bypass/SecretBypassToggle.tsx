@@ -1,8 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
-import { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useBypassToken } from "./useBypassToken";
 
 /**
@@ -74,10 +73,16 @@ const CloseBtn = styled.button`
 `;
 
 const SecretBypassToggle = () => {
+  const [isClient, setIsClient] = useState(false);
   const clickTimestamps = useRef<number[]>([]);
   const [visible, setVisible] = useState(false);
   const [tokenInput, setTokenInput] = useState("");
   const [, setBypassToken] = useBypassToken();
+
+  // Ensure component only renders on client side to prevent hydration issues
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const registerClick = () => {
     const now = Date.now();
@@ -102,6 +107,11 @@ const SecretBypassToggle = () => {
     setTokenInput("");
     setVisible(false);
   };
+
+  // Don't render anything until client-side hydration is complete
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>

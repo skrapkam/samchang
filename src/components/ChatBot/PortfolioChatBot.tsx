@@ -15,7 +15,13 @@ const CHAT_API_URL =
 const RATE_LIMIT_BYPASS_TOKEN = process.env.GATSBY_RATE_LIMIT_BYPASS_TOKEN;
 
 // After the RATE_LIMIT_BYPASS_TOKEN constant, add session id helpers
-const generateSessionId = () => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+const generateSessionId = () => {
+    // Only generate session ID on client side to prevent hydration mismatch
+    if (typeof window === "undefined") {
+        return `session_${Math.floor(Math.random() * 1000000)}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+};
 
 const getOrCreateSessionId = (): string => {
   if (typeof window === "undefined") {
@@ -845,6 +851,10 @@ const ALL_PROMPTS = [
 ];
 
 const getRandomPrompts = () => {
+    // Only generate random prompts on client side to prevent hydration mismatch
+    if (typeof window === "undefined") {
+        return ALL_PROMPTS.slice(0, 3); // Return first 3 for SSR consistency
+    }
     const shuffled = [...ALL_PROMPTS].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 3);
 };
