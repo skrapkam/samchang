@@ -124,7 +124,11 @@ export default ({ data }) => {
             content="width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover"
           />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <script async src="https://cdn.splitbee.io/sb.js"></script>
+          <script 
+            async 
+            src="https://cdn.splitbee.io/sb.js"
+            onError={() => console.log('Splitbee analytics blocked by ad blocker')}
+          />
 
         </Helmet>
         <Header>

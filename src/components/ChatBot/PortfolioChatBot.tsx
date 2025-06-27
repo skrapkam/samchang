@@ -1073,7 +1073,18 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
+    const [isClient, setIsClient] = useState(false);
+    
+    // Ensure component only renders on client side to prevent hydration issues
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+    
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
+        // Only access localStorage on client side to prevent hydration mismatch
+        if (typeof window === "undefined") {
+            return [getInitialMsg()];
+        }
         try {
             const stored = localStorage.getItem("portfolioChatHistory");
             if (stored) return JSON.parse(stored);
@@ -1095,11 +1106,17 @@ const PortfolioChatBot = () => {
     
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
     
-    const [sessionId, setSessionId] = useState<string>(() => getOrCreateSessionId());
+    const [sessionId, setSessionId] = useState<string>(() => {
+        // Only access localStorage on client side to prevent hydration mismatch
+        if (typeof window === "undefined") {
+            return generateSessionId();
+        }
+        return getOrCreateSessionId();
+    });
 
     // Persist session id changes
     useEffect(() => {
-        if (sessionId) {
+        if (sessionId && typeof window !== "undefined") {
             localStorage.setItem('chatSessionId', sessionId);
         }
     }, [sessionId]);
@@ -1152,7 +1169,9 @@ const PortfolioChatBot = () => {
     }, [messages, open]);
 
     useEffect(() => {
-        localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
+        if (typeof window !== "undefined") {
+            localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
+        }
     }, [messages]);
 
     useEffect(() => {
@@ -1294,6 +1313,11 @@ const PortfolioChatBot = () => {
 
     // Check if chat is disabled due to rate limiting
     const isChatDisabled = isStreaming || !!rateLimitError;
+
+    // Don't render anything until client-side hydration is complete
+    if (!isClient) {
+        return null;
+    }
 
     return (
         <ChatWrapper x={30} y={30}>
