@@ -44,6 +44,14 @@ module.exports = {
         plugins: [
           `gatsby-remark-copy-linked-files`,
           {
+            resolve: `gatsby-remark-autolink-headers`,
+            options: {
+              maintainCase: false,
+              removeAccents: true,
+              elements: [`h1`, `h2`, `h3`, `h4`, `h5`, `h6`],
+            },
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               quality: 100,

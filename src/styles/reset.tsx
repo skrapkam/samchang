@@ -160,6 +160,33 @@ export const GlobalStyle = () => (
           width: 80vw;
         }
       }
+
+      /* Anchor link styles */
+      .anchor.before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        padding-right: 4px;
+        border-bottom: none;
+      }
+      
+      .anchor.before svg {
+        visibility: hidden;
+      }
+      
+      h1:hover .anchor.before svg,
+      h2:hover .anchor.before svg,
+      h3:hover .anchor.before svg,
+      h4:hover .anchor.before svg,
+      h5:hover .anchor.before svg,
+      h6:hover .anchor.before svg {
+        visibility: visible;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        position: relative;
+      }
     `}
   />
 );

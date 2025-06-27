@@ -382,6 +382,121 @@ const PromptButton = styled.button`
   }
 `;
 
+// Inline citation styling
+const Citation = styled.a<{ title?: string }>`
+  display: inline-block;
+  font-size: 0.8em;
+  padding: 0 8px;
+  border-radius: 2px;
+  background: #dfdfdf;
+  color: #1563ff;
+  border: 1px solid #e0e0e0;
+  vertical-align: super;
+  line-height: 1;
+  font-family: inherit;
+  font-weight: 500;
+  margin-left: 3px;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  text-decoration: none;
+  opacity: 1;
+  transition: none;
+  position: relative;
+  &:hover {
+    background: #dfdfdf;
+    text-decoration: none;
+  }
+`;
+
+// Container for rendered source links after each assistant message
+const SourcesContainer = styled.div`
+  width: 100%;
+  /* Remove margin-top and padding-top for edge-to-edge look */
+  margin-top: 10px;
+  padding-top: 0;
+  /* border-top: 1px solid var(--border); */
+
+  .sources-label {
+    font-size: 1.18rem;
+    color: #8a99b3;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.01em;
+  }
+
+  .source-link {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 5px;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.7rem;
+    transition: box-shadow 0.16s, border 0.16s, background 0.16s;
+    border: 1px solid #e3e7ee;
+    background: #fafbfc;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid #b0b7c3;
+      background: #f5f7fa;
+      text-decoration: none;
+    }
+  }
+  .source-link:last-child {
+    margin-bottom: 0;
+  }
+
+  .source-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.2rem 0.8rem 1.2rem;
+  }
+
+  .source-context {
+    font-size: 1.05rem;
+    color: #b0b7c3;
+    font-weight: 400;
+    margin-bottom: 0.1rem;
+    letter-spacing: 0.01em;
+  }
+
+  .source-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .source-number {
+    font-size: 1.15rem;
+    color: #b0b7c3;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    background: #f3f4f7;
+    border-radius: 50%;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #e3e7ee;
+  }
+
+  .source-title {
+    color: #222;
+    font-size: 1.13rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+    &:hover {
+      color: #4a90e2;
+      text-decoration: none;
+    }
+  }
+`;
+
 const BottomBar = styled.form<{ focused: boolean }>`
   height: 52px; /* Set a fixed height */
   box-sizing: border-box;
@@ -494,6 +609,7 @@ type ChatMessage = {
     timestamp: string;
     streaming?: boolean;
     showPrompts?: boolean;
+    sources?: Source[];
 };
 
 const getInitialMsg = (): ChatMessage => ({
@@ -752,6 +868,104 @@ function postProcessText(text: string) {
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
 }
 
+// Add type for parsed citation sources
+interface Source {
+  index: number;
+  title: string;
+  url: string;
+  slug: string;
+  section: string;
+}
+
+// ---------------------------------------------
+// Citation parsing helpers
+// ---------------------------------------------
+
+function parseSourcesSection(rawText: string): { mainText: string; sources: Source[] } {
+  const sources: Source[] = [];
+  let mainText = rawText;
+  
+  // Match [[cite: slug#section]] format
+  const citationRegex = /\[\[cite:\s*([^#\]]+)#([^\]]+)\]\]/g;
+  let citationIndex = 1;
+  let match;
+
+  while ((match = citationRegex.exec(rawText)) !== null) {
+    const [fullMatch, slug, section] = match;
+    const url = `/${slug}#${section}`;
+    
+    // Add to sources array
+    sources.push({
+      index: citationIndex,
+      title: `${slug} – ${section.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`,
+      url,
+      slug,
+      section
+    });
+
+    // Replace citation with numbered format
+    mainText = mainText.replace(fullMatch, `[${citationIndex}]`);
+    citationIndex++;
+  }
+
+  return { mainText, sources };
+}
+
+function insertCitationSuperscripts(text: string, sources: Source[]): (string | JSX.Element)[] {
+  if (!sources.length) return convertUrlsToLinks(text) as (string | JSX.Element)[];
+
+  const parts: (string | JSX.Element)[] = [];
+  const regex = /\[(\d+)\]/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    const citationNumber = parseInt(match[1], 10);
+    const matchStart = match.index;
+
+    // Push preceding text (converted URLs)
+    const preceding = text.slice(lastIndex, matchStart);
+    if (preceding) {
+      const converted = convertUrlsToLinks(preceding);
+      if (Array.isArray(converted)) {
+        parts.push(...converted);
+      } else {
+        parts.push(converted);
+      }
+    }
+
+    // Find matching source for tooltip and link
+    const foundSource = sources.find((s) => s.index === citationNumber);
+
+    parts.push(
+      <Citation 
+        key={`cit-${citationNumber}-${matchStart}`}
+        href={foundSource?.url}
+        title={foundSource?.title}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {citationNumber}
+      </Citation>
+    );
+
+    lastIndex = matchStart + match[0].length;
+  }
+
+  // Push remaining text
+  const remaining = text.slice(lastIndex);
+  if (remaining) {
+    const converted = convertUrlsToLinks(remaining);
+    if (Array.isArray(converted)) {
+      parts.push(...converted);
+    } else {
+      parts.push(converted);
+    }
+  }
+
+  return parts;
+}
+
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -935,7 +1149,8 @@ const PortfolioChatBot = () => {
                 setSessionId(newSessionId);
             });
 
-            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(streamedText) } : m));
+            const { mainText, sources } = parseSourcesSection(streamedText);
+            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(mainText), sources } : m));
         } catch (error) {
             // Handle rate limit error
             if (error && typeof error === 'object' && 'limit' in error) {
@@ -1018,14 +1233,50 @@ const PortfolioChatBot = () => {
                                 <Ellipsis>{dots}</Ellipsis>
                             ) : m.streaming && m.text ? (
                                 <Message isUser={m.isUser}>
-                                    {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
+                                    {m.sources && m.sources.length > 0
+                                        ? insertCitationSuperscripts(m.text, m.sources)
+                                        : (m.text.includes('http') || m.text.includes('['))
+                                            ? convertUrlsToLinks(m.text)
+                                            : m.text}
                                     <span>{dots}</span>
                                 </Message>
                             ) : (
                                 <Fragment>
                                     <Message isUser={m.isUser}>
-                                        {(m.text.includes('http') || m.text.includes('[')) ? convertUrlsToLinks(m.text) : m.text}
+                                        {m.sources && m.sources.length > 0
+                                            ? insertCitationSuperscripts(m.text, m.sources)
+                                            : (m.text.includes('http') || m.text.includes('['))
+                                                ? convertUrlsToLinks(m.text)
+                                                : m.text}
                                     </Message>
+                                    {m.sources && m.sources.length > 0 && (
+                                        <SourcesContainer>
+                                            <div className="sources-label">Sources</div>
+                                            {m.sources.map((src) => (
+                                                <a
+                                                    className="source-link"
+                                                    key={src.index}
+                                                    href={src.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    title={src.title}
+                                                >
+                                                    <div className="source-card">
+                                                        <div className="source-context">
+                                                            {src.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                                                            {src.section ? ' › ' + src.section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : ''}
+                                                        </div>
+                                                        <div className="source-title-row">
+                                                            <span className="source-number">{src.index}</span>
+                                                            <span className="source-title">
+                                                                {src.title.replace(/^[^–]+–\s*/, '')}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            ))}
+                                        </SourcesContainer>
+                                    )}
                                     {m.showPrompts && (
                                         <PromptButtonsContainer>
                                         <span style={{ fontSize: "1.2rem", fontWeight: 500, color: "#9098b1", marginTop: "8px", marginBottom: "2px" }}>EXAMPLE QUESTIONS</span>

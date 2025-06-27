@@ -15,9 +15,16 @@ const H2Styled = styled.h2`
   color: ${defaultTheme.color.text};
   line-height: 5rem;
 `;
-class H2 extends Component {
+
+interface H2Props {
+  id?: string;
+  children: React.ReactNode;
+}
+
+class H2 extends Component<H2Props> {
   render() {
-    return <H2Styled>{this.props.children}</H2Styled>;
+    const { id, children, ...rest } = this.props;
+    return <H2Styled id={id} {...rest}>{children}</H2Styled>;
   }
 }
 
