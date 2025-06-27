@@ -895,6 +895,7 @@ interface Source {
 // ---------------------------------------------
 
 function parseSourcesSection(rawText: string): { mainText: string; sources: Source[] } {
+  console.log('parseSourcesSection called with:', rawText);
   const sources: Source[] = [];
   let mainText = rawText;
   
@@ -907,6 +908,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   // First pass: collect all citations with their positions
   while ((match = citationRegex.exec(rawText)) !== null) {
     const [fullMatch, slug, section] = match;
+    console.log('Found citation:', { fullMatch, slug, section, index: citationIndex });
     
     citations.push({
       match: fullMatch,
@@ -928,6 +930,9 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     
     citationIndex++;
   }
+
+  console.log('Total citations found:', citations.length);
+  console.log('Sources array:', sources);
 
   // If we found citations, distribute them intelligently
   if (citations.length > 0) {
@@ -997,13 +1002,17 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       .replace(/\s+k\//g, 'k/')
       .replace(/\s+k\s/g, 'k ')
       .replace(/\s+\.\s+\[/g, '. [');
+      
+    console.log('Final mainText with citations:', mainText);
   }
 
   // If no [[cite:]] format found, look for numbers at the end
   if (sources.length === 0) {
+    console.log('No [[cite:]] format found, checking for trailing numbers');
     // Look for trailing numbers with optional spaces between them
     const endingNumbers = mainText.match(/(\d+)\s*$/);
     if (endingNumbers) {
+      console.log('Found ending numbers:', endingNumbers[1]);
       const numbers = endingNumbers[1].split('');
       let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
       
@@ -1076,9 +1085,11 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       });
       
       mainText = processedSections.join('\n\n').trim();
+      console.log('Processed text with trailing numbers:', mainText);
     }
   }
 
+  console.log('Final result:', { mainText, sources });
   return { mainText, sources };
 }
 
@@ -1122,6 +1133,24 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
   return parts;
 }
+
+const MobileOverlay = styled.div<{ visible: boolean }>`
+  display: none;
+  
+  @media (max-width: 600px) {
+    display: ${props => (props.visible ? 'block' : 'none')};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+    opacity: ${props => (props.visible ? 1 : 0)};
+    transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+`;
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
@@ -1307,6 +1336,14 @@ const PortfolioChatBot = () => {
             });
 
             const { mainText, sources } = parseSourcesSection(postProcessText(stripHtmlTags(streamedText)));
+            console.log('Citation parsing result:', { 
+                originalText: streamedText, 
+                mainText, 
+                sources, 
+                hasSources: sources.length > 0,
+                mainTextHasBrackets: mainText.includes('['),
+                mainTextHasCitations: /\[(\d+)\]/.test(mainText)
+            });
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: mainText, sources } : m));
         } catch (error) {
             // Handle rate limit error
@@ -1392,9 +1429,11 @@ const PortfolioChatBot = () => {
                                 <Message isUser={m.isUser}>
                                     {m.sources && m.sources.length > 0
                                         ? insertCitationSuperscripts(m.text, m.sources)
-                                        : (m.text.includes('http') || m.text.includes('['))
-                                            ? convertUrlsToLinks(m.text)
-                                            : m.text}
+                                        : /\[(\d+)\]/.test(m.text)
+                                            ? insertCitationSuperscripts(m.text, [])
+                                            : (m.text.includes('http') || m.text.includes('['))
+                                                ? convertUrlsToLinks(m.text)
+                                                : m.text}
                                     <span>{dots}</span>
                                 </Message>
                             ) : (
@@ -1402,9 +1441,11 @@ const PortfolioChatBot = () => {
                                     <Message isUser={m.isUser}>
                                         {m.sources && m.sources.length > 0
                                             ? insertCitationSuperscripts(m.text, m.sources)
-                                            : (m.text.includes('http') || m.text.includes('['))
-                                                ? convertUrlsToLinks(m.text)
-                                                : m.text}
+                                            : /\[(\d+)\]/.test(m.text)
+                                                ? insertCitationSuperscripts(m.text, [])
+                                                : (m.text.includes('http') || m.text.includes('['))
+                                                    ? convertUrlsToLinks(m.text)
+                                                    : m.text}
                                     </Message>
                                     {m.sources && m.sources.length > 0 && (
                                         <SourcesContainer>
@@ -1464,69 +1505,14 @@ const PortfolioChatBot = () => {
                                 onClick={() => setRateLimitError(null)}
                                 disabled={countdown !== ""}
                             >
-                                {countdown ? `Try again ${countdown}` : "Try again now"}
+                                {countdown ? `Retry` : `Retry`}
                             </RetryButton>
                         </RateLimitError>
                     )}
-                    
-                    <div ref={msgEndRef} />
                 </MessageArea>
-                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
-                    <InputContainer>
-                        <StyledInput
-                            ref={inputRef}
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onFocus={() => setFocused(true)}
-                            onBlur={() => setFocused(false)}
-                            disabled={isChatDisabled}
-                        />
-                        {!input && (
-                            <InputPlaceholder>
-                                {showShimmer ? (
-                                    <ShimmerText
-                                        shimmerColor="#4a90e2"
-                                        baseColor="#b2b8c7"
-                                        duration={1200}
-                                    >
-                                        Thinking...
-                                    </ShimmerText>
-                                ) : (
-                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
-                                )}
-                            </InputPlaceholder>
-                        )}
-                    </InputContainer>
-                    <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
-                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
-                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
-                        </svg>
-                    </SendButton>
-                </BottomBar>
             </ChatBox>
         </ChatWrapper>
     );
 };
 
-const MobileOverlay = styled.div<{ visible: boolean }>`
-  display: none;
-  
-  @media (max-width: 600px) {
-    display: ${props => (props.visible ? 'block' : 'none')};
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9998;
-    pointer-events: ${props => (props.visible ? 'auto' : 'none')};
-    opacity: ${props => (props.visible ? 1 : 0)};
-    transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-`;
-
 export default PortfolioChatBot;
-
-
-
