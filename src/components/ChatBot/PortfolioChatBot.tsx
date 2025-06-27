@@ -491,7 +491,6 @@ const SourcesContainer = styled.div`
     text-decoration: none;
     transition: color 0.15s;
     &:hover {
-      color: #4a90e2;
       text-decoration: none;
     }
   }
@@ -865,7 +864,21 @@ function postProcessText(text: string) {
         .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
         // Fix LinkedIn URLs and names
         .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
+        // Ensure sentences end with proper punctuation
+        .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
         .replace(/\s{2,}/g, " ");             // collapse multiple spaces
+}
+
+// Function to strip HTML tags, particularly figcaption tags
+function stripHtmlTags(text: string): string {
+    return text
+        // Remove figcaption tags and their content
+        .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
+        // Remove any other HTML tags
+        .replace(/<[^>]*>/g, '')
+        // Clean up extra whitespace that might be left after removing tags
+        .replace(/\s+/g, ' ')
+        .trim();
 }
 
 // Add type for parsed citation sources
@@ -885,34 +898,202 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   const sources: Source[] = [];
   let mainText = rawText;
   
-  // Match [[cite: slug#section]] format
-  const citationRegex = /\[\[cite:\s*([^#\]]+)#([^\]]+)\]\]/g;
+  console.log('Parsing citations from text:', rawText);
+  
+  // First try the [[cite:slug#section]] format
+  const citationRegex = /\[\[cite:([^#\]]+)#([^\]]+)\]\]/g;
   let citationIndex = 1;
   let match;
+  const citations: Array<{match: string, index: number, position: number, slug: string, section: string}> = [];
 
+  // First pass: collect all citations with their positions
   while ((match = citationRegex.exec(rawText)) !== null) {
     const [fullMatch, slug, section] = match;
-    const url = `/${slug}#${section}`;
+    console.log('Found citation:', fullMatch, 'slug:', slug, 'section:', section);
     
-    // Add to sources array
+    citations.push({
+      match: fullMatch,
+      index: citationIndex,
+      position: match.index,
+      slug: slug.trim(),
+      section: section.trim()
+    });
+    
+    const url = `/${slug.trim()}/#${section.trim().replace(/\s+/g, '')}`;
+    console.log('Generated URL:', url);
+    
     sources.push({
       index: citationIndex,
-      title: `${slug} – ${section.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`,
+      title: section.trim().split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
       url,
-      slug,
-      section
+      slug: slug.trim(),
+      section: section.trim()
     });
-
-    // Replace citation with numbered format
-    mainText = mainText.replace(fullMatch, `[${citationIndex}]`);
+    
     citationIndex++;
+  }
+
+  // If we found citations, distribute them intelligently
+  if (citations.length > 0) {
+    // Remove all citation tokens first
+    let cleanText = rawText;
+    citations.forEach(citation => {
+      cleanText = cleanText.replace(citation.match, '');
+    });
+    
+    // Clean up any double spaces and fix spacing around punctuation
+    cleanText = cleanText.replace(/\s+/g, ' ')
+      .replace(/\s+([.!?])/g, '$1')
+      .replace(/([.!?])\s+\[/g, '$1 [')
+      .replace(/,\s*\./g, '.')
+      .replace(/,\s*,/g, ',');
+    
+    // Split text into sentences, but also handle bullet points and sections
+    let sentences = cleanText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+    
+    // If we have bullet points or sections, split differently
+    if (cleanText.includes('-') || cleanText.includes(':')) {
+      // Split by major sections first (lines ending with :)
+      const sections = cleanText.split(/(?<=:)\s+/).filter(s => s.trim());
+      if (sections.length > 1) {
+        sentences = sections;
+      }
+    }
+    
+    console.log('Split sentences:', sentences);
+    
+    // Distribute citations across sentences
+    let distributedText = '';
+    let citationCount = 0;
+    
+    sentences.forEach((sentence, sentenceIndex) => {
+      let sentenceWithCitations = sentence;
+      
+      // Skip very short sentences (like "Sure!") for citation placement
+      const isShortSentence = sentence.length < 20 && !sentence.includes(':');
+      
+      // Add citations to this sentence if we have more to distribute
+      if (citationCount < citations.length && !isShortSentence) {
+        // For the last sentence, add all remaining citations
+        if (sentenceIndex === sentences.length - 1) {
+          for (let i = citationCount; i < citations.length; i++) {
+            sentenceWithCitations += ` [${citations[i].index}]`;
+          }
+          citationCount = citations.length;
+        } else {
+          // For other sentences, add one citation if available
+          if (citationCount < citations.length) {
+            sentenceWithCitations += ` [${citations[citationCount].index}]`;
+            citationCount++;
+          }
+        }
+      }
+      
+      console.log(`Sentence ${sentenceIndex}: "${sentenceWithCitations}"`);
+      distributedText += sentenceWithCitations + ' ';
+    });
+    
+    // Clean up any double spaces and fix spacing around punctuation
+    mainText = distributedText
+      .trim()
+      .replace(/\s+/g, ' ')
+      .replace(/\s+([.!?])/g, '$1')
+      .replace(/([.!?])\s+\[/g, '$1 [')
+      .replace(/,\s*\./g, '.')
+      .replace(/,\s*,/g, ',')
+      .replace(/\s+k\//g, 'k/')
+      .replace(/\s+k\s/g, 'k ')
+      .replace(/\s+\.\s+\[/g, '. [');
+  }
+
+  console.log('Final mainText:', mainText);
+  console.log('Sources found:', sources);
+
+  // If no [[cite:]] format found, look for numbers at the end
+  if (sources.length === 0) {
+    // Look for trailing numbers with optional spaces between them
+    const endingNumbers = mainText.match(/(\d+)\s*$/);
+    if (endingNumbers) {
+      const numbers = endingNumbers[1].split('');
+      let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
+      
+      // Normalize the text - replace multiple spaces and ensure proper formatting
+      newText = newText.replace(/\s+/g, ' ');
+      
+      // Split text into sections (e.g., "Impact:", "Constraints:")
+      const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
+      
+      let citationCount = 0;
+      const processedSections = sections.map((section) => {
+        // Split section into header and content
+        const colonIndex = section.indexOf(':');
+        if (colonIndex === -1) return section;
+        
+        const header = section.slice(0, colonIndex + 1);
+        let content = section.slice(colonIndex + 1).trim();
+        
+        // Split content into bullet points
+        // Handle both "-" and "•" bullets, and also split by "-" if no proper bullets
+        let bulletPoints;
+        if (content.includes('-')) {
+          bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
+        } else {
+          // If no bullets, split by sentences or key phrases
+          bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
+        }
+        
+        // If we still don't have good splits, split by sentences
+        if (bulletPoints.length <= 1) {
+          bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+        }
+        
+        const processedBulletPoints = bulletPoints.map((point, idx) => {
+          // For the last bullet point, use all remaining citations
+          const isLastPoint = idx === bulletPoints.length - 1;
+          const citationsForThisPoint = isLastPoint 
+            ? numbers.length - citationCount
+            : Math.min(1, numbers.length - citationCount); // One citation per point
+          
+          let processedPoint = point.trim();
+          
+          // Remove leading "-" if present and add it back properly
+          if (processedPoint.startsWith('-')) {
+            processedPoint = processedPoint.slice(1).trim();
+          }
+          
+          // Ensure point ends with proper punctuation
+          if (!processedPoint.match(/[.!?]$/)) {
+            processedPoint += '.';
+          }
+          
+          // Add citations for this point
+          for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+            citationCount++;
+            sources.push({
+              index: citationCount,
+              title: `Reference ${citationCount}`,
+              url: '#',
+              slug: `reference-${citationCount}`,
+              section: `citation-${citationCount}`
+            });
+            processedPoint += ` [${citationCount}]`;
+          }
+          
+          return `- ${processedPoint}`;
+        });
+        
+        return `${header}\n${processedBulletPoints.join('\n')}`;
+      });
+      
+      mainText = processedSections.join('\n\n').trim();
+    }
   }
 
   return { mainText, sources };
 }
 
 function insertCitationSuperscripts(text: string, sources: Source[]): (string | JSX.Element)[] {
-  if (!sources.length) return convertUrlsToLinks(text) as (string | JSX.Element)[];
+  if (!sources?.length) return [text];
 
   const parts: (string | JSX.Element)[] = [];
   const regex = /\[(\d+)\]/g;
@@ -920,28 +1101,20 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text)) !== null) {
-    const citationNumber = parseInt(match[1], 10);
-    const matchStart = match.index;
-
-    // Push preceding text (converted URLs)
-    const preceding = text.slice(lastIndex, matchStart);
-    if (preceding) {
-      const converted = convertUrlsToLinks(preceding);
-      if (Array.isArray(converted)) {
-        parts.push(...converted);
-      } else {
-        parts.push(converted);
-      }
+    // Add text before the citation
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
     }
 
-    // Find matching source for tooltip and link
-    const foundSource = sources.find((s) => s.index === citationNumber);
-
+    // Add the citation
+    const citationNumber = parseInt(match[1], 10);
+    const source = sources.find(s => s.index === citationNumber);
+    
     parts.push(
-      <Citation 
-        key={`cit-${citationNumber}-${matchStart}`}
-        href={foundSource?.url}
-        title={foundSource?.title}
+      <Citation
+        key={`citation-${match.index}`}
+        href={source?.url || '#'}
+        title={source?.title}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -949,18 +1122,12 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
       </Citation>
     );
 
-    lastIndex = matchStart + match[0].length;
+    lastIndex = match.index + match[0].length;
   }
 
-  // Push remaining text
-  const remaining = text.slice(lastIndex);
-  if (remaining) {
-    const converted = convertUrlsToLinks(remaining);
-    if (Array.isArray(converted)) {
-      parts.push(...converted);
-    } else {
-      parts.push(converted);
-    }
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
   }
 
   return parts;
@@ -1149,8 +1316,8 @@ const PortfolioChatBot = () => {
                 setSessionId(newSessionId);
             });
 
-            const { mainText, sources } = parseSourcesSection(streamedText);
-            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: postProcessText(mainText), sources } : m));
+            const { mainText, sources } = parseSourcesSection(postProcessText(stripHtmlTags(streamedText)));
+            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: mainText, sources } : m));
         } catch (error) {
             // Handle rate limit error
             if (error && typeof error === 'object' && 'limit' in error) {
@@ -1252,7 +1419,7 @@ const PortfolioChatBot = () => {
                                     {m.sources && m.sources.length > 0 && (
                                         <SourcesContainer>
                                             <div className="sources-label">Sources</div>
-                                            {m.sources.map((src) => (
+                                            {m.sources.map(src => (
                                                 <a
                                                     className="source-link"
                                                     key={src.index}
@@ -1262,15 +1429,9 @@ const PortfolioChatBot = () => {
                                                     title={src.title}
                                                 >
                                                     <div className="source-card">
-                                                        <div className="source-context">
-                                                            {src.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                                                            {src.section ? ' › ' + src.section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : ''}
-                                                        </div>
                                                         <div className="source-title-row">
-                                                            <span className="source-number">{src.index}</span>
-                                                            <span className="source-title">
-                                                                {src.title.replace(/^[^–]+–\s*/, '')}
-                                                            </span>
+                                                            <div className="source-number">{src.index}</div>
+                                                            <div className="source-title">{src.title}</div>
                                                         </div>
                                                     </div>
                                                 </a>
