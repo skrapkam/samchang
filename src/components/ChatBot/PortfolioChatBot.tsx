@@ -987,6 +987,9 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       });
       
       mainText = processedSentences.join(' ');
+      
+      // Final cleanup: ensure no extra spaces before periods
+      mainText = mainText.replace(/\s+\./g, '.');
     } else {
       // Replace citations in reverse order to maintain positions
       let cleanText = rawText;
