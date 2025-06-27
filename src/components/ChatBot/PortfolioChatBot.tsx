@@ -864,34 +864,37 @@ const getRandomPrompts = () => {
 
 // Add after helper functions
 function postProcessText(text: string) {
-    return text
-        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
-        .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-        .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
-        .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
-        // Fix email addresses with missing @ symbol or double @ symbols
-        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
-        .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-        // Fix social media handles with missing @ symbol
-        .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
-        // Fix LinkedIn URLs and names
-        .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
-        // Ensure sentences end with proper punctuation
-        .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
-        .replace(/\s{2,}/g, " ");             // collapse multiple spaces
+  return text
+      .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
+      .replace(/:([A-Za-z0-9])(?!\])/g, ": $1")    // ensure space after colon if missing, but not before closing brackets
+      .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
+      .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
+      // Fix email addresses with missing @ symbol or double @ symbols
+      .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
+      .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+      .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+      // Fix social media handles with missing @ symbol
+      .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
+      // Fix LinkedIn URLs and names
+      .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
+      // Ensure sentences end with proper punctuation
+      .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
+      .replace(/\s{2,}/g, " ")             // collapse multiple spaces
+      // Fix any citation markers that got corrupted
+      .replace(/\[\[cite:\s+/g, "[[cite:")  // remove extra spaces in citation markers
+      .replace(/\s+\]\]/g, "]]");          // remove extra spaces before closing brackets
 }
 
 // Function to strip HTML tags, particularly figcaption tags
 function stripHtmlTags(text: string): string {
-    return text
-        // Remove figcaption tags and their content
-        .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
-        // Remove any other HTML tags
-        .replace(/<[^>]*>/g, '')
-        // Clean up extra whitespace that might be left after removing tags
-        .replace(/\s+/g, ' ')
-        .trim();
+  return text
+      // Remove figcaption tags and their content
+      .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
+      // Remove any other HTML tags
+      .replace(/<[^>]*>/g, '')
+      // Clean up extra whitespace that might be left after removing tags
+      .replace(/\s+/g, ' ')
+      .trim();
 }
 
 // Add type for parsed citation sources
@@ -944,20 +947,62 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
 
   // If we found citations, replace them with numbered citations
   if (citations.length > 0) {
-    // Replace citations in reverse order to maintain positions
-    let cleanText = rawText;
-    citations.slice().reverse().forEach(citation => {
-      cleanText = cleanText.replace(citation.match, ` [${citation.index}]`);
-    });
+    // Check if all citations are at the end of the text
+    const textLength = rawText.length;
+    const allAtEnd = citations.every(citation => citation.position > textLength * 0.8);
     
-    // Clean up any double spaces and fix spacing around punctuation
-    cleanText = cleanText.replace(/\s+/g, ' ')
-      .replace(/\s+([.!?])/g, '$1')
-      .replace(/([.!?])\s+\[/g, '$1 [')
-      .replace(/,\s*\./g, '.')
-      .replace(/,\s*,/g, ',');
-    
-    mainText = cleanText.trim();
+    if (allAtEnd) {
+      // Remove citations from the end
+      let cleanText = rawText;
+      citations.slice().reverse().forEach(citation => {
+        cleanText = cleanText.replace(citation.match, '');
+      });
+      
+      // Clean up the text
+      cleanText = cleanText.replace(/\s+/g, ' ').trim();
+      
+      // Split into sentences and distribute citations
+      const sentences = cleanText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+      const citationsPerSentence = Math.ceil(citations.length / sentences.length);
+      
+      let citationIndex = 0;
+      const processedSentences = sentences.map((sentence, sentenceIndex) => {
+        const isLastSentence = sentenceIndex === sentences.length - 1;
+        const citationsForThisSentence = isLastSentence 
+          ? citations.length - citationIndex 
+          : Math.min(citationsPerSentence, citations.length - citationIndex);
+        
+        let processedSentence = sentence;
+        for (let i = 0; i < citationsForThisSentence && citationIndex < citations.length; i++) {
+          citationIndex++;
+          // Add citation before the period if the sentence ends with one
+          if (processedSentence.endsWith('.')) {
+            processedSentence = processedSentence.slice(0, -1) + ` [${citationIndex}].`;
+          } else {
+            processedSentence += ` [${citationIndex}]`;
+          }
+        }
+        
+        return processedSentence;
+      });
+      
+      mainText = processedSentences.join(' ');
+    } else {
+      // Replace citations in reverse order to maintain positions
+      let cleanText = rawText;
+      citations.slice().reverse().forEach(citation => {
+        cleanText = cleanText.replace(citation.match, ` [${citation.index}]`);
+      });
+      
+      // Clean up any double spaces and fix spacing around punctuation
+      cleanText = cleanText.replace(/\s+/g, ' ')
+        .replace(/\s+([.!?])/g, '$1')
+        .replace(/([.!?])\s+\[/g, '$1 [')
+        .replace(/,\s*\./g, '.')
+        .replace(/,\s*,/g, ',');
+      
+      mainText = cleanText.trim();
+    }
   }
 
   // If no [[cite:]] format found, look for numbers at the end
