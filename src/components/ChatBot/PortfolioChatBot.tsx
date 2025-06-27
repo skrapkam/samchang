@@ -895,7 +895,6 @@ interface Source {
 // ---------------------------------------------
 
 function parseSourcesSection(rawText: string): { mainText: string; sources: Source[] } {
-  console.log('parseSourcesSection called with:', rawText);
   const sources: Source[] = [];
   let mainText = rawText;
   
@@ -908,7 +907,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   // First pass: collect all citations with their positions
   while ((match = citationRegex.exec(rawText)) !== null) {
     const [fullMatch, slug, section] = match;
-    console.log('Found citation:', { fullMatch, slug, section, index: citationIndex });
     
     citations.push({
       match: fullMatch,
@@ -931,15 +929,12 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     citationIndex++;
   }
 
-  console.log('Total citations found:', citations.length);
-  console.log('Sources array:', sources);
-
-  // If we found citations, distribute them intelligently
+  // If we found citations, replace them with numbered citations
   if (citations.length > 0) {
-    // Remove all citation tokens first
+    // Replace citations in reverse order to maintain positions
     let cleanText = rawText;
-    citations.forEach(citation => {
-      cleanText = cleanText.replace(citation.match, '');
+    citations.slice().reverse().forEach(citation => {
+      cleanText = cleanText.replace(citation.match, ` [${citation.index}]`);
     });
     
     // Clean up any double spaces and fix spacing around punctuation
@@ -949,70 +944,14 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       .replace(/,\s*\./g, '.')
       .replace(/,\s*,/g, ',');
     
-    // Split text into sentences, but also handle bullet points and sections
-    let sentences = cleanText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-    
-    // If we have bullet points or sections, split differently
-    if (cleanText.includes('-') || cleanText.includes(':')) {
-      // Split by major sections first (lines ending with :)
-      const sections = cleanText.split(/(?<=:)\s+/).filter(s => s.trim());
-      if (sections.length > 1) {
-        sentences = sections;
-      }
-    }
-    
-    // Distribute citations across sentences
-    let distributedText = '';
-    let citationCount = 0;
-    
-    sentences.forEach((sentence, sentenceIndex) => {
-      let sentenceWithCitations = sentence;
-      
-      // Skip very short sentences (like "Sure!") for citation placement
-      const isShortSentence = sentence.length < 20 && !sentence.includes(':');
-      
-      // Add citations to this sentence if we have more to distribute
-      if (citationCount < citations.length && !isShortSentence) {
-        // For the last sentence, add all remaining citations
-        if (sentenceIndex === sentences.length - 1) {
-          for (let i = citationCount; i < citations.length; i++) {
-            sentenceWithCitations += ` [${citations[i].index}]`;
-          }
-          citationCount = citations.length;
-        } else {
-          // For other sentences, add one citation if available
-          if (citationCount < citations.length) {
-            sentenceWithCitations += ` [${citations[citationCount].index}]`;
-            citationCount++;
-          }
-        }
-      }
-      
-      distributedText += sentenceWithCitations + ' ';
-    });
-    
-    // Clean up any double spaces and fix spacing around punctuation
-    mainText = distributedText
-      .trim()
-      .replace(/\s+/g, ' ')
-      .replace(/\s+([.!?])/g, '$1')
-      .replace(/([.!?])\s+\[/g, '$1 [')
-      .replace(/,\s*\./g, '.')
-      .replace(/,\s*,/g, ',')
-      .replace(/\s+k\//g, 'k/')
-      .replace(/\s+k\s/g, 'k ')
-      .replace(/\s+\.\s+\[/g, '. [');
-      
-    console.log('Final mainText with citations:', mainText);
+    mainText = cleanText.trim();
   }
 
   // If no [[cite:]] format found, look for numbers at the end
   if (sources.length === 0) {
-    console.log('No [[cite:]] format found, checking for trailing numbers');
     // Look for trailing numbers with optional spaces between them
     const endingNumbers = mainText.match(/(\d+)\s*$/);
     if (endingNumbers) {
-      console.log('Found ending numbers:', endingNumbers[1]);
       const numbers = endingNumbers[1].split('');
       let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
       
@@ -1085,11 +1024,9 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       });
       
       mainText = processedSections.join('\n\n').trim();
-      console.log('Processed text with trailing numbers:', mainText);
     }
   }
 
-  console.log('Final result:', { mainText, sources });
   return { mainText, sources };
 }
 
@@ -1133,24 +1070,6 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
   return parts;
 }
-
-const MobileOverlay = styled.div<{ visible: boolean }>`
-  display: none;
-  
-  @media (max-width: 600px) {
-    display: ${props => (props.visible ? 'block' : 'none')};
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9998;
-    pointer-events: ${props => (props.visible ? 'auto' : 'none')};
-    opacity: ${props => (props.visible ? 1 : 0)};
-    transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-`;
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
@@ -1336,14 +1255,6 @@ const PortfolioChatBot = () => {
             });
 
             const { mainText, sources } = parseSourcesSection(postProcessText(stripHtmlTags(streamedText)));
-            console.log('Citation parsing result:', { 
-                originalText: streamedText, 
-                mainText, 
-                sources, 
-                hasSources: sources.length > 0,
-                mainTextHasBrackets: mainText.includes('['),
-                mainTextHasCitations: /\[(\d+)\]/.test(mainText)
-            });
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: mainText, sources } : m));
         } catch (error) {
             // Handle rate limit error
@@ -1429,11 +1340,9 @@ const PortfolioChatBot = () => {
                                 <Message isUser={m.isUser}>
                                     {m.sources && m.sources.length > 0
                                         ? insertCitationSuperscripts(m.text, m.sources)
-                                        : /\[(\d+)\]/.test(m.text)
-                                            ? insertCitationSuperscripts(m.text, [])
-                                            : (m.text.includes('http') || m.text.includes('['))
-                                                ? convertUrlsToLinks(m.text)
-                                                : m.text}
+                                        : (m.text.includes('http') || m.text.includes('['))
+                                            ? convertUrlsToLinks(m.text)
+                                            : m.text}
                                     <span>{dots}</span>
                                 </Message>
                             ) : (
@@ -1441,11 +1350,9 @@ const PortfolioChatBot = () => {
                                     <Message isUser={m.isUser}>
                                         {m.sources && m.sources.length > 0
                                             ? insertCitationSuperscripts(m.text, m.sources)
-                                            : /\[(\d+)\]/.test(m.text)
-                                                ? insertCitationSuperscripts(m.text, [])
-                                                : (m.text.includes('http') || m.text.includes('['))
-                                                    ? convertUrlsToLinks(m.text)
-                                                    : m.text}
+                                            : (m.text.includes('http') || m.text.includes('['))
+                                                ? convertUrlsToLinks(m.text)
+                                                : m.text}
                                     </Message>
                                     {m.sources && m.sources.length > 0 && (
                                         <SourcesContainer>
@@ -1505,14 +1412,69 @@ const PortfolioChatBot = () => {
                                 onClick={() => setRateLimitError(null)}
                                 disabled={countdown !== ""}
                             >
-                                {countdown ? `Retry` : `Retry`}
+                                {countdown ? `Try again ${countdown}` : "Try again now"}
                             </RetryButton>
                         </RateLimitError>
                     )}
+                    
+                    <div ref={msgEndRef} />
                 </MessageArea>
+                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
+                    <InputContainer>
+                        <StyledInput
+                            ref={inputRef}
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
+                            disabled={isChatDisabled}
+                        />
+                        {!input && (
+                            <InputPlaceholder>
+                                {showShimmer ? (
+                                    <ShimmerText
+                                        shimmerColor="#4a90e2"
+                                        baseColor="#b2b8c7"
+                                        duration={1200}
+                                    >
+                                        Thinking...
+                                    </ShimmerText>
+                                ) : (
+                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
+                                )}
+                            </InputPlaceholder>
+                        )}
+                    </InputContainer>
+                    <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
+                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
+                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
+                        </svg>
+                    </SendButton>
+                </BottomBar>
             </ChatBox>
         </ChatWrapper>
     );
 };
 
+const MobileOverlay = styled.div<{ visible: boolean }>`
+  display: none;
+  
+  @media (max-width: 600px) {
+    display: ${props => (props.visible ? 'block' : 'none')};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+    opacity: ${props => (props.visible ? 1 : 0)};
+    transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+`;
+
 export default PortfolioChatBot;
+
+
+
