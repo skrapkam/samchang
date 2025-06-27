@@ -597,6 +597,9 @@ const Ellipsis = styled.div`
 const useEllipsis = () => {
     const [dots, setDots] = useState(".");
     useEffect(() => {
+        // Only set up interval on client side to prevent hydration issues
+        if (typeof window === "undefined") return;
+        
         const interval = setInterval(() => {
             setDots((prev) => (prev.length === 3 ? "." : prev + "."));
         }, 400);
