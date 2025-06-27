@@ -898,8 +898,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   const sources: Source[] = [];
   let mainText = rawText;
   
-  console.log('Parsing citations from text:', rawText);
-  
   // First try the [[cite:slug#section]] format
   const citationRegex = /\[\[cite:([^#\]]+)#([^\]]+)\]\]/g;
   let citationIndex = 1;
@@ -909,7 +907,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   // First pass: collect all citations with their positions
   while ((match = citationRegex.exec(rawText)) !== null) {
     const [fullMatch, slug, section] = match;
-    console.log('Found citation:', fullMatch, 'slug:', slug, 'section:', section);
     
     citations.push({
       match: fullMatch,
@@ -920,7 +917,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     });
     
     const url = `/${slug.trim()}/#${section.trim().replace(/\s+/g, '')}`;
-    console.log('Generated URL:', url);
     
     sources.push({
       index: citationIndex,
@@ -960,8 +956,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       }
     }
     
-    console.log('Split sentences:', sentences);
-    
     // Distribute citations across sentences
     let distributedText = '';
     let citationCount = 0;
@@ -989,7 +983,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
         }
       }
       
-      console.log(`Sentence ${sentenceIndex}: "${sentenceWithCitations}"`);
       distributedText += sentenceWithCitations + ' ';
     });
     
@@ -1005,9 +998,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       .replace(/\s+k\s/g, 'k ')
       .replace(/\s+\.\s+\[/g, '. [');
   }
-
-  console.log('Final mainText:', mainText);
-  console.log('Sources found:', sources);
 
   // If no [[cite:]] format found, look for numbers at the end
   if (sources.length === 0) {
@@ -1418,7 +1408,7 @@ const PortfolioChatBot = () => {
                                     </Message>
                                     {m.sources && m.sources.length > 0 && (
                                         <SourcesContainer>
-                                            <div className="sources-label">Sources</div>
+                                            <div className="sources-label">{m.sources.length === 1 ? "Source" : "Sources"}</div>
                                             {m.sources.map(src => (
                                                 <a
                                                     className="source-link"
