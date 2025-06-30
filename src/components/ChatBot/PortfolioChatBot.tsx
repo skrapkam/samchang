@@ -29,6 +29,84 @@ const getOrCreateSessionId = (): string => {
   return sessionId;
 };
 
+// Chat Thread Management Types and Helpers
+type ChatThread = {
+    id: string;
+    name: string;
+    created: string;
+    messages: ChatMessage[];
+};
+
+const THREADS_KEY = "portfolioChatThreads";
+const CURRENT_THREAD_KEY = "portfolioCurrentThread";
+
+// Thread Management Helpers
+const getThreads = (): ChatThread[] => {
+    if (typeof window === "undefined") return [];
+    try {
+        return JSON.parse(localStorage.getItem(THREADS_KEY) || "[]");
+    } catch {
+        return [];
+    }
+};
+
+const saveThreads = (threads: ChatThread[]) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(THREADS_KEY, JSON.stringify(threads));
+};
+
+const getCurrentThreadId = (): string | null => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem(CURRENT_THREAD_KEY);
+};
+
+const setCurrentThreadId = (threadId: string | null) => {
+    if (typeof window === "undefined") return;
+    if (threadId) {
+        localStorage.setItem(CURRENT_THREAD_KEY, threadId);
+    } else {
+        localStorage.removeItem(CURRENT_THREAD_KEY);
+    }
+};
+
+const generateThreadId = () => `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+const generateThreadName = (messages: ChatMessage[]): string => {
+    const userMessage = messages.find(m => m.isUser);
+    if (userMessage) {
+        return userMessage.text.slice(0, 30) + (userMessage.text.length > 30 ? "..." : "");
+    }
+    return `Chat on ${new Date().toLocaleDateString()}`;
+};
+
+const saveCurrentThread = (messages: ChatMessage[], threadId: string, name?: string) => {
+    // Don't save empty threads (only assistant message, no user messages)
+    if (messages.length <= 1 || !messages.some(m => m.isUser)) return;
+
+    const thread: ChatThread = {
+        id: threadId,
+        name: name || generateThreadName(messages),
+        created: messages[0]?.timestamp || new Date().toISOString(),
+        messages: messages.filter(m => !m.streaming) // Don't save streaming messages
+    };
+
+    const threads = getThreads();
+    const existingIndex = threads.findIndex(t => t.id === threadId);
+    
+    if (existingIndex >= 0) {
+        threads[existingIndex] = thread;
+    } else {
+        threads.push(thread);
+    }
+    
+    saveThreads(threads);
+};
+
+const deleteThread = (threadId: string) => {
+    const threads = getThreads().filter(t => t.id !== threadId);
+    saveThreads(threads);
+};
+
 // Utility function to detect URLs and convert them to clickable links
 const convertUrlsToLinks = (text: string) => {
     // If no URLs or markdown links, just return the text as-is to preserve spacing
@@ -262,6 +340,180 @@ const IconButton = styled.button`
     fill: currentColor;
     transition: fill 0.2s ease;
   }
+`;
+
+// History Panel Styled Components
+const HistoryOverlay = styled.div<{ visible: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: ${props => props.visible ? 'flex' : 'none'};
+  align-items: center;
+  justify-content: center;
+  opacity: ${props => props.visible ? 1 : 0};
+  transition: opacity 0.3s ease;
+`;
+
+const HistoryPanel = styled.div<{ visible: boolean }>`
+  background: #fff;
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 500px;
+  max-height: 80vh;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: ${props => props.visible ? 'scale(1)' : 'scale(0.9)'};
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const HistoryHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e7eaf2;
+  background: #f9fafd;
+`;
+
+const HistoryTitle = styled.h2`
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #222;
+`;
+
+const HistoryCloseButton = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: #7a7a7a;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #f2f2f2;
+    color: #000;
+  }
+`;
+
+const HistoryContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+`;
+
+const HistoryActions = styled.div`
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e7eaf2;
+  background: #f9fafd;
+`;
+
+const NewChatButton = styled.button`
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+const ThreadItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background: #f8f9fa;
+  }
+  
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const ThreadInfo = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const ThreadName = styled.div`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 0.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const ThreadDate = styled.div`
+  font-size: 1.2rem;
+  color: #7a7a7a;
+`;
+
+const ThreadActions = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+`;
+
+const ThreadActionButton = styled.button`
+  background: transparent;
+  border: none;
+  color: #7a7a7a;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1.4rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #f2f2f2;
+    color: #000;
+  }
+  
+  &.delete:hover {
+    background: #fee;
+    color: #d63384;
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #7a7a7a;
+  font-size: 1.4rem;
+`;
+
+const EmptyStateIcon = styled.div`
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 `;
 
 const MessageArea = styled.div`
@@ -1121,13 +1373,30 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
 const PortfolioChatBot = () => {
     const { open, setOpen, initialApiPrompt, setInitialApiPrompt, initialDisplayPrompt, setInitialDisplayPrompt } = useChat();
+    
+    // Thread Management State
+    const [currentThreadId, setCurrentThreadIdState] = useState<string>(() => getCurrentThreadId() || generateThreadId());
+    const [showHistory, setShowHistory] = useState(false);
+    const [threads, setThreads] = useState<ChatThread[]>(() => getThreads());
+    
+    // Initialize messages from current thread or default
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
+        const currentId = getCurrentThreadId();
+        if (currentId) {
+            const existingThreads = getThreads();
+            const currentThread = existingThreads.find(t => t.id === currentId);
+            if (currentThread) {
+                return currentThread.messages;
+            }
+        }
+        // Fallback to legacy localStorage for backward compatibility
         try {
             const stored = localStorage.getItem("portfolioChatHistory");
             if (stored) return JSON.parse(stored);
         } catch { }
         return [getInitialMsg()];
     });
+    
     const [input, setInput] = useState("");
     const [focused, setFocused] = useState(false);
     const [isStreaming, setIsStreaming] = useState(false);
@@ -1151,6 +1420,19 @@ const PortfolioChatBot = () => {
             localStorage.setItem('chatSessionId', sessionId);
         }
     }, [sessionId]);
+
+    // Persist current thread ID
+    useEffect(() => {
+        setCurrentThreadId(currentThreadId);
+    }, [currentThreadId]);
+
+    // Save current thread when messages change
+    useEffect(() => {
+        if (messages.length > 1 && messages.some(m => m.isUser)) {
+            saveCurrentThread(messages, currentThreadId);
+            setThreads(getThreads()); // Refresh threads list
+        }
+    }, [messages, currentThreadId]);
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -1199,9 +1481,13 @@ const PortfolioChatBot = () => {
         }
     }, [messages, open]);
 
+    // Legacy localStorage cleanup - remove old chat history format
     useEffect(() => {
-        localStorage.setItem("portfolioChatHistory", JSON.stringify(messages));
-    }, [messages]);
+        // Clean up old format on first load
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("portfolioChatHistory");
+        }
+    }, []);
 
     useEffect(() => {
         if (!initialApiPrompt && !initialDisplayPrompt) return; // Check both new prompts
@@ -1326,13 +1612,49 @@ const PortfolioChatBot = () => {
         }
     };
 
-    // Reset chat and show prompts
-    const resetChat = () => {
+    // Thread Management Functions
+    const startNewChat = () => {
+        // Save current thread if it has user messages
+        if (messages.length > 1 && messages.some(m => m.isUser)) {
+            saveCurrentThread(messages, currentThreadId);
+        }
+        
+        // Create new thread
+        const newThreadId = generateThreadId();
+        setCurrentThreadIdState(newThreadId);
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
-        setRateLimitError(null); // Clear rate limit errors on reset
-        const newSessionId = generateSessionId();
-        setSessionId(newSessionId);
+        setRateLimitError(null);
+        setSessionId(generateSessionId());
+        setThreads(getThreads()); // Refresh threads list
+    };
+
+    const openThread = (thread: ChatThread) => {
+        // Save current thread before switching
+        if (messages.length > 1 && messages.some(m => m.isUser)) {
+            saveCurrentThread(messages, currentThreadId);
+        }
+        
+        setCurrentThreadIdState(thread.id);
+        setMessages(thread.messages);
+        setShowHistory(false);
+        setRateLimitError(null);
+        setThreads(getThreads()); // Refresh threads list
+    };
+
+    const handleDeleteThread = (threadId: string) => {
+        deleteThread(threadId);
+        setThreads(getThreads());
+        
+        // If deleting current thread, start a new one
+        if (threadId === currentThreadId) {
+            startNewChat();
+        }
+    };
+
+    // Reset chat and show prompts (legacy function, now calls startNewChat)
+    const resetChat = () => {
+        startNewChat();
     };
 
     // Helper for clickable prompts: pass both clean and contextualized prompt
@@ -1349,30 +1671,41 @@ const PortfolioChatBot = () => {
             <MobileOverlay visible={open} />
             <ChatBox visible={open}>
                 <TopBar showBorder={isScrollable}>
-                    <IconButton onClick={resetChat} title="New Chat">
-                        <svg
-                            width="25"
-                            height="24"
-                            viewBox="0 0 25 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            style={{ marginRight: "2px" }}
-                        >
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
-                                fill="currentColor"
-                            />
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
-                                fill="currentColor"
-                            />
-                        </svg>
-                        <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
-                    </IconButton>
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                        <IconButton onClick={() => setShowHistory(true)} title="Chat History">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7Z" stroke="currentColor" strokeWidth="2"/>
+                                <path d="M8 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                <path d="M16 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                <path d="M7 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                <path d="M7 16H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                            <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>History</span>
+                        </IconButton>
+                        <IconButton onClick={startNewChat} title="New Chat">
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 25 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12.0242 11.3549L12.6101 8.24042C12.6465 8.05155 12.738 7.87779 12.8733 7.7437L18.762 1.89157C19.9732 0.68941 21.9177 0.704519 23.1084 1.92745L23.114 1.93312C23.6915 2.52522 24.0107 3.32792 23.9995 4.15989C23.9892 4.99281 23.6496 5.78606 23.0561 6.36306L17.1972 12.0688C17.0713 12.1916 16.9136 12.2756 16.7428 12.3125L13.6515 12.9707C13.2036 13.066 12.737 12.9282 12.4105 12.6033C12.0839 12.2785 11.9383 11.8101 12.0242 11.3549ZM18.3244 4.97392L14.3895 8.88447L13.9967 10.9668L16.0962 10.5191L20.0124 6.7068L18.3244 4.97392ZM21.357 5.39699L21.7628 5.00225C21.9961 4.77561 22.1296 4.46303 22.1333 4.13534C22.138 3.80765 22.012 3.49224 21.7852 3.25898L21.7796 3.25332C21.3112 2.77264 20.5461 2.76603 20.0702 3.2401L19.6559 3.65089L21.357 5.39699Z"
+                                    fill="currentColor"
+                                />
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M13.125 3.00009C13.677 3.00009 14.125 3.44809 14.125 4.00009C14.125 4.55209 13.677 5.00009 13.125 5.00009H7C6.204 5.00009 5.441 5.31609 4.879 5.87909C4.316 6.44109 4 7.20409 4 8.00009V18.0001C4 18.7961 4.316 19.5591 4.879 20.1211C5.441 20.6841 6.204 21.0001 7 21.0001H17C17.796 21.0001 18.559 20.6841 19.121 20.1211C19.684 19.5591 20 18.7961 20 18.0001V11.8751C20 11.3231 20.448 10.8751 21 10.8751C21.552 10.8751 22 11.3231 22 11.8751V18.0001C22 19.3261 21.473 20.5981 20.536 21.5361C19.598 22.4731 18.326 23.0001 17 23.0001H7C5.674 23.0001 4.402 22.4731 3.464 21.5361C2.527 20.5981 2 19.3261 2 18.0001V8.00009C2 6.67409 2.527 5.40209 3.464 4.46409C4.402 3.52709 5.674 3.00009 7 3.00009H13.125Z"
+                                    fill="currentColor"
+                                />
+                            </svg>
+                            <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
+                        </IconButton>
+                    </div>
                     <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
                 </TopBar>
                 <MessageArea ref={messageAreaRef}>
@@ -1500,6 +1833,79 @@ const PortfolioChatBot = () => {
                     </SendButton>
                 </BottomBar>
             </ChatBox>
+            
+            {/* Chat History Panel */}
+            <HistoryOverlay visible={showHistory} onClick={() => setShowHistory(false)}>
+                <HistoryPanel visible={showHistory} onClick={(e) => e.stopPropagation()}>
+                    <HistoryHeader>
+                        <HistoryTitle>Chat History</HistoryTitle>
+                        <HistoryCloseButton onClick={() => setShowHistory(false)}>×</HistoryCloseButton>
+                    </HistoryHeader>
+                    
+                    <HistoryContent>
+                        {threads.length === 0 ? (
+                            <EmptyState>
+                                <EmptyStateIcon>💬</EmptyStateIcon>
+                                <div>No chat history yet</div>
+                                <div style={{ fontSize: "1.2rem", marginTop: "0.5rem", opacity: 0.7 }}>
+                                    Start a conversation to see your chat history here
+                                </div>
+                            </EmptyState>
+                        ) : (
+                            threads
+                                .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
+                                .map((thread) => (
+                                    <ThreadItem key={thread.id}>
+                                        <ThreadInfo onClick={() => openThread(thread)}>
+                                            <ThreadName>{thread.name}</ThreadName>
+                                            <ThreadDate>
+                                                {new Date(thread.created).toLocaleDateString()} at{' '}
+                                                {new Date(thread.created).toLocaleTimeString([], { 
+                                                    hour: 'numeric', 
+                                                    minute: '2-digit' 
+                                                })}
+                                            </ThreadDate>
+                                        </ThreadInfo>
+                                        <ThreadActions>
+                                            <ThreadActionButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    openThread(thread);
+                                                }}
+                                                title="Open thread"
+                                            >
+                                                📂
+                                            </ThreadActionButton>
+                                            <ThreadActionButton
+                                                className="delete"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (window.confirm('Are you sure you want to delete this conversation?')) {
+                                                        handleDeleteThread(thread.id);
+                                                    }
+                                                }}
+                                                title="Delete thread"
+                                            >
+                                                🗑️
+                                            </ThreadActionButton>
+                                        </ThreadActions>
+                                    </ThreadItem>
+                                ))
+                        )}
+                    </HistoryContent>
+                    
+                    <HistoryActions>
+                        <NewChatButton
+                            onClick={() => {
+                                setShowHistory(false);
+                                startNewChat();
+                            }}
+                        >
+                            Start New Chat
+                        </NewChatButton>
+                    </HistoryActions>
+                </HistoryPanel>
+            </HistoryOverlay>
         </ChatWrapper>
     );
 };
