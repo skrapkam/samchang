@@ -1308,8 +1308,8 @@ const PortfolioChatBot = () => {
             // Handle rate limit error
             if (error && typeof error === 'object' && 'limit' in error) {
                 setRateLimitError(error as RateLimitError);
-                // Remove the streaming message and user message on rate limit error
-                setMessages(prev => prev.filter(m => !m.streaming && m.text !== textToDisplay));
+                // Keep the user's message and show the error. Only remove the streaming placeholder.
+                setMessages(prev => prev.filter(m => !m.streaming));
             } else {
                 // Handle other errors
                 const errorMessage = error instanceof Error ? error.message : "An error occurred";
