@@ -276,7 +276,7 @@ const ChatBox = styled.div<ChatBoxProps>`
   box-shadow: 0 8px 28px rgba(50, 60, 120, 0.13);
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
   transform-origin: bottom right;
   transform: scale(${props => (props.visible ? 1 : 0.8)});
   opacity: ${props => (props.visible ? 1 : 0)};
@@ -343,33 +343,22 @@ const IconButton = styled.button`
 `;
 
 // History Panel Styled Components
-const HistoryOverlay = styled.div<{ visible: boolean }>`
-  position: fixed;
+const HistoryPanel = styled.div<{ visible: boolean }>`
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
-  display: ${props => props.visible ? 'flex' : 'none'};
-  align-items: center;
-  justify-content: center;
-  opacity: ${props => props.visible ? 1 : 0};
-  transition: opacity 0.3s ease;
-`;
-
-const HistoryPanel = styled.div<{ visible: boolean }>`
-  background: #fff;
-  border-radius: 12px;
-  width: 90vw;
-  max-width: 500px;
-  max-height: 80vh;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  transform: ${props => props.visible ? 'scale(1)' : 'scale(0.9)'};
-  transition: transform 0.3s ease;
+  height: 75%;
+  background: #f9fafd;
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  transform: translateY(${props => (props.visible ? '0' : '-100%')});
+  opacity: ${props => (props.visible ? 1 : 0)};
+  pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  overflow: hidden; /* To contain children */
 `;
 
 const HistoryHeader = styled.div`
@@ -388,24 +377,23 @@ const HistoryTitle = styled.h2`
   color: #222;
 `;
 
-const HistoryCloseButton = styled.button`
-  background: transparent;
-  border: none;
-  font-size: 2.4rem;
-  color: #7a7a7a;
-  cursor: pointer;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
+const HistoryCloseButton = styled(IconButton)`
+ display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  
+  gap: 6px;
+  background: transparent;
+  border-radius: 5px;
+  border: none;
+  color: #7a7a7a;
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  height: 32px;
+  cursor: pointer;
+  transition: color 0.2s ease;
   &:hover {
-    background: #f2f2f2;
     color: #000;
+    background-color: #f2f2f2;
   }
 `;
 
@@ -423,7 +411,7 @@ const HistoryActions = styled.div`
 
 const NewChatButton = styled.button`
   width: 100%;
-  background: #007bff;
+  background: #000;
   color: white;
   border: none;
   border-radius: 8px;
@@ -434,7 +422,7 @@ const NewChatButton = styled.button`
   transition: background-color 0.2s ease;
   
   &:hover {
-    background: #0056b3;
+    background-color: #464646;
   }
 `;
 
@@ -872,7 +860,65 @@ const getInitialMsg = (): ChatMessage => ({
 
 function formatTime(iso: string) {
     const date = new Date(iso);
-    return isNaN(date.getTime()) ? "" : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    if (isNaN(date.getTime())) return "";
+
+    // Helper to compare only the date portion
+    const isSameCalendarDay = (d1: Date, d2: Date) =>
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate();
+
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (isSameCalendarDay(date, today)) {
+        return "Today";
+    }
+
+    if (isSameCalendarDay(date, yesterday)) {
+        return "Yesterday";
+    }
+
+    // Fallback to locale date string (e.g., Jun 30, 2025)
+    return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+}
+
+function formatTimeWithTime(iso: string) {
+    const date = new Date(iso);
+    if (isNaN(date.getTime())) return "";
+
+    // Helper to compare only the date portion
+    const isSameCalendarDay = (d1: Date, d2: Date) =>
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate();
+
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const timeString = date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+    if (isSameCalendarDay(date, today)) {
+        return `Today at ${timeString}`;
+    }
+
+    if (isSameCalendarDay(date, yesterday)) {
+        return `Yesterday at ${timeString}`;
+    }
+
+    // For older dates, show date and time
+    const dateString = date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+    return `${dateString} at ${timeString}`;
 }
 
 // Add new styled components for rate limit error display
@@ -1713,7 +1759,7 @@ const PortfolioChatBot = () => {
                         <MessageWrapper key={i} isUser={m.isUser}>
                             <Meta>
                                 <Sender>{m.isUser ? "You" : "Sam"}</Sender>
-                                <Time>{formatTime(m.timestamp)}</Time>
+                                <Time>{formatTimeWithTime(m.timestamp)}</Time>
                             </Meta>
                             {m.streaming && !m.text ? (
                                 <Ellipsis>{dots}</Ellipsis>
@@ -1800,46 +1846,14 @@ const PortfolioChatBot = () => {
                     
                     <div ref={msgEndRef} />
                 </MessageArea>
-                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
-                    <InputContainer>
-                        <StyledInput
-                            ref={inputRef}
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onFocus={() => setFocused(true)}
-                            onBlur={() => setFocused(false)}
-                            disabled={isChatDisabled}
-                        />
-                        {!input && (
-                            <InputPlaceholder>
-                                {showShimmer ? (
-                                    <ShimmerText
-                                        shimmerColor="#4a90e2"
-                                        baseColor="#b2b8c7"
-                                        duration={1200}
-                                    >
-                                        Thinking...
-                                    </ShimmerText>
-                                ) : (
-                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
-                                )}
-                            </InputPlaceholder>
-                        )}
-                    </InputContainer>
-                    <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
-                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
-                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
-                        </svg>
-                    </SendButton>
-                </BottomBar>
-            </ChatBox>
-            
-            {/* Chat History Panel */}
-            <HistoryOverlay visible={showHistory} onClick={() => setShowHistory(false)}>
-                <HistoryPanel visible={showHistory} onClick={(e) => e.stopPropagation()}>
+                {/* Overlay for history panel */}
+                {showHistory && (
+                  <HistoryOverlay visible={showHistory} onClick={() => setShowHistory(false)} />
+                )}
+                <HistoryPanel visible={showHistory} onClick={e => e.stopPropagation()}>
                     <HistoryHeader>
                         <HistoryTitle>Chat History</HistoryTitle>
-                        <HistoryCloseButton onClick={() => setShowHistory(false)}>×</HistoryCloseButton>
+                        <HistoryCloseButton onClick={() => setShowHistory(false)} title="Close">Close</HistoryCloseButton>
                     </HistoryHeader>
                     
                     <HistoryContent>
@@ -1859,7 +1873,7 @@ const PortfolioChatBot = () => {
                                         <ThreadInfo onClick={() => openThread(thread)}>
                                             <ThreadName>{thread.name}</ThreadName>
                                             <ThreadDate>
-                                                {new Date(thread.created).toLocaleDateString()} at{' '}
+                                                {formatTime(thread.created)} at{' '}
                                                 {new Date(thread.created).toLocaleTimeString([], { 
                                                     hour: 'numeric', 
                                                     minute: '2-digit' 
@@ -1901,11 +1915,43 @@ const PortfolioChatBot = () => {
                                 startNewChat();
                             }}
                         >
-                            Start New Chat
+                            New Chat
                         </NewChatButton>
                     </HistoryActions>
                 </HistoryPanel>
-            </HistoryOverlay>
+                <BottomBar focused={focused} onSubmit={(e) => sendMessage(undefined, undefined, e)}>
+                    <InputContainer>
+                        <StyledInput
+                            ref={inputRef}
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
+                            disabled={isChatDisabled}
+                        />
+                        {!input && (
+                            <InputPlaceholder>
+                                {showShimmer ? (
+                                    <ShimmerText
+                                        shimmerColor="#4a90e2"
+                                        baseColor="#b2b8c7"
+                                        duration={1200}
+                                    >
+                                        Thinking...
+                                    </ShimmerText>
+                                ) : (
+                                    rateLimitError ? "Rate limited - try again later" : "Type a message..."
+                                )}
+                            </InputPlaceholder>
+                        )}
+                    </InputContainer>
+                    <SendButton type="submit" visible={!!input.trim() && !isChatDisabled}>
+                        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(-90deg)" }}>
+                            <path d="M5 12h14M13 5l7 7-7 7" stroke="white" />
+                        </svg>
+                    </SendButton>
+                </BottomBar>
+            </ChatBox>
         </ChatWrapper>
     );
 };
@@ -1926,6 +1972,19 @@ const MobileOverlay = styled.div<{ visible: boolean }>`
     opacity: ${props => (props.visible ? 1 : 0)};
     transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
+`;
+
+const HistoryOverlay = styled.div<{ visible: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  opacity: ${props => (props.visible ? 1 : 0)};
+  pointer-events: ${props => (props.visible ? 'auto' : 'none')};
+  transition: opacity 0.3s ease;
 `;
 
 export default PortfolioChatBot;
