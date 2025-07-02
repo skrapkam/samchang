@@ -35,6 +35,7 @@ type ChatThread = {
     name: string;
     created: string;
     messages: ChatMessage[];
+    sessionId?: string; // Add session ID to thread data
 };
 
 const THREADS_KEY = "portfolioChatThreads";
@@ -79,7 +80,7 @@ const generateThreadName = (messages: ChatMessage[]): string => {
     return `Chat on ${new Date().toLocaleDateString()}`;
 };
 
-const saveCurrentThread = (messages: ChatMessage[], threadId: string, name?: string) => {
+const saveCurrentThread = (messages: ChatMessage[], threadId: string, name?: string, sessionId?: string) => {
     // Don't save empty threads (only assistant message, no user messages)
     if (messages.length <= 1 || !messages.some(m => m.isUser)) return;
 
@@ -87,7 +88,8 @@ const saveCurrentThread = (messages: ChatMessage[], threadId: string, name?: str
         id: threadId,
         name: name || generateThreadName(messages),
         created: messages[0]?.timestamp || new Date().toISOString(),
-        messages: messages.filter(m => !m.streaming) // Don't save streaming messages
+        messages: messages.filter(m => !m.streaming), // Don't save streaming messages
+        sessionId: sessionId // Store the session ID with the thread
     };
 
     const threads = getThreads();
@@ -313,6 +315,8 @@ const TopBar = styled.div<{ showBorder: boolean }>`
   background: transparent;
   box-shadow: ${(props) => (props.showBorder ? "inset 0 -1px 0 rgba(231, 234, 242, 1)" : "none")};
 `;
+
+
 
 
 const IconButton = styled.button`
@@ -1474,6 +1478,8 @@ const PortfolioChatBot = () => {
         }
     }, [sessionId]);
 
+
+
     // Persist current thread ID
     useEffect(() => {
         setCurrentThreadId(currentThreadId);
@@ -1482,10 +1488,10 @@ const PortfolioChatBot = () => {
     // Save current thread when messages change
     useEffect(() => {
         if (messages.length > 1 && messages.some(m => m.isUser)) {
-            saveCurrentThread(messages, currentThreadId);
+            saveCurrentThread(messages, currentThreadId, undefined, sessionId);
             setThreads(getThreads()); // Refresh threads list
         }
-    }, [messages, currentThreadId]);
+    }, [messages, currentThreadId, sessionId]);
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -1670,29 +1676,45 @@ const PortfolioChatBot = () => {
     const startNewChat = () => {
         // Save current thread if it has user messages
         if (messages.length > 1 && messages.some(m => m.isUser)) {
-            saveCurrentThread(messages, currentThreadId);
+            saveCurrentThread(messages, currentThreadId, undefined, sessionId);
         }
         
-        // Create new thread
+        // Create new thread with fresh session
         const newThreadId = generateThreadId();
+        const newSessionId = generateSessionId();
+        
         setCurrentThreadIdState(newThreadId);
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
         setRateLimitError(null);
-        setSessionId(generateSessionId());
+        setSessionId(newSessionId);
+        
+        // Clear the persistent session ID to ensure fresh start
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("chatSessionId");
+        }
+        
         setThreads(getThreads()); // Refresh threads list
     };
 
     const openThread = (thread: ChatThread) => {
         // Save current thread before switching
         if (messages.length > 1 && messages.some(m => m.isUser)) {
-            saveCurrentThread(messages, currentThreadId);
+            saveCurrentThread(messages, currentThreadId, undefined, sessionId);
         }
         
         setCurrentThreadIdState(thread.id);
         setMessages(thread.messages);
         setShowHistory(false);
         setRateLimitError(null);
+        
+        // Use the thread's session ID if available, otherwise generate new one
+        if (thread.sessionId) {
+            setSessionId(thread.sessionId);
+        } else {
+            setSessionId(generateSessionId());
+        }
+        
         setThreads(getThreads()); // Refresh threads list
     };
 
@@ -1771,6 +1793,7 @@ const PortfolioChatBot = () => {
                             
                         </IconButton>
                     </div>
+
                     <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
                 </TopBar>
                 <MessageArea ref={messageAreaRef}>
