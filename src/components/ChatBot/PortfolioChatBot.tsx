@@ -348,7 +348,7 @@ const HistoryPanel = styled.div<{ visible: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  height: 75%;
+  height: 85%;
   background: #f9fafd;
   z-index: 100;
   display: flex;
@@ -370,13 +370,6 @@ const HistoryHeader = styled.div`
   background: #f9fafd;
 `;
 
-const HistoryTitle = styled.h2`
-  margin: 0;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #222;
-`;
-
 const HistoryCloseButton = styled(IconButton)`
  display: flex;
   align-items: center;
@@ -385,7 +378,7 @@ const HistoryCloseButton = styled(IconButton)`
   border-radius: 5px;
   border: none;
   color: #7a7a7a;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 500;
   padding: 4px 10px;
   height: 32px;
@@ -414,7 +407,7 @@ const NewChatButton = styled.button`
   background: #000;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 1rem 1.5rem;
   font-size: 1.5rem;
   font-weight: 500;
@@ -1152,7 +1145,8 @@ function postProcessText(text: string) {
     return text
         .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-        .replace(/([a-zA-Z])(\d)/g, "$1 $2")   // ensure space between letter and number (e.g., "at99designs" -> "at 99designs")
+        // Don't add spaces between letters and numbers if they're part of citations [1], [2], etc.
+        .replace(/([a-zA-Z])(\d)(?!\])/g, "$1 $2")   // ensure space between letter and number, but not before citation brackets
         .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
         // Fix email addresses with missing @ symbol or double @ symbols
         .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
@@ -1283,78 +1277,30 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     }
     // If no inline citations found, check for trailing numbers (non-global regex)
     if (!foundCitations) {
-      const endingNumbers = mainText.match(/(\d+)\s*$/);
-      if (endingNumbers) {
-        const numbers = endingNumbers[1].split('');
-        let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
-        // Normalize the text
-        newText = newText.replace(/\s+/g, ' ');
-        // Split into sentences and distribute citations
-        const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-        let citationCount = 0;
-        const processedSentences = sentences.map((sentence, idx) => {
-          const isLastSentence = idx === sentences.length - 1;
-          const citationsForThisSentence = isLastSentence 
-            ? numbers.length - citationCount
-            : Math.min(1, numbers.length - citationCount);
-          let processedSentence = sentence.trim();
-          if (!processedSentence.match(/[.!?]$/)) {
-            processedSentence += '.';
-          }
-          for (let i = 0; i < citationsForThisSentence && citationCount < numbers.length; i++) {
-            citationCount++;
-            sources.push({
-              index: citationCount,
-              title: `Reference ${citationCount}`,
-              url: '#',
-              slug: `reference-${citationCount}`,
-              section: `citation-${citationCount}`
-            });
-            processedSentence += ` [${citationCount}]`;
-          }
-          return processedSentence;
-        });
-        mainText = processedSentences.join(' ').trim();
-      }
-    }
-    // If still no citations found, check for structured content with trailing numbers
-    if (sources.length === 0) {
-      const endingNumbers = mainText.match(/(\d+)\s*$/);
-      if (endingNumbers) {
-        const numbers = endingNumbers[1].split('');
-        let newText = mainText.slice(0, mainText.lastIndexOf(endingNumbers[1])).trim();
-        // Normalize the text
-        newText = newText.replace(/\s+/g, ' ');
-        // Split text into sections (e.g., "Impact:", "Constraints:")
-        const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
-        let citationCount = 0;
-        const processedSections = sections.map((section) => {
-          const colonIndex = section.indexOf(':');
-          if (colonIndex === -1) return section;
-          const header = section.slice(0, colonIndex + 1);
-          let content = section.slice(colonIndex + 1).trim();
-          let bulletPoints;
-          if (content.includes('-')) {
-            bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
-          } else {
-            bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
-          }
-          if (bulletPoints.length <= 1) {
-            bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-          }
-          const processedBulletPoints = bulletPoints.map((point, idx) => {
-            const isLastPoint = idx === bulletPoints.length - 1;
-            const citationsForThisPoint = isLastPoint 
+      // Look for trailing comma-separated numbers like "1, 2, 3" or just "3" (before punctuation)
+      const endingNumbersMatch = mainText.match(/(\d+(?:\s*,\s*\d+)*)\s*[.!?]?\s*$/);
+      if (endingNumbersMatch) {
+        const numbersString = endingNumbersMatch[1];
+        // Parse the numbers properly, handling comma-separated format
+        const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+        
+        if (numbers.length > 0) {
+          let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
+          // Normalize the text
+          newText = newText.replace(/\s+/g, ' ');
+          // Split into sentences and distribute citations
+          const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+          let citationCount = 0;
+          const processedSentences = sentences.map((sentence, idx) => {
+            const isLastSentence = idx === sentences.length - 1;
+            const citationsForThisSentence = isLastSentence 
               ? numbers.length - citationCount
-              : Math.min(1, numbers.length - citationCount); // One citation per point
-            let processedPoint = point.trim();
-            if (processedPoint.startsWith('-')) {
-              processedPoint = processedPoint.slice(1).trim();
+              : Math.min(1, numbers.length - citationCount);
+            let processedSentence = sentence.trim();
+            if (!processedSentence.match(/[.!?]$/)) {
+              processedSentence += '.';
             }
-            if (!processedPoint.match(/[.!?]$/)) {
-              processedPoint += '.';
-            }
-            for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+            for (let i = 0; i < citationsForThisSentence && citationCount < numbers.length; i++) {
               citationCount++;
               sources.push({
                 index: citationCount,
@@ -1363,13 +1309,73 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
                 slug: `reference-${citationCount}`,
                 section: `citation-${citationCount}`
               });
-              processedPoint += ` [${citationCount}]`;
+              processedSentence += ` [${citationCount}]`;
             }
-            return `- ${processedPoint}`;
+            return processedSentence;
           });
-          return `${header}\n${processedBulletPoints.join('\n')}`;
-        });
-        mainText = processedSections.join('\n\n').trim();
+          mainText = processedSentences.join(' ').trim();
+        }
+      }
+    }
+    // If still no citations found, check for structured content with trailing numbers
+    if (sources.length === 0) {
+      // Look for trailing comma-separated numbers like "1, 2, 3" or just "3" (before punctuation)
+      const endingNumbersMatch = mainText.match(/(\d+(?:\s*,\s*\d+)*)\s*[.!?]?\s*$/);
+      if (endingNumbersMatch) {
+        const numbersString = endingNumbersMatch[1];
+        // Parse the numbers properly, handling comma-separated format
+        const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+        
+        if (numbers.length > 0) {
+          let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
+          // Normalize the text
+          newText = newText.replace(/\s+/g, ' ');
+          // Split text into sections (e.g., "Impact:", "Constraints:")
+          const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
+          let citationCount = 0;
+          const processedSections = sections.map((section) => {
+            const colonIndex = section.indexOf(':');
+            if (colonIndex === -1) return section;
+            const header = section.slice(0, colonIndex + 1);
+            let content = section.slice(colonIndex + 1).trim();
+            let bulletPoints;
+            if (content.includes('-')) {
+              bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
+            } else {
+              bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
+            }
+            if (bulletPoints.length <= 1) {
+              bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+            }
+            const processedBulletPoints = bulletPoints.map((point, idx) => {
+              const isLastPoint = idx === bulletPoints.length - 1;
+              const citationsForThisPoint = isLastPoint 
+                ? numbers.length - citationCount
+                : Math.min(1, numbers.length - citationCount); // One citation per point
+              let processedPoint = point.trim();
+              if (processedPoint.startsWith('-')) {
+                processedPoint = processedPoint.slice(1).trim();
+              }
+              if (!processedPoint.match(/[.!?]$/)) {
+                processedPoint += '.';
+              }
+              for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+                citationCount++;
+                sources.push({
+                  index: citationCount,
+                  title: `Reference ${citationCount}`,
+                  url: '#',
+                  slug: `reference-${citationCount}`,
+                  section: `citation-${citationCount}`
+                });
+                processedPoint += ` [${citationCount}]`;
+              }
+              return `- ${processedPoint}`;
+            });
+            return `${header}\n${processedBulletPoints.join('\n')}`;
+          });
+          mainText = processedSections.join('\n\n').trim();
+        }
       }
     }
   }
@@ -1424,6 +1430,7 @@ const PortfolioChatBot = () => {
     const [currentThreadId, setCurrentThreadIdState] = useState<string>(() => getCurrentThreadId() || generateThreadId());
     const [showHistory, setShowHistory] = useState(false);
     const [threads, setThreads] = useState<ChatThread[]>(() => getThreads());
+    const [searchQuery, setSearchQuery] = useState("");
     
     // Initialize messages from current thread or default
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -1634,8 +1641,9 @@ const PortfolioChatBot = () => {
                 setSessionId(newSessionId);
             });
 
-            const { mainText, sources } = parseSourcesSection(postProcessText(stripHtmlTags(streamedText)));
-            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: mainText, sources } : m));
+            const { mainText, sources } = parseSourcesSection(stripHtmlTags(streamedText));
+            const finalText = postProcessText(mainText);
+            setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: finalText, sources } : m));
         } catch (error) {
             // Handle rate limit error
             if (error && typeof error === 'object' && 'limit' in error) {
@@ -1711,6 +1719,21 @@ const PortfolioChatBot = () => {
     // Check if chat is disabled due to rate limiting
     const isChatDisabled = isStreaming || !!rateLimitError;
 
+    // Filter threads based on search query
+    const filteredThreads = threads.filter(thread => {
+        if (!searchQuery.trim()) return true;
+        
+        const query = searchQuery.toLowerCase();
+        
+        // Search in thread name
+        if (thread.name.toLowerCase().includes(query)) return true;
+        
+        // Search in message content
+        return thread.messages.some(message => 
+            message.text.toLowerCase().includes(query)
+        );
+    });
+
     return (
         <ChatWrapper x={30} y={30}>
             <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
@@ -1718,16 +1741,6 @@ const PortfolioChatBot = () => {
             <ChatBox visible={open}>
                 <TopBar showBorder={isScrollable}>
                     <div style={{ display: "flex", gap: "0.5rem" }}>
-                        <IconButton onClick={() => setShowHistory(true)} title="Chat History">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7Z" stroke="currentColor" strokeWidth="2"/>
-                                <path d="M8 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                                <path d="M16 3V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                                <path d="M7 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                                <path d="M7 16H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                            </svg>
-                            <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>History</span>
-                        </IconButton>
                         <IconButton onClick={startNewChat} title="New Chat">
                             <svg
                                 width="20"
@@ -1750,6 +1763,12 @@ const PortfolioChatBot = () => {
                                 />
                             </svg>
                             <span style={{ fontSize: "1.5rem", fontWeight: 500 }}>New Chat</span>
+                        </IconButton>
+                        <IconButton onClick={() => setShowHistory(true)} title="Chat History">
+                            <svg width="20" height="20" viewBox="0 0 75 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M39.6208 0C25.1868 0 12.78 8.7969 7.68339 21.3125L5.65214 17.7188C5.39137 17.2271 4.99899 16.8176 4.51886 16.5362C4.03874 16.2547 3.48978 16.1124 2.93339 16.125C2.4125 16.1366 1.90361 16.2837 1.45682 16.5517C1.01004 16.8197 0.640748 17.1995 0.385312 17.6536C0.129877 18.1077 -0.00290168 18.6205 4.80974e-05 19.1415C0.00299788 19.6626 0.141574 20.1738 0.402135 20.625L5.90214 30.4688C6.28447 31.1471 6.9155 31.6501 7.6619 31.8717C8.40831 32.0933 9.21163 32.0161 9.90214 31.6563L19.6834 26.6562C20.0509 26.4878 20.3806 26.2467 20.6526 25.9476C20.9247 25.6485 21.1335 25.2975 21.2665 24.9157C21.3995 24.5339 21.4539 24.1292 21.4265 23.7258C21.3992 23.3224 21.2905 22.9287 21.1072 22.5684C20.9239 22.208 20.6696 21.8884 20.3596 21.6288C20.0497 21.3692 19.6905 21.1749 19.3036 21.0576C18.9166 20.9403 18.51 20.9024 18.1081 20.9462C17.7061 20.99 17.3172 21.1146 16.9646 21.3125L13.3709 23.1562C17.6682 13.1024 27.7937 6 39.6208 6C55.3714 6 68.0271 18.5222 68.0271 34C68.0271 49.4777 55.3714 62 39.6208 62C26.1469 62 14.9234 52.7535 11.9646 40.4375C11.7781 39.6626 11.2915 38.9935 10.6116 38.5774C9.93181 38.1613 9.11454 38.0323 8.33961 38.2188C7.56468 38.4053 6.89557 38.892 6.47948 39.5718C6.06339 40.2516 5.9344 41.0689 6.12089 41.8438C9.72529 56.8475 23.4024 68 39.6208 68C58.5711 68 74.0271 52.7638 74.0271 34C74.0271 15.2361 58.5711 0 39.6208 0ZM39.9958 14.9375C39.5992 14.9416 39.2073 15.0243 38.8429 15.1808C38.4784 15.3373 38.1486 15.5646 37.8725 15.8494C37.5964 16.1342 37.3796 16.4709 37.2345 16.84C37.0894 17.2092 37.0189 17.6034 37.0271 18V34C37.0269 34.45 37.1278 34.8944 37.3226 35.3001C37.5173 35.7058 37.8008 36.0625 38.1521 36.3438L48.1521 44.3438C48.4599 44.5901 48.8132 44.7733 49.1918 44.8831C49.5704 44.9928 49.9669 45.0269 50.3587 44.9834C50.7504 44.9399 51.1298 44.8196 51.4751 44.6295C51.8204 44.4393 52.1249 44.183 52.3711 43.8752C52.6174 43.5674 52.8006 43.2141 52.9103 42.8355C53.02 42.4569 53.054 42.0604 53.0104 41.6686C52.9669 41.2769 52.8466 40.8975 52.6564 40.5522C52.4663 40.207 52.21 39.9025 51.9021 39.6563L43.0271 32.5625V18C43.0355 17.5982 42.963 17.1987 42.814 16.8254C42.6651 16.4522 42.4426 16.1126 42.1599 15.827C41.8771 15.5413 41.5399 15.3154 41.1681 15.1626C40.7964 15.0098 40.3977 14.9333 39.9958 14.9375Z" fill="currentColor"/>
+                            </svg>
+                            
                         </IconButton>
                     </div>
                     <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
@@ -1852,21 +1871,26 @@ const PortfolioChatBot = () => {
                 )}
                 <HistoryPanel visible={showHistory} onClick={e => e.stopPropagation()}>
                     <HistoryHeader>
-                        <HistoryTitle>Chat History</HistoryTitle>
+                        <HistorySearchInput
+                            type="text"
+                            placeholder="Search conversations..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                         <HistoryCloseButton onClick={() => setShowHistory(false)} title="Close">Close</HistoryCloseButton>
                     </HistoryHeader>
                     
                     <HistoryContent>
-                        {threads.length === 0 ? (
+                        {filteredThreads.length === 0 ? (
                             <EmptyState>
-                                <EmptyStateIcon>💬</EmptyStateIcon>
-                                <div>No chat history yet</div>
+                                <EmptyStateIcon>🔍</EmptyStateIcon>
+                                <div>{searchQuery ? "No conversations found" : "No chat history yet"}</div>
                                 <div style={{ fontSize: "1.2rem", marginTop: "0.5rem", opacity: 0.7 }}>
-                                    Start a conversation to see your chat history here
+                                    {searchQuery ? "Try a different search term" : "Start a conversation to see your chat history here"}
                                 </div>
                             </EmptyState>
                         ) : (
-                            threads
+                            filteredThreads
                                 .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
                                 .map((thread) => (
                                     <ThreadItem key={thread.id}>
@@ -1980,11 +2004,32 @@ const HistoryOverlay = styled.div<{ visible: boolean }>`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 99;
   opacity: ${props => (props.visible ? 1 : 0)};
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
   transition: opacity 0.3s ease;
+`;
+
+const HistorySearchInput = styled.input`
+  flex: 1;
+  border: 1px solid #e7eaf2;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 1.4rem;
+  background: #fff;
+  color: #222;
+  outline: none;
+  transition: border-color 0.2s ease;
+  margin-right: 1rem;
+  
+  &:focus {
+    border-color: #000;
+  }
+  
+  &::placeholder {
+    color: #b2b8c7;
+  }
 `;
 
 export default PortfolioChatBot;
