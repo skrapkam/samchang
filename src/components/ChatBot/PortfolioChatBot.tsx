@@ -309,7 +309,7 @@ const TopBar = styled.div<{ showBorder: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0.7rem 1rem 0.9rem;
+  padding: 1rem 1rem 1rem 0.9rem;
   height: 5rem;
   user-select: none;
   background: transparent;
@@ -352,7 +352,7 @@ const HistoryPanel = styled.div<{ visible: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  height: 85%;
+  height: 92%;
   background: #f9fafd;
   z-index: 100;
   display: flex;
@@ -363,6 +363,7 @@ const HistoryPanel = styled.div<{ visible: boolean }>`
   transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   overflow: hidden; /* To contain children */
+  border-radius: 0 0 10px 10px;
 `;
 
 const HistoryHeader = styled.div`
@@ -397,7 +398,6 @@ const HistoryCloseButton = styled(IconButton)`
 const HistoryContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 1rem 0;
 `;
 
 const HistoryActions = styled.div`
@@ -423,7 +423,7 @@ const NewChatButton = styled.button`
   }
 `;
 
-const ThreadItem = styled.div`
+const ThreadItem = styled.div<{ trashHovered?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -431,9 +431,10 @@ const ThreadItem = styled.div`
   border-bottom: 1px solid #f0f0f0;
   transition: background-color 0.2s ease;
   cursor: pointer;
+  position: relative;
   
   &:hover {
-    background: #f8f9fa;
+    background-color: ${props => props.trashHovered ? 'transparent' : '#f2f2f2'};
   }
   
   &:last-child {
@@ -465,6 +466,21 @@ const ThreadActions = styled.div`
   display: flex;
   gap: 0.5rem;
   margin-left: 1rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.2s ease;
+  
+  ${ThreadItem}:hover & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* Keep visible on mobile */
+  @media (max-width: 600px) {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
 `;
 
 const ThreadActionButton = styled.button`
@@ -485,6 +501,35 @@ const ThreadActionButton = styled.button`
   &.delete:hover {
     background: #fee;
     color: #d63384;
+  }
+`;
+
+const TrashIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 5px;
+  border: none;
+  color: #7a7a7a;
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  height: 32px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    background-color: #f2f2f2;
+    color: #000;
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: currentColor;
+    transition: fill 0.2s ease;
   }
 `;
 
@@ -1470,6 +1515,8 @@ const PortfolioChatBot = () => {
     const [currentPrompts, setCurrentPrompts] = useState(getRandomPrompts());
     
     const [sessionId, setSessionId] = useState<string>(() => getOrCreateSessionId());
+    
+    const [trashHovered, setTrashHovered] = useState(false);
 
     // Persist session id changes
     useEffect(() => {
@@ -1793,7 +1840,11 @@ const PortfolioChatBot = () => {
                             </svg>
                             
                         </IconButton>
-                        <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "2rem"}}>×</IconButton>
+                        <IconButton onClick={() => setOpen(false)} title="Close" style={{ fontSize: "1.4rem" }}>
+                            <svg width="14" height="14" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "14px", height: "14px" }}>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M31.6229 27.2386L52.8327 6.03119C54.1364 4.72767 54.1404 2.61309 52.8385 1.31134C51.5276 0.000514909 49.4232 0.0121891 48.1181 1.31714L26.9083 22.5245L5.69852 1.31714C4.39486 0.0136272 2.28003 0.00959041 0.978137 1.31134C-0.332836 2.62216 -0.321161 4.72623 0.98394 6.03119L22.1938 27.2386L0.98394 48.446C-0.319722 49.7495 -0.323759 51.8641 0.978137 53.1658C2.28911 54.4767 4.39342 54.465 5.69852 53.16L26.9083 31.9526L48.1181 53.16C49.4218 54.4636 51.5366 54.4676 52.8385 53.1658C54.1495 51.855 54.1378 49.7509 52.8327 48.446L31.6229 27.2386Z" fill="currentColor"/>
+                            </svg>
+                        </IconButton>
                     </div>
                 </TopBar>
                 <MessageArea ref={messageAreaRef}>
@@ -1916,7 +1967,7 @@ const PortfolioChatBot = () => {
                             filteredThreads
                                 .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
                                 .map((thread) => (
-                                    <ThreadItem key={thread.id}>
+                                    <ThreadItem key={thread.id} trashHovered={trashHovered}>
                                         <ThreadInfo onClick={() => openThread(thread)}>
                                             <ThreadName>{thread.name}</ThreadName>
                                             <ThreadDate>
@@ -1928,17 +1979,10 @@ const PortfolioChatBot = () => {
                                             </ThreadDate>
                                         </ThreadInfo>
                                         <ThreadActions>
-                                            <ThreadActionButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    openThread(thread);
-                                                }}
-                                                title="Open thread"
-                                            >
-                                                📂
-                                            </ThreadActionButton>
-                                            <ThreadActionButton
-                                                className="delete"
+                                            <TrashIconButton
+                                                className="trash-icon"
+                                                onMouseEnter={() => setTrashHovered(true)}
+                                                onMouseLeave={() => setTrashHovered(false)}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (window.confirm('Are you sure you want to delete this conversation?')) {
@@ -1947,8 +1991,10 @@ const PortfolioChatBot = () => {
                                                 }}
                                                 title="Delete thread"
                                             >
-                                                🗑️
-                                            </ThreadActionButton>
+                                                <svg width="20" height="20" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M56.8466 9.88636H51.9034H42.017V7.41477C42.017 3.32603 38.691 0 34.6023 0H24.7159C20.6272 0 17.3011 3.32603 17.3011 7.41477V9.88636H7.41477H2.47159C1.10666 9.88636 0 10.993 0 12.358C0 13.7229 1.10666 14.8295 2.47159 14.8295H4.94318V54.375C4.94318 62.5525 11.5952 69.2045 19.7727 69.2045H39.5455C47.7229 69.2045 54.375 62.5525 54.375 54.375V14.8295H56.8466C58.2115 14.8295 59.3182 13.7229 59.3182 12.358C59.3182 10.993 58.2115 9.88636 56.8466 9.88636ZM22.2443 7.41477C22.2443 6.05226 23.3534 4.94318 24.7159 4.94318H34.6023C35.9648 4.94318 37.0739 6.05226 37.0739 7.41477V9.88636H22.2443V7.41477ZM49.4318 54.375C49.4318 59.8263 44.9967 64.2614 39.5455 64.2614H19.7727C14.3215 64.2614 9.88636 59.8263 9.88636 54.375V14.8295H19.7727H39.5455H49.4318V54.375ZM39.5455 24.7159V54.375C39.5455 55.7399 38.4388 56.8466 37.0739 56.8466C35.7089 56.8466 34.6023 55.7399 34.6023 54.375V24.7159C34.6023 23.351 35.7089 22.2443 37.0739 22.2443C38.4388 22.2443 39.5455 23.351 39.5455 24.7159ZM24.7159 24.7159V54.375C24.7159 55.7399 23.6092 56.8466 22.2443 56.8466C20.8794 56.8466 19.7727 55.7399 19.7727 54.375V24.7159C19.7727 23.351 20.8794 22.2443 22.2443 22.2443C23.6092 22.2443 24.7159 23.351 24.7159 24.7159Z" fill="currentColor"/>
+                                                </svg>
+                                            </TrashIconButton>
                                         </ThreadActions>
                                     </ThreadItem>
                                 ))
@@ -2032,6 +2078,7 @@ const HistoryOverlay = styled.div<{ visible: boolean }>`
   opacity: ${props => (props.visible ? 1 : 0)};
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
   transition: opacity 0.3s ease;
+  border-radius: 0 0 10px 10px;
 `;
 
 const HistorySearchInput = styled.input`
