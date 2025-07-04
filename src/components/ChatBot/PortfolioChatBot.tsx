@@ -1985,9 +1985,7 @@ const PortfolioChatBot = () => {
                                                 onMouseLeave={() => setTrashHovered(false)}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm('Are you sure you want to delete this conversation?')) {
-                                                        handleDeleteThread(thread.id);
-                                                    }
+                                                    handleDeleteThread(thread.id);
                                                 }}
                                                 title="Delete thread"
                                             >
@@ -2077,8 +2075,10 @@ const HistoryOverlay = styled.div<{ visible: boolean }>`
   z-index: 99;
   opacity: ${props => (props.visible ? 1 : 0)};
   pointer-events: ${props => (props.visible ? 'auto' : 'none')};
-  transition: opacity 0.3s ease;
+  transform: ${props => (props.visible ? 'scale(1)' : 'scale(0.95)')};
+  transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 0 0 10px 10px;
+  backdrop-filter: ${props => (props.visible ? 'blur(2px)' : 'blur(0px)')};
 `;
 
 const HistorySearchInput = styled.input`
