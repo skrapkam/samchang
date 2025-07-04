@@ -1722,8 +1722,8 @@ const PortfolioChatBot = () => {
 
     // Thread Management Functions
     const startNewChat = () => {
-        // Save current thread if it has user messages
-        if (messages.length > 1 && messages.some(m => m.isUser)) {
+        // Save current thread if it has user messages and we're not deleting
+        if (messages.length > 1 && messages.some(m => m.isUser) && !isDeletingThread) {
             saveCurrentThread(messages, currentThreadId, undefined, sessionId);
         }
         
@@ -1769,16 +1769,21 @@ const PortfolioChatBot = () => {
     const handleDeleteThread = (threadId: string) => {
         setIsDeletingThread(true);
         
+        // Delete the thread from localStorage
         deleteThread(threadId);
-        setThreads(getThreads());
         
         // If deleting current thread, start a new one
         if (threadId === currentThreadId) {
+            // Clear the current thread ID first to prevent re-saving
+            setCurrentThreadId(null);
             startNewChat();
         }
         
-        // Reset the flag after state updates have been processed
-        setTimeout(() => setIsDeletingThread(false), 0);
+        // Update the threads state
+        setThreads(getThreads());
+        
+        // Reset the flag after all state updates are complete
+        setTimeout(() => setIsDeletingThread(false), 200);
     };
 
     // Reset chat and show prompts (legacy function, now calls startNewChat)
