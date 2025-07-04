@@ -1536,8 +1536,12 @@ const PortfolioChatBot = () => {
     // Save current thread when messages change
     useEffect(() => {
         if (messages.length > 1 && messages.some(m => m.isUser) && !isDeletingThread) {
+            console.log('💾 Auto-saving current thread:', currentThreadId, 'with', messages.length, 'messages');
             saveCurrentThread(messages, currentThreadId, undefined, sessionId);
             setThreads(getThreads()); // Refresh threads list
+            console.log('📋 Auto-save complete, total threads:', getThreads().length);
+        } else {
+            console.log('⏸️ Skipping auto-save - messages:', messages.length, 'hasUser:', messages.some(m => m.isUser), 'isDeletingThread:', isDeletingThread);
         }
     }, [messages, currentThreadId, sessionId, isDeletingThread]);
     
@@ -1722,15 +1726,22 @@ const PortfolioChatBot = () => {
 
     // Thread Management Functions
     const startNewChat = () => {
+        console.log('🆕 Starting new chat...');
+        console.log('🔍 Current state - messages:', messages.length, 'isDeletingThread:', isDeletingThread);
+        
         // Save current thread if it has user messages and we're not deleting
         if (messages.length > 1 && messages.some(m => m.isUser) && !isDeletingThread) {
+            console.log('💾 Saving current thread before starting new chat:', currentThreadId);
             saveCurrentThread(messages, currentThreadId, undefined, sessionId);
+        } else {
+            console.log('⏸️ Skipping save in startNewChat - messages:', messages.length, 'hasUser:', messages.some(m => m.isUser), 'isDeletingThread:', isDeletingThread);
         }
         
         // Create new thread with fresh session
         const newThreadId = generateThreadId();
         const newSessionId = generateSessionId();
         
+        console.log('🆔 New thread ID:', newThreadId);
         setCurrentThreadIdState(newThreadId);
         setCurrentPrompts(getRandomPrompts());
         setMessages([getInitialMsg()]);
@@ -1742,7 +1753,9 @@ const PortfolioChatBot = () => {
             localStorage.removeItem("chatSessionId");
         }
         
-        setThreads(getThreads()); // Refresh threads list
+        const finalThreads = getThreads();
+        console.log('📋 Final threads after new chat:', finalThreads.length);
+        setThreads(finalThreads); // Refresh threads list
     };
 
     const openThread = (thread: ChatThread) => {
@@ -1767,23 +1780,47 @@ const PortfolioChatBot = () => {
     };
 
     const handleDeleteThread = (threadId: string) => {
+        console.log('🗑️ Starting deletion of thread:', threadId);
+        console.log('📊 Current threads before deletion:', getThreads().length);
+        console.log('🎯 Current thread ID:', currentThreadId);
+        console.log('💬 Current messages length:', messages.length);
+        
+        // Set the deletion flag immediately
         setIsDeletingThread(true);
         
-        // Delete the thread from localStorage
+        // Delete the thread from localStorage first
         deleteThread(threadId);
+        console.log('✅ Thread deleted from localStorage, remaining:', getThreads().length);
+        
+        // Get the updated threads immediately after deletion
+        const updatedThreads = getThreads();
+        console.log('📋 Threads after deletion:', updatedThreads.length);
+        
+        // Update the threads state immediately
+        setThreads(updatedThreads);
         
         // If deleting current thread, start a new one
         if (threadId === currentThreadId) {
-            // Clear the current thread ID first to prevent re-saving
+            console.log('🔄 Deleting current thread, starting new chat...');
+            // Clear the current thread ID and start new chat
             setCurrentThreadId(null);
-            startNewChat();
+            
+            // Use React's batch update to ensure all state changes happen together
+            setTimeout(() => {
+                startNewChat();
+                // Reset the deletion flag after new chat is started
+                setTimeout(() => {
+                    console.log('🏁 Resetting isDeletingThread flag');
+                    setIsDeletingThread(false);
+                }, 100);
+            }, 0);
+        } else {
+            // If not current thread, just reset the flag
+            setTimeout(() => {
+                console.log('🏁 Resetting isDeletingThread flag');
+                setIsDeletingThread(false);
+            }, 100);
         }
-        
-        // Update the threads state
-        setThreads(getThreads());
-        
-        // Reset the flag after all state updates are complete
-        setTimeout(() => setIsDeletingThread(false), 200);
     };
 
     // Reset chat and show prompts (legacy function, now calls startNewChat)
@@ -1813,6 +1850,8 @@ const PortfolioChatBot = () => {
             message.text.toLowerCase().includes(query)
         );
     });
+    
+    console.log('🔍 Filtered threads:', filteredThreads.length, 'from', threads.length, 'total threads');
 
     return (
         <ChatWrapper x={30} y={30}>
