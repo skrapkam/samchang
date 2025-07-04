@@ -881,6 +881,11 @@ const useEllipsis = () => {
     return dots;
 };
 
+const useShimmerText = () => {
+    const words = ["Thinking", "Cooking", "Jamming", "Vibing", "Composing"];
+    return words[Math.floor(Math.random() * words.length)];
+};
+
 
 
 
@@ -1172,14 +1177,14 @@ const ALL_PROMPTS = [
     "Tell me about your experience and background",
     "What projects have you worked on?",
     "What music do you like?",
-    "What are your technical skills?",
-    "What's your favorite programming language?",
+    "What’s your approach to team alignment?",
+    "How do you use user research in your work",
     "Tell me about your education",
     "What are your hobbies?",
     "What's your work style?",
     "What are your career goals?",
     "What's your favorite project you've worked on?",
-    "What technologies are you most passionate about?",
+    "What does good design mean to you?",
     "What's your approach to problem-solving?",
     "What do you do for fun?"
 ];
@@ -1505,6 +1510,7 @@ const PortfolioChatBot = () => {
     const [rateLimitError, setRateLimitError] = useState<RateLimitError | null>(null);
     const [countdown, setCountdown] = useState<string>("");
     const [showShimmer, setShowShimmer] = useState(false);
+    const [currentShimmerWord, setCurrentShimmerWord] = useState("Thinking");
     const msgEndRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const dots = useEllipsis();
@@ -1678,6 +1684,7 @@ const PortfolioChatBot = () => {
         setIsStreaming(true);
         setRateLimitError(null); // Clear any previous rate limit errors
         setShowShimmer(true); // Show shimmer effect
+        setCurrentShimmerWord(useShimmerText()); // Set a random word for this response
 
         setMessages(prev => [...prev, { text: "", isUser: false, timestamp: now, streaming: true }]);
 
@@ -2055,7 +2062,7 @@ const PortfolioChatBot = () => {
                                         baseColor="#b2b8c7"
                                         duration={1200}
                                     >
-                                        Thinking...
+                                        {currentShimmerWord}...
                                     </ShimmerText>
                                 ) : (
                                     rateLimitError ? "Rate limited - try again later" : "Type a message..."
