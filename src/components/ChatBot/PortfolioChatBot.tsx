@@ -1517,6 +1517,7 @@ const PortfolioChatBot = () => {
     const [sessionId, setSessionId] = useState<string>(() => getOrCreateSessionId());
     
     const [trashHovered, setTrashHovered] = useState(false);
+    const [isDeletingThread, setIsDeletingThread] = useState(false);
 
     // Persist session id changes
     useEffect(() => {
@@ -1534,11 +1535,11 @@ const PortfolioChatBot = () => {
 
     // Save current thread when messages change
     useEffect(() => {
-        if (messages.length > 1 && messages.some(m => m.isUser)) {
+        if (messages.length > 1 && messages.some(m => m.isUser) && !isDeletingThread) {
             saveCurrentThread(messages, currentThreadId, undefined, sessionId);
             setThreads(getThreads()); // Refresh threads list
         }
-    }, [messages, currentThreadId, sessionId]);
+    }, [messages, currentThreadId, sessionId, isDeletingThread]);
     
     // Function to detect project context from current URL
     const getProjectContextFromURL = () => {
@@ -1766,6 +1767,8 @@ const PortfolioChatBot = () => {
     };
 
     const handleDeleteThread = (threadId: string) => {
+        setIsDeletingThread(true);
+        
         deleteThread(threadId);
         setThreads(getThreads());
         
@@ -1773,6 +1776,9 @@ const PortfolioChatBot = () => {
         if (threadId === currentThreadId) {
             startNewChat();
         }
+        
+        // Reset the flag after state updates have been processed
+        setTimeout(() => setIsDeletingThread(false), 0);
     };
 
     // Reset chat and show prompts (legacy function, now calls startNewChat)
