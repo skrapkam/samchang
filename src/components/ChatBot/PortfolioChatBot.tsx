@@ -1212,7 +1212,11 @@ function postProcessText(text: string) {
         .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
         // Ensure sentences end with proper punctuation
         .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
-        .replace(/\s{2,}/g, " ");             // collapse multiple spaces
+        .replace(/\s{2,}/g, " ")             // collapse multiple spaces
+        // Remove commas between consecutive citations like [1], [2] -> [1] [2]
+        .replace(/\]\s*,\s*\[/g, '] [')
+        // Remove commas before citations like text, [1] -> text [1]
+        .replace(/,\s*\[/g, ' [');
 }
 
 // Function to strip HTML tags, particularly figcaption tags
@@ -1284,11 +1288,16 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     });
     
     // Clean up any double spaces and fix spacing around punctuation
+    // But preserve consecutive citations without commas
     cleanText = cleanText.replace(/\s+/g, ' ')
       .replace(/\s+([.!?])/g, '$1')
       .replace(/([.!?])\s+\[/g, '$1 [')
       .replace(/,\s*\./g, '.')
-      .replace(/,\s*,/g, ',');
+      .replace(/,\s*,/g, ',')
+      // Remove commas between consecutive citations like [1], [2] -> [1] [2]
+      .replace(/\]\s*,\s*\[/g, '] [')
+      // Remove commas before citations like text, [1] -> text [1]
+      .replace(/,\s*\[/g, ' [');
     
     mainText = cleanText.trim();
   }
@@ -1363,6 +1372,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
                 slug: `reference-${citationCount}`,
                 section: `citation-${citationCount}`
               });
+              // Add citation without comma
               processedSentence += ` [${citationCount}]`;
             }
             return processedSentence;
@@ -1422,6 +1432,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
                   slug: `reference-${citationCount}`,
                   section: `citation-${citationCount}`
                 });
+                // Add citation without comma
                 processedPoint += ` [${citationCount}]`;
               }
               return `- ${processedPoint}`;
@@ -1433,6 +1444,12 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       }
     }
   }
+  
+  // Final cleanup: remove any remaining commas between citations
+  mainText = mainText
+    .replace(/\]\s*,\s*\[/g, '] [')  // Remove commas between consecutive citations
+    .replace(/,\s*\[/g, ' [');       // Remove commas before citations
+  
   return { mainText, sources };
 }
 
