@@ -1336,7 +1336,7 @@ function stripHtmlTags(text: string): string {
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
         .replace(/\*\*([^*]+)\*\*/g, '\n\n**$1**\n\n')  // Add paragraph breaks around bold headers
-        .replace(/([.!?])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences
+        .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
         .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
         .replace(/\[\[cite:[^\]]+\]\]\.\s*([A-Z])/g, '[[cite:$1]].\n\n$2')  // Add paragraph breaks after citations before new sentences
         // Clean up extra whitespace but preserve newlines
@@ -1859,18 +1859,8 @@ const PortfolioChatBot = () => {
                 setSessionId(newSessionId);
             });
 
-            // Debug: log raw text from backend
-            console.log("🔍 RAW TEXT FROM BACKEND:", JSON.stringify(streamedText));
-            
-            const strippedText = stripHtmlTags(streamedText);
-            console.log("🔍 AFTER stripHtmlTags:", JSON.stringify(strippedText));
-            
-            const { mainText, sources } = parseSourcesSection(strippedText);
-            console.log("🔍 AFTER parseSourcesSection:", JSON.stringify(mainText));
-            
+            const { mainText, sources } = parseSourcesSection(stripHtmlTags(streamedText));
             const finalText = postProcessText(mainText);
-            console.log("🔍 FINAL TEXT:", JSON.stringify(finalText));
-            
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: finalText, sources } : m));
         } catch (error) {
             // Handle rate limit error
