@@ -203,30 +203,48 @@ const convertUrlsToLinks = (text: string) => {
     }
     
     // Handle plain URLs that weren't already converted
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = processedText.split(urlRegex);
+    // More precise URL regex that excludes trailing punctuation
+    const urlRegex = /(https?:\/\/[^\s]+?)(?=[.,!?;:\s]|$)/g;
     
-    const result: (string | JSX.Element)[] = [];
-    parts.forEach((part, index) => {
-        if (urlRegex.test(part)) {
-            result.push(
-                <StyledLink 
-                    key={index} 
-                    href={part} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                >
-                    {part}
-                </StyledLink>
-            );
-        } else if (part) {
-            // Process text parts with newlines
-            const textElements = processTextWithNewlines(part);
-            result.push(...textElements);
+    // Find and replace URLs properly
+    const urlResult: (string | JSX.Element)[] = [];
+    let lastIndex = 0;
+    let urlMatch;
+    
+    while ((urlMatch = urlRegex.exec(processedText)) !== null) {
+        const [fullMatch, url] = urlMatch;
+        const matchIndex = urlMatch.index!;
+        
+        // Add text before the URL
+        if (matchIndex > lastIndex) {
+            const textBefore = processedText.slice(lastIndex, matchIndex);
+            const textElements = processTextWithNewlines(textBefore);
+            urlResult.push(...textElements);
         }
-    });
+        
+        // Add the URL as a link
+        urlResult.push(
+            <StyledLink 
+                key={`url-${matchIndex}`}
+                href={url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+            >
+                {url}
+            </StyledLink>
+        );
+        
+        lastIndex = matchIndex + fullMatch.length;
+    }
     
-    return result;
+    // Add remaining text after the last URL
+    if (lastIndex < processedText.length) {
+        const remainingText = processedText.slice(lastIndex);
+        const textElements = processTextWithNewlines(remainingText);
+        urlResult.push(...textElements);
+    }
+    
+    return urlResult.length > 0 ? urlResult : processTextWithNewlines(processedText);
 };
 
 // Styled link component with underline styling
