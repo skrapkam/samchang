@@ -1335,11 +1335,12 @@ function stripHtmlTags(text: string): string {
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
-        // Handle URLs followed by capital letters (missing spaces)
+        // Protect common brand names and URLs first
+        .replace(/LinkedIn/g, '___LINKEDIN___')  // Temporarily protect LinkedIn
         .replace(/(https?:\/\/[^\s]+)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after URLs before capital letters
         .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Handle domain endings followed by capital letters
-        // Be more careful with adding spaces - avoid URLs and email addresses
-        .replace(/([a-z])([A-Z][a-z])(?![a-zA-Z]*@)/g, '$1 $2')  // Add spaces between lowercase and capitalized words (avoid emails)
+        // Restore protected terms
+        .replace(/___LINKEDIN___/g, 'LinkedIn')  // Restore LinkedIn
         // Handle numbered sections with bold headers
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*-/g, '\n\n$1. **$2**\n\n-')  // Add breaks around numbered headers and before bullets
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
@@ -1864,12 +1865,6 @@ const PortfolioChatBot = () => {
                 const strippedText = stripHtmlTags(streamedText);
                 const { mainText, sources } = parseSourcesSection(strippedText);
                 const formattedText = postProcessText(mainText);
-                
-                // Debug: log if LinkedIn text is being processed
-                if (streamedText.includes('LinkedIn') || streamedText.includes('linkedin')) {
-                    console.log("🔍 LINKEDIN DEBUG - Raw:", streamedText.substring(streamedText.indexOf('LinkedIn') - 20, streamedText.indexOf('LinkedIn') + 50));
-                    console.log("🔍 LINKEDIN DEBUG - Formatted:", formattedText.substring(formattedText.indexOf('Linked') - 20, formattedText.indexOf('Linked') + 50));
-                }
                 
                 setMessages(prev => {
                     const newMsgs = [...prev];
