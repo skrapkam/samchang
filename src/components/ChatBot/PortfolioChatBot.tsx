@@ -1334,10 +1334,16 @@ function stripHtmlTags(text: string): string {
         .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
+        // Convert AI formatting patterns to paragraph breaks
+        .replace(/\*\*([^*]+)\*\*/g, '\n\n**$1**\n\n')  // Add paragraph breaks around bold headers
+        .replace(/- ([^-\n]+)(?=\n- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
+        .replace(/- ([^-\n]+)(?=\n[A-Z])/g, '- $1\n\n')  // Add paragraph breaks after bullet points before new sections
+        .replace(/\[\[cite:[^\]]+\]\]\.\s*([A-Z])/g, '[[cite:$1]].\n\n$2')  // Add paragraph breaks after citations before new sentences
         // Clean up extra whitespace but preserve newlines
         .replace(/[ \t]+/g, ' ')  // Replace tabs and multiple spaces with single space
         .replace(/\n[ \t]+/g, '\n')  // Remove spaces/tabs at start of lines
         .replace(/[ \t]+\n/g, '\n')  // Remove spaces/tabs at end of lines
+        .replace(/\n{3,}/g, '\n\n')  // Replace multiple newlines with double newlines
         .trim();
 }
 
