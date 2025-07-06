@@ -1389,9 +1389,11 @@ function stripHtmlTags(text: string): string {
         .replace(/-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n Text:" to "- **Text:** "
         .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** " (fallback)
         .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** " (fallback)
+        .replace(/\*\*([^*]+)\*\*\.?\*\*([^*]+)\*\*/g, '**$1**.\n\n**$2**')  // Add paragraph break between consecutive bold sections
         .replace(/\*\*([^*]+)\*\*([A-Z](?![a-z]*:))/g, '**$1**\n\n$2')  // Add paragraph break after bold headers when they run into capitalized text (but not bullet point headers with colons)
         .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is
         .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
+        .replace(/- ([A-Z][^.\n]*)\.\s*\n+\s*([A-Z][^-]+?)(?=\n-|\n\n|\.$|$)/g, '- $1 $2')  // Fix bullet points split by period and newlines
         .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
         .replace(/- ([^-\n]+?)([A-Z][a-z])/g, '- $1.\n\n$2')  // Add period and paragraph break when bullet point runs into next sentence
         .replace(/([a-z])(We|Overall|The|This|That|It|They|Along|During|After|Before|Since|While|When|Where|How|Why|What|Which|Who)\b/g, '$1. $2')  // Add period when word runs into common sentence starters
