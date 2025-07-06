@@ -735,6 +735,56 @@ const Citation = styled.a<{ title?: string }>`
   }
 `;
 
+// Component to handle paragraph breaks in citation content
+const MessageContent: React.FC<{ children: (string | JSX.Element)[] | string }> = ({ children }) => {
+  if (typeof children === 'string') {
+    return <>{children}</>;
+  }
+  
+  if (Array.isArray(children)) {
+    return (
+      <>
+        {children.map((child, index) => {
+          if (typeof child === 'string') {
+            // Process string parts to convert newlines to <br> elements
+            if (child.includes('\n')) {
+              const paragraphs = child.split('\n\n');
+              return (
+                <React.Fragment key={index}>
+                  {paragraphs.map((paragraph, pIndex) => (
+                    <React.Fragment key={`${index}-${pIndex}`}>
+                      {pIndex > 0 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                      {paragraph.includes('\n') ? (
+                        paragraph.split('\n').map((line, lIndex) => (
+                          <React.Fragment key={`${index}-${pIndex}-${lIndex}`}>
+                            {lIndex > 0 && <br />}
+                            {line}
+                          </React.Fragment>
+                        ))
+                      ) : (
+                        paragraph
+                      )}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              );
+            }
+            return <React.Fragment key={index}>{child}</React.Fragment>;
+          }
+          return <React.Fragment key={index}>{child}</React.Fragment>;
+        })}
+      </>
+    );
+  }
+  
+  return <>{children}</>;
+};
+
 // Container for rendered source links after each assistant message
 const SourcesContainer = styled.div`
   width: 100%;
@@ -1529,40 +1579,6 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
 function insertCitationSuperscripts(text: string, sources: Source[]): (string | JSX.Element)[] {
   if (!sources?.length) return [text];
 
-  // Helper function to split text by newlines and create proper React elements
-  const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
-    if (!textPart.includes('\n')) return [textPart];
-    
-    // First handle paragraph breaks (double newlines)
-    const paragraphs = textPart.split('\n\n');
-    const result: (string | JSX.Element)[] = [];
-    
-    paragraphs.forEach((paragraph, paragraphIndex) => {
-      if (paragraphIndex > 0) {
-        // Add paragraph break (double <br>)
-        result.push(<br key={`paragraph-break-1-${Math.random()}`} />);
-        result.push(<br key={`paragraph-break-2-${Math.random()}`} />);
-      }
-      
-      // Then handle line breaks within paragraphs
-      if (paragraph.includes('\n')) {
-        const lines = paragraph.split('\n');
-        lines.forEach((line, lineIndex) => {
-          if (lineIndex > 0) {
-            result.push(<br key={`line-break-${Math.random()}`} />);
-          }
-          if (line) {
-            result.push(line);
-          }
-        });
-      } else if (paragraph) {
-        result.push(paragraph);
-      }
-    });
-    
-    return result;
-  };
-
   const parts: (string | JSX.Element)[] = [];
   const regex = /\[(\d+)\]/g;
   let lastIndex = 0;
@@ -1576,15 +1592,12 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
       const lastNewlineIndex = textBeforeCitation.lastIndexOf('\n');
       const lastSpaceIndex = textBeforeCitation.lastIndexOf(' ');
       
-      let processedTextBefore = textBeforeCitation;
       if (lastSpaceIndex !== -1 && lastSpaceIndex > lastNewlineIndex) {
         // Replace the last space with a non-breaking space (but only if it's after any newlines)
-        processedTextBefore = textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1);
+        parts.push(textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1));
+      } else {
+        parts.push(textBeforeCitation);
       }
-      
-      // Process text with newlines
-      const textElements = processTextWithNewlines(processedTextBefore);
-      parts.push(...textElements);
     }
 
     // Add the citation
@@ -1608,9 +1621,7 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
   // Add remaining text
   if (lastIndex < text.length) {
-    const remainingText = text.slice(lastIndex);
-    const textElements = processTextWithNewlines(remainingText);
-    parts.push(...textElements);
+    parts.push(text.slice(lastIndex));
   }
 
   return parts;
@@ -2031,21 +2042,25 @@ const PortfolioChatBot = () => {
                                 <Ellipsis>{dots}</Ellipsis>
                             ) : m.streaming && m.text ? (
                                 <Message isUser={m.isUser}>
-                                    {m.sources && m.sources.length > 0
-                                        ? insertCitationSuperscripts(m.text, m.sources)
-                                        : (m.text.includes('http') || m.text.includes('['))
-                                            ? convertUrlsToLinks(m.text)
-                                            : m.text}
-                                    <span>{dots}</span>
-                                </Message>
-                            ) : (
-                                <Fragment>
-                                    <Message isUser={m.isUser}>
+                                    <MessageContent>
                                         {m.sources && m.sources.length > 0
                                             ? insertCitationSuperscripts(m.text, m.sources)
                                             : (m.text.includes('http') || m.text.includes('['))
                                                 ? convertUrlsToLinks(m.text)
                                                 : m.text}
+                                    </MessageContent>
+                                    <span>{dots}</span>
+                                </Message>
+                            ) : (
+                                <Fragment>
+                                    <Message isUser={m.isUser}>
+                                        <MessageContent>
+                                            {m.sources && m.sources.length > 0
+                                                ? insertCitationSuperscripts(m.text, m.sources)
+                                                : (m.text.includes('http') || m.text.includes('['))
+                                                    ? convertUrlsToLinks(m.text)
+                                                    : m.text}
+                                        </MessageContent>
                                     </Message>
                                     {m.sources && m.sources.length > 0 && (
                                         <SourcesContainer>
