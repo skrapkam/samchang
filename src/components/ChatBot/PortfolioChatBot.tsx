@@ -116,6 +116,9 @@ const convertUrlsToLinks = (text: string) => {
         return text;
     }
     
+    // Preprocess: add spaces between URLs and capital letters
+    text = text.replace(/(https?:\/\/[^\s]+)([A-Z])/g, '$1 $2');
+    
     // Helper function to process text with newlines
     const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
         if (!textPart.includes('\n')) return [textPart];
@@ -203,8 +206,8 @@ const convertUrlsToLinks = (text: string) => {
     }
     
     // Handle plain URLs that weren't already converted
-    // More precise URL regex that stops at capital letters (new words)
-    const urlRegex = /(https?:\/\/[^\s]*?)(?=[A-Z][a-z]|$|\s)/g;
+    // Basic URL regex since preprocessing already added spaces
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
     
     // Find and replace URLs properly
     const urlResult: (string | JSX.Element)[] = [];
