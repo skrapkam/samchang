@@ -1854,16 +1854,22 @@ const PortfolioChatBot = () => {
             let streamedText = "";
             await fetchStreamedResponse(finalApiText, sessionId, chunk => {
                 streamedText += chunk;
+                
+                // Apply real-time formatting during streaming
+                const { mainText, sources } = parseSourcesSection(stripHtmlTags(streamedText));
+                const formattedText = postProcessText(mainText);
+                
                 setMessages(prev => {
                     const newMsgs = [...prev];
                     const i = newMsgs.findIndex(m => m.streaming);
-                    if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: streamedText };
+                    if (i !== -1) newMsgs[i] = { ...newMsgs[i], text: formattedText, sources };
                     return newMsgs;
                 });
             }, (newSessionId) => {
                 setSessionId(newSessionId);
             });
 
+            // Final formatting pass after streaming completes
             const { mainText, sources } = parseSourcesSection(stripHtmlTags(streamedText));
             const finalText = postProcessText(mainText);
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: finalText, sources } : m));
