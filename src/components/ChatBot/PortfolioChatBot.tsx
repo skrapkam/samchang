@@ -118,7 +118,7 @@ const convertUrlsToLinks = (text: string) => {
     
     // Preprocess: fix common URL concatenation issues
     text = text.replace(/(https?:\/\/[^\s]+?)https?:\/\//g, '$1 https://') // Separate concatenated URLs
-         .replace(/(https?:\/\/[^\s]+?)([A-Z][a-z]{2,})/g, '$1 $2') // Add space before capital words
+         .replace(/(https?:\/\/[^\s]+?)([A-Z][a-z]{1,})/g, '$1 $2') // Add space before capital words (1+ lowercase letters)
          .replace(/(https?:\/\/[^\s]+?)([.!?])/g, '$1$2') // Keep punctuation attached
     
     // Helper function to process text with newlines
