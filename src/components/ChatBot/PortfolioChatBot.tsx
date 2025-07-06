@@ -1365,18 +1365,18 @@ function stripHtmlTags(text: string): string {
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
-        // Protect URLs and brand names first
+        // Protect brand names only (temporarily disabled URL protection to debug)
         .replace(/LinkedIn/g, '___LINKEDIN___')  // Temporarily protect LinkedIn
-        .replace(/(https?:\/\/[^\s]+)/g, (match) => {
-            const placeholder = `___URL_${counter++}___`;
-            protectedItems[placeholder] = match;
-            return placeholder;
-        })  // Protect URLs with simple numbering
-        .replace(/([\w\.-]+@[\w\.-]+\.\w+)/g, (match) => {
-            const placeholder = `___EMAIL_${counter++}___`;
-            protectedItems[placeholder] = match;
-            return placeholder;
-        })  // Protect emails with simple numbering
+        // .replace(/(https?:\/\/[^\s]+)/g, (match) => {
+        //     const placeholder = `___URL_${counter++}___`;
+        //     protectedItems[placeholder] = match;
+        //     return placeholder;
+        // })  // Protect URLs with simple numbering
+        // .replace(/([\w\.-]+@[\w\.-]+\.\w+)/g, (match) => {
+        //     const placeholder = `___EMAIL_${counter++}___`;
+        //     protectedItems[placeholder] = match;
+        //     return placeholder;
+        // })  // Protect emails with simple numbering
         // Handle domain endings followed by capital letters (only for non-protected URLs)
         .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after domain endings before capital letters
         // Handle numbered sections with bold headers
@@ -1395,8 +1395,8 @@ function stripHtmlTags(text: string): string {
         .replace(/\n{3,}/g, '\n\n')  // Replace multiple newlines with double newlines
         // Restore protected terms
         .replace(/___LINKEDIN___/g, 'LinkedIn')  // Restore LinkedIn
-        .replace(/___URL_\d+___/g, (match) => protectedItems[match] || match)  // Restore URLs
-        .replace(/___EMAIL_\d+___/g, (match) => protectedItems[match] || match)  // Restore emails
+        // .replace(/___URL_\d+___/g, (match) => protectedItems[match] || match)  // Restore URLs
+        // .replace(/___EMAIL_\d+___/g, (match) => protectedItems[match] || match)  // Restore emails
         .trim();
 }
 
@@ -1904,28 +1904,9 @@ const PortfolioChatBot = () => {
                 streamedText += chunk;
                 
                 // Apply real-time formatting during streaming
-                // Debug: Check URL processing
-                if (streamedText.includes('http')) {
-                    console.log("🔍 URL DEBUG - Raw streamedText:", streamedText.slice(streamedText.indexOf('http') - 10, streamedText.indexOf('http') + 50));
-                }
-                
                 const strippedText = stripHtmlTags(streamedText);
-                
-                if (strippedText.includes('http')) {
-                    console.log("🔍 URL DEBUG - After stripHtmlTags:", strippedText.slice(strippedText.indexOf('http') - 10, strippedText.indexOf('http') + 50));
-                }
-                
                 const { mainText, sources } = parseSourcesSection(strippedText);
-                
-                if (mainText.includes('http')) {
-                    console.log("🔍 URL DEBUG - After parseSourcesSection:", mainText.slice(mainText.indexOf('http') - 10, mainText.indexOf('http') + 50));
-                }
-                
                 const formattedText = postProcessText(mainText);
-                
-                if (formattedText.includes('http')) {
-                    console.log("🔍 URL DEBUG - After postProcessText:", formattedText.slice(formattedText.indexOf('http') - 10, formattedText.indexOf('http') + 50));
-                }
                 
                 setMessages(prev => {
                     const newMsgs = [...prev];
