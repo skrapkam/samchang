@@ -1316,91 +1316,38 @@ const getRandomPrompts = () => {
     return shuffled.slice(0, 3);
 };
 
-// Add after helper functions
+// Simplified post-processing since backend now sends clean formatting
 function postProcessText(text: string) {
-    // Split by paragraph breaks to preserve them
-    const paragraphs = text.split(/\n\n+/);
-    
-    // Process each paragraph individually
-    const processedParagraphs = paragraphs.map(paragraph => {
-        return paragraph
-            .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
-            .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-            // Don't add spaces between letters and numbers if they're part of citations [1], [2], etc.
-            .replace(/([a-zA-Z])(\d)(?!\])/g, "$1 $2")   // ensure space between letter and number, but not before citation brackets
-            .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
-            // Fix email addresses with missing @ symbol or double @ symbols
-            .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
-            .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-            .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-            // Fix social media handles with missing @ symbol
-            .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
-            // Fix LinkedIn URLs and names
-            .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
-            // Ensure sentences end with proper punctuation
-            .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
-            // Only collapse multiple spaces, not newlines (use [ \t] instead of \s)
-            .replace(/[ \t]{2,}/g, " ")          // collapse multiple spaces and tabs within paragraph
-            // Remove commas between consecutive citations like [1], [2] -> [1] [2]
-            .replace(/\]\s*,\s*\[/g, '] [')
-            // Remove commas before citations like text, [1] -> text [1]
-            .replace(/,\s*\[/g, ' [')
-            .trim();
-    });
-    
-    // Join paragraphs back together with double newlines
-    return processedParagraphs
-        .filter(paragraph => paragraph.length > 0)
-        .join('\n\n');
+    return text
+        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
+        .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
+        // Fix email addresses if needed
+        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+        // Fix social media handles with missing @ symbol
+        .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
+        // Remove commas between consecutive citations like [1], [2] -> [1] [2]
+        .replace(/\]\s*,\s*\[/g, '] [')
+        // Remove commas before citations like text, [1] -> text [1]
+        .replace(/,\s*\[/g, ' [')
+        // Clean up multiple spaces
+        .replace(/[ \t]{2,}/g, " ")
+        .trim();
 }
 
 // Function to strip HTML tags, particularly figcaption tags
 function stripHtmlTags(text: string): string {
-    const protectedItems: { [key: string]: string } = {};
-    let counter = 0;
-    
     return text
         // Remove figcaption tags and their content
         .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
-        // Convert AI formatting patterns to paragraph breaks
-        // Protect brand names only (temporarily disabled URL protection to debug)
+        // Simple formatting - backend now sends clean formatting
+        // Protect brand names
         .replace(/LinkedIn/g, '___LINKEDIN___')  // Temporarily protect LinkedIn
-        // .replace(/(https?:\/\/[^\s]+)/g, (match) => {
-        //     const placeholder = `___URL_${counter++}___`;
-        //     protectedItems[placeholder] = match;
-        //     return placeholder;
-        // })  // Protect URLs with simple numbering
-        // .replace(/([\w\.-]+@[\w\.-]+\.\w+)/g, (match) => {
-        //     const placeholder = `___EMAIL_${counter++}___`;
-        //     protectedItems[placeholder] = match;
-        //     return placeholder;
-        // })  // Protect emails with simple numbering
-        // Handle domain endings followed by capital letters (only for non-protected URLs)
+        // Handle domain endings followed by capital letters (for URL spacing)
         .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after domain endings before capital letters
-        // Fix the specific case of bold header followed immediately by broken bullet point
-        .replace(/\*\*([^*]+)\*\*-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '**$1**\n\n- **$2:** ')  // Fix "**Header**- ** \n Text:" to "**Header**\n\n- **Text:** "
-        // Handle numbered sections with bold headers
-        .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*-/g, '\n\n$1. **$2**\n\n-')  // Add breaks around numbered headers and before bullets
-        .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
-        // Handle standalone dashes followed by bold headers
-        .replace(/-\s*\n+\s*\*\*([^*]+)\*\*\s*\n+/g, '\n\n- **$1**: ')  // Convert "- \n **Header** \n" to "- **Header**: "
-        // Fix malformed bullet points with broken bold text - handle colons
-        .replace(/-\s*\*\*([^*\n]*)\.\s*\n+\s*([^:]+):\s*/g, '- **$1 $2:** ')  // Fix "- **ID. \n Verifications:" to "- **ID Verifications:** "
-        .replace(/-\s*\*\*\s*\n\s*\n\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n \n Text:" to "- **Text:** " (double newlines)
-        .replace(/-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n Text:" to "- **Text:** "
-        .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** " (fallback)
-        .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** " (fallback)
-        .replace(/\*\*([^*]+)\*\*\.?\*\*([^*]+)\*\*/g, '**$1**.\n\n**$2**')  // Add paragraph break between consecutive bold sections
-        .replace(/\*\*([^*]+)\*\*([A-Z](?![a-z]*:))/g, '**$1**\n\n$2')  // Add paragraph break after bold headers when they run into capitalized text (but not bullet point headers with colons)
-        .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is
-        .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
-        .replace(/- ([A-Z][^.\n]*)\.\s*\n+\s*([A-Z][^-]+?)(?=\n-|\n\n|\.$|$)/g, '- $1 $2')  // Fix bullet points split by period and newlines
-        .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
-        .replace(/- ([^-\n]+?)([A-Z][a-z])/g, '- $1.\n\n$2')  // Add period and paragraph break when bullet point runs into next sentence
-        .replace(/([a-z])(We|Overall|The|This|That|It|They|Along|During|After|Before|Since|While|When|Where|How|Why|What|Which|Who)\b/g, '$1. $2')  // Add period when word runs into common sentence starters
-        .replace(/(\[\[cite:[^\]]+\]\]\.\s*)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after citations before new sentences
+        // Add paragraph breaks after citations before new sentences
+        .replace(/(\[\[cite:[^\]]+\]\]\.\s*)([A-Z])/g, '$1\n\n$2')
         // Clean up extra whitespace but preserve newlines
         .replace(/[ \t]+/g, ' ')  // Replace tabs and multiple spaces with single space
         .replace(/\n[ \t]+/g, '\n')  // Remove spaces/tabs at start of lines
@@ -1408,8 +1355,6 @@ function stripHtmlTags(text: string): string {
         .replace(/\n{3,}/g, '\n\n')  // Replace multiple newlines with double newlines
         // Restore protected terms
         .replace(/___LINKEDIN___/g, 'LinkedIn')  // Restore LinkedIn
-        // .replace(/___URL_\d+___/g, (match) => protectedItems[match] || match)  // Restore URLs
-        // .replace(/___EMAIL_\d+___/g, (match) => protectedItems[match] || match)  // Restore emails
         .trim();
 }
 
@@ -1917,28 +1862,9 @@ const PortfolioChatBot = () => {
                 streamedText += chunk;
                 
                 // Apply real-time formatting during streaming
-                // Debug: Check for ** characters through processing pipeline
-                if (streamedText.includes('**')) {
-                    console.log("🔍 ** DEBUG - Raw streamedText:", JSON.stringify(streamedText));
-                }
-                
                 const strippedText = stripHtmlTags(streamedText);
-                
-                if (strippedText.includes('**')) {
-                    console.log("🔍 ** DEBUG - After stripHtmlTags:", JSON.stringify(strippedText));
-                }
-                
                 const { mainText, sources } = parseSourcesSection(strippedText);
-                
-                if (mainText.includes('**')) {
-                    console.log("🔍 ** DEBUG - After parseSourcesSection:", JSON.stringify(mainText));
-                }
-                
                 const formattedText = postProcessText(mainText);
-                
-                if (formattedText.includes('**')) {
-                    console.log("🔍 ** DEBUG - After postProcessText:", JSON.stringify(formattedText));
-                }
                 
                 setMessages(prev => {
                     const newMsgs = [...prev];
