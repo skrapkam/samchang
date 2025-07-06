@@ -203,8 +203,8 @@ const convertUrlsToLinks = (text: string) => {
     }
     
     // Handle plain URLs that weren't already converted
-    // Simple URL regex, we'll clean up trailing punctuation manually
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    // More precise URL regex that stops at capital letters (new words)
+    const urlRegex = /(https?:\/\/[^\s]*?)(?=[A-Z][a-z]|$|\s)/g;
     
     // Find and replace URLs properly
     const urlResult: (string | JSX.Element)[] = [];
