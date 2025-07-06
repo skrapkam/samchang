@@ -1379,6 +1379,8 @@ function stripHtmlTags(text: string): string {
         // })  // Protect emails with simple numbering
         // Handle domain endings followed by capital letters (only for non-protected URLs)
         .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after domain endings before capital letters
+        // Fix the specific case of bold header followed immediately by broken bullet point
+        .replace(/\*\*([^*]+)\*\*-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '**$1**\n\n- **$2:** ')  // Fix "**Header**- ** \n Text:" to "**Header**\n\n- **Text:** "
         // Handle numbered sections with bold headers
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*-/g, '\n\n$1. **$2**\n\n-')  // Add breaks around numbered headers and before bullets
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
@@ -1386,6 +1388,7 @@ function stripHtmlTags(text: string): string {
         .replace(/-\s*\n+\s*\*\*([^*]+)\*\*\s*\n+/g, '\n\n- **$1**: ')  // Convert "- \n **Header** \n" to "- **Header**: "
         // Fix malformed bullet points with broken bold text - handle colons
         .replace(/-\s*\*\*([^*\n]*)\.\s*\n+\s*([^:]+):\s*/g, '- **$1 $2:** ')  // Fix "- **ID. \n Verifications:" to "- **ID Verifications:** "
+        .replace(/-\s*\*\*\s*\n\s*\n\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n \n Text:" to "- **Text:** " (double newlines)
         .replace(/-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n Text:" to "- **Text:** "
         .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** " (fallback)
         .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** " (fallback)
