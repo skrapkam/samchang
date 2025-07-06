@@ -116,6 +116,40 @@ const convertUrlsToLinks = (text: string) => {
         return text;
     }
     
+    // Helper function to process text with newlines
+    const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
+        if (!textPart.includes('\n')) return [textPart];
+        
+        // First handle paragraph breaks (double newlines)
+        const paragraphs = textPart.split('\n\n');
+        const result: (string | JSX.Element)[] = [];
+        
+        paragraphs.forEach((paragraph, paragraphIndex) => {
+            if (paragraphIndex > 0) {
+                // Add paragraph break (double <br>)
+                result.push(<br key={`paragraph-break-1-${Math.random()}`} />);
+                result.push(<br key={`paragraph-break-2-${Math.random()}`} />);
+            }
+            
+            // Then handle line breaks within paragraphs
+            if (paragraph.includes('\n')) {
+                const lines = paragraph.split('\n');
+                lines.forEach((line, lineIndex) => {
+                    if (lineIndex > 0) {
+                        result.push(<br key={`line-break-${Math.random()}`} />);
+                    }
+                    if (line) {
+                        result.push(line);
+                    }
+                });
+            } else if (paragraph) {
+                result.push(paragraph);
+            }
+        });
+        
+        return result;
+    };
+    
     // First, handle Markdown-style links [text](url)
     const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
     let processedText = text;
@@ -138,7 +172,9 @@ const convertUrlsToLinks = (text: string) => {
             
             // Add text before the markdown link
             if (matchIndex > lastIndex) {
-                parts.push(processedText.slice(lastIndex, matchIndex));
+                const textBefore = processedText.slice(lastIndex, matchIndex);
+                const textElements = processTextWithNewlines(textBefore);
+                parts.push(...textElements);
             }
             
             // Add the markdown link as a React element
@@ -158,7 +194,9 @@ const convertUrlsToLinks = (text: string) => {
         
         // Add remaining text after the last markdown link
         if (lastIndex < processedText.length) {
-            parts.push(processedText.slice(lastIndex));
+            const remainingText = processedText.slice(lastIndex);
+            const textElements = processTextWithNewlines(remainingText);
+            parts.push(...textElements);
         }
         
         return parts;
@@ -168,9 +206,10 @@ const convertUrlsToLinks = (text: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const parts = processedText.split(urlRegex);
     
-    return parts.map((part, index) => {
+    const result: (string | JSX.Element)[] = [];
+    parts.forEach((part, index) => {
         if (urlRegex.test(part)) {
-            return (
+            result.push(
                 <StyledLink 
                     key={index} 
                     href={part} 
@@ -180,10 +219,14 @@ const convertUrlsToLinks = (text: string) => {
                     {part}
                 </StyledLink>
             );
+        } else if (part) {
+            // Process text parts with newlines
+            const textElements = processTextWithNewlines(part);
+            result.push(...textElements);
         }
-        // Return the text part as-is to preserve original spacing
-        return part;
     });
+    
+    return result;
 };
 
 // Styled link component with underline styling
@@ -1486,6 +1529,40 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
 function insertCitationSuperscripts(text: string, sources: Source[]): (string | JSX.Element)[] {
   if (!sources?.length) return [text];
 
+  // Helper function to split text by newlines and create proper React elements
+  const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
+    if (!textPart.includes('\n')) return [textPart];
+    
+    // First handle paragraph breaks (double newlines)
+    const paragraphs = textPart.split('\n\n');
+    const result: (string | JSX.Element)[] = [];
+    
+    paragraphs.forEach((paragraph, paragraphIndex) => {
+      if (paragraphIndex > 0) {
+        // Add paragraph break (double <br>)
+        result.push(<br key={`paragraph-break-1-${Math.random()}`} />);
+        result.push(<br key={`paragraph-break-2-${Math.random()}`} />);
+      }
+      
+      // Then handle line breaks within paragraphs
+      if (paragraph.includes('\n')) {
+        const lines = paragraph.split('\n');
+        lines.forEach((line, lineIndex) => {
+          if (lineIndex > 0) {
+            result.push(<br key={`line-break-${Math.random()}`} />);
+          }
+          if (line) {
+            result.push(line);
+          }
+        });
+      } else if (paragraph) {
+        result.push(paragraph);
+      }
+    });
+    
+    return result;
+  };
+
   const parts: (string | JSX.Element)[] = [];
   const regex = /\[(\d+)\]/g;
   let lastIndex = 0;
@@ -1499,12 +1576,15 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
       const lastNewlineIndex = textBeforeCitation.lastIndexOf('\n');
       const lastSpaceIndex = textBeforeCitation.lastIndexOf(' ');
       
+      let processedTextBefore = textBeforeCitation;
       if (lastSpaceIndex !== -1 && lastSpaceIndex > lastNewlineIndex) {
         // Replace the last space with a non-breaking space (but only if it's after any newlines)
-        parts.push(textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1));
-      } else {
-        parts.push(textBeforeCitation);
+        processedTextBefore = textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1);
       }
+      
+      // Process text with newlines
+      const textElements = processTextWithNewlines(processedTextBefore);
+      parts.push(...textElements);
     }
 
     // Add the citation
@@ -1528,7 +1608,9 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
 
   // Add remaining text
   if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
+    const remainingText = text.slice(lastIndex);
+    const textElements = processTextWithNewlines(remainingText);
+    parts.push(...textElements);
   }
 
   return parts;
