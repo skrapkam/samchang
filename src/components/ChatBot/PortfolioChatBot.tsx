@@ -1853,18 +1853,8 @@ const PortfolioChatBot = () => {
                 setSessionId(newSessionId);
             });
 
-            // Debug: log raw text from backend
-            console.log("🔍 RAW TEXT FROM BACKEND:", JSON.stringify(streamedText));
-            
-            const strippedText = stripHtmlTags(streamedText);
-            console.log("🔍 AFTER stripHtmlTags:", JSON.stringify(strippedText));
-            
-            const { mainText, sources } = parseSourcesSection(strippedText);
-            console.log("🔍 AFTER parseSourcesSection:", JSON.stringify(mainText));
-            
+            const { mainText, sources } = parseSourcesSection(stripHtmlTags(streamedText));
             const finalText = postProcessText(mainText);
-            console.log("🔍 FINAL TEXT:", JSON.stringify(finalText));
-            
             setMessages(prev => prev.map(m => m.streaming ? { ...m, streaming: false, text: finalText, sources } : m));
         } catch (error) {
             // Handle rate limit error
