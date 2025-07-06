@@ -1312,7 +1312,8 @@ function postProcessText(text: string) {
             .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
             // Ensure sentences end with proper punctuation
             .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
-            .replace(/\s{2,}/g, " ")             // collapse multiple spaces within paragraph
+            // Only collapse multiple spaces, not newlines (use [ \t] instead of \s)
+            .replace(/[ \t]{2,}/g, " ")          // collapse multiple spaces and tabs within paragraph
             // Remove commas between consecutive citations like [1], [2] -> [1] [2]
             .replace(/\]\s*,\s*\[/g, '] [')
             // Remove commas before citations like text, [1] -> text [1]
@@ -1333,11 +1334,11 @@ function stripHtmlTags(text: string): string {
         .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
-        // Preserve paragraph breaks (double newlines) while cleaning up other whitespace
-        .split(/\n\n+/)
-        .map(paragraph => paragraph.replace(/\s+/g, ' ').trim())
-        .filter(paragraph => paragraph.length > 0)
-        .join('\n\n');
+        // Clean up extra whitespace but preserve newlines
+        .replace(/[ \t]+/g, ' ')  // Replace tabs and multiple spaces with single space
+        .replace(/\n[ \t]+/g, '\n')  // Remove spaces/tabs at start of lines
+        .replace(/[ \t]+\n/g, '\n')  // Remove spaces/tabs at end of lines
+        .trim();
 }
 
 // Add type for parsed citation sources
@@ -1402,7 +1403,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       // Preserve paragraph breaks while cleaning up other whitespace
       .split(/\n\n+/)
       .map(paragraph => paragraph
-        .replace(/\s+/g, ' ')
+        .replace(/[ \t]+/g, ' ')  // Only collapse spaces/tabs, not newlines
         .replace(/\s+([.!?])/g, '$1')
         .replace(/([.!?])\s+\[/g, '$1 [')
         .replace(/,\s*\./g, '.')
@@ -1468,7 +1469,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
           let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
           // Normalize the text while preserving paragraph breaks
           newText = newText.split(/\n\n+/)
-            .map(p => p.replace(/\s+/g, ' ').trim())
+            .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
             .filter(p => p.length > 0)
             .join('\n\n');
           // Split into sentences and distribute citations
@@ -1514,7 +1515,7 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
           let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
           // Normalize the text while preserving paragraph breaks
           newText = newText.split(/\n\n+/)
-            .map(p => p.replace(/\s+/g, ' ').trim())
+            .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
             .filter(p => p.length > 0)
             .join('\n\n');
           // Split text into sections (e.g., "Impact:", "Constraints:")
