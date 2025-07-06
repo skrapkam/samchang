@@ -116,8 +116,8 @@ const convertUrlsToLinks = (text: string) => {
         return text;
     }
     
-    // Preprocess: add spaces between URLs and capital letters
-    text = text.replace(/(https?:\/\/[^\s]+)([A-Z])/g, '$1 $2');
+    // Preprocess: temporarily disabled to debug LinkedIn issue
+    // text = text.replace(/(https?:\/\/[^\s\/]+\/[^\s]*?)([A-Z][a-z]+:)/g, '$1 $2')  // Handle "URLLabel:" patterns
     
     // Helper function to process text with newlines
     const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
@@ -207,7 +207,7 @@ const convertUrlsToLinks = (text: string) => {
     
     // Handle plain URLs that weren't already converted
     // Basic URL regex since preprocessing already added spaces
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
     
     // Find and replace URLs properly
     const urlResult: (string | JSX.Element)[] = [];
