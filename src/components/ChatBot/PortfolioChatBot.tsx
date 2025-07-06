@@ -116,8 +116,10 @@ const convertUrlsToLinks = (text: string) => {
         return text;
     }
     
-    // Preprocess: temporarily disabled to debug LinkedIn issue
-    // text = text.replace(/(https?:\/\/[^\s\/]+\/[^\s]*?)([A-Z][a-z]+:)/g, '$1 $2')  // Handle "URLLabel:" patterns
+    // Preprocess: fix common URL concatenation issues
+    text = text.replace(/(https?:\/\/[^\s]+?)https?:\/\//g, '$1 https://') // Separate concatenated URLs
+         .replace(/(https?:\/\/[^\s]+?)([A-Z][a-z]{2,})/g, '$1 $2') // Add space before capital words
+         .replace(/(https?:\/\/[^\s]+?)([.!?])/g, '$1$2') // Keep punctuation attached
     
     // Helper function to process text with newlines
     const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
