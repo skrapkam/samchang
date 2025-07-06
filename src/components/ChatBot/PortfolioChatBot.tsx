@@ -1387,6 +1387,7 @@ function stripHtmlTags(text: string): string {
         .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is
         .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
         .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
+        .replace(/- ([^-\n]+?)([A-Z][a-z])/g, '- $1.\n\n$2')  // Add period and paragraph break when bullet point runs into next sentence
         .replace(/(\[\[cite:[^\]]+\]\]\.\s*)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after citations before new sentences
         // Clean up extra whitespace but preserve newlines
         .replace(/[ \t]+/g, ' ')  // Replace tabs and multiple spaces with single space
