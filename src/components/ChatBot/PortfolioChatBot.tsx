@@ -1387,7 +1387,7 @@ function stripHtmlTags(text: string): string {
         // Fix malformed bullet points with broken bold text - simple approach
         .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** "
         .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** "
-        .replace(/\*\*([^*]+)\*\*([A-Z][a-z]+)(?!\s*:)/g, '**$1**\n\n$2')  // Add paragraph break after bold headers only when NOT followed by colon (not bullet point labels)
+        .replace(/\*\*([^*]+)\*\*([A-Z](?![a-z]*:))/g, '**$1**\n\n$2')  // Add paragraph break after bold headers when they run into capitalized text (but not bullet point headers with colons)
         .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is
         .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
         .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
