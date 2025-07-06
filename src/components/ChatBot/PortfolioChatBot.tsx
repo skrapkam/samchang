@@ -736,53 +736,53 @@ const Citation = styled.a<{ title?: string }>`
 `;
 
 // Component to handle paragraph breaks in citation content
-const MessageContent: React.FC<{ children: (string | JSX.Element)[] | string }> = ({ children }) => {
+const MessageContent = ({ children }: { children: (string | JSX.Element)[] | string }) => {
   if (typeof children === 'string') {
-    return <>{children}</>;
+    return <Fragment>{children}</Fragment>;
   }
   
   if (Array.isArray(children)) {
     return (
-      <>
+      <Fragment>
         {children.map((child, index) => {
           if (typeof child === 'string') {
             // Process string parts to convert newlines to <br> elements
             if (child.includes('\n')) {
               const paragraphs = child.split('\n\n');
               return (
-                <React.Fragment key={index}>
+                <Fragment key={index}>
                   {paragraphs.map((paragraph, pIndex) => (
-                    <React.Fragment key={`${index}-${pIndex}`}>
+                    <Fragment key={`${index}-${pIndex}`}>
                       {pIndex > 0 && (
-                        <>
+                        <Fragment>
                           <br />
                           <br />
-                        </>
+                        </Fragment>
                       )}
                       {paragraph.includes('\n') ? (
                         paragraph.split('\n').map((line, lIndex) => (
-                          <React.Fragment key={`${index}-${pIndex}-${lIndex}`}>
+                          <Fragment key={`${index}-${pIndex}-${lIndex}`}>
                             {lIndex > 0 && <br />}
                             {line}
-                          </React.Fragment>
+                          </Fragment>
                         ))
                       ) : (
                         paragraph
                       )}
-                    </React.Fragment>
+                    </Fragment>
                   ))}
-                </React.Fragment>
+                </Fragment>
               );
             }
-            return <React.Fragment key={index}>{child}</React.Fragment>;
+            return <Fragment key={index}>{child}</Fragment>;
           }
-          return <React.Fragment key={index}>{child}</React.Fragment>;
+          return <Fragment key={index}>{child}</Fragment>;
         })}
-      </>
+      </Fragment>
     );
   }
   
-  return <>{children}</>;
+  return <Fragment>{children}</Fragment>;
 };
 
 // Container for rendered source links after each assistant message
