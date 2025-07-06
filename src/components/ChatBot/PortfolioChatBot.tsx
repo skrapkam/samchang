@@ -592,6 +592,7 @@ const Message = styled.div<{ isUser?: boolean }>`
             : "0 1px 3px rgba(130,180,220,0.07)"};
   max-width: 80%;
   word-break: break-word;
+  white-space: pre-wrap;
 `;
 
 const rotate = keyframes`
@@ -684,6 +685,7 @@ const Citation = styled.a<{ title?: string }>`
   opacity: 1;
   transition: none;
   position: relative;
+  white-space: nowrap;
   &:hover {
     background: #dfdfdf;
     text-decoration: none;
@@ -1462,9 +1464,17 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text)) !== null) {
-    // Add text before the citation
+    // Add text before the citation, replacing the last space with a non-breaking space
     if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
+      const textBeforeCitation = text.slice(lastIndex, match.index);
+      const lastSpaceIndex = textBeforeCitation.lastIndexOf(' ');
+      
+      if (lastSpaceIndex !== -1) {
+        // Replace the last space with a non-breaking space
+        parts.push(textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1));
+      } else {
+        parts.push(textBeforeCitation);
+      }
     }
 
     // Add the citation
