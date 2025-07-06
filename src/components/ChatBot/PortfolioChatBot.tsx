@@ -1335,7 +1335,9 @@ function stripHtmlTags(text: string): string {
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
-        .replace(/\*\*([^*]+)\*\*/g, '\n\n**$1**\n\n')  // Add paragraph breaks around bold headers
+        // First, handle the specific case of standalone dashes followed by bold headers
+        .replace(/-\s*\n+\s*\*\*([^*]+)\*\*\s*\n+/g, '\n\n- **$1**: ')  // Convert "- \n **Header** \n" to "- **Header**: "
+        .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is (remove extra paragraph breaks)
         .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
         .replace(/- ([^-]+?)(?=- )/g, '- $1\n\n')  // Add paragraph breaks between bullet points
         .replace(/(\[\[cite:[^\]]+\]\]\.\s*)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after citations before new sentences
