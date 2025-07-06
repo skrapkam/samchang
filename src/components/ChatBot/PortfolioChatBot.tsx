@@ -203,8 +203,8 @@ const convertUrlsToLinks = (text: string) => {
     }
     
     // Handle plain URLs that weren't already converted
-    // More precise URL regex that excludes trailing punctuation
-    const urlRegex = /(https?:\/\/[^\s]+?)(?=[.,!?;:\s]|$)/g;
+    // Simple URL regex, we'll clean up trailing punctuation manually
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
     
     // Find and replace URLs properly
     const urlResult: (string | JSX.Element)[] = [];
@@ -212,8 +212,12 @@ const convertUrlsToLinks = (text: string) => {
     let urlMatch;
     
     while ((urlMatch = urlRegex.exec(processedText)) !== null) {
-        const [fullMatch, url] = urlMatch;
+        const [fullMatch, rawUrl] = urlMatch;
         const matchIndex = urlMatch.index!;
+        
+        // Clean up trailing punctuation from URL
+        const cleanUrl = rawUrl.replace(/[.,!?;:]+$/, '');
+        const removedChars = rawUrl.length - cleanUrl.length;
         
         // Add text before the URL
         if (matchIndex > lastIndex) {
@@ -226,13 +230,18 @@ const convertUrlsToLinks = (text: string) => {
         urlResult.push(
             <StyledLink 
                 key={`url-${matchIndex}`}
-                href={url} 
+                href={cleanUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
             >
-                {url}
+                {cleanUrl}
             </StyledLink>
         );
+        
+        // Add any trailing punctuation that was removed
+        if (removedChars > 0) {
+            urlResult.push(rawUrl.slice(-removedChars));
+        }
         
         lastIndex = matchIndex + fullMatch.length;
     }
@@ -1895,9 +1904,28 @@ const PortfolioChatBot = () => {
                 streamedText += chunk;
                 
                 // Apply real-time formatting during streaming
+                // Debug: Check URL processing
+                if (streamedText.includes('http')) {
+                    console.log("🔍 URL DEBUG - Raw streamedText:", streamedText.slice(streamedText.indexOf('http') - 10, streamedText.indexOf('http') + 50));
+                }
+                
                 const strippedText = stripHtmlTags(streamedText);
+                
+                if (strippedText.includes('http')) {
+                    console.log("🔍 URL DEBUG - After stripHtmlTags:", strippedText.slice(strippedText.indexOf('http') - 10, strippedText.indexOf('http') + 50));
+                }
+                
                 const { mainText, sources } = parseSourcesSection(strippedText);
+                
+                if (mainText.includes('http')) {
+                    console.log("🔍 URL DEBUG - After parseSourcesSection:", mainText.slice(mainText.indexOf('http') - 10, mainText.indexOf('http') + 50));
+                }
+                
                 const formattedText = postProcessText(mainText);
+                
+                if (formattedText.includes('http')) {
+                    console.log("🔍 URL DEBUG - After postProcessText:", formattedText.slice(formattedText.indexOf('http') - 10, formattedText.indexOf('http') + 50));
+                }
                 
                 setMessages(prev => {
                     const newMsgs = [...prev];
