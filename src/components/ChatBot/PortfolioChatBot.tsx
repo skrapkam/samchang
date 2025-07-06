@@ -1384,9 +1384,11 @@ function stripHtmlTags(text: string): string {
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
         // Handle standalone dashes followed by bold headers
         .replace(/-\s*\n+\s*\*\*([^*]+)\*\*\s*\n+/g, '\n\n- **$1**: ')  // Convert "- \n **Header** \n" to "- **Header**: "
-        // Fix malformed bullet points with broken bold text - simple approach
-        .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** "
-        .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** "
+        // Fix malformed bullet points with broken bold text - handle colons
+        .replace(/-\s*\*\*([^*\n]*)\.\s*\n+\s*([^:]+):\s*/g, '- **$1 $2:** ')  // Fix "- **ID. \n Verifications:" to "- **ID Verifications:** "
+        .replace(/-\s*\*\*\s*\n+\s*([^:]+):\s*/g, '- **$1:** ')  // Fix "- ** \n Text:" to "- **Text:** "
+        .replace(/-\s*\*\*\.\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- **. \n Text**" to "- **Text:** " (fallback)
+        .replace(/-\s*\*\*\s*\n+\s*([A-Z][^*]+?)\*\*([,.]?\s*)/g, '- **$1:**$2')  // Fix "- ** \n Text**" to "- **Text:** " (fallback)
         .replace(/\*\*([^*]+)\*\*([A-Z](?![a-z]*:))/g, '**$1**\n\n$2')  // Add paragraph break after bold headers when they run into capitalized text (but not bullet point headers with colons)
         .replace(/\*\*([^*]+)\*\*/g, '**$1**')  // Keep bold headers as-is
         .replace(/([.!?:])\s*-\s/g, '$1\n\n- ')  // Add paragraph breaks before bullet points after sentences/colons
