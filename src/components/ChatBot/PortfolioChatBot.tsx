@@ -1335,6 +1335,10 @@ function stripHtmlTags(text: string): string {
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
+        // Handle URLs followed by capital letters (missing spaces)
+        .replace(/(https?:\/\/[^\s]+)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after URLs before capital letters
+        .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Handle domain endings followed by capital letters
+        .replace(/([a-z])([A-Z][a-z])/g, '$1 $2')  // Add spaces between lowercase and capitalized words
         // Handle numbered sections with bold headers
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*-/g, '\n\n$1. **$2**\n\n-')  // Add breaks around numbered headers and before bullets
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
