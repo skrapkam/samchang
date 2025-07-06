@@ -1917,9 +1917,28 @@ const PortfolioChatBot = () => {
                 streamedText += chunk;
                 
                 // Apply real-time formatting during streaming
+                // Debug: Check for ** characters through processing pipeline
+                if (streamedText.includes('**')) {
+                    console.log("🔍 ** DEBUG - Raw streamedText:", JSON.stringify(streamedText));
+                }
+                
                 const strippedText = stripHtmlTags(streamedText);
+                
+                if (strippedText.includes('**')) {
+                    console.log("🔍 ** DEBUG - After stripHtmlTags:", JSON.stringify(strippedText));
+                }
+                
                 const { mainText, sources } = parseSourcesSection(strippedText);
+                
+                if (mainText.includes('**')) {
+                    console.log("🔍 ** DEBUG - After parseSourcesSection:", JSON.stringify(mainText));
+                }
+                
                 const formattedText = postProcessText(mainText);
+                
+                if (formattedText.includes('**')) {
+                    console.log("🔍 ** DEBUG - After postProcessText:", JSON.stringify(formattedText));
+                }
                 
                 setMessages(prev => {
                     const newMsgs = [...prev];
