@@ -1198,27 +1198,39 @@ const getRandomPrompts = () => {
 
 // Add after helper functions
 function postProcessText(text: string) {
-    return text
-        .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
-        .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-        // Don't add spaces between letters and numbers if they're part of citations [1], [2], etc.
-        .replace(/([a-zA-Z])(\d)(?!\])/g, "$1 $2")   // ensure space between letter and number, but not before citation brackets
-        .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
-        // Fix email addresses with missing @ symbol or double @ symbols
-        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
-        .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-        .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
-        // Fix social media handles with missing @ symbol
-        .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
-        // Fix LinkedIn URLs and names
-        .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
-        // Ensure sentences end with proper punctuation
-        .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
-        .replace(/\s{2,}/g, " ")             // collapse multiple spaces
-        // Remove commas between consecutive citations like [1], [2] -> [1] [2]
-        .replace(/\]\s*,\s*\[/g, '] [')
-        // Remove commas before citations like text, [1] -> text [1]
-        .replace(/,\s*\[/g, ' [');
+    // Split by paragraph breaks to preserve them
+    const paragraphs = text.split(/\n\n+/);
+    
+    // Process each paragraph individually
+    const processedParagraphs = paragraphs.map(paragraph => {
+        return paragraph
+            .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
+            .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
+            // Don't add spaces between letters and numbers if they're part of citations [1], [2], etc.
+            .replace(/([a-zA-Z])(\d)(?!\])/g, "$1 $2")   // ensure space between letter and number, but not before citation brackets
+            .replace(/(\d)([a-zA-Z])/g, "$1 $2")   // ensure space between number and letter (e.g., "99designs" -> "99 designs" if needed)
+            // Fix email addresses with missing @ symbol or double @ symbols
+            .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$4")
+            .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+            .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
+            // Fix social media handles with missing @ symbol
+            .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
+            // Fix LinkedIn URLs and names
+            .replace(/LinkedIn:\s*([A-Za-z\s]+)(?:\s*-\s*\d+)?/g, "LinkedIn: $1")
+            // Ensure sentences end with proper punctuation
+            .replace(/([a-zA-Z])\s*$/g, "$1.")  // add period if sentence doesn't end with punctuation
+            .replace(/\s{2,}/g, " ")             // collapse multiple spaces within paragraph
+            // Remove commas between consecutive citations like [1], [2] -> [1] [2]
+            .replace(/\]\s*,\s*\[/g, '] [')
+            // Remove commas before citations like text, [1] -> text [1]
+            .replace(/,\s*\[/g, ' [')
+            .trim();
+    });
+    
+    // Join paragraphs back together with double newlines
+    return processedParagraphs
+        .filter(paragraph => paragraph.length > 0)
+        .join('\n\n');
 }
 
 // Function to strip HTML tags, particularly figcaption tags
@@ -1228,9 +1240,11 @@ function stripHtmlTags(text: string): string {
         .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
-        // Clean up extra whitespace that might be left after removing tags
-        .replace(/\s+/g, ' ')
-        .trim();
+        // Preserve paragraph breaks (double newlines) while cleaning up other whitespace
+        .split(/\n\n+/)
+        .map(paragraph => paragraph.replace(/\s+/g, ' ').trim())
+        .filter(paragraph => paragraph.length > 0)
+        .join('\n\n');
 }
 
 // Add type for parsed citation sources
@@ -1290,16 +1304,24 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
     });
     
     // Clean up any double spaces and fix spacing around punctuation
-    // But preserve consecutive citations without commas
-    cleanText = cleanText.replace(/\s+/g, ' ')
-      .replace(/\s+([.!?])/g, '$1')
-      .replace(/([.!?])\s+\[/g, '$1 [')
-      .replace(/,\s*\./g, '.')
-      .replace(/,\s*,/g, ',')
-      // Remove commas between consecutive citations like [1], [2] -> [1] [2]
-      .replace(/\]\s*,\s*\[/g, '] [')
-      // Remove commas before citations like text, [1] -> text [1]
-      .replace(/,\s*\[/g, ' [');
+    // But preserve consecutive citations without commas and paragraph breaks
+    cleanText = cleanText
+      // Preserve paragraph breaks while cleaning up other whitespace
+      .split(/\n\n+/)
+      .map(paragraph => paragraph
+        .replace(/\s+/g, ' ')
+        .replace(/\s+([.!?])/g, '$1')
+        .replace(/([.!?])\s+\[/g, '$1 [')
+        .replace(/,\s*\./g, '.')
+        .replace(/,\s*,/g, ',')
+        // Remove commas between consecutive citations like [1], [2] -> [1] [2]
+        .replace(/\]\s*,\s*\[/g, '] [')
+        // Remove commas before citations like text, [1] -> text [1]
+        .replace(/,\s*\[/g, ' [')
+        .trim()
+      )
+      .filter(paragraph => paragraph.length > 0)
+      .join('\n\n');
     
     mainText = cleanText.trim();
   }
@@ -1351,8 +1373,11 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
         
         if (numbers.length > 0) {
           let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
-          // Normalize the text
-          newText = newText.replace(/\s+/g, ' ');
+          // Normalize the text while preserving paragraph breaks
+          newText = newText.split(/\n\n+/)
+            .map(p => p.replace(/\s+/g, ' ').trim())
+            .filter(p => p.length > 0)
+            .join('\n\n');
           // Split into sentences and distribute citations
           const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
           let citationCount = 0;
@@ -1394,8 +1419,11 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
         
         if (numbers.length > 0) {
           let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
-          // Normalize the text
-          newText = newText.replace(/\s+/g, ' ');
+          // Normalize the text while preserving paragraph breaks
+          newText = newText.split(/\n\n+/)
+            .map(p => p.replace(/\s+/g, ' ').trim())
+            .filter(p => p.length > 0)
+            .join('\n\n');
           // Split text into sections (e.g., "Impact:", "Constraints:")
           const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
           let citationCount = 0;
@@ -1467,10 +1495,12 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
     // Add text before the citation, replacing the last space with a non-breaking space
     if (match.index > lastIndex) {
       const textBeforeCitation = text.slice(lastIndex, match.index);
+      // Only replace the last space if it's not part of a paragraph break
+      const lastNewlineIndex = textBeforeCitation.lastIndexOf('\n');
       const lastSpaceIndex = textBeforeCitation.lastIndexOf(' ');
       
-      if (lastSpaceIndex !== -1) {
-        // Replace the last space with a non-breaking space
+      if (lastSpaceIndex !== -1 && lastSpaceIndex > lastNewlineIndex) {
+        // Replace the last space with a non-breaking space (but only if it's after any newlines)
         parts.push(textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1));
       } else {
         parts.push(textBeforeCitation);
