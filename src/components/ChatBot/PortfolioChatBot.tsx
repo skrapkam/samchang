@@ -1329,18 +1329,29 @@ function postProcessText(text: string) {
 
 // Function to strip HTML tags, particularly figcaption tags
 function stripHtmlTags(text: string): string {
+    const protectedItems: { [key: string]: string } = {};
+    let counter = 0;
+    
     return text
         // Remove figcaption tags and their content
         .replace(/<figcaption[^>]*>.*?<\/figcaption>/gi, '')
         // Remove any other HTML tags
         .replace(/<[^>]*>/g, '')
         // Convert AI formatting patterns to paragraph breaks
-        // Protect common brand names and URLs first
+        // Protect URLs and brand names first
         .replace(/LinkedIn/g, '___LINKEDIN___')  // Temporarily protect LinkedIn
-        .replace(/(https?:\/\/[^\s]+)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after URLs before capital letters
-        .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Handle domain endings followed by capital letters
-        // Restore protected terms
-        .replace(/___LINKEDIN___/g, 'LinkedIn')  // Restore LinkedIn
+        .replace(/(https?:\/\/[^\s]+)/g, (match) => {
+            const placeholder = `___URL_${counter++}___`;
+            protectedItems[placeholder] = match;
+            return placeholder;
+        })  // Protect URLs with simple numbering
+        .replace(/([\w\.-]+@[\w\.-]+\.\w+)/g, (match) => {
+            const placeholder = `___EMAIL_${counter++}___`;
+            protectedItems[placeholder] = match;
+            return placeholder;
+        })  // Protect emails with simple numbering
+        // Handle domain endings followed by capital letters (only for non-protected URLs)
+        .replace(/(\.com|\.org|\.net|\.io)([A-Z])/g, '$1\n\n$2')  // Add paragraph breaks after domain endings before capital letters
         // Handle numbered sections with bold headers
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*-/g, '\n\n$1. **$2**\n\n-')  // Add breaks around numbered headers and before bullets
         .replace(/(\d+)\.\s*\*\*([^*]+)\*\*\s*([^-])/g, '\n\n$1. **$2**\n\n$3')  // Add breaks around numbered headers (non-bullet content)
@@ -1355,6 +1366,10 @@ function stripHtmlTags(text: string): string {
         .replace(/\n[ \t]+/g, '\n')  // Remove spaces/tabs at start of lines
         .replace(/[ \t]+\n/g, '\n')  // Remove spaces/tabs at end of lines
         .replace(/\n{3,}/g, '\n\n')  // Replace multiple newlines with double newlines
+        // Restore protected terms
+        .replace(/___LINKEDIN___/g, 'LinkedIn')  // Restore LinkedIn
+        .replace(/___URL_\d+___/g, (match) => protectedItems[match] || match)  // Restore URLs
+        .replace(/___EMAIL_\d+___/g, (match) => protectedItems[match] || match)  // Restore emails
         .trim();
 }
 
