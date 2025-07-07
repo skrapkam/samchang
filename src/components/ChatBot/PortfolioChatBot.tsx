@@ -1295,9 +1295,11 @@ function postProcessText(text: string) {
     return text
         .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-        // Fix concatenated words with numbers - but preserve brand names
+        // Fix concatenated words with numbers - but preserve brand names and articles
         // First: letters followed by numbers (like "in2015" -> "in 2015")
         .replace(/\b([a-zA-Z]{2,})(\d+)\b/g, "$1 $2")
+        // Handle single letter + number pattern (like "a97%" -> "a 97%" or "a64" -> "a 64")
+        .replace(/\b([a-zA-Z])(\d+)\b/g, "$1 $2")
         // Second: letters followed by numbers followed by letters (like "when99designs" -> "when 99designs")
         .replace(/\b([a-zA-Z]{2,})(\d+)([a-zA-Z]{2,})\b/g, (match, prefix, num, suffix) => {
             // Don't split known brand names in the suffix
