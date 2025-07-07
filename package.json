@@ -68,7 +68,7 @@
     "test": "jest && node tests/validate-content.js"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^15.0.5",
     "@types/jest": "^29.5.0",
     "@types/react": "^17.0.15",
