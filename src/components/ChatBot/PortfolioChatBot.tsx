@@ -1416,7 +1416,30 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       /^[a-z]{1,2}$/, // Very short words (likely HTML tags)
     ];
     
+    // Additional validation: must reference actual heading sections
+    // Check if the section looks like a reasonable heading structure
     const sectionLower = section.trim().toLowerCase();
+    
+    // Reject sections that are clearly not headings
+    const clearlyNotHeadings = [
+      'li', 'ul', 'ol', 'div', 'span', 'p', 'section', 'article', 'aside', 'nav', 'header', 'footer',
+      'main', 'figure', 'figcaption', 'blockquote', 'pre', 'code', 'table', 'tr', 'td', 'th',
+      'form', 'input', 'button', 'label', 'select', 'option', 'textarea', 'fieldset', 'legend'
+    ];
+    
+    if (clearlyNotHeadings.includes(sectionLower)) {
+      // Skip this citation if it's clearly not a heading
+      continue;
+    }
+    
+    // Accept sections that look like reasonable headings
+    // Must be at least 3 characters and contain mostly letters/numbers/hyphens
+    const headingCharPattern = /^[a-zA-Z0-9\-]+$/;
+    if (!headingCharPattern.test(sectionLower) || sectionLower.length < 3) {
+      // Skip this citation if it doesn't look like a reasonable heading
+      continue;
+    }
+    
     if (invalidPatterns.some(pattern => pattern.test(sectionLower))) {
       // Skip this citation if it matches any invalid pattern
       continue;
