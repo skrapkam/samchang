@@ -109,51 +109,51 @@ const deleteThread = (threadId: string) => {
     saveThreads(threads);
 };
 
+// Single function to handle all paragraph breaks consistently
+const processTextWithParagraphs = (text: string): (string | JSX.Element)[] => {
+    if (!text || typeof text !== 'string') return [text];
+    
+    // Handle paragraph breaks (double newlines) and line breaks (single newlines)
+    const paragraphs = text.split('\n\n');
+    const result: (string | JSX.Element)[] = [];
+    
+    paragraphs.forEach((paragraph, paragraphIndex) => {
+        // Add paragraph break between paragraphs
+        if (paragraphIndex > 0) {
+            result.push(<br key={`paragraph-break-1-${paragraphIndex}`} />);
+            result.push(<br key={`paragraph-break-2-${paragraphIndex}`} />);
+        }
+        
+        // Handle line breaks within paragraphs
+        if (paragraph.includes('\n')) {
+            const lines = paragraph.split('\n');
+            lines.forEach((line, lineIndex) => {
+                if (lineIndex > 0) {
+                    result.push(<br key={`line-break-${paragraphIndex}-${lineIndex}`} />);
+                }
+                if (line.trim()) {
+                    result.push(line);
+                }
+            });
+        } else if (paragraph.trim()) {
+            result.push(paragraph);
+        }
+    });
+    
+    return result;
+};
+
 // Utility function to detect URLs and convert them to clickable links
-const convertUrlsToLinks = (text: string) => {
-    // If no URLs or markdown links, just return the text as-is to preserve spacing
+const convertUrlsToLinks = (text: string): (string | JSX.Element)[] => {
+    // If no URLs or markdown links, just process paragraph breaks and return
     if (!text.includes('http') && !text.includes('[')) {
-        return text;
+        return processTextWithParagraphs(text);
     }
     
     // Preprocess: fix common URL concatenation issues
     text = text.replace(/(https?:\/\/[^\s]+?)https?:\/\//g, '$1 https://') // Separate concatenated URLs
          .replace(/(https?:\/\/[^\s]+?)([A-Z][a-z]{1,})/g, '$1 $2') // Add space before capital words (1+ lowercase letters)
          .replace(/(https?:\/\/[^\s]+?)([.!?])/g, '$1$2') // Keep punctuation attached
-    
-    // Helper function to process text with newlines
-    const processTextWithNewlines = (textPart: string): (string | JSX.Element)[] => {
-        if (!textPart.includes('\n')) return [textPart];
-        
-        // First handle paragraph breaks (double newlines)
-        const paragraphs = textPart.split('\n\n');
-        const result: (string | JSX.Element)[] = [];
-        
-        paragraphs.forEach((paragraph, paragraphIndex) => {
-            if (paragraphIndex > 0) {
-                // Add paragraph break (double <br>)
-                result.push(<br key={`paragraph-break-1-${Math.random()}`} />);
-                result.push(<br key={`paragraph-break-2-${Math.random()}`} />);
-            }
-            
-            // Then handle line breaks within paragraphs
-            if (paragraph.includes('\n')) {
-                const lines = paragraph.split('\n');
-                lines.forEach((line, lineIndex) => {
-                    if (lineIndex > 0) {
-                        result.push(<br key={`line-break-${Math.random()}`} />);
-                    }
-                    if (line) {
-                        result.push(line);
-                    }
-                });
-            } else if (paragraph) {
-                result.push(paragraph);
-            }
-        });
-        
-        return result;
-    };
     
     // First, handle Markdown-style links [text](url)
     const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -178,7 +178,7 @@ const convertUrlsToLinks = (text: string) => {
             // Add text before the markdown link
             if (matchIndex > lastIndex) {
                 const textBefore = processedText.slice(lastIndex, matchIndex);
-                const textElements = processTextWithNewlines(textBefore);
+                const textElements = processTextWithParagraphs(textBefore);
                 parts.push(...textElements);
             }
             
@@ -200,7 +200,7 @@ const convertUrlsToLinks = (text: string) => {
         // Add remaining text after the last markdown link
         if (lastIndex < processedText.length) {
             const remainingText = processedText.slice(lastIndex);
-            const textElements = processTextWithNewlines(remainingText);
+            const textElements = processTextWithParagraphs(remainingText);
             parts.push(...textElements);
         }
         
@@ -227,7 +227,7 @@ const convertUrlsToLinks = (text: string) => {
         // Add text before the URL
         if (matchIndex > lastIndex) {
             const textBefore = processedText.slice(lastIndex, matchIndex);
-            const textElements = processTextWithNewlines(textBefore);
+            const textElements = processTextWithParagraphs(textBefore);
             urlResult.push(...textElements);
         }
         
@@ -254,11 +254,11 @@ const convertUrlsToLinks = (text: string) => {
     // Add remaining text after the last URL
     if (lastIndex < processedText.length) {
         const remainingText = processedText.slice(lastIndex);
-        const textElements = processTextWithNewlines(remainingText);
+        const textElements = processTextWithParagraphs(remainingText);
         urlResult.push(...textElements);
     }
     
-    return urlResult.length > 0 ? urlResult : processTextWithNewlines(processedText);
+    return urlResult.length > 0 ? urlResult : processTextWithParagraphs(processedText);
 };
 
 // Styled link component with underline styling
@@ -767,7 +767,7 @@ const Citation = styled.a<{ title?: string }>`
   }
 `;
 
-// Component to handle paragraph breaks in citation content
+// Component to render processed message content (paragraphs already handled)
 const MessageContent = ({ children }: { children: (string | JSX.Element)[] | string }) => {
   if (typeof children === 'string') {
     return <Fragment>{children}</Fragment>;
@@ -776,40 +776,9 @@ const MessageContent = ({ children }: { children: (string | JSX.Element)[] | str
   if (Array.isArray(children)) {
     return (
       <Fragment>
-        {children.map((child, index) => {
-          if (typeof child === 'string') {
-            // Process string parts to convert newlines to <br> elements
-            if (child.includes('\n')) {
-              const paragraphs = child.split('\n\n');
-              return (
-                <Fragment key={index}>
-                  {paragraphs.map((paragraph, pIndex) => (
-                    <Fragment key={`${index}-${pIndex}`}>
-                      {pIndex > 0 && (
-                        <Fragment>
-                          <br />
-                          <br />
-                        </Fragment>
-                      )}
-                      {paragraph.includes('\n') ? (
-                        paragraph.split('\n').map((line, lIndex) => (
-                          <Fragment key={`${index}-${pIndex}-${lIndex}`}>
-                            {lIndex > 0 && <br />}
-                            {line}
-                          </Fragment>
-                        ))
-                      ) : (
-                        paragraph
-                      )}
-                    </Fragment>
-                  ))}
-                </Fragment>
-              );
-            }
-            return <Fragment key={index}>{child}</Fragment>;
-          }
-          return <Fragment key={index}>{child}</Fragment>;
-        })}
+        {children.map((child, index) => (
+          <Fragment key={index}>{child}</Fragment>
+        ))}
       </Fragment>
     );
   }
@@ -1304,7 +1273,7 @@ const ALL_PROMPTS = [
     "Tell me about your experience and background",
     "What projects have you worked on?",
     "What music do you like?",
-    "What’s your approach to team alignment?",
+    "What's your approach to team alignment?",
     "How do you use user research in your work",
     "Tell me about your education",
     "What are your hobbies?",
@@ -1326,7 +1295,29 @@ function postProcessText(text: string) {
     return text
         .replace(/([.!?])([A-Z])/g, "$1 $2")  // ensure space after .,!,? if missing
         .replace(/:([A-Za-z0-9])/g, ": $1")    // ensure space after colon if missing
-        // Fix email addresses if needed
+        // Fix concatenated words with numbers - but preserve brand names
+        // First: letters followed by numbers (like "in2015" -> "in 2015")
+        .replace(/\b([a-zA-Z]{2,})(\d+)\b/g, "$1 $2")
+        // Second: letters followed by numbers followed by letters (like "when99designs" -> "when 99designs")
+        .replace(/\b([a-zA-Z]{2,})(\d+)([a-zA-Z]{2,})\b/g, (match, prefix, num, suffix) => {
+            // Don't split known brand names in the suffix
+            const knownBrands = ['designs', 'up'];
+            if (knownBrands.includes(suffix.toLowerCase())) {
+                return `${prefix} ${num}${suffix}`;
+            }
+            return `${prefix} ${num} ${suffix}`;
+        })
+        // Third: numbers followed by letters, but skip known brand names
+        .replace(/\b(\d+)([a-zA-Z]{2,})\b/g, (match, num, letters) => {
+            // Don't split known brand names or common patterns
+            const knownBrands = ['designs', 'up', 'am', 'pm'];
+            if (knownBrands.includes(letters.toLowerCase())) {
+                return match; // Keep as-is
+            }
+            return `${num} ${letters}`;
+        })
+        // Fix email addresses if needed - restore proper email formatting
+        .replace(/([a-zA-Z]+)\s+(\d+)\s+([a-zA-Z]+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2$3@$4")
         .replace(/([a-zA-Z]+)\s+(\d+)\s*@\s*([a-zA-Z]+\.[a-zA-Z]+)/g, "$1$2@$3")
         // Fix social media handles with missing @ symbol
         .replace(/(Instagram|X|Twitter):\s*([A-Za-z0-9_]+)/gi, "$1: @$2")
@@ -1380,7 +1371,16 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   const sources: Source[] = [];
   let mainText = rawText;
   
-  // First try the [[cite:slug#section]] format
+  // Early exit: if the text doesn't contain any citation markers, return immediately
+  // But still process the text for proper formatting
+  const hasAnyCitationMarkers = /\[\[cite:|\[\d+\]|\(\d+\)/.test(rawText);
+  if (!hasAnyCitationMarkers) {
+    // No citations, but still return the text with proper formatting
+    return { mainText: rawText, sources: [] };
+  }
+  
+  // Only accept citations that reference heading sections (h1, h2, h3)
+  // The format should be [[cite:slug#heading-section]] where heading-section corresponds to a heading
   const citationRegex = /\[\[cite:([^#\]]+)#([^\]]+)\]\]/g;
   let citationIndex = 1;
   let match;
@@ -1389,6 +1389,44 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   // First pass: collect all citations with their positions
   while ((match = citationRegex.exec(rawText)) !== null) {
     const [fullMatch, slug, section] = match;
+    
+    // Validate that the section looks like a heading reference
+    // Headings typically contain words separated by hyphens or spaces, not special characters
+    // Must start with a letter and contain only letters, numbers, spaces, and hyphens
+    // Must not be too short (avoid single characters) and not too long
+    const headingPattern = /^[a-zA-Z][a-zA-Z0-9\s\-]{1,50}$/;
+    if (!headingPattern.test(section.trim())) {
+      // Skip this citation if it doesn't look like a heading reference
+      continue;
+    }
+    
+    // Additional validation: must not contain HTML-like patterns or list indicators
+    const invalidPatterns = [
+      /<[^>]*>/, // HTML tags
+      /^li$/i, // List item (case insensitive)
+      /^ul$/i, // Unordered list (case insensitive)
+      /^ol$/i, // Ordered list (case insensitive)
+      /^div$/i, // Div (case insensitive)
+      /^span$/i, // Span (case insensitive)
+      /^p$/i, // Paragraph (case insensitive)
+      /^\d+$/, // Just numbers
+      /^[a-z]$/, // Single letter
+      /^[a-z]{1,2}$/, // Very short words (likely HTML tags)
+    ];
+    
+    const sectionLower = section.trim().toLowerCase();
+    if (invalidPatterns.some(pattern => pattern.test(sectionLower))) {
+      // Skip this citation if it matches any invalid pattern
+      continue;
+    }
+    
+    // Allow single words that are at least 3 characters (like "scope", "background", etc.)
+    // but still block very short HTML-like terms
+    const words = section.trim().split(/\s+/);
+    if (words.length === 1 && words[0].length < 3) {
+      // Single very short words are likely not headings
+      continue;
+    }
     
     citations.push({
       match: fullMatch,
@@ -1443,7 +1481,15 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
   }
 
   // If no [[cite:]] format found, look for inline citations throughout the text
+  // But only if they appear to reference heading sections
   if (sources.length === 0) {
+    // First check if there are any citation markers at all
+    const hasCitationMarkers = /\[\d+\]|\(\d+\)/.test(mainText);
+    if (!hasCitationMarkers) {
+      // No citation markers found, don't process any citations
+      return { mainText, sources: [] };
+    }
+    
     // Only use matchAll for global regexes
     const inlineCitationPatterns: RegExp[] = [
       /\[(\d+)\]/g,
@@ -1457,20 +1503,39 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       if (matches.length > 0) {
         foundCitations = true;
         // Handle inline citations that are already in the text
+        // But only create sources if they appear to reference heading content
         const citationNumbers = new Set<number>();
         matches.forEach(match => {
           const num = parseInt(match[1], 10);
           citationNumbers.add(num);
         });
-        Array.from(citationNumbers).sort((a, b) => a - b).forEach(num => {
-          sources.push({
-            index: num,
-            title: `Reference ${num}`,
-            url: '#',
-            slug: `reference-${num}`,
-            section: `citation-${num}`
-          });
+        
+        // Only create sources for citations that appear in context that suggests heading references
+        // Look for patterns like "see section X" or "as mentioned in X" or similar
+        const headingReferencePattern = /\b(?:section|heading|chapter|part|in|see|as mentioned in|referenced in)\s+\[?(\d+)\]?/gi;
+        const headingMatches = Array.from(mainText.matchAll(headingReferencePattern));
+        const headingCitationNumbers = new Set<number>();
+        headingMatches.forEach(match => {
+          const num = parseInt(match[1], 10);
+          headingCitationNumbers.add(num);
         });
+        
+        // Only create sources for citations that appear to reference headings
+        // AND have explicit citation markers
+        Array.from(headingCitationNumbers).sort((a, b) => a - b).forEach(num => {
+          // Only create source if there's an actual citation marker [num] in the text
+          const citationMarker = new RegExp(`\\[${num}\\]`);
+          if (citationMarker.test(mainText)) {
+            sources.push({
+              index: num,
+              title: `Section ${num}`,
+              url: '#',
+              slug: `section-${num}`,
+              section: `section-${num}`
+            });
+          }
+        });
+        
         // Convert (1) format to [1] format for consistency
         if (pattern.source === '\\((\\d+)\\)') {
           mainText = mainText.replace(/\((\d+)\)/g, '[$1]');
@@ -1479,113 +1544,131 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
       }
     }
     // If no inline citations found, check for trailing numbers (non-global regex)
+    // But only if they appear to reference heading sections
     if (!foundCitations) {
       // Look for trailing comma-separated numbers like "1, 2, 3" or just "3" (before punctuation)
+      // But only if the preceding text suggests they reference headings
       const endingNumbersMatch = mainText.match(/(\d+(?:\s*,\s*\d+)*)\s*[.!?]?\s*$/);
       if (endingNumbersMatch) {
         const numbersString = endingNumbersMatch[1];
-        // Parse the numbers properly, handling comma-separated format
-        const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+        const textBeforeNumbers = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
         
-        if (numbers.length > 0) {
-          let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
-          // Normalize the text while preserving paragraph breaks
-          newText = newText.split(/\n\n+/)
-            .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
-            .filter(p => p.length > 0)
-            .join('\n\n');
-          // Split into sentences and distribute citations
-          const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-          let citationCount = 0;
-          const processedSentences = sentences.map((sentence, idx) => {
-            const isLastSentence = idx === sentences.length - 1;
-            const citationsForThisSentence = isLastSentence 
-              ? numbers.length - citationCount
-              : Math.min(1, numbers.length - citationCount);
-            let processedSentence = sentence.trim();
-            if (!processedSentence.match(/[.!?]$/)) {
-              processedSentence += '.';
-            }
-            for (let i = 0; i < citationsForThisSentence && citationCount < numbers.length; i++) {
-              citationCount++;
-              sources.push({
-                index: citationCount,
-                title: `Reference ${citationCount}`,
-                url: '#',
-                slug: `reference-${citationCount}`,
-                section: `citation-${citationCount}`
-              });
-              // Add citation without comma
-              processedSentence += ` [${citationCount}]`;
-            }
-            return processedSentence;
-          });
-          mainText = processedSentences.join(' ').trim();
+        // Check if the text before numbers suggests heading references
+        // Must be more specific to avoid false positives
+        const headingContextPattern = /\b(?:sections?|headings?|chapters?|parts?)\s+(?:are|is|can be found in|referenced in|mentioned in)\s*$/i;
+        if (headingContextPattern.test(textBeforeNumbers)) {
+          // Parse the numbers properly, handling comma-separated format
+          const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+          
+          if (numbers.length > 0) {
+            let newText = textBeforeNumbers;
+            // Normalize the text while preserving paragraph breaks
+            newText = newText.split(/\n\n+/)
+              .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
+              .filter(p => p.length > 0)
+              .join('\n\n');
+            // Split into sentences and distribute citations
+            const sentences = newText.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+            let citationCount = 0;
+            const processedSentences = sentences.map((sentence, idx) => {
+              const isLastSentence = idx === sentences.length - 1;
+              const citationsForThisSentence = isLastSentence 
+                ? numbers.length - citationCount
+                : Math.min(1, numbers.length - citationCount);
+              let processedSentence = sentence.trim();
+              if (!processedSentence.match(/[.!?]$/)) {
+                processedSentence += '.';
+              }
+              for (let i = 0; i < citationsForThisSentence && citationCount < numbers.length; i++) {
+                citationCount++;
+                sources.push({
+                  index: citationCount,
+                  title: `Section ${citationCount}`,
+                  url: '#',
+                  slug: `section-${citationCount}`,
+                  section: `section-${citationCount}`
+                });
+                // Add citation without comma
+                processedSentence += ` [${citationCount}]`;
+              }
+              return processedSentence;
+            });
+            mainText = processedSentences.join(' ').trim();
+          }
         }
       }
     }
     // If still no citations found, check for structured content with trailing numbers
+    // But only if they appear to reference heading sections
     if (sources.length === 0) {
       // Look for trailing comma-separated numbers like "1, 2, 3" or just "3" (before punctuation)
+      // But only if the content suggests heading references
       const endingNumbersMatch = mainText.match(/(\d+(?:\s*,\s*\d+)*)\s*[.!?]?\s*$/);
       if (endingNumbersMatch) {
         const numbersString = endingNumbersMatch[1];
-        // Parse the numbers properly, handling comma-separated format
-        const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+        const textBeforeNumbers = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
         
-        if (numbers.length > 0) {
-          let newText = mainText.slice(0, mainText.lastIndexOf(numbersString)).trim();
-          // Normalize the text while preserving paragraph breaks
-          newText = newText.split(/\n\n+/)
-            .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
-            .filter(p => p.length > 0)
-            .join('\n\n');
-          // Split text into sections (e.g., "Impact:", "Constraints:")
-          const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
-          let citationCount = 0;
-          const processedSections = sections.map((section) => {
-            const colonIndex = section.indexOf(':');
-            if (colonIndex === -1) return section;
-            const header = section.slice(0, colonIndex + 1);
-            let content = section.slice(colonIndex + 1).trim();
-            let bulletPoints;
-            if (content.includes('-')) {
-              bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
-            } else {
-              bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
-            }
-            if (bulletPoints.length <= 1) {
-              bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
-            }
-            const processedBulletPoints = bulletPoints.map((point, idx) => {
-              const isLastPoint = idx === bulletPoints.length - 1;
-              const citationsForThisPoint = isLastPoint 
-                ? numbers.length - citationCount
-                : Math.min(1, numbers.length - citationCount); // One citation per point
-              let processedPoint = point.trim();
-              if (processedPoint.startsWith('-')) {
-                processedPoint = processedPoint.slice(1).trim();
+        // Check if the content suggests heading references (e.g., "Impact:", "Constraints:", etc.)
+        // Must be more specific and only match if it's actually a section header
+        const headingSectionPattern = /^(?:Impact|Constraints|Background|Problem|Solution|Results|Conclusion|Summary|Overview|Introduction|Methods|Approach|Process|Outcome|Findings|Analysis|Discussion|Recommendations|Next Steps|Future Work)\s*:/i;
+        if (headingSectionPattern.test(textBeforeNumbers)) {
+          // Parse the numbers properly, handling comma-separated format
+          const numbers = numbersString.split(/\s*,\s*/).map(n => parseInt(n.trim(), 10)).filter(n => !isNaN(n));
+          
+          if (numbers.length > 0) {
+            let newText = textBeforeNumbers;
+            // Normalize the text while preserving paragraph breaks
+            newText = newText.split(/\n\n+/)
+              .map(p => p.replace(/[ \t]+/g, ' ').trim())  // Only collapse spaces/tabs, not newlines
+              .filter(p => p.length > 0)
+              .join('\n\n');
+            // Split text into sections (e.g., "Impact:", "Constraints:")
+            const sections = newText.split(/(?=\w+:)/).filter(s => s.trim());
+            let citationCount = 0;
+            const processedSections = sections.map((section) => {
+              const colonIndex = section.indexOf(':');
+              if (colonIndex === -1) return section;
+              const header = section.slice(0, colonIndex + 1);
+              let content = section.slice(colonIndex + 1).trim();
+              let bulletPoints;
+              if (content.includes('-')) {
+                bulletPoints = content.split(/(?=^-)/).filter(s => s.trim());
+              } else {
+                bulletPoints = content.split(/(?=\w+\s*:)/).filter(s => s.trim());
               }
-              if (!processedPoint.match(/[.!?]$/)) {
-                processedPoint += '.';
+              if (bulletPoints.length <= 1) {
+                bulletPoints = content.split(/(?<=[.!?])\s+/).filter(s => s.trim());
               }
-              for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
-                citationCount++;
-                sources.push({
-                  index: citationCount,
-                  title: `Reference ${citationCount}`,
-                  url: '#',
-                  slug: `reference-${citationCount}`,
-                  section: `citation-${citationCount}`
-                });
-                // Add citation without comma
-                processedPoint += ` [${citationCount}]`;
-              }
-              return `- ${processedPoint}`;
+              const processedBulletPoints = bulletPoints.map((point, idx) => {
+                const isLastPoint = idx === bulletPoints.length - 1;
+                const citationsForThisPoint = isLastPoint 
+                  ? numbers.length - citationCount
+                  : Math.min(1, numbers.length - citationCount); // One citation per point
+                let processedPoint = point.trim();
+                if (processedPoint.startsWith('-')) {
+                  processedPoint = processedPoint.slice(1).trim();
+                }
+                if (!processedPoint.match(/[.!?]$/)) {
+                  processedPoint += '.';
+                }
+                for (let i = 0; i < citationsForThisPoint && citationCount < numbers.length; i++) {
+                  citationCount++;
+                  sources.push({
+                    index: citationCount,
+                    title: `Section ${citationCount}`,
+                    url: '#',
+                    slug: `section-${citationCount}`,
+                    section: `section-${citationCount}`
+                  });
+                  // Add citation without comma
+                  processedPoint += ` [${citationCount}]`;
+                }
+                return `- ${processedPoint}`;
+              });
+              return `${header}\n${processedBulletPoints.join('\n')}`;
             });
-            return `${header}\n${processedBulletPoints.join('\n')}`;
-          });
-          mainText = processedSections.join('\n\n').trim();
+            mainText = processedSections.join('\n\n').trim();
+          }
         }
       }
     }
@@ -1600,7 +1683,10 @@ function parseSourcesSection(rawText: string): { mainText: string; sources: Sour
 }
 
 function insertCitationSuperscripts(text: string, sources: Source[]): (string | JSX.Element)[] {
-  if (!sources?.length) return [text];
+  if (!sources?.length) {
+    // No citations, just process paragraphs and return
+    return processTextWithParagraphs(text);
+  }
 
   const parts: (string | JSX.Element)[] = [];
   const regex = /\[(\d+)\]/g;
@@ -1608,19 +1694,26 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text)) !== null) {
-    // Add text before the citation, replacing the last space with a non-breaking space
+    // Add text before the citation, processing paragraph breaks
     if (match.index > lastIndex) {
       const textBeforeCitation = text.slice(lastIndex, match.index);
-      // Only replace the last space if it's not part of a paragraph break
-      const lastNewlineIndex = textBeforeCitation.lastIndexOf('\n');
-      const lastSpaceIndex = textBeforeCitation.lastIndexOf(' ');
+      // Process paragraph breaks and handle non-breaking space for citation
+      const processedTextBefore = processTextWithParagraphs(textBeforeCitation);
       
-      if (lastSpaceIndex !== -1 && lastSpaceIndex > lastNewlineIndex) {
-        // Replace the last space with a non-breaking space (but only if it's after any newlines)
-        parts.push(textBeforeCitation.slice(0, lastSpaceIndex) + '\u00A0' + textBeforeCitation.slice(lastSpaceIndex + 1));
-      } else {
-        parts.push(textBeforeCitation);
+      // Handle non-breaking space for the last element before citation
+      if (processedTextBefore.length > 0) {
+        const lastElement = processedTextBefore[processedTextBefore.length - 1];
+        if (typeof lastElement === 'string' && lastElement.trim()) {
+          // Replace the last space with a non-breaking space
+          const lastSpaceIndex = lastElement.lastIndexOf(' ');
+          if (lastSpaceIndex !== -1) {
+            processedTextBefore[processedTextBefore.length - 1] = 
+              lastElement.slice(0, lastSpaceIndex) + '\u00A0' + lastElement.slice(lastSpaceIndex + 1);
+          }
+        }
       }
+      
+      parts.push(...processedTextBefore);
     }
 
     // Add the citation
@@ -1642,9 +1735,11 @@ function insertCitationSuperscripts(text: string, sources: Source[]): (string | 
     lastIndex = match.index + match[0].length;
   }
 
-  // Add remaining text
+  // Add remaining text with paragraph processing
   if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
+    const remainingText = text.slice(lastIndex);
+    const processedRemaining = processTextWithParagraphs(remainingText);
+    parts.push(...processedRemaining);
   }
 
   return parts;
@@ -2075,9 +2170,7 @@ const PortfolioChatBot = () => {
                                     <MessageContent>
                                         {m.sources && m.sources.length > 0
                                             ? insertCitationSuperscripts(m.text, m.sources)
-                                            : (m.text.includes('http') || m.text.includes('['))
-                                                ? convertUrlsToLinks(m.text)
-                                                : m.text}
+                                            : convertUrlsToLinks(m.text)}
                                     </MessageContent>
                                     <span>{dots}</span>
                                 </Message>
@@ -2085,11 +2178,9 @@ const PortfolioChatBot = () => {
                                 <Fragment>
                                     <Message isUser={m.isUser}>
                                         <MessageContent>
-                                            {m.sources && m.sources.length > 0
-                                                ? insertCitationSuperscripts(m.text, m.sources)
-                                                : (m.text.includes('http') || m.text.includes('['))
-                                                    ? convertUrlsToLinks(m.text)
-                                                    : m.text}
+                                                                                    {m.sources && m.sources.length > 0
+                                            ? insertCitationSuperscripts(m.text, m.sources)
+                                            : convertUrlsToLinks(m.text)}
                                         </MessageContent>
                                     </Message>
                                     {m.sources && m.sources.length > 0 && (
