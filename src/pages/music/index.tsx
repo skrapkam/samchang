@@ -21,32 +21,10 @@ interface MusicNode {
   id: string;
   title: string;
   properties: {
-    Date?: { 
-      value: {
-        start?: string;
-        end?: string;
-        timeZone?: string;
-      };
-    };
-    URL?: { 
-      value: {
-        url?: string;
-        caption?: string;
-      };
-    };
-    Image?: { 
-      value: {
-        url?: string;
-        caption?: string;
-        type?: string;
-      };
-    };
-    Type?: { 
-      value: {
-        name?: string;
-        color?: string;
-      };
-    };
+    Date?: { value: string };
+    URL?: { value: string };
+    Image?: { value: string };
+    Type?: { value: string };
   };
   updatedAt: string;
 }
@@ -64,7 +42,7 @@ interface MusicProps {
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
   // Filter for music items in JavaScript since GraphQL filtering is complex
   const musicItems = data.music.edges.filter(({ node }) => {
-    return node.properties.Type && node.properties.Type.value?.name === "Music";
+    return node.properties.Type && node.properties.Type.value === "Music";
   });
 
   return (
@@ -97,17 +75,17 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
       <Grid>
         {musicItems.map(({ node }) => (
           <div key={node.id}>
-            <a href={node.properties.URL?.value?.url} target="_blank" rel="noopener noreferrer">
+            <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
               {/* If you want to use Gatsby image, you need to process the image URLs with gatsby-plugin-image or gatsby-image. For now, use a simple img tag. */}
               <img
                 css={CoverStyle}
-                src={node.properties.Image?.value?.url}
+                src={node.properties.Image?.value}
                 alt={node.title}
                 style={{ width: "100%", height: "auto" }}
               />
               <CoverTitle>{node.title}</CoverTitle>
             </a>
-            <p>{node.properties.Date?.value?.start}</p>
+            <p>{node.properties.Date?.value}</p>
           </div>
         ))}
       </Grid>
@@ -128,30 +106,16 @@ export const MusicQuery = graphql`
           title
           properties {
             Date {
-              value {
-                start
-                end
-                timeZone
-              }
+              value
             }
             URL {
-              value {
-                url
-                caption
-              }
+              value
             }
             Image {
-              value {
-                url
-                caption
-                type
-              }
+              value
             }
             Type {
-              value {
-                name
-                color
-              }
+              value
             }
           }
           updatedAt
