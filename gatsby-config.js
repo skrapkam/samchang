@@ -15,6 +15,15 @@ module.exports = {
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
     `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-notion-api`,
+      options: {
+        token: process.env.NOTION_TOKEN,
+        databaseId: process.env.NOTION_DATABASE_ID,
+        lowerTitleLevel: true,
+        pageUrl: false,
+      },
+    },
   
     {
       resolve: `gatsby-source-filesystem`,
