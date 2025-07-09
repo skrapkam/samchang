@@ -1,6 +1,9 @@
 {
   "framework": "gatsby",
   "env": {
-    "SHARP_IGNORE_GLOBAL_LIBVIPS": "1"
+    "SHARP_IGNORE_GLOBAL_LIBVIPS": "1",
+    "SHARP_FORCE_GLOBAL_LIBVIPS": "false",
+    "npm_config_sharp_binary_host": "https://github.com/lovell/sharp-libvips/releases/download",
+    "npm_config_sharp_libvips_binary_host": "https://github.com/lovell/sharp-libvips/releases/download"
   }
 }
