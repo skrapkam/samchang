@@ -20,6 +20,21 @@ const CoverStyle = css`
 interface MusicNode {
   id: string;
   title: string;
+  properties: {
+    title?: { value: string };
+    created_time?: { value: string };
+    last_edited_time?: { value: string };
+    rich_text?: { value: string };
+    number?: { value: number };
+    select?: { value: string };
+    multi_select?: { value: string[] };
+    date?: { value: string };
+    checkbox?: { value: boolean };
+    url?: { value: string };
+    email?: { value: string };
+    phone_number?: { value: string };
+    files?: { value: string };
+  };
   updatedAt: string;
 }
 
@@ -70,7 +85,21 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             <CoverTitle>{node.title}</CoverTitle>
             <p>ID: {node.id}</p>
             <p>Updated: {node.updatedAt}</p>
-            {/* We'll add properties once we know the schema */}
+            {/* Debug: Show what properties we have */}
+            <p>Title: {node.properties.title?.value || 'No title'}</p>
+            <p>Created: {node.properties.created_time?.value || 'No created time'}</p>
+            <p>Last Edited: {node.properties.last_edited_time?.value || 'No last edited time'}</p>
+            <p>Rich Text: {node.properties.rich_text?.value || 'No rich text'}</p>
+            <p>Number: {node.properties.number?.value || 'No number'}</p>
+            <p>Select: {node.properties.select?.value || 'No select'}</p>
+            <p>Multi Select: {node.properties.multi_select?.value || 'No multi select'}</p>
+            <p>Date: {node.properties.date?.value || 'No date'}</p>
+            <p>Checkbox: {node.properties.checkbox?.value || 'No checkbox'}</p>
+            <p>URL: {node.properties.url?.value || 'No URL'}</p>
+            <p>Email: {node.properties.email?.value || 'No email'}</p>
+            <p>Phone: {node.properties.phone_number?.value || 'No phone'}</p>
+            <p>Files: {node.properties.files?.value || 'No files'}</p>
+            {/* We'll add proper rendering once we know the property structure */}
           </div>
         ))}
       </Grid>
@@ -89,6 +118,49 @@ export const MusicQuery = graphql`
         node {
           id
           title
+          properties {
+            # Try some common Notion property types
+            title {
+              value
+            }
+            created_time {
+              value
+            }
+            last_edited_time {
+              value
+            }
+            # Try some other common property types
+            rich_text {
+              value
+            }
+            number {
+              value
+            }
+            select {
+              value
+            }
+            multi_select {
+              value
+            }
+            date {
+              value
+            }
+            checkbox {
+              value
+            }
+            url {
+              value
+            }
+            email {
+              value
+            }
+            phone_number {
+              value
+            }
+            files {
+              value
+            }
+          }
           updatedAt
         }
       }
