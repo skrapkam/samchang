@@ -20,9 +20,6 @@ const CoverStyle = css`
 interface MusicNode {
   id: string;
   title: string;
-  properties: {
-    // We'll add specific properties once we know what's available
-  };
   updatedAt: string;
 }
 
@@ -73,9 +70,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             <CoverTitle>{node.title}</CoverTitle>
             <p>ID: {node.id}</p>
             <p>Updated: {node.updatedAt}</p>
-            {/* Debug: Show the properties object */}
-            <p>Properties: {JSON.stringify(node.properties, null, 2)}</p>
-            {/* We'll add proper rendering once we know the property structure */}
+            {/* We'll add properties once we know the schema */}
           </div>
         ))}
       </Grid>
@@ -94,9 +89,6 @@ export const MusicQuery = graphql`
         node {
           id
           title
-          properties {
-            # We'll add specific properties once we know what's available
-          }
           updatedAt
         }
       }
