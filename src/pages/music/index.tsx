@@ -24,16 +24,15 @@ interface MusicNode {
     Release_Date?: {
       value: {
         start?: string;
-        end?: string;
-        timeZone?: string;
       };
     };
     URL?: { value: string };
     Image?: {
       value: Array<{
-        url?: string;
         name?: string;
         type?: string;
+        file?: { url?: string };
+        external?: { url?: string };
       }>;
     };
     Type?: {
@@ -89,22 +88,26 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
         </p>
       </MediumSectionWrapper>
       <Grid>
-        {musicItems.map(({ node }) => (
-          <div key={node.id}>
-            <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
-              {node.properties.Image?.value?.[0]?.url && (
-                <img
-                  css={CoverStyle}
-                  src={node.properties.Image.value[0].url}
-                  alt={node.title}
-                  style={{ width: "100%", height: "auto" }}
-                />
-              )}
-              <CoverTitle>{node.title}</CoverTitle>
-            </a>
-            <p>{node.properties.Release_Date?.value?.start}</p>
-          </div>
-        ))}
+        {musicItems.map(({ node }) => {
+          const imageObj = node.properties.Image?.value?.[0];
+          const imageUrl = imageObj?.file?.url || imageObj?.external?.url;
+          return (
+            <div key={node.id}>
+              <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+                {imageUrl && (
+                  <img
+                    css={CoverStyle}
+                    src={imageUrl}
+                    alt={node.title}
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                )}
+                <CoverTitle>{node.title}</CoverTitle>
+              </a>
+              <p>{node.properties.Release_Date?.value?.start}</p>
+            </div>
+          );
+        })}
       </Grid>
     </Page>
   );
@@ -125,8 +128,6 @@ export const MusicQuery = graphql`
             Release_Date: Release_Date {
               value {
                 start
-                end
-                timeZone
               }
             }
             URL {
@@ -134,9 +135,14 @@ export const MusicQuery = graphql`
             }
             Image {
               value {
-                url
                 name
                 type
+                file {
+                  url
+                }
+                external {
+                  url
+                }
               }
             }
             Type {
