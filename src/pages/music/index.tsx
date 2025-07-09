@@ -21,10 +21,10 @@ interface MusicNode {
   id: string;
   title: string;
   properties: {
-    Date: { value: string };
-    URL: { value: string };
-    Image: { value: string };
-    Type: { value: string };
+    Date?: { value: string };
+    URL?: { value: string };
+    Image?: { value: string };
+    Type?: { value: string };
   };
   updatedAt: string;
 }
@@ -40,6 +40,11 @@ interface MusicProps {
 }
 
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
+  // Filter for music items in JavaScript since GraphQL filtering is complex
+  const musicItems = data.music.edges.filter(({ node }) => {
+    return node.properties.Type && node.properties.Type.value === "Music";
+  });
+
   return (
     <Page>
       <Helmet>
@@ -68,19 +73,19 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
         </p>
       </MediumSectionWrapper>
       <Grid>
-        {data.music.edges.map(({ node }) => (
+        {musicItems.map(({ node }) => (
           <div key={node.id}>
-            <a href={node.properties.URL.value} target="_blank" rel="noopener noreferrer">
+            <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
               {/* If you want to use Gatsby image, you need to process the image URLs with gatsby-plugin-image or gatsby-image. For now, use a simple img tag. */}
               <img
                 css={CoverStyle}
-                src={node.properties.Image.value}
+                src={node.properties.Image?.value}
                 alt={node.title}
                 style={{ width: "100%", height: "auto" }}
               />
               <CoverTitle>{node.title}</CoverTitle>
             </a>
-            <p>{node.properties.Date.value}</p>
+            <p>{node.properties.Date?.value}</p>
           </div>
         ))}
       </Grid>
@@ -93,7 +98,6 @@ export default MusicPage;
 export const MusicQuery = graphql`
   query {
     music: allNotion(
-      filter: { properties: { Type: { value: { eq: "Music" } } } }
       sort: { updatedAt: DESC }
     ) {
       edges {
