@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import  Nav from "../../components/Nav";
+import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import {
   MediumSectionWrapper,
@@ -11,14 +11,34 @@ import {
 import Page from "../../components/Page";
 import Header from "../../components/Header";
 import { graphql } from "gatsby";
-import Img from "gatsby-image";
 import { Helmet } from "react-helmet";
 
 const CoverStyle = css`
   border: 1px solid rgba(0, 0, 0, 0.05);
 `;
 
-const music = ({ data }) => {
+interface MusicNode {
+  id: string;
+  title: string;
+  properties: {
+    Date: { value: string };
+    URL: { value: string };
+    Image: { value: string };
+    Type: { value: string };
+  };
+}
+
+interface MusicProps {
+  data: {
+    music: {
+      edges: Array<{
+        node: MusicNode;
+      }>;
+    };
+  };
+}
+
+const MusicPage: React.FC<MusicProps> = ({ data }) => {
   return (
     <Page>
       <Helmet>
@@ -47,16 +67,19 @@ const music = ({ data }) => {
         </p>
       </MediumSectionWrapper>
       <Grid>
-        {data.books.edges.map(({ node }) => (
-          <div>
-            <a href={node.url}>
-              <Img
+        {data.music.edges.map(({ node }) => (
+          <div key={node.id}>
+            <a href={node.properties.URL.value} target="_blank" rel="noopener noreferrer">
+              {/* If you want to use Gatsby image, you need to process the image URLs with gatsby-plugin-image or gatsby-image. For now, use a simple img tag. */}
+              <img
                 css={CoverStyle}
-                fluid={node.image.src.childImageSharp.fluid}
+                src={node.properties.Image.value}
+                alt={node.title}
+                style={{ width: "100%", height: "auto" }}
               />
               <CoverTitle>{node.title}</CoverTitle>
             </a>
-            <p>{node.date}</p>
+            <p>{node.properties.Date.value}</p>
           </div>
         ))}
       </Grid>
@@ -64,23 +87,30 @@ const music = ({ data }) => {
   );
 };
 
-export default music;
+export default MusicPage;
 
 export const MusicQuery = graphql`
   query {
-    books: allMusicJson(sort: {date: DESC}) {
+    music: allNotionDatabaseItem(
+      filter: { properties: { Type: { value: { eq: "Music" } } } }
+      sort: { properties: { Date: { value: DESC } } }
+    ) {
       edges {
         node {
+          id
           title
-          date
-          url
-          image {
-            src {
-              childImageSharp {
-                fluid(maxWidth: 650) {
-                  ...GatsbyImageSharpFluid_tracedSVG
-                }
-              }
+          properties {
+            Date {
+              value
+            }
+            URL {
+              value
+            }
+            Image {
+              value
+            }
+            Type {
+              value
             }
           }
         }
