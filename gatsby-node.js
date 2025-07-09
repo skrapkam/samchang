@@ -4,19 +4,23 @@ const { createFilePath } = require(`gatsby-source-filesystem`);
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({
-      node,
-      trailingSlash: false,
-      getNode,
-      // Remove the `src/projects` prefix so nested project
-      // directories generate clean URLs like `/ladder/example`.
-      basePath: `src/projects`
-    });
-    createNodeField({
-      node,
-      name: `slug`,
-      value: slug
-    });
+    // Check if the node has a parent and the parent has the necessary properties
+    const parent = getNode(node.parent);
+    if (parent && parent.sourceInstanceName) {
+      const slug = createFilePath({
+        node,
+        trailingSlash: false,
+        getNode,
+        // Remove the `src/projects` prefix so nested project
+        // directories generate clean URLs like `/ladder/example`.
+        basePath: `src/projects`
+      });
+      createNodeField({
+        node,
+        name: `slug`,
+        value: slug
+      });
+    }
   }
 };
 
