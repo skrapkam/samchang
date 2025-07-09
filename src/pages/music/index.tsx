@@ -23,8 +23,19 @@ interface MusicNode {
   properties: {
     Date?: { value: string };
     URL?: { value: string };
-    Image?: { value: string };
-    Type?: { value: string };
+    Image?: { 
+      value: {
+        url?: string;
+        caption?: string;
+        type?: string;
+      };
+    };
+    Type?: { 
+      value: {
+        name?: string;
+        color?: string;
+      };
+    };
   };
   updatedAt: string;
 }
@@ -42,7 +53,7 @@ interface MusicProps {
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
   // Filter for music items in JavaScript since GraphQL filtering is complex
   const musicItems = data.music.edges.filter(({ node }) => {
-    return node.properties.Type && node.properties.Type.value === "Music";
+    return node.properties.Type && node.properties.Type.value?.name === "Music";
   });
 
   return (
@@ -79,7 +90,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               {/* If you want to use Gatsby image, you need to process the image URLs with gatsby-plugin-image or gatsby-image. For now, use a simple img tag. */}
               <img
                 css={CoverStyle}
-                src={node.properties.Image?.value}
+                src={node.properties.Image?.value?.url}
                 alt={node.title}
                 style={{ width: "100%", height: "auto" }}
               />
@@ -112,10 +123,17 @@ export const MusicQuery = graphql`
               value
             }
             Image {
-              value
+              value {
+                url
+                caption
+                type
+              }
             }
             Type {
-              value
+              value {
+                name
+                color
+              }
             }
           }
           updatedAt
