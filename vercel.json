@@ -1,9 +1,6 @@
 {
-  "buildCommand": "yarn build",
-  "installCommand": "yarn install --frozen-lockfile",
   "framework": "gatsby",
   "env": {
-    "SHARP_IGNORE_GLOBAL_LIBVIPS": "1",
-    "NODE_OPTIONS": "--max_old_space_size=4096"
+    "SHARP_IGNORE_GLOBAL_LIBVIPS": "1"
   }
 }
