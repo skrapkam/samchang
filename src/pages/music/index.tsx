@@ -21,18 +21,7 @@ interface MusicNode {
   id: string;
   title: string;
   properties: {
-    Name?: { value: string };
-    Description?: { value: string };
-    Status?: { value: string };
-    Category?: { value: string };
-    Link?: { value: string };
-    Cover?: { value: string };
-    name?: { value: string };
-    description?: { value: string };
-    status?: { value: string };
-    category?: { value: string };
-    link?: { value: string };
-    cover?: { value: string };
+    // We'll add specific properties once we know what's available
   };
   updatedAt: string;
 }
@@ -84,13 +73,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             <CoverTitle>{node.title}</CoverTitle>
             <p>ID: {node.id}</p>
             <p>Updated: {node.updatedAt}</p>
-            {/* Debug: Show what properties we have */}
-            <p>Name: {node.properties.Name?.value || node.properties.name?.value || 'No name'}</p>
-            <p>Description: {node.properties.Description?.value || node.properties.description?.value || 'No description'}</p>
-            <p>Status: {node.properties.Status?.value || node.properties.status?.value || 'No status'}</p>
-            <p>Category: {node.properties.Category?.value || node.properties.category?.value || 'No category'}</p>
-            <p>Link: {node.properties.Link?.value || node.properties.link?.value || 'No link'}</p>
-            <p>Cover: {node.properties.Cover?.value || node.properties.cover?.value || 'No cover'}</p>
+            {/* Debug: Show the properties object */}
+            <p>Properties: {JSON.stringify(node.properties, null, 2)}</p>
             {/* We'll add proper rendering once we know the property structure */}
           </div>
         ))}
@@ -111,44 +95,7 @@ export const MusicQuery = graphql`
           id
           title
           properties {
-            # Try different property names that might exist
-            Name {
-              value
-            }
-            Description {
-              value
-            }
-            Status {
-              value
-            }
-            Category {
-              value
-            }
-            Link {
-              value
-            }
-            Cover {
-              value
-            }
-            # Try some other common names
-            name {
-              value
-            }
-            description {
-              value
-            }
-            status {
-              value
-            }
-            category {
-              value
-            }
-            link {
-              value
-            }
-            cover {
-              value
-            }
+            # We'll add specific properties once we know what's available
           }
           updatedAt
         }
