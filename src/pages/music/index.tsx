@@ -20,9 +20,6 @@ const CoverStyle = css`
 interface MusicNode {
   id: string;
   title: string;
-  properties: {
-    // We'll add specific properties once we know the schema
-  };
   updatedAt: string;
 }
 
@@ -92,10 +89,6 @@ export const MusicQuery = graphql`
         node {
           id
           title
-          properties {
-            # Let's see what properties are actually available
-            # We'll add specific ones once we know the schema
-          }
           updatedAt
         }
       }
