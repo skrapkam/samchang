@@ -64,6 +64,9 @@
   ],
   "license": "MIT",
   "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "start": "gatsby serve",
     "type-check": "tsc --noEmit",
     "lint": "tslint --project .",
     "test": "jest && node tests/validate-content.js"
