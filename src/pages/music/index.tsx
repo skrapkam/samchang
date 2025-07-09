@@ -20,6 +20,16 @@ const CoverStyle = css`
 interface MusicNode {
   id: string;
   title: string;
+  properties: {
+    date?: { value: string };
+    url?: { value: string };
+    image?: { value: string };
+    type?: { value: string };
+    Date?: { value: string };
+    URL?: { value: string };
+    Image?: { value: string };
+    Type?: { value: string };
+  };
   updatedAt: string;
 }
 
@@ -70,6 +80,11 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             <CoverTitle>{node.title}</CoverTitle>
             <p>ID: {node.id}</p>
             <p>Updated: {node.updatedAt}</p>
+            {/* Debug: Show what properties we have */}
+            <p>Date: {node.properties.date?.value || node.properties.Date?.value || 'No date'}</p>
+            <p>URL: {node.properties.url?.value || node.properties.URL?.value || 'No URL'}</p>
+            <p>Image: {node.properties.image?.value || node.properties.Image?.value || 'No image'}</p>
+            <p>Type: {node.properties.type?.value || node.properties.Type?.value || 'No type'}</p>
             {/* We'll add proper rendering once we know the property structure */}
           </div>
         ))}
@@ -89,6 +104,34 @@ export const MusicQuery = graphql`
         node {
           id
           title
+          properties {
+            # Try common property names
+            date {
+              value
+            }
+            url {
+              value
+            }
+            image {
+              value
+            }
+            type {
+              value
+            }
+            # Alternative property names
+            Date {
+              value
+            }
+            URL {
+              value
+            }
+            Image {
+              value
+            }
+            Type {
+              value
+            }
+          }
           updatedAt
         }
       }
