@@ -32,7 +32,6 @@ interface MusicNode {
         name?: string;
         type?: string;
         file?: { url?: string };
-        external?: { url?: string };
       }>;
     };
     Type?: {
@@ -90,7 +89,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
       <Grid>
         {musicItems.map(({ node }) => {
           const imageObj = node.properties.Image?.value?.[0];
-          const imageUrl = imageObj?.file?.url || imageObj?.external?.url;
+          const imageUrl = imageObj?.file?.url;
           return (
             <div key={node.id}>
               <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
@@ -138,9 +137,6 @@ export const MusicQuery = graphql`
                 name
                 type
                 file {
-                  url
-                }
-                external {
                   url
                 }
               }
