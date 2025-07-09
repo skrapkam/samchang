@@ -23,12 +23,34 @@ interface MusicNode {
   properties: {
     date?: { value: string };
     url?: { value: string };
-    image?: { value: string };
-    type?: { value: string };
+    image?: { 
+      value: {
+        url?: string;
+        caption?: string;
+        type?: string;
+      };
+    };
+    type?: { 
+      value: {
+        name?: string;
+        color?: string;
+      };
+    };
     Date?: { value: string };
     URL?: { value: string };
-    Image?: { value: string };
-    Type?: { value: string };
+    Image?: { 
+      value: {
+        url?: string;
+        caption?: string;
+        type?: string;
+      };
+    };
+    Type?: { 
+      value: {
+        name?: string;
+        color?: string;
+      };
+    };
   };
   updatedAt: string;
 }
@@ -83,8 +105,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             {/* Debug: Show what properties we have */}
             <p>Date: {node.properties.date?.value || node.properties.Date?.value || 'No date'}</p>
             <p>URL: {node.properties.url?.value || node.properties.URL?.value || 'No URL'}</p>
-            <p>Image: {node.properties.image?.value || node.properties.Image?.value || 'No image'}</p>
-            <p>Type: {node.properties.type?.value || node.properties.Type?.value || 'No type'}</p>
+            <p>Image URL: {node.properties.image?.value?.url || node.properties.Image?.value?.url || 'No image'}</p>
+            <p>Type: {node.properties.type?.value?.name || node.properties.Type?.value?.name || 'No type'}</p>
             {/* We'll add proper rendering once we know the property structure */}
           </div>
         ))}
@@ -113,10 +135,17 @@ export const MusicQuery = graphql`
               value
             }
             image {
-              value
+              value {
+                url
+                caption
+                type
+              }
             }
             type {
-              value
+              value {
+                name
+                color
+              }
             }
             # Alternative property names
             Date {
@@ -126,10 +155,17 @@ export const MusicQuery = graphql`
               value
             }
             Image {
-              value
+              value {
+                url
+                caption
+                type
+              }
             }
             Type {
-              value
+              value {
+                name
+                color
+              }
             }
           }
           updatedAt
