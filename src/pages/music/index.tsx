@@ -21,7 +21,13 @@ interface MusicNode {
   id: string;
   title: string;
   properties: {
-    Release_Date?: { value: string };
+    Release_Date?: {
+      value: {
+        start?: string;
+        end?: string;
+        timeZone?: string;
+      };
+    };
     URL?: { value: string };
     Image?: {
       value: Array<{
@@ -96,7 +102,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               )}
               <CoverTitle>{node.title}</CoverTitle>
             </a>
-            <p>{node.properties.Release_Date?.value}</p>
+            <p>{node.properties.Release_Date?.value?.start}</p>
           </div>
         ))}
       </Grid>
@@ -117,7 +123,11 @@ export const MusicQuery = graphql`
           title
           properties {
             Release_Date: Release_Date {
-              value
+              value {
+                start
+                end
+                timeZone
+              }
             }
             URL {
               value
