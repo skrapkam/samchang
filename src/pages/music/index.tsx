@@ -26,6 +26,7 @@ interface MusicNode {
     Image: { value: string };
     Type: { value: string };
   };
+  updatedAt: string;
 }
 
 interface MusicProps {
@@ -91,9 +92,9 @@ export default MusicPage;
 
 export const MusicQuery = graphql`
   query {
-    music: allNotionDatabaseItem(
+    music: allNotion(
       filter: { properties: { Type: { value: { eq: "Music" } } } }
-      sort: { properties: { Date: { value: DESC } } }
+      sort: { updatedAt: DESC }
     ) {
       edges {
         node {
@@ -113,6 +114,7 @@ export const MusicQuery = graphql`
               value
             }
           }
+          updatedAt
         }
       }
     }
