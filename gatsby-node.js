@@ -67,6 +67,11 @@ exports.createPages = ({ graphql, actions }) => {
       const posts = result.data.allMarkdownRemark.edges;
 
       posts.forEach(({ node }, index) => {
+        // Only process nodes that have fields and slug
+        if (!node.fields || !node.fields.slug) {
+          return;
+        }
+        
         let parentSlug = null;
         let parentTitle = null;
         const parts = node.fields.slug.split('/').filter(Boolean);
@@ -74,7 +79,7 @@ exports.createPages = ({ graphql, actions }) => {
           // Use the first path segment as the parent slug. Do not include a
           // trailing slash so it matches the slug created by `createFilePath`.
           parentSlug = `/${parts[0]}`;
-          const parent = posts.find(p => p.node.fields.slug === parentSlug);
+          const parent = posts.find(p => p.node.fields && p.node.fields.slug === parentSlug);
           if (parent) {
             parentTitle = parent.node.frontmatter.title;
           }
