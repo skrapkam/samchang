@@ -20,6 +20,23 @@ const CoverStyle = css`
 interface MusicNode {
   id: string;
   title: string;
+  properties: {
+    Release_Date?: { value: string };
+    URL?: { value: string };
+    Image?: {
+      value: Array<{
+        url?: string;
+        name?: string;
+        type?: string;
+      }>;
+    };
+    Type?: {
+      value: {
+        name?: string;
+        color?: string;
+      };
+    };
+  };
   updatedAt: string;
 }
 
@@ -34,8 +51,9 @@ interface MusicProps {
 }
 
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
-  // For now, show all items until we figure out the schema
-  const musicItems = data.music.edges;
+  const musicItems = data.music.edges.filter(({ node }) =>
+    node.properties.Type?.value?.name === "Music"
+  );
 
   return (
     <Page>
@@ -67,10 +85,18 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
       <Grid>
         {musicItems.map(({ node }) => (
           <div key={node.id}>
-            <CoverTitle>{node.title}</CoverTitle>
-            <p>ID: {node.id}</p>
-            <p>Updated: {node.updatedAt}</p>
-            {/* We'll add properties once we know the schema */}
+            <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+              {node.properties.Image?.value?.[0]?.url && (
+                <img
+                  css={CoverStyle}
+                  src={node.properties.Image.value[0].url}
+                  alt={node.title}
+                  style={{ width: "100%", height: "auto" }}
+                />
+              )}
+              <CoverTitle>{node.title}</CoverTitle>
+            </a>
+            <p>{node.properties.Release_Date?.value}</p>
           </div>
         ))}
       </Grid>
@@ -89,6 +115,27 @@ export const MusicQuery = graphql`
         node {
           id
           title
+          properties {
+            Release_Date: Release_Date {
+              value
+            }
+            URL {
+              value
+            }
+            Image {
+              value {
+                url
+                name
+                type
+              }
+            }
+            Type {
+              value {
+                name
+                color
+              }
+            }
+          }
           updatedAt
         }
       }
