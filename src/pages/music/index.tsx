@@ -21,36 +21,18 @@ interface MusicNode {
   id: string;
   title: string;
   properties: {
-    date?: { value: string };
-    url?: { value: string };
-    image?: { 
-      value: {
-        url?: string;
-        caption?: string;
-        type?: string;
-      };
-    };
-    type?: { 
-      value: {
-        name?: string;
-        color?: string;
-      };
-    };
-    Date?: { value: string };
-    URL?: { value: string };
-    Image?: { 
-      value: {
-        url?: string;
-        caption?: string;
-        type?: string;
-      };
-    };
-    Type?: { 
-      value: {
-        name?: string;
-        color?: string;
-      };
-    };
+    Name?: { value: string };
+    Description?: { value: string };
+    Status?: { value: string };
+    Category?: { value: string };
+    Link?: { value: string };
+    Cover?: { value: string };
+    name?: { value: string };
+    description?: { value: string };
+    status?: { value: string };
+    category?: { value: string };
+    link?: { value: string };
+    cover?: { value: string };
   };
   updatedAt: string;
 }
@@ -103,10 +85,12 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             <p>ID: {node.id}</p>
             <p>Updated: {node.updatedAt}</p>
             {/* Debug: Show what properties we have */}
-            <p>Date: {node.properties.date?.value || node.properties.Date?.value || 'No date'}</p>
-            <p>URL: {node.properties.url?.value || node.properties.URL?.value || 'No URL'}</p>
-            <p>Image URL: {node.properties.image?.value?.url || node.properties.Image?.value?.url || 'No image'}</p>
-            <p>Type: {node.properties.type?.value?.name || node.properties.Type?.value?.name || 'No type'}</p>
+            <p>Name: {node.properties.Name?.value || node.properties.name?.value || 'No name'}</p>
+            <p>Description: {node.properties.Description?.value || node.properties.description?.value || 'No description'}</p>
+            <p>Status: {node.properties.Status?.value || node.properties.status?.value || 'No status'}</p>
+            <p>Category: {node.properties.Category?.value || node.properties.category?.value || 'No category'}</p>
+            <p>Link: {node.properties.Link?.value || node.properties.link?.value || 'No link'}</p>
+            <p>Cover: {node.properties.Cover?.value || node.properties.cover?.value || 'No cover'}</p>
             {/* We'll add proper rendering once we know the property structure */}
           </div>
         ))}
@@ -127,45 +111,43 @@ export const MusicQuery = graphql`
           id
           title
           properties {
-            # Try common property names
-            date {
+            # Try different property names that might exist
+            Name {
               value
             }
-            url {
+            Description {
               value
             }
-            image {
-              value {
-                url
-                caption
-                type
-              }
-            }
-            type {
-              value {
-                name
-                color
-              }
-            }
-            # Alternative property names
-            Date {
+            Status {
               value
             }
-            URL {
+            Category {
               value
             }
-            Image {
-              value {
-                url
-                caption
-                type
-              }
+            Link {
+              value
             }
-            Type {
-              value {
-                name
-                color
-              }
+            Cover {
+              value
+            }
+            # Try some other common names
+            name {
+              value
+            }
+            description {
+              value
+            }
+            status {
+              value
+            }
+            category {
+              value
+            }
+            link {
+              value
+            }
+            cover {
+              value
             }
           }
           updatedAt
