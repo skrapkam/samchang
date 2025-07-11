@@ -15,6 +15,19 @@ import { Helmet } from "react-helmet";
 import styled from "@emotion/styled";
 import defaultTheme from "../../components/Theme";
 
+// Safari detection hook
+const useIsSafari = () => {
+  const [isSafari, setIsSafari] = useState(false);
+  
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(userAgent);
+    setIsSafari(isSafariBrowser);
+  }, []);
+  
+  return isSafari;
+};
+
 // New realistic jewel case components from scratch
 
 const JewelCaseWrapper = styled.div`
@@ -151,15 +164,44 @@ const CoverImage = styled.img`
   box-shadow: inset 0 0 1px rgba(0,0,0,0.2);
 `;
 
-const VerticalStrip = styled.div`
+const VerticalStrip = styled.div<{ isSafari: boolean }>`
   position: absolute;
   left: 0;
   top: 0;
   width: 30px;
   height: 100%;
-  background-color: transparent;
-  backdrop-filter: blur(5px);
   border-right: 1px solid rgba(255,255,255,0.1);
+  
+  /* Safari-specific gradient overlay */
+  ${props => props.isSafari ? `
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    box-shadow: inset 1px 0 2px rgba(255, 255, 255, 0.1);
+  ` : `
+    /* Backdrop-filter for non-Safari browsers */
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background-color: transparent;
+  `}
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    ${props => props.isSafari ? `
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0.01) 100%
+      );
+    ` : `
+      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(3px);
+    `}
+  }
 `;
 
 const Gloss = styled.div<{ tiltX: number; tiltY: number }>`
@@ -236,6 +278,7 @@ interface MusicProps {
 }
 
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
+  const isSafari = useIsSafari();
   const musicItems = data.music.edges
     .filter(({ node }) => node.properties.Type?.value?.name === "Music")
     .sort((a, b) => {
@@ -311,7 +354,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                       <CoverImage src={imageUrl} alt={node.title} />
                     </a>
                   )}
-                  <VerticalStrip />
+                  <VerticalStrip isSafari={isSafari} />
                   <Gloss tiltX={tilt.rotateX} tiltY={tilt.rotateY} />
                 </Front>
                 <Back />
