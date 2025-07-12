@@ -360,6 +360,17 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           const [isTouching, setIsTouching] = useState(false);
           const touchStartTime = useRef<number>(0);
           const touchMoved = useRef<boolean>(false);
+          const touchHistory = useRef<Array<{ x: number; y: number; time: number }>>([]);
+          const animationFrameRef = useRef<number | null>(null);
+
+          // Cleanup animation frame on unmount
+          useEffect(() => {
+            return () => {
+              if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+              }
+            };
+          }, []);
 
           const calculateTilt = useCallback((clientX: number, clientY: number) => {
             if (!caseRef.current) return { rotateX: 0, rotateY: 0 };
@@ -369,21 +380,42 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Calculate distance from center
-            const distanceX = Math.abs(x - centerX) / centerX;
-            const distanceY = Math.abs(y - centerY) / centerY;
-            
-            // Add dead zone to prevent jittery behavior
-            const deadZone = 0.1;
-            if (distanceX < deadZone && distanceY < deadZone) {
-              return { rotateX: 0, rotateY: 0 };
-            }
-            
-            const maxTilt = 25; // Further reduced max tilt for smoother effect
+            const maxTilt = 30; // Increased for more dynamic effect
             const rotateY = ((x - centerX) / centerX) * maxTilt;
             const rotateX = -((y - centerY) / centerY) * maxTilt;
             return { rotateX, rotateY };
           }, []);
+
+          const smoothTilt = useCallback((targetTilt: { rotateX: number; rotateY: number }) => {
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+            }
+            
+            const startTilt = tilt;
+            const startTime = Date.now();
+            const duration = 100; // Smooth interpolation over 100ms
+            
+            const animate = () => {
+              const elapsed = Date.now() - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              
+              // Smooth easing function
+              const easeProgress = 1 - Math.pow(1 - progress, 3);
+              
+              const newTilt = {
+                rotateX: startTilt.rotateX + (targetTilt.rotateX - startTilt.rotateX) * easeProgress,
+                rotateY: startTilt.rotateY + (targetTilt.rotateY - startTilt.rotateY) * easeProgress
+              };
+              
+              setTilt(newTilt);
+              
+              if (progress < 1) {
+                animationFrameRef.current = requestAnimationFrame(animate);
+              }
+            };
+            
+            animationFrameRef.current = requestAnimationFrame(animate);
+          }, [tilt]);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile || isTouching) return; // Don't handle mouse events on mobile or during touch
@@ -401,7 +433,18 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             setIsTouching(true);
             touchStartTime.current = Date.now();
             touchMoved.current = false;
+            touchHistory.current = [];
+            
             const touch = e.touches[0];
+            const currentTime = Date.now();
+            
+            // Add initial touch to history
+            touchHistory.current.push({
+              x: touch.clientX,
+              y: touch.clientY,
+              time: currentTime
+            });
+            
             setTilt(calculateTilt(touch.clientX, touch.clientY));
           }, [isMobile, calculateTilt]);
 
@@ -411,12 +454,37 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             touchMoved.current = true;
             
             const touch = e.touches[0];
+            const currentTime = Date.now();
             
-            // Use requestAnimationFrame for smoother updates
-            requestAnimationFrame(() => {
-              setTilt(calculateTilt(touch.clientX, touch.clientY));
+            // Add current touch to history
+            touchHistory.current.push({
+              x: touch.clientX,
+              y: touch.clientY,
+              time: currentTime
             });
-          }, [isMobile, calculateTilt]);
+            
+            // Keep only recent history (last 100ms)
+            const recentHistory = touchHistory.current.filter(
+              point => currentTime - point.time < 100
+            );
+            touchHistory.current = recentHistory;
+            
+            // Calculate average position from recent history for smoother movement
+            if (recentHistory.length > 0) {
+              const avgX = recentHistory.reduce((sum, point) => sum + point.x, 0) / recentHistory.length;
+              const avgY = recentHistory.reduce((sum, point) => sum + point.y, 0) / recentHistory.length;
+              
+              const targetTilt = calculateTilt(avgX, avgY);
+              
+              // For active scrubbing, update immediately for responsiveness
+              if (recentHistory.length > 3) {
+                setTilt(targetTilt);
+              } else {
+                // For small movements, use smooth interpolation
+                smoothTilt(targetTilt);
+              }
+            }
+          }, [isMobile, calculateTilt, smoothTilt]);
 
           const handleTouchEnd = useCallback((e: React.TouchEvent) => {
             if (!isMobile) return; // Only handle touch on mobile devices
@@ -433,12 +501,22 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
             }
             
-            // Reset tilt with a slight delay to show the effect
+            // Clean up animation frame
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+            }
+            
+            // Clear touch history
+            touchHistory.current = [];
+            
+            // Smooth return to center
+            smoothTilt({ rotateX: 0, rotateY: 0 });
+            
+            // Reset touching state after animation
             setTimeout(() => {
-              setTilt({ rotateX: 0, rotateY: 0 });
               setIsTouching(false);
-            }, 100);
-          }, [isMobile, node.properties.URL?.value]);
+            }, 200);
+          }, [isMobile, node.properties.URL?.value, smoothTilt]);
 
           return (
             <JewelCaseWrapper key={node.id} ref={caseRef}
