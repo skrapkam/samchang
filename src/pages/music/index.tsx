@@ -396,6 +396,10 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               // Add back tanh for smoother feel, but keep it pronounced
               rotateY = Math.tanh(percentX) * maxTilt;
               rotateX = -Math.tanh(percentY) * maxTilt;
+              
+              // Clamp to prevent extreme jitter at edges
+              rotateY = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateY));
+              rotateX = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateX));
             } else {
               rotateY = percentX * maxTilt;
               rotateX = -percentY * maxTilt;
@@ -476,7 +480,12 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             touchMoved.current = true;
             
             const touch = e.touches[0];
-            // Temporarily remove deadzone to debug - update targetTilt directly
+            // Small deadzone to reduce edge jitter
+            if (lastTouch.current) {
+              const dx = touch.clientX - lastTouch.current.x;
+              const dy = touch.clientY - lastTouch.current.y;
+              if (Math.sqrt(dx * dx + dy * dy) < 0.5) return;
+            }
             lastTouch.current = { x: touch.clientX, y: touch.clientY };
             targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
           }, [isMobile, calculateTilt]);
