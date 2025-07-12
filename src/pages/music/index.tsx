@@ -28,6 +28,28 @@ const useIsSafari = () => {
   return isSafari;
 };
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 768;
+      
+      setIsMobile(isMobileDevice || (isTouchDevice && isSmallScreen));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 // New realistic jewel case components from scratch
 
 const JewelCaseWrapper = styled.div`
@@ -36,6 +58,15 @@ const JewelCaseWrapper = styled.div`
   height: 280px;
   perspective: 1500px;
   margin: 4rem auto;
+  cursor: pointer;
+  
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    touch-action: none; /* Prevent default touch behaviors like scrolling */
+    user-select: none; /* Prevent text selection on touch */
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  }
 `;
 
 const JewelCase = styled.div<{ rotateX: number; rotateY: number }>`
@@ -279,6 +310,7 @@ interface MusicProps {
 
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
   const isSafari = useIsSafari();
+  const isMobile = useIsMobile();
   const musicItems = data.music.edges
     .filter(({ node }) => node.properties.Type?.value?.name === "Music")
     .sort((a, b) => {
@@ -324,35 +356,91 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           const imageUrl = node.properties.Image?.value?.[0]?.external?.url;
           const caseRef = useRef<HTMLDivElement>(null);
           const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+          const [isTouching, setIsTouching] = useState(false);
+          const touchStartTime = useRef<number>(0);
+          const touchMoved = useRef<boolean>(false);
 
-          const handleMouseMove = (e: React.MouseEvent) => {
-            if (!caseRef.current) return;
+          const calculateTilt = (clientX: number, clientY: number) => {
+            if (!caseRef.current) return { rotateX: 0, rotateY: 0 };
             const rect = caseRef.current.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             const maxTilt = 50;
             const rotateY = ((x - centerX) / centerX) * maxTilt;
             const rotateX = -((y - centerY) / centerY) * maxTilt;
-            setTilt({ rotateX, rotateY });
+            return { rotateX, rotateY };
+          };
+
+          const handleMouseMove = (e: React.MouseEvent) => {
+            if (isMobile || isTouching) return; // Don't handle mouse events on mobile or during touch
+            setTilt(calculateTilt(e.clientX, e.clientY));
           };
 
           const handleMouseLeave = () => {
+            if (isMobile || isTouching) return; // Don't handle mouse events on mobile or during touch
             setTilt({ rotateX: 0, rotateY: 0 });
+          };
+
+          const handleTouchStart = (e: React.TouchEvent) => {
+            if (!isMobile) return; // Only handle touch on mobile devices
+            e.preventDefault(); // Prevent default touch behaviors
+            setIsTouching(true);
+            touchStartTime.current = Date.now();
+            touchMoved.current = false;
+            const touch = e.touches[0];
+            setTilt(calculateTilt(touch.clientX, touch.clientY));
+          };
+
+          const handleTouchMove = (e: React.TouchEvent) => {
+            if (!isMobile) return; // Only handle touch on mobile devices
+            e.preventDefault(); // Prevent scrolling while touching
+            touchMoved.current = true;
+            const touch = e.touches[0];
+            setTilt(calculateTilt(touch.clientX, touch.clientY));
+          };
+
+          const handleTouchEnd = (e: React.TouchEvent) => {
+            if (!isMobile) return; // Only handle touch on mobile devices
+            e.preventDefault();
+            const touchDuration = Date.now() - touchStartTime.current;
+            const wasTap = !touchMoved.current && touchDuration < 300; // Quick tap detection
+            
+            if (wasTap && node.properties.URL?.value) {
+              // Add haptic feedback for supported devices
+              if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+              }
+              // Handle tap to link
+              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+            }
+            
+            // Reset tilt with a slight delay to show the effect
+            setTimeout(() => {
+              setTilt({ rotateX: 0, rotateY: 0 });
+              setIsTouching(false);
+            }, 100);
           };
 
           return (
             <JewelCaseWrapper key={node.id} ref={caseRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
                 <Front>
                   {imageUrl && (
-                    <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+                    isMobile ? (
                       <CoverImage src={imageUrl} alt={node.title} />
-                    </a>
+                    ) : (
+                      <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+                        <CoverImage src={imageUrl} alt={node.title} />
+                      </a>
+                    )
                   )}
                   <VerticalStrip isSafari={isSafari} />
                   <Gloss tiltX={tilt.rotateX} tiltY={tilt.rotateY} />
