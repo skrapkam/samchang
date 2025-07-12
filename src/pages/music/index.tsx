@@ -380,8 +380,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           // Generate random tilt for hold effect
           const generateRandomTilt = useCallback(() => {
             return {
-              rotateX: (Math.random() - 0.5) * 20, // -10 to 10 degrees
-              rotateY: (Math.random() - 0.5) * 20  // -10 to 10 degrees
+              rotateX: (Math.random() - 0.5) * 80, // -40 to 40 degrees
+              rotateY: (Math.random() - 0.5) * 80  // -40 to 40 degrees
             };
           }, []);
 
@@ -450,6 +450,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             isHolding.current = false;
             hasMoved.current = false;
             
+            // Don't prevent default on touch start - allow scrolling to work
+            
             // Start hold timeout for 200ms
             holdTimeoutRef.current = setTimeout(() => {
               if (!hasMoved.current) {
@@ -494,8 +496,11 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               return;
             }
             
-            // Prevent default only if we haven't moved much (still might be tap/hold)
-            e.preventDefault();
+            // Only prevent default if we haven't moved much AND we're not holding yet
+            // This allows scrolling to work even when starting over artwork
+            if (!isHolding.current && distance < 5) {
+              e.preventDefault();
+            }
           }, [isMobile, animateToTilt]);
 
           const handleTouchEnd = useCallback((e: React.TouchEvent) => {
