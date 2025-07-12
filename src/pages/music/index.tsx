@@ -377,11 +377,15 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             };
           }, []);
 
-          // Generate random tilt for hold effect
+          // Generate random tilt direction with fixed degree
           const generateRandomTilt = useCallback(() => {
+            const fixedDegree = 35; // Fixed tilt degree
+            const randomDirectionX = Math.random() > 0.5 ? 1 : -1;
+            const randomDirectionY = Math.random() > 0.5 ? 1 : -1;
+            
             return {
-              rotateX: (Math.random() - 0.5) * 80, // -40 to 40 degrees
-              rotateY: (Math.random() - 0.5) * 80  // -40 to 40 degrees
+              rotateX: randomDirectionX * fixedDegree, // Either +35 or -35 degrees
+              rotateY: randomDirectionY * fixedDegree  // Either +35 or -35 degrees
             };
           }, []);
 
