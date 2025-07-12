@@ -393,9 +393,9 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             
             let rotateY, rotateX;
             if (isMobile) {
-              // Non-linear scaling with tanh, clamp to 90% of maxTilt
-              rotateY = Math.tanh(percentX) * maxTilt * 0.9;
-              rotateX = -Math.tanh(percentY) * maxTilt * 0.9;
+              // Simplified linear scaling for mobile to debug
+              rotateY = percentX * maxTilt;
+              rotateX = -percentY * maxTilt;
             } else {
               rotateY = percentX * maxTilt;
               rotateX = -percentY * maxTilt;
@@ -408,8 +408,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
 
           // New buttery-smooth animation loop using lerp/interpolation
           const runAnimation = useCallback(() => {
-            // Use a lower lerp factor for mobile for more smoothing
-            const lerp = isMobile ? 0.07 : 0.15;
+            // Use same lerp factor for mobile and desktop for responsive feel
+            const lerp = 0.15;
             if (!isTouching.current) {
               // Check if we're close enough to target to stop
               if (
@@ -436,7 +436,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               setTilt({ ...currentTilt.current });
               animationFrameRef.current = requestAnimationFrame(runAnimation);
             }
-          }, [isMobile]);
+          }, []);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile || isTouching.current) return; // Don't handle mouse events on mobile or during touch
@@ -476,14 +476,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             touchMoved.current = true;
             
             const touch = e.touches[0];
-            // Deadzone: ignore if movement < 3px
-            if (lastTouch.current) {
-              const dx = touch.clientX - lastTouch.current.x;
-              const dy = touch.clientY - lastTouch.current.y;
-              if (Math.sqrt(dx * dx + dy * dy) < 3) return;
-            }
+            // Temporarily remove deadzone to debug - update targetTilt directly
             lastTouch.current = { x: touch.clientX, y: touch.clientY };
-            // Only update targetTilt - let the animation loop handle the smooth transition
             targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
           }, [isMobile, calculateTilt]);
 
