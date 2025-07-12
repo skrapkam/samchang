@@ -382,8 +382,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Mobile: use non-linear scaling, lower maxTilt, clamp, deadzone
-            let maxTilt = isMobile ? 18 : 30;
+            // Mobile: increase maxTilt for more pronounced effect
+            let maxTilt = isMobile ? 25 : 30;
             let percentX = (x - centerX) / centerX;
             let percentY = (y - centerY) / centerY;
             
@@ -393,9 +393,9 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             
             let rotateY, rotateX;
             if (isMobile) {
-              // Simplified linear scaling for mobile to debug
-              rotateY = percentX * maxTilt;
-              rotateX = -percentY * maxTilt;
+              // Add back tanh for smoother feel, but keep it pronounced
+              rotateY = Math.tanh(percentX) * maxTilt;
+              rotateX = -Math.tanh(percentY) * maxTilt;
             } else {
               rotateY = percentX * maxTilt;
               rotateX = -percentY * maxTilt;
@@ -408,8 +408,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
 
           // New buttery-smooth animation loop using lerp/interpolation
           const runAnimation = useCallback(() => {
-            // Use same lerp factor for mobile and desktop for responsive feel
-            const lerp = 0.15;
+            // Use higher lerp factor for mobile for more responsive feel
+            const lerp = isMobile ? 0.25 : 0.15;
             if (!isTouching.current) {
               // Check if we're close enough to target to stop
               if (
