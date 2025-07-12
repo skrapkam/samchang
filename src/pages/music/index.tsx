@@ -356,167 +356,180 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           const imageUrl = node.properties.Image?.value?.[0]?.external?.url;
           const caseRef = useRef<HTMLDivElement>(null);
           
-          // New Target Tilt Ref Pattern for smooth mobile interaction
+          // New tap/hold mobile interaction
           const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
-          const targetTilt = useRef({ rotateX: 0, rotateY: 0 });
-          const currentTilt = useRef({ rotateX: 0, rotateY: 0 });
           const animationFrameRef = useRef<number | null>(null);
-          const isTouching = useRef(false);
+          const touchStartPos = useRef<{ x: number; y: number } | null>(null);
           const touchStartTime = useRef<number>(0);
-          const touchMoved = useRef<boolean>(false);
+          const holdTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+          const isHolding = useRef(false);
+          const hasMoved = useRef(false);
 
-          // Cleanup animation frame on unmount
+          // Cleanup animation frame and timeout on unmount
           useEffect(() => {
             return () => {
               if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
               }
+              if (holdTimeoutRef.current) {
+                clearTimeout(holdTimeoutRef.current);
+              }
             };
           }, []);
 
-          const calculateTilt = useCallback((clientX: number, clientY: number) => {
-            if (!caseRef.current) return { rotateX: 0, rotateY: 0 };
-            const rect = caseRef.current.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Mobile: increase maxTilt for more dramatic effect, but add a small buffer
-            let maxTilt = isMobile ? 28 : 30;
-            let percentX = (x - centerX) / centerX;
-            let percentY = (y - centerY) / centerY;
-            // Clamp percent to [-0.95, 0.95] to avoid tanh extremes
-            percentX = Math.max(-0.95, Math.min(0.95, percentX));
-            percentY = Math.max(-0.95, Math.min(0.95, percentY));
-            let rotateY, rotateX;
-            if (isMobile) {
-              rotateY = Math.tanh(percentX) * maxTilt;
-              rotateX = -Math.tanh(percentY) * maxTilt;
-              // Clamp to prevent extreme jitter at edges
-              rotateY = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateY));
-              rotateX = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateX));
-            } else {
-              rotateY = percentX * maxTilt;
-              rotateX = -percentY * maxTilt;
-            }
-            return { rotateX, rotateY };
-          }, [isMobile]);
+          // Generate random tilt for hold effect
+          const generateRandomTilt = useCallback(() => {
+            return {
+              rotateX: (Math.random() - 0.5) * 20, // -10 to 10 degrees
+              rotateY: (Math.random() - 0.5) * 20  // -10 to 10 degrees
+            };
+          }, []);
 
-          // Track last touch position for deadzone
-          const lastTouch = useRef<{ x: number; y: number } | null>(null);
-
-          // New buttery-smooth animation loop using lerp/interpolation
-          const runAnimation = useCallback(() => {
-            // Dynamically reduce lerp factor as tilt approaches edge
-            let edgeFactor = 1;
-            if (isMobile) {
-              const absX = Math.abs(targetTilt.current.rotateY / (isMobile ? 28 : 30));
-              const absY = Math.abs(targetTilt.current.rotateX / (isMobile ? 28 : 30));
-              edgeFactor = 1 - 0.5 * Math.max(absX, absY); // 1 at center, 0.5 at edge
-            }
-            const lerp = isMobile ? 0.25 * edgeFactor : 0.15;
-            if (!isTouching.current) {
-              if (
-                Math.abs(targetTilt.current.rotateX - currentTilt.current.rotateX) > 0.2 ||
-                Math.abs(targetTilt.current.rotateY - currentTilt.current.rotateY) > 0.2
-              ) {
-                currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
-                currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
-                setTilt({ ...currentTilt.current });
-                animationFrameRef.current = requestAnimationFrame(runAnimation);
-              } else {
-                setTilt({ rotateX: 0, rotateY: 0 });
-                currentTilt.current = { rotateX: 0, rotateY: 0 };
-                targetTilt.current = { rotateX: 0, rotateY: 0 };
-              }
-            } else {
-              currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
-              currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
-              setTilt({ ...currentTilt.current });
-              animationFrameRef.current = requestAnimationFrame(runAnimation);
-            }
-          }, [isMobile]);
-
-          const handleMouseMove = (e: React.MouseEvent) => {
-            if (isMobile || isTouching.current) return; // Don't handle mouse events on mobile or during touch
-            setTilt(calculateTilt(e.clientX, e.clientY));
-          };
-
-          const handleMouseLeave = () => {
-            if (isMobile || isTouching.current) return; // Don't handle mouse events on mobile or during touch
-            setTilt({ rotateX: 0, rotateY: 0 });
-          };
-
-          const handleTouchStart = useCallback((e: React.TouchEvent) => {
-            if (!isMobile) return; // Only handle touch on mobile devices
-            e.preventDefault(); // Prevent default touch behaviors
-            
-            isTouching.current = true;
-            touchStartTime.current = Date.now();
-            touchMoved.current = false;
-            lastTouch.current = null;
-            
-            // Cancel any existing animation
+          // Smooth animation to target tilt
+          const animateToTilt = useCallback((targetTilt: { rotateX: number; rotateY: number }) => {
             if (animationFrameRef.current) {
               cancelAnimationFrame(animationFrameRef.current);
             }
             
-            const touch = e.touches[0];
-            lastTouch.current = { x: touch.clientX, y: touch.clientY };
-            targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
+            const startTilt = tilt;
+            const startTime = Date.now();
+            const duration = 300; // 300ms animation
             
-            // Start the animation loop
-            runAnimation();
-          }, [isMobile, calculateTilt, runAnimation]);
+            const animate = () => {
+              const elapsed = Date.now() - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              
+              // Smooth easing function
+              const easeProgress = 1 - Math.pow(1 - progress, 3);
+              
+              const newTilt = {
+                rotateX: startTilt.rotateX + (targetTilt.rotateX - startTilt.rotateX) * easeProgress,
+                rotateY: startTilt.rotateY + (targetTilt.rotateY - startTilt.rotateY) * easeProgress
+              };
+              
+              setTilt(newTilt);
+              
+              if (progress < 1) {
+                animationFrameRef.current = requestAnimationFrame(animate);
+              }
+            };
+            
+            animationFrameRef.current = requestAnimationFrame(animate);
+          }, [tilt]);
 
-          const handleTouchMove = useCallback((e: React.TouchEvent) => {
-            if (!isMobile || !isTouching.current) return;
-            e.preventDefault();
-            touchMoved.current = true;
+          const handleMouseMove = (e: React.MouseEvent) => {
+            if (isMobile) return; // Don't handle mouse events on mobile
+            if (!caseRef.current) return;
+            
+            const rect = caseRef.current.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const maxTilt = 30;
+            const percentX = (x - centerX) / centerX;
+            const percentY = (y - centerY) / centerY;
+            const rotateY = percentX * maxTilt;
+            const rotateX = -percentY * maxTilt;
+            
+            setTilt({ rotateX, rotateY });
+          };
+
+          const handleMouseLeave = () => {
+            if (isMobile) return; // Don't handle mouse events on mobile
+            setTilt({ rotateX: 0, rotateY: 0 });
+          };
+
+          const handleTouchStart = useCallback((e: React.TouchEvent) => {
+            if (!isMobile) return;
+            
             const touch = e.touches[0];
-            // Dynamic deadzone: larger near edge
-            let deadzone = 0.5;
-            if (lastTouch.current) {
-              const rect = caseRef.current?.getBoundingClientRect();
-              if (rect) {
-                const x = touch.clientX - rect.left;
-                const y = touch.clientY - rect.top;
-                let percentX = (x - rect.width / 2) / (rect.width / 2);
-                let percentY = (y - rect.height / 2) / (rect.height / 2);
-                if (Math.abs(percentX) > 0.8 || Math.abs(percentY) > 0.8) {
-                  deadzone = 1.5;
+            touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+            touchStartTime.current = Date.now();
+            isHolding.current = false;
+            hasMoved.current = false;
+            
+            // Start hold timeout for 200ms
+            holdTimeoutRef.current = setTimeout(() => {
+              if (!hasMoved.current) {
+                // Trigger hold effect - animate to random tilt
+                isHolding.current = true;
+                const randomTilt = generateRandomTilt();
+                animateToTilt(randomTilt);
+                
+                // Add haptic feedback
+                if ('vibrate' in navigator) {
+                  navigator.vibrate(50);
                 }
               }
-              const dx = touch.clientX - lastTouch.current.x;
-              const dy = touch.clientY - lastTouch.current.y;
-              if (Math.sqrt(dx * dx + dy * dy) < deadzone) return;
+            }, 200);
+          }, [isMobile, generateRandomTilt, animateToTilt]);
+
+          const handleTouchMove = useCallback((e: React.TouchEvent) => {
+            if (!isMobile || !touchStartPos.current) return;
+            
+            const touch = e.touches[0];
+            const dx = touch.clientX - touchStartPos.current.x;
+            const dy = touch.clientY - touchStartPos.current.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // If moved more than 12px, cancel hold and allow scroll
+            if (distance > 12) {
+              hasMoved.current = true;
+              
+              // Cancel hold timeout
+              if (holdTimeoutRef.current) {
+                clearTimeout(holdTimeoutRef.current);
+                holdTimeoutRef.current = null;
+              }
+              
+              // If was holding, animate back to center
+              if (isHolding.current) {
+                animateToTilt({ rotateX: 0, rotateY: 0 });
+                isHolding.current = false;
+              }
+              
+              // Don't prevent default - allow scroll
+              return;
             }
-            lastTouch.current = { x: touch.clientX, y: touch.clientY };
-            targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
-          }, [isMobile, calculateTilt]);
+            
+            // Prevent default only if we haven't moved much (still might be tap/hold)
+            e.preventDefault();
+          }, [isMobile, animateToTilt]);
 
           const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-            if (!isMobile) return; // Only handle touch on mobile devices
-            e.preventDefault();
-            const touchDuration = Date.now() - touchStartTime.current;
-            const wasTap = !touchMoved.current && touchDuration < 300; // Quick tap detection
+            if (!isMobile) return;
             
-            if (wasTap && node.properties.URL?.value) {
-              // Add haptic feedback for supported devices
-              if ('vibrate' in navigator) {
-                navigator.vibrate(50);
-              }
-              // Handle tap to link
-              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+            e.preventDefault();
+            
+            // Clear hold timeout
+            if (holdTimeoutRef.current) {
+              clearTimeout(holdTimeoutRef.current);
+              holdTimeoutRef.current = null;
             }
             
-            // Set target back to center and let animation loop handle the smooth return
-            isTouching.current = false;
-            targetTilt.current = { rotateX: 0, rotateY: 0 };
+            const touchDuration = Date.now() - touchStartTime.current;
             
-            // The animation loop will continue running until we reach the target
-          }, [isMobile, node.properties.URL?.value]);
+            if (isHolding.current) {
+              // Was holding - animate back to center, don't open link
+              animateToTilt({ rotateX: 0, rotateY: 0 });
+              isHolding.current = false;
+            } else if (!hasMoved.current && touchDuration < 300) {
+              // Quick tap without movement - open link
+              if (node.properties.URL?.value) {
+                // Add haptic feedback
+                if ('vibrate' in navigator) {
+                  navigator.vibrate(30);
+                }
+                window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+              }
+            }
+            
+            // Reset state
+            touchStartPos.current = null;
+            hasMoved.current = false;
+          }, [isMobile, node.properties.URL?.value, animateToTilt]);
 
           return (
             <JewelCaseWrapper key={node.id} ref={caseRef}
