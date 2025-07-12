@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Nav from "../../components/Nav";
 import Menu from "../../components/Menu";
 import {
@@ -75,7 +75,8 @@ const JewelCase = styled.div<{ rotateX: number; rotateY: number }>`
   position: relative;
   transform-style: preserve-3d;
   transform: rotateX(${props => props.rotateX}deg) rotateY(${props => props.rotateY}deg);
-  transition: transform 0.3s ease-out;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 `;
 
 const Face = styled.div`
@@ -360,18 +361,29 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           const touchStartTime = useRef<number>(0);
           const touchMoved = useRef<boolean>(false);
 
-          const calculateTilt = (clientX: number, clientY: number) => {
+          const calculateTilt = useCallback((clientX: number, clientY: number) => {
             if (!caseRef.current) return { rotateX: 0, rotateY: 0 };
             const rect = caseRef.current.getBoundingClientRect();
             const x = clientX - rect.left;
             const y = clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const maxTilt = 50;
+            
+            // Calculate distance from center
+            const distanceX = Math.abs(x - centerX) / centerX;
+            const distanceY = Math.abs(y - centerY) / centerY;
+            
+            // Add dead zone to prevent jittery behavior
+            const deadZone = 0.1;
+            if (distanceX < deadZone && distanceY < deadZone) {
+              return { rotateX: 0, rotateY: 0 };
+            }
+            
+            const maxTilt = 25; // Further reduced max tilt for smoother effect
             const rotateY = ((x - centerX) / centerX) * maxTilt;
             const rotateX = -((y - centerY) / centerY) * maxTilt;
             return { rotateX, rotateY };
-          };
+          }, []);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile || isTouching) return; // Don't handle mouse events on mobile or during touch
@@ -383,7 +395,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             setTilt({ rotateX: 0, rotateY: 0 });
           };
 
-          const handleTouchStart = (e: React.TouchEvent) => {
+          const handleTouchStart = useCallback((e: React.TouchEvent) => {
             if (!isMobile) return; // Only handle touch on mobile devices
             e.preventDefault(); // Prevent default touch behaviors
             setIsTouching(true);
@@ -391,17 +403,22 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             touchMoved.current = false;
             const touch = e.touches[0];
             setTilt(calculateTilt(touch.clientX, touch.clientY));
-          };
+          }, [isMobile, calculateTilt]);
 
-          const handleTouchMove = (e: React.TouchEvent) => {
+          const handleTouchMove = useCallback((e: React.TouchEvent) => {
             if (!isMobile) return; // Only handle touch on mobile devices
             e.preventDefault(); // Prevent scrolling while touching
             touchMoved.current = true;
+            
             const touch = e.touches[0];
-            setTilt(calculateTilt(touch.clientX, touch.clientY));
-          };
+            
+            // Use requestAnimationFrame for smoother updates
+            requestAnimationFrame(() => {
+              setTilt(calculateTilt(touch.clientX, touch.clientY));
+            });
+          }, [isMobile, calculateTilt]);
 
-          const handleTouchEnd = (e: React.TouchEvent) => {
+          const handleTouchEnd = useCallback((e: React.TouchEvent) => {
             if (!isMobile) return; // Only handle touch on mobile devices
             e.preventDefault();
             const touchDuration = Date.now() - touchStartTime.current;
@@ -421,7 +438,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               setTilt({ rotateX: 0, rotateY: 0 });
               setIsTouching(false);
             }, 100);
-          };
+          }, [isMobile, node.properties.URL?.value]);
 
           return (
             <JewelCaseWrapper key={node.id} ref={caseRef}
