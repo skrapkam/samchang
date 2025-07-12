@@ -382,8 +382,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Mobile: increase maxTilt for more pronounced effect
-            let maxTilt = isMobile ? 25 : 30;
+            // Mobile: increase maxTilt for more dramatic effect
+            let maxTilt = isMobile ? 30 : 30;
             let percentX = (x - centerX) / centerX;
             let percentY = (y - centerY) / centerY;
             
