@@ -129,14 +129,14 @@ const BlogPostTemplate = ({ data, pageContext }) => {
           <div css={SectionLinks}>
             <div css={SectionLinksPrevious}>
               <p>
-                {prev && (
+                {prev && prev.fields && (
                   <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
                 )}
               </p>
             </div>
             <div css={SectionLinksNext}>
               <p>
-                {next && (
+                {next && next.fields && (
                   <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
                 )}
               </p>

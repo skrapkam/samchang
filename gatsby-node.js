@@ -4,19 +4,23 @@ const { createFilePath } = require(`gatsby-source-filesystem`);
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({
-      node,
-      trailingSlash: false,
-      getNode,
-      // Remove the `src/projects` prefix so nested project
-      // directories generate clean URLs like `/ladder/example`.
-      basePath: `src/projects`
-    });
-    createNodeField({
-      node,
-      name: `slug`,
-      value: slug
-    });
+    // Check if the node has a parent and the parent has the necessary properties
+    const parent = getNode(node.parent);
+    if (parent && parent.sourceInstanceName) {
+      const slug = createFilePath({
+        node,
+        trailingSlash: false,
+        getNode,
+        // Remove the `src/projects` prefix so nested project
+        // directories generate clean URLs like `/ladder/example`.
+        basePath: `src/projects`
+      });
+      createNodeField({
+        node,
+        name: `slug`,
+        value: slug
+      });
+    }
   }
 };
 
@@ -63,6 +67,11 @@ exports.createPages = ({ graphql, actions }) => {
       const posts = result.data.allMarkdownRemark.edges;
 
       posts.forEach(({ node }, index) => {
+        // Only process nodes that have fields and slug
+        if (!node.fields || !node.fields.slug) {
+          return;
+        }
+        
         let parentSlug = null;
         let parentTitle = null;
         const parts = node.fields.slug.split('/').filter(Boolean);
@@ -70,7 +79,7 @@ exports.createPages = ({ graphql, actions }) => {
           // Use the first path segment as the parent slug. Do not include a
           // trailing slash so it matches the slug created by `createFilePath`.
           parentSlug = `/${parts[0]}`;
-          const parent = posts.find(p => p.node.fields.slug === parentSlug);
+          const parent = posts.find(p => p.node.fields && p.node.fields.slug === parentSlug);
           if (parent) {
             parentTitle = parent.node.frontmatter.title;
           }

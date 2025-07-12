@@ -4,16 +4,20 @@ import { useState, useEffect } from "react";
 import { jsx } from "@emotion/react";
 import { throttle } from "throttle-debounce";
 import { mq } from "../../styles/styles";
-import defaultTheme from "../Theme"
+import defaultTheme from "../Theme";
 
-const Header = styled.div`
+interface HeaderProps {
+  showHeaderShadow?: boolean;
+}
+
+const Header = styled.div<HeaderProps>`
   padding: ${defaultTheme.space[4]} ${defaultTheme.space[5]};
   position: fixed;
   width: ${defaultTheme.width[2]};
   top: 0;
   z-index: 999;
   background: var(--bg);
-  box-shadow: ${props =>
+  box-shadow: ${(props: HeaderProps) =>
     props.showHeaderShadow ? "var(--shadow) 0px 1px 0px" : "none"};
 
   ${mq[1]} {
@@ -31,7 +35,11 @@ const Header = styled.div`
   }
 `;
 
-export default function ScrollHeader({ children }) {
+interface ScrollHeaderProps {
+  children: React.ReactNode;
+}
+
+export default function ScrollHeader({ children }: ScrollHeaderProps) {
   const [showHeaderShadow, setHeaderShadow] = useState(false);
 
   function handleScroll() {

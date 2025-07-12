@@ -61,10 +61,10 @@ export const MediumSectionWrapper = styled.div`
 export const Grid = styled("div")`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-  column-gap: 40px;
-  row-gap: 40px;
+  column-gap: 80px;
+  row-gap: 80px;
   margin: 0 auto;
-  padding: ${defaultTheme.space[4]} ${defaultTheme.space[5]}
+  padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]}
     ${defaultTheme.space[5]} ${defaultTheme.space[5]};
   img {
     border: none;
@@ -72,10 +72,31 @@ export const Grid = styled("div")`
 
   ${mq[1]} {
     padding: 0 ${defaultTheme.space[3]};
-    row-gap: 24px;
+    row-gap: 48px;
   }
 `;
 
 export const CoverTitle = styled("div")`
   margin-top: ${defaultTheme.space[2]};
+  font-size: ${defaultTheme.fontSizes[1]};
+  font-weight: 400;
+  color: ${defaultTheme.color.text};
+  text-align: center;
+  margin-bottom: ${defaultTheme.space[1]};
+  
+  a {
+    color: ${defaultTheme.color.link};
+    text-decoration: underline;
+    border-bottom: none;
+  }
+ 
+`;
+
+export const ReleaseDate = styled("p")`
+  font-size: ${defaultTheme.fontSizes[1]};
+  color: ${defaultTheme.color.gray};
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+ 
 `;

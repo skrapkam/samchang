@@ -300,7 +300,11 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   background-color: transparent;
   user-select: none;
   opacity: ${(props) => (props.isOpen ? 0.4 : 1)};
+  /* Safari and mobile browser compatibility for backdrop-filter */
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+  /* Fallback for browsers that don't support backdrop-filter */
+  background-color: rgba(255, 255, 255, 0.9);
   color: #000;
   padding: 1rem 1.5rem;
   border-radius: 10px;
@@ -309,6 +313,18 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   transition: box-shadow 0.2s;
+  
+  /* Ensure backdrop-filter works on Safari */
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    background-color: transparent;
+  }
+  
+  /* Mobile-specific fixes */
+  @media (max-width: 768px) {
+    /* Reduce blur on mobile for better performance */
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
 
   &:hover {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
@@ -2412,7 +2428,16 @@ const HistoryOverlay = styled.div<{ visible: boolean }>`
   transform: ${props => (props.visible ? 'scale(1)' : 'scale(0.95)')};
   transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 0 0 10px 10px;
+  /* Safari and mobile browser compatibility for backdrop-filter */
+  -webkit-backdrop-filter: ${props => (props.visible ? 'blur(2px)' : 'blur(0px)')};
   backdrop-filter: ${props => (props.visible ? 'blur(2px)' : 'blur(0px)')};
+  
+  /* Mobile-specific fixes */
+  @media (max-width: 768px) {
+    /* Reduce blur on mobile for better performance */
+    -webkit-backdrop-filter: ${props => (props.visible ? 'blur(1px)' : 'blur(0px)')};
+    backdrop-filter: ${props => (props.visible ? 'blur(1px)' : 'blur(0px)')};
+  }
 `;
 
 const HistorySearchInput = styled.input`
