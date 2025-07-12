@@ -86,8 +86,11 @@ export const CoverTitle = styled("div")`
   
   a {
     color: ${defaultTheme.color.link};
-    text-decoration: underline;
-    border-bottom: none;
+    text-decoration: none;
+    border-bottom: 1px solid ${defaultTheme.color.link};
+    padding: 0 0 2px;
+    -webkit-transition: 0.1s ease-in background;
+    transition: 0.1s ease-in background;
   }
  
 `;

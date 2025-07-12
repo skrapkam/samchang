@@ -382,21 +382,17 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Mobile: increase maxTilt for more dramatic effect
-            let maxTilt = isMobile ? 30 : 30;
+            // Mobile: increase maxTilt for more dramatic effect, but add a small buffer
+            let maxTilt = isMobile ? 28 : 30;
             let percentX = (x - centerX) / centerX;
             let percentY = (y - centerY) / centerY;
-            
-            // Clamp percent to [-1, 1]
-            percentX = Math.max(-1, Math.min(1, percentX));
-            percentY = Math.max(-1, Math.min(1, percentY));
-            
+            // Clamp percent to [-0.95, 0.95] to avoid tanh extremes
+            percentX = Math.max(-0.95, Math.min(0.95, percentX));
+            percentY = Math.max(-0.95, Math.min(0.95, percentY));
             let rotateY, rotateX;
             if (isMobile) {
-              // Add back tanh for smoother feel, but keep it pronounced
               rotateY = Math.tanh(percentX) * maxTilt;
               rotateX = -Math.tanh(percentY) * maxTilt;
-              
               // Clamp to prevent extreme jitter at edges
               rotateY = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateY));
               rotateX = Math.max(-maxTilt * 0.9, Math.min(maxTilt * 0.9, rotateX));
@@ -412,35 +408,35 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
 
           // New buttery-smooth animation loop using lerp/interpolation
           const runAnimation = useCallback(() => {
-            // Use higher lerp factor for mobile for more responsive feel
-            const lerp = isMobile ? 0.25 : 0.15;
+            // Dynamically reduce lerp factor as tilt approaches edge
+            let edgeFactor = 1;
+            if (isMobile) {
+              const absX = Math.abs(targetTilt.current.rotateY / (isMobile ? 28 : 30));
+              const absY = Math.abs(targetTilt.current.rotateX / (isMobile ? 28 : 30));
+              edgeFactor = 1 - 0.5 * Math.max(absX, absY); // 1 at center, 0.5 at edge
+            }
+            const lerp = isMobile ? 0.25 * edgeFactor : 0.15;
             if (!isTouching.current) {
-              // Check if we're close enough to target to stop
               if (
                 Math.abs(targetTilt.current.rotateX - currentTilt.current.rotateX) > 0.2 ||
                 Math.abs(targetTilt.current.rotateY - currentTilt.current.rotateY) > 0.2
               ) {
-                // Continue animation towards target
                 currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
                 currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
-                
                 setTilt({ ...currentTilt.current });
                 animationFrameRef.current = requestAnimationFrame(runAnimation);
               } else {
-                // Snap to center and stop animation
                 setTilt({ rotateX: 0, rotateY: 0 });
                 currentTilt.current = { rotateX: 0, rotateY: 0 };
                 targetTilt.current = { rotateX: 0, rotateY: 0 };
               }
             } else {
-              // Active touch - smooth interpolation towards target
               currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
               currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
-              
               setTilt({ ...currentTilt.current });
               animationFrameRef.current = requestAnimationFrame(runAnimation);
             }
-          }, []);
+          }, [isMobile]);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile || isTouching.current) return; // Don't handle mouse events on mobile or during touch
@@ -475,16 +471,26 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           }, [isMobile, calculateTilt, runAnimation]);
 
           const handleTouchMove = useCallback((e: React.TouchEvent) => {
-            if (!isMobile || !isTouching.current) return; // Only handle touch on mobile devices when touching
-            e.preventDefault(); // Prevent scrolling while touching
+            if (!isMobile || !isTouching.current) return;
+            e.preventDefault();
             touchMoved.current = true;
-            
             const touch = e.touches[0];
-            // Small deadzone to reduce edge jitter
+            // Dynamic deadzone: larger near edge
+            let deadzone = 0.5;
             if (lastTouch.current) {
+              const rect = caseRef.current?.getBoundingClientRect();
+              if (rect) {
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                let percentX = (x - rect.width / 2) / (rect.width / 2);
+                let percentY = (y - rect.height / 2) / (rect.height / 2);
+                if (Math.abs(percentX) > 0.8 || Math.abs(percentY) > 0.8) {
+                  deadzone = 1.5;
+                }
+              }
               const dx = touch.clientX - lastTouch.current.x;
               const dy = touch.clientY - lastTouch.current.y;
-              if (Math.sqrt(dx * dx + dy * dy) < 0.5) return;
+              if (Math.sqrt(dx * dx + dy * dy) < deadzone) return;
             }
             lastTouch.current = { x: touch.clientX, y: touch.clientY };
             targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
