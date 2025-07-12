@@ -356,70 +356,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           const imageUrl = node.properties.Image?.value?.[0]?.external?.url;
           const caseRef = useRef<HTMLDivElement>(null);
           
-          // New tap/hold mobile interaction
+          // Simple tilt state for desktop only
           const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
-          const animationFrameRef = useRef<number | null>(null);
-          const touchStartPos = useRef<{ x: number; y: number } | null>(null);
-          const touchStartTime = useRef<number>(0);
-          const holdTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-          const isHolding = useRef(false);
-          const hasMoved = useRef(false);
-
-          // Cleanup animation frame and timeout on unmount
-          useEffect(() => {
-            return () => {
-              if (animationFrameRef.current) {
-                cancelAnimationFrame(animationFrameRef.current);
-              }
-              if (holdTimeoutRef.current) {
-                clearTimeout(holdTimeoutRef.current);
-              }
-            };
-          }, []);
-
-          // Generate random tilt direction with fixed degree
-          const generateRandomTilt = useCallback(() => {
-            const fixedDegree = 35; // Fixed tilt degree
-            const randomDirectionX = Math.random() > 0.5 ? 1 : -1;
-            const randomDirectionY = Math.random() > 0.5 ? 1 : -1;
-            
-            return {
-              rotateX: randomDirectionX * fixedDegree, // Either +35 or -35 degrees
-              rotateY: randomDirectionY * fixedDegree  // Either +35 or -35 degrees
-            };
-          }, []);
-
-          // Smooth animation to target tilt
-          const animateToTilt = useCallback((targetTilt: { rotateX: number; rotateY: number }) => {
-            if (animationFrameRef.current) {
-              cancelAnimationFrame(animationFrameRef.current);
-            }
-            
-            const startTilt = tilt;
-            const startTime = Date.now();
-            const duration = 300; // 300ms animation
-            
-            const animate = () => {
-              const elapsed = Date.now() - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              
-              // Smooth easing function
-              const easeProgress = 1 - Math.pow(1 - progress, 3);
-              
-              const newTilt = {
-                rotateX: startTilt.rotateX + (targetTilt.rotateX - startTilt.rotateX) * easeProgress,
-                rotateY: startTilt.rotateY + (targetTilt.rotateY - startTilt.rotateY) * easeProgress
-              };
-              
-              setTilt(newTilt);
-              
-              if (progress < 1) {
-                animationFrameRef.current = requestAnimationFrame(animate);
-              }
-            };
-            
-            animationFrameRef.current = requestAnimationFrame(animate);
-          }, [tilt]);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile) return; // Don't handle mouse events on mobile
@@ -445,108 +383,17 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             setTilt({ rotateX: 0, rotateY: 0 });
           };
 
-          const handleTouchStart = useCallback((e: React.TouchEvent) => {
-            if (!isMobile) return;
-            
-            const touch = e.touches[0];
-            touchStartPos.current = { x: touch.clientX, y: touch.clientY };
-            touchStartTime.current = Date.now();
-            isHolding.current = false;
-            hasMoved.current = false;
-            
-            // Don't prevent default on touch start - allow scrolling to work
-            
-            // Start hold timeout for 200ms
-            holdTimeoutRef.current = setTimeout(() => {
-              if (!hasMoved.current) {
-                // Trigger hold effect - animate to random tilt
-                isHolding.current = true;
-                const randomTilt = generateRandomTilt();
-                animateToTilt(randomTilt);
-                
-                // Add haptic feedback
-                if ('vibrate' in navigator) {
-                  navigator.vibrate(50);
-                }
-              }
-            }, 200);
-          }, [isMobile, generateRandomTilt, animateToTilt]);
-
-          const handleTouchMove = useCallback((e: React.TouchEvent) => {
-            if (!isMobile || !touchStartPos.current) return;
-            
-            const touch = e.touches[0];
-            const dx = touch.clientX - touchStartPos.current.x;
-            const dy = touch.clientY - touchStartPos.current.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // If moved more than 12px, cancel hold and allow scroll
-            if (distance > 12) {
-              hasMoved.current = true;
-              
-              // Cancel hold timeout
-              if (holdTimeoutRef.current) {
-                clearTimeout(holdTimeoutRef.current);
-                holdTimeoutRef.current = null;
-              }
-              
-              // If was holding, animate back to center
-              if (isHolding.current) {
-                animateToTilt({ rotateX: 0, rotateY: 0 });
-                isHolding.current = false;
-              }
-              
-              // Don't prevent default - allow scroll
-              return;
+          const handleClick = () => {
+            if (node.properties.URL?.value) {
+              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
             }
-            
-            // Only prevent default if we haven't moved much AND we're not holding yet
-            // This allows scrolling to work even when starting over artwork
-            if (!isHolding.current && distance < 5) {
-              e.preventDefault();
-            }
-          }, [isMobile, animateToTilt]);
-
-          const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-            if (!isMobile) return;
-            
-            e.preventDefault();
-            
-            // Clear hold timeout
-            if (holdTimeoutRef.current) {
-              clearTimeout(holdTimeoutRef.current);
-              holdTimeoutRef.current = null;
-            }
-            
-            const touchDuration = Date.now() - touchStartTime.current;
-            
-            if (isHolding.current) {
-              // Was holding - animate back to center, don't open link
-              animateToTilt({ rotateX: 0, rotateY: 0 });
-              isHolding.current = false;
-            } else if (!hasMoved.current && touchDuration < 300) {
-              // Quick tap without movement - open link
-              if (node.properties.URL?.value) {
-                // Add haptic feedback
-                if ('vibrate' in navigator) {
-                  navigator.vibrate(30);
-                }
-                window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
-              }
-            }
-            
-            // Reset state
-            touchStartPos.current = null;
-            hasMoved.current = false;
-          }, [isMobile, node.properties.URL?.value, animateToTilt]);
+          };
 
           return (
             <JewelCaseWrapper key={node.id} ref={caseRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
+              onClick={handleClick}
             >
               <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
                 <Front>
