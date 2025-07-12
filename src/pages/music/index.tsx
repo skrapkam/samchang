@@ -382,14 +382,34 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const maxTilt = 30; // Increased for more dynamic effect
-            const rotateY = ((x - centerX) / centerX) * maxTilt;
-            const rotateX = -((y - centerY) / centerY) * maxTilt;
+            // Mobile: use non-linear scaling, lower maxTilt, clamp, deadzone
+            let maxTilt = isMobile ? 18 : 30;
+            let percentX = (x - centerX) / centerX;
+            let percentY = (y - centerY) / centerY;
+            
+            // Clamp percent to [-1, 1]
+            percentX = Math.max(-1, Math.min(1, percentX));
+            percentY = Math.max(-1, Math.min(1, percentY));
+            
+            let rotateY, rotateX;
+            if (isMobile) {
+              // Non-linear scaling with tanh, clamp to 90% of maxTilt
+              rotateY = Math.tanh(percentX) * maxTilt * 0.9;
+              rotateX = -Math.tanh(percentY) * maxTilt * 0.9;
+            } else {
+              rotateY = percentX * maxTilt;
+              rotateX = -percentY * maxTilt;
+            }
             return { rotateX, rotateY };
-          }, []);
+          }, [isMobile]);
+
+          // Track last touch position for deadzone
+          const lastTouch = useRef<{ x: number; y: number } | null>(null);
 
           // New buttery-smooth animation loop using lerp/interpolation
           const runAnimation = useCallback(() => {
+            // Use a lower lerp factor for mobile for more smoothing
+            const lerp = isMobile ? 0.07 : 0.15;
             if (!isTouching.current) {
               // Check if we're close enough to target to stop
               if (
@@ -397,8 +417,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                 Math.abs(targetTilt.current.rotateY - currentTilt.current.rotateY) > 0.2
               ) {
                 // Continue animation towards target
-                currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * 0.15;
-                currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * 0.15;
+                currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
+                currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
                 
                 setTilt({ ...currentTilt.current });
                 animationFrameRef.current = requestAnimationFrame(runAnimation);
@@ -410,13 +430,13 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               }
             } else {
               // Active touch - smooth interpolation towards target
-              currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * 0.25;
-              currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * 0.25;
+              currentTilt.current.rotateX += (targetTilt.current.rotateX - currentTilt.current.rotateX) * lerp;
+              currentTilt.current.rotateY += (targetTilt.current.rotateY - currentTilt.current.rotateY) * lerp;
               
               setTilt({ ...currentTilt.current });
               animationFrameRef.current = requestAnimationFrame(runAnimation);
             }
-          }, []);
+          }, [isMobile]);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile || isTouching.current) return; // Don't handle mouse events on mobile or during touch
@@ -435,6 +455,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             isTouching.current = true;
             touchStartTime.current = Date.now();
             touchMoved.current = false;
+            lastTouch.current = null;
             
             // Cancel any existing animation
             if (animationFrameRef.current) {
@@ -442,6 +463,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             }
             
             const touch = e.touches[0];
+            lastTouch.current = { x: touch.clientX, y: touch.clientY };
             targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
             
             // Start the animation loop
@@ -454,6 +476,13 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             touchMoved.current = true;
             
             const touch = e.touches[0];
+            // Deadzone: ignore if movement < 3px
+            if (lastTouch.current) {
+              const dx = touch.clientX - lastTouch.current.x;
+              const dy = touch.clientY - lastTouch.current.y;
+              if (Math.sqrt(dx * dx + dy * dy) < 3) return;
+            }
+            lastTouch.current = { x: touch.clientX, y: touch.clientY };
             // Only update targetTilt - let the animation loop handle the smooth transition
             targetTilt.current = calculateTilt(touch.clientX, touch.clientY);
           }, [isMobile, calculateTilt]);
