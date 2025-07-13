@@ -62,7 +62,10 @@ const JewelCaseWrapper = styled.div`
   
   /* Mobile-specific styles */
   @media (max-width: 768px) {
-    touch-action: none; /* Prevent default touch behaviors like scrolling */
+    width: 320px;
+    height: 320px;
+    margin: 3rem auto;
+    touch-action: auto; /* Allow normal touch behaviors for scrolling */
     user-select: none; /* Prevent text selection on touch */
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
@@ -383,7 +386,20 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             setTilt({ rotateX: 0, rotateY: 0 });
           };
 
-          const handleClick = () => {
+          const handleClick = (e: React.MouseEvent) => {
+            // Only handle clicks on desktop, not mobile touches
+            if (isMobile) return;
+            
+            if (node.properties.URL?.value) {
+              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+            }
+          };
+
+          const handleTouchEnd = (e: React.TouchEvent) => {
+            // Only handle touches on mobile
+            if (!isMobile) return;
+            
+            // Don't prevent default to allow normal scrolling
             if (node.properties.URL?.value) {
               window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
             }
@@ -394,6 +410,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               onClick={handleClick}
+              onTouchEnd={handleTouchEnd}
             >
               <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
                 <Front>
