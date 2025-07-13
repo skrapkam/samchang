@@ -60,19 +60,28 @@ export const MediumSectionWrapper = styled.div`
 
 export const Grid = styled("div")`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   column-gap: 80px;
   row-gap: 80px;
   margin: 0 auto;
   padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]}
     ${defaultTheme.space[5]} ${defaultTheme.space[5]};
+  max-width: 100%;
+  box-sizing: border-box;
   img {
     border: none;
   }
 
   ${mq[1]} {
-    padding: 0 ${defaultTheme.space[3]};
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
     row-gap: 48px;
+    column-gap: 48px;
+  }
+
+  ${mq[0]} {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
   }
 `;
 
