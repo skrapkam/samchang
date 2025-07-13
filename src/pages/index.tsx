@@ -16,7 +16,7 @@ import defaultTheme from "../components/Theme"
 
 const hide = css`
   display: none;
-  ${mq[1]} {
+  ${mq[2]} {
     visibility: hidden;
     width: 2px;
     display: inline-block;
@@ -49,7 +49,7 @@ const Excerpt = css`
 
 const hidden = css`
   display: none;
-  ${mq[1]} {
+  ${mq[2]} {
     background: var(--bg);
     display: block;
     position: relative;
@@ -61,7 +61,7 @@ const hidden = css`
 
 const TextWrapper = styled.div`
   margin-top: ${defaultTheme.space[3]};
-  ${mq[1]} {
+  ${mq[2]} {
     padding-left: ${defaultTheme.space[3]};
     padding-right: ${defaultTheme.space[3]};
     margin-top: -26px;
@@ -83,7 +83,7 @@ const Projects = css`
 const SectionContainer = styled.div`
   margin: auto;
   padding: 0 ${defaultTheme.space[5]} 0 ${defaultTheme.space[5]};
-  ${mq[1]} {
+  ${mq[2]} {
     max-width: ${defaultTheme.width[2]};
     padding: 0;
   } 
@@ -101,7 +101,7 @@ const ImageWrapper = styled.div`
   img {
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  ${mq[1]} {
+  ${mq[2]} {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     -webkit-overflow-scrolling: touch;
     padding-left: ${defaultTheme.space[3]};

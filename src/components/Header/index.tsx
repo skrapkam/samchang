@@ -20,7 +20,7 @@ const Header = styled.div<HeaderProps>`
   box-shadow: ${(props: HeaderProps) =>
     props.showHeaderShadow ? "var(--shadow) 0px 1px 0px" : "none"};
 
-  ${mq[1]} {
+  ${mq[2]} {
     padding: ${defaultTheme.space[4]} ${defaultTheme.space[3]} ${defaultTheme.space[4]};
   }
 
