@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import defaultTheme from "../components/Theme";
 
-export const breakpoints = [425, 1260];
+export const breakpoints = [425, 768, 1260];
 
 export const mq = breakpoints.map(bp => `@media (max-width: ${bp}px)`);
 
@@ -9,7 +9,7 @@ export const SectionWrapper = styled.div`
   max-width: ${defaultTheme.width[2]};
   margin: auto 0;
   padding-top: ${defaultTheme.space[11]} ;
-  ${mq[1]} {
+  ${mq[2]} {
     max-width: ${defaultTheme.width[2]};
   }
 
@@ -26,7 +26,7 @@ export const MediumSectionWrapper = styled.div`
   max-width: ${defaultTheme.width[0]};
   padding-bottom: ${defaultTheme.space[3]};
 
-  ${mq[1]} {
+  ${mq[2]} {
     padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]};
     padding-top:  ${defaultTheme.space[11]};
   }
@@ -60,29 +60,35 @@ export const MediumSectionWrapper = styled.div`
 
 export const Grid = styled("div")`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  column-gap: 80px;
+  row-gap: 80px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 4rem) 4rem;
-  max-width: 1400px;
-  width: 100%;
+  padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]}
+    ${defaultTheme.space[5]} ${defaultTheme.space[5]};
+  max-width: 100%;
   box-sizing: border-box;
   img {
     border: none;
   }
 
-  /* Tablet and smaller */
-  ${mq[1]} {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: clamp(1.5rem, 4vw, 3rem);
-    padding: 0 clamp(1rem, 3vw, 2.4rem) 3rem;
+  ${mq[2]} {
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
+    row-gap: 48px;
+    column-gap: 48px;
   }
 
-  /* Mobile */
+  ${mq[1]} {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
+    row-gap: 40px;
+    column-gap: 32px;
+  }
+
   ${mq[0]} {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1.5rem 2rem;
+    column-gap: 0;
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
   }
 `;
 

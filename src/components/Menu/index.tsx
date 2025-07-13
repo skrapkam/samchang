@@ -37,7 +37,7 @@ const DropdownStyle = styled.div`
     opacity: 0.3;
   }
 
-  ${mq[1]} {
+  ${mq[2]} {
     right: 24px;
   } 
 
