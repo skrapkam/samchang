@@ -61,8 +61,9 @@ export const MediumSectionWrapper = styled.div`
 export const Grid = styled("div")`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 80px;
-  padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
+  row-gap: 6rem;
+  column-gap: 4rem;
+  padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]} ${defaultTheme.space[5]} ${defaultTheme.space[5]};
   max-width: 100%;
   box-sizing: border-box;
   justify-items: center;
@@ -72,20 +73,20 @@ export const Grid = styled("div")`
 
   ${mq[2]} {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 48px;
-    padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
+    column-gap: 3rem;
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
   }
 
   ${mq[1]} {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px;
-    padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    column-gap: 2.5rem;
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
   }
 
   ${mq[0]} {
     grid-template-columns: 1fr;
-    gap: 40px;
-    padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
+    column-gap: 0;
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
   }
 `;
 
@@ -95,7 +96,7 @@ export const CoverTitle = styled("div")`
   font-weight: 400;
   color: ${defaultTheme.color.text};
   text-align: center;
-  margin-bottom: ${defaultTheme.space[1]};
+  margin-bottom: 0.5rem;
   
   a {
     color: ${defaultTheme.color.link};
@@ -113,6 +114,7 @@ export const ReleaseDate = styled("p")`
   color: ${defaultTheme.color.gray};
   text-align: center;
   margin: 0;
+  margin-top: 0.5rem;
   font-weight: 500;
  
 `;
