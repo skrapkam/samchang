@@ -60,33 +60,31 @@ export const MediumSectionWrapper = styled.div`
 
 export const Grid = styled("div")`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-  column-gap: 80px;
-  row-gap: 80px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 80px;
   padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
   max-width: 100%;
   box-sizing: border-box;
+  justify-items: center;
   img {
     border: none;
   }
 
   ${mq[2]} {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 48px;
     padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
-    row-gap: 48px;
-    column-gap: 48px;
   }
 
   ${mq[1]} {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
     padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
-    row-gap: 40px;
-    column-gap: 32px;
   }
 
   ${mq[0]} {
     grid-template-columns: 1fr;
-    column-gap: 0;
+    gap: 40px;
     padding: ${defaultTheme.space[0]} 4rem ${defaultTheme.space[5]} 4rem;
   }
 `;
