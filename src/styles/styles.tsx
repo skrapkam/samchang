@@ -64,18 +64,17 @@ export const Grid = styled("div")`
   column-gap: 80px;
   row-gap: 80px;
   margin: 0 auto;
-  padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]} ${defaultTheme.space[5]};
-  max-width: calc(100vw - ${defaultTheme.space[5]} * 2);
+  padding: ${defaultTheme.space[0]} ${defaultTheme.space[5]} ${defaultTheme.space[5]} ${defaultTheme.space[5]};
+  max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
-  justify-items: center;
   img {
     border: none;
   }
 
   ${mq[1]} {
-    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]};
-    max-width: calc(100vw - ${defaultTheme.space[3]} * 2);
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
+    max-width: none;
     row-gap: 48px;
     column-gap: 48px;
   }
@@ -83,8 +82,8 @@ export const Grid = styled("div")`
   ${mq[0]} {
     grid-template-columns: 1fr;
     column-gap: 0;
-    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]};
-    max-width: calc(100vw - ${defaultTheme.space[3]} * 2);
+    padding: ${defaultTheme.space[0]} ${defaultTheme.space[3]} ${defaultTheme.space[5]} ${defaultTheme.space[3]};
+    max-width: none;
   }
 `;
 
