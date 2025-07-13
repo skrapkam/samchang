@@ -361,6 +361,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           
           // Simple tilt state for desktop only
           const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+          const touchStartPos = useRef<{ x: number; y: number } | null>(null);
 
           const handleMouseMove = (e: React.MouseEvent) => {
             if (isMobile) return; // Don't handle mouse events on mobile
@@ -395,14 +396,33 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             }
           };
 
+          const handleTouchStart = (e: React.TouchEvent) => {
+            // Only handle touches on mobile
+            if (!isMobile) return;
+            
+            const touch = e.touches[0];
+            touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+          };
+
           const handleTouchEnd = (e: React.TouchEvent) => {
             // Only handle touches on mobile
             if (!isMobile) return;
             
-            // Don't prevent default to allow normal scrolling
-            if (node.properties.URL?.value) {
-              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+            // Check if this was a tap (no movement) vs scroll
+            if (touchStartPos.current) {
+              const touch = e.changedTouches[0];
+              const dx = touch.clientX - touchStartPos.current.x;
+              const dy = touch.clientY - touchStartPos.current.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              // Only open link if movement was minimal (tap, not scroll)
+              if (distance < 10 && node.properties.URL?.value) {
+                window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+              }
             }
+            
+            // Reset touch position
+            touchStartPos.current = null;
           };
 
           return (
@@ -410,6 +430,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               onClick={handleClick}
+              onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
               <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
