@@ -57,14 +57,14 @@ const JewelCaseWrapper = styled.div`
   width: 280px;
   height: 280px;
   perspective: 1500px;
-  margin: 4rem auto;
+  margin: 0;
   cursor: pointer;
   
   /* Mobile-specific styles */
   @media (max-width: 768px) {
     width: 320px;
     height: 320px;
-    margin: 3rem auto;
+    margin: 0;
     touch-action: auto; /* Allow normal touch behaviors for scrolling */
     user-select: none; /* Prevent text selection on touch */
     -webkit-user-select: none;
