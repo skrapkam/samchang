@@ -5,6 +5,15 @@ import defaultTheme from "../components/Theme";
 export const GlobalStyle = () => (
   <Global
     styles={css`
+      /* Toggle custom font (place file at /static/fonts/BerkeleyMonoTrial-Regular.otf) */
+      @font-face {
+        font-family: 'BerkeleyMonoTrial';
+        src: url('/fonts/BerkeleyMonoTrial-Regular.otf') format('opentype');
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+
       * {
         margin: 0;
         padding: 0;

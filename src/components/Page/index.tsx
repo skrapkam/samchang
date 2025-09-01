@@ -40,6 +40,17 @@ const ScrollToTop = styled.div<ScrollToTopProps>`
   }
 `;
 
+const FloatingSlot = styled.div`
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  z-index: 1000;
+
+  @media (max-width: 1070px) {
+    display: none;
+  }
+`;
+
 const PageStyled = styled.div`
   padding-bottom: ${defaultTheme.space[10]};
   background: white;
@@ -48,9 +59,11 @@ const PageStyled = styled.div`
 
 interface PageProps {
   children: React.ReactNode;
+  floatingSlot?: React.ReactNode;
+  showScrollToTop?: boolean;
 }
 
-export default function ScrollButton({ children }: PageProps) {
+export default function ScrollButton({ children, floatingSlot, showScrollToTop = true }: PageProps) {
   const [scrollToTopVisible, setScrollToTopVisible] = useState(false);
 
   function handleScroll() {
@@ -82,9 +95,15 @@ export default function ScrollButton({ children }: PageProps) {
     <PageStyled>
       <GlobalStyle />
       {children}
-      <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
-        <Emoji symbol="☝️" label="up" />
-      </ScrollToTop>
+      {floatingSlot ? (
+        <FloatingSlot>{floatingSlot}</FloatingSlot>
+      ) : (
+        showScrollToTop && (
+          <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
+            <Emoji symbol="☝️" label="up" />
+          </ScrollToTop>
+        )
+      )}
     </PageStyled>
   );
 }

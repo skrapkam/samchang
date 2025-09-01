@@ -9,9 +9,13 @@ image2: "./images/billing_02.png"
 image3: "./images/billing_11.png"
 ---
 
+<visual>
 <content-title>
 Billing Checkout
 </content-title>
+</visual>
+
+
 <content-excerpt>
 Redesigning Ladder's purchase experience to reduce wasted costs and better serve high-intent users.
 </content-excerpt>
@@ -27,11 +31,16 @@ I redesigned Ladder's purchase flow to focus on high-intent users by auto-issuin
 </prompt-container>
 </summary>
 
+ 
 # Background
 
 ## What is this?
 
+<visual>
+
 Ladder's mission is to protect families by making it easier for people to secure coverage. Like any product, policies come with costs, which we recover through sales revenue. Over the past few years, our company faced challenges in selling policies efficiently, with revenue impacted by spending on individuals who ultimately didn't make a purchase. In 2024, I designed a solution that transformed how policies are evaluated and purchased, significantly improving our contribution margin.
+
+</visual>
 
 ## My role
 
@@ -45,7 +54,9 @@ Ladder has long faced the challenge of underwriting users who don’t end up pur
 
 Behind the scenes, Ladder invests heavily in underwriting users by evaluating their risk profiles. This process includes gathering medical history, driver's license information, and other data. Based on their application and underwriting results, we provide an offer for the user to consider.
 
-![High level flow](images/billing_01.png "")
+
+
+![High level flow](images/billing_01.png "" )
 
 The challenge arises when users we’ve invested in don’t accept their offers. Reasons for this include price concerns, lack of readiness, or continued shopping. While these decisions are understandable, they create issues for both users and our business:
 
@@ -60,7 +71,12 @@ The challenge arises when users we’ve invested in don’t accept their offers.
 
 Our primary goal was to focus on high-intent users—those who are ready and willing to purchase a policy. In contrast, low-intent users are individuals who are not yet prepared to buy for reasons such as price concerns, needing to consult with family, or continuing to shop around. Through past research, we identified cohorts of users who proceed through our life insurance flow without any intention of purchasing. Our objective was to avoid spending underwriting money on these low-intent users.
 
+## Measures of success
+
+- **Increase Policy Growth.** Make it easier for high-intent users to accept their offers, reducing the risk of losing their business due to unnecessary friction in the process.
+
 - **Enhance Contribution Margins.** Accurately gauge user intent to determine if spending underwriting costs is justified, thereby reducing wasted resources on low-intent users.
+
 
 # My process
 

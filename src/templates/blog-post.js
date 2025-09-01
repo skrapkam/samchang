@@ -27,31 +27,58 @@ import { mq } from "../styles/styles";
 import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
 
+// View toggle + selective render plumbing
+import { CaseStudyViewProvider } from "../components/CaseStudyView/CaseStudyViewContext";
+import Toggle from "../components/CaseStudyView/Toggle";
+import VisualBlock from "../components/CaseStudyView/VisualBlock";
+import withViewFilter from "../components/CaseStudyView/withViewFilter";
+
 // ✅ Add these imports
 import { ClickablePrompt } from "../components/ChatBot";
 import PromptContainer from "../components/Blog/PromptContainer";
 
+// Wrap components so in Visuals view they only render if explicitly marked
+const VContent = withViewFilter(Content);
+const VH1 = withViewFilter(H1);
+const VH2 = withViewFilter(H2);
+const VH3 = withViewFilter(H3);
+const VUnorderedList = withViewFilter(UnorderedList);
+const VOrderedList = withViewFilter(OrderedList);
+const VBlogButton = withViewFilter(BlogButton);
+const VSummary = withViewFilter(Summary);
+const VCallout = withViewFilter(Callout);
+const VBlockquote = withViewFilter(Blockquote);
+const VGIF = withViewFilter(GIF);
+const VContentTitle = withViewFilter(ContentTitle);
+const VContentExcerpt = withViewFilter(ContentExcerpt);
+
+// (Reverted) No raw tag filtering — rely on curated components only
+
 const renderAst = new RehypeReact({
   createElement: React.createElement,
   components: {
-    p: Content,
-    h1: H1,
-    h2: H2,
-    h3: H3,
-    gif: GIF,
-    ul: UnorderedList,
-    ol: OrderedList,
-    "blog-button": BlogButton,
+    // Default components, wrapped to honor Visuals filtering
+    p: VContent,
+    h1: VH1,
+    h2: VH2,
+    h3: VH3,
+    gif: VGIF,
+    ul: VUnorderedList,
+    ol: VOrderedList,
+    "blog-button": VBlogButton,
     "button-visit": Button,
     button: Button,
     Button: Button,
     link: Link,
     Link: Link,
-    "content-title": ContentTitle,
-    "content-excerpt": ContentExcerpt,
-    summary: Summary,
-    callout: Callout,
-    blockquote: Blockquote,
+    "content-title": VContentTitle,
+    "content-excerpt": VContentExcerpt,
+    summary: VSummary,
+    callout: VCallout,
+    blockquote: VBlockquote,
+    
+    // New shortcode to explicitly mark curated Visuals content
+    visual: VisualBlock,
     "clickable-prompt": ClickablePrompt,
     "prompt-container": PromptContainer,
   },
@@ -104,7 +131,8 @@ const BlogPostTemplate = ({ data, pageContext }) => {
 
 
   return (
-    <Page>
+    <CaseStudyViewProvider>
+      <Page floatingSlot={<Toggle />}> 
       <Helmet
         title={post.frontmatter.title + " | Sam Chang"}
         meta={[
@@ -124,29 +152,39 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         <Menu />
       </Header>
       <ContentWrapper>
+        <Helmet>
+          {/* Preload custom font for the bottom-left toggle */}
+          <link
+            rel="preload"
+            href="/fonts/BerkeleyMonoTrial-Regular.otf"
+            as="font"
+            type="font/otf"
+          />
+        </Helmet>
         {renderAst(post.htmlAst)}
         <Footer>
-          <div css={SectionLinks}>
-            <div css={SectionLinksPrevious}>
-              <p>
-                {prev && prev.fields && (
-                  <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
-                )}
-              </p>
+            <div css={SectionLinks}>
+              <div css={SectionLinksPrevious}>
+                <p>
+                  {prev && prev.fields && (
+                    <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
+                  )}
+                </p>
+              </div>
+              <div css={SectionLinksNext}>
+                <p>
+                  {next && next.fields && (
+                    <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
+                  )}
+                </p>
+              </div>
             </div>
-            <div css={SectionLinksNext}>
-              <p>
-                {next && next.fields && (
-                  <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
-                )}
-              </p>
-            </div>
-          </div>
-        </Footer>
-      </ContentWrapper>
+          </Footer>
+        </ContentWrapper>
 
-      {/* Chatbot mounted globally */}
-    </Page>
+        {/* Chatbot mounted globally */}
+      </Page>
+    </CaseStudyViewProvider>
   );
 };
 
