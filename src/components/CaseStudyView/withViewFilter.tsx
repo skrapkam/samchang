@@ -17,17 +17,17 @@ const AnimatedWrap = styled.div`
   will-change: opacity, transform, max-height;
   transition: opacity 220ms ease, transform 220ms ease, max-height 260ms ease;
 
+  /* No margin normalization; spacing is controlled by next block's top margin */
+
   &[data-visible="true"] {
     opacity: 1;
     transform: translateY(0);
-    max-height: 9999px;
     pointer-events: auto;
   }
 
   &[data-visible="false"] {
     opacity: 0;
     transform: translateY(4px);
-    max-height: 0;
     pointer-events: none;
   }
 
@@ -57,6 +57,8 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
       setInDomVisualScope(hasScope);
     });
 
+    // No prev-heading adjustments
+
     const isMarked =
       inVisualScope || inDomVisualScope ||
       dataVisual === true ||
@@ -70,6 +72,7 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
     const [mounted, setMounted] = useState<boolean>(shouldBeVisible);
     const [visible, setVisible] = useState<boolean>(shouldBeVisible);
     const [measuredHeight, setMeasuredHeight] = useState<number>(0);
+    const [useAutoHeight, setUseAutoHeight] = useState<boolean>(shouldBeVisible);
 
     // Measure natural height of content
     const measure = () => {
@@ -82,6 +85,7 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
     useEffect(() => {
       if (shouldBeVisible) {
         setMounted(true);
+        setUseAutoHeight(false);
         // Start from 0 height for enter
         setVisible(false);
         let rafId = 0 as number | any;
@@ -105,28 +109,36 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
           if (timeoutId) clearTimeout(timeoutId);
         };
       } else {
-        // Capture current height, then animate to 0
-        setMeasuredHeight(measure());
-        const id = requestAnimationFrame(() => setVisible(false));
-        return () => cancelAnimationFrame(id);
+        // Capture current height and ensure the browser applies it
+        setUseAutoHeight(false);
+        const h = measure();
+        setMeasuredHeight(h);
+        // Keep visible=true for a tick so the starting max-height is committed,
+        // then flip to false to animate out.
+        const timeoutId = setTimeout(() => setVisible(false), 0);
+        return () => clearTimeout(timeoutId);
       }
     }, [shouldBeVisible]);
 
     const handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (e) => {
-      if (e.propertyName === "max-height" && !visible) {
+      if (e.propertyName !== "max-height") return;
+      if (!visible) {
         setMounted(false);
+      } else {
+        // When fully visible, let the wrapper grow naturally to avoid cropping
+        setUseAutoHeight(true);
       }
     };
 
     if (!mounted) return null;
 
     const ariaHidden = !visible ? true : undefined;
-    const style: React.CSSProperties = {
-      maxHeight: visible ? measuredHeight : 0
-    };
+    const style: React.CSSProperties = useAutoHeight && visible
+      ? {}
+      : { maxHeight: visible ? measuredHeight : 0 };
 
     return (
-      <AnimatedWrap ref={domRef} style={style} data-visible={visible ? "true" : "false"} aria-hidden={ariaHidden} onTransitionEnd={handleTransitionEnd}>
+      <AnimatedWrap ref={domRef} data-cs-wrap="true" style={style} data-visible={visible ? "true" : "false"} aria-hidden={ariaHidden} onTransitionEnd={handleTransitionEnd}>
         <Comp {...(props as P)} />
       </AnimatedWrap>
     );

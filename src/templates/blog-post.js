@@ -195,6 +195,82 @@ const BlogPostTemplate = ({ data, pageContext }) => {
     return null;
   };
 
+  // Ensure anchor links work with visuals/process toggle
+  const AnchorViewSync = () => {
+    const { view, setView } = useCaseStudyView();
+    useEffect(() => {
+      const ensureVisibleForHash = () => {
+        if (typeof window === 'undefined') return;
+        const raw = window.location.hash || '';
+        if (!raw) return;
+        const id = decodeURIComponent(raw.replace(/^#/, ''));
+        const headerOffset = 96; // matches scroll-margin-top
+        const scrollToId = (smooth = true) => {
+          const t = document.getElementById(id);
+          if (!t) return;
+          const rect = t.getBoundingClientRect();
+          const top = window.pageYOffset + rect.top - headerOffset;
+          if (smooth) {
+            window.scrollTo({ top, behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top });
+          }
+        };
+        const scheduleScrolls = () => {
+          // Smooth first, then adjust once layout settles
+          scrollToId(true);
+          setTimeout(() => scrollToId(false), 180);
+          setTimeout(() => scrollToId(false), 360);
+        };
+
+        let observer;
+        const setupObserver = () => {
+          if (observer) observer.disconnect();
+          observer = new MutationObserver(() => {
+            const t = document.getElementById(id);
+            if (!t) return; // still not in DOM
+            const wrapEl = t.closest('[data-cs-wrap]');
+            const visible = !wrapEl || wrapEl.getAttribute('data-visible') === 'true';
+            if (visible) {
+              observer.disconnect();
+              // Defer one tick to allow layout after expand
+              setTimeout(scheduleScrolls, 0);
+            }
+          });
+          observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true });
+        };
+
+        const target = document.getElementById(id);
+        if (!target) {
+          if (view !== 'process') setView('process');
+          // Wait for target to mount and/or become visible
+          setupObserver();
+          return;
+        }
+        const wrap = target.closest('[data-cs-wrap]');
+        const hiddenByView = wrap && wrap.getAttribute('data-visible') === 'false';
+        if (hiddenByView && view !== 'process') {
+          setView('process');
+          setupObserver();
+        } else if (!hiddenByView) {
+          // Target already visible
+          scheduleScrolls();
+        }
+      };
+
+      // Initial load and when view changes
+      // Run twice: once now, once next tick to ensure DOM committed
+      ensureVisibleForHash();
+      const id = setTimeout(ensureVisibleForHash, 0);
+      window.addEventListener('hashchange', ensureVisibleForHash);
+      return () => {
+        clearTimeout(id);
+        window.removeEventListener('hashchange', ensureVisibleForHash);
+      };
+    }, [view, setView]);
+    return null;
+  };
+
 
   return (
     <CaseStudyViewProvider>
@@ -237,6 +313,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
           `}</style>
         </Helmet>
         <ExclusionManager />
+        <AnchorViewSync />
         {renderAst(post.htmlAst)}
         <Footer>
             <div css={SectionLinks}>

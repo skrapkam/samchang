@@ -8,14 +8,29 @@ image2: "./images/img_onboarding_two.png"
 image3: "./images/img_onboarding_three.png"
 image4: "./images/img_onboarding_four.png"
 excerpt: Overhauling 99designs' designer onboarding experience.
+
+visualsExclude:
+      - img_onboarding_hypotheses_chart.png
+      - img_onboarding_engineers.jpg
+      - img_onboarding_application_qualifications.png
+      - img_onboarding_new_process.png
+      - img_onboarding_getting_started_account_settings.png
+      - img_onboarding_new_flow.png
+      - img_onboarding_id_verification.png
+      - img_onboarding_designer_quality.jpg
+      - img_onboarding_meaningful_action.jpg
+      - img_onboarding_negative_reception.png
 ---
 
+<visual>
 <content-title>
 Onboarding
 </content-title>
 <content-excerpt>
 Overhauling 99designs' designer onboarding experience
 </content-excerpt>
+
+</visual>
 
 <summary>
 I led the design of a new onboarding process for designers. This new and improved process is helping 99designs find great designers, improving the quality of work on the platform, and saving the company over $230,000 a year.
@@ -36,6 +51,8 @@ I led the design of a new onboarding process for designers. This new and improve
 
 ## Background
 
+<visual>
+
 The designer community is [99designs](https://99designs.com)’ greatest asset. Over the past 10 years 99d has invested in building a professional design community. An example of that investment is the creation of a Curation team—a team dedicated to ranking, sorting, banning, and promoting designers.
 
 Before launching this project, 99d was open to any designer—which was pretty great. It gave everyone an [opportunity to "make it" in design](https://www.youtube.com/watch?v=ot8JGKdmalQ).
@@ -46,6 +63,7 @@ But this also meant that we didn't know anything about these designers until the
 
 Unfortunately, most of the designers who sign up are banned due to the low-quality work they produce. This project aimed to **expedite the progression for qualified designers** while **identifying and blocking the bad actors** who don't contribute positively to our community.
 
+</visual>
 
 ## My role
 
@@ -57,6 +75,7 @@ My tasks entailed owning the end-to-end design process, defining product strateg
 
 # Understand
 
+ 
 ## Problem framing
 
 Through interviews, checking our data, and auditing our current sign-up flow, I identified two potential areas to address:
@@ -64,6 +83,8 @@ Through interviews, checking our data, and auditing our current sign-up flow, I 
 1. Setting better expectations for designers
 
 2. Improving our curation process
+
+ 
 
 ## Setting better expectations for designers
 
@@ -94,17 +115,22 @@ This was a fundamental shift from how designers joined 99d. Designers now had to
 - **Reduced ID verification costs**. To work on the platform, designers must verify their IDs for fraud purposes. Each ID verification _attempt_, however, costs us money (around \$54k last quarter). Most of these attempts are wasted since the designer making that attempt is usually low-quality or fraudulent. An increased barrier would reduce the number of attempts by fraudulent designers as a majority of them wouldn't be approved.
 - **Increased % of qualified designer engagement**. We want qualified designers to start being productive on 99d as soon as possible. A new onboarding process to quickly identify qualified designers would allow us to promptly set them up for success.
 
+
+<visual>
+
 # Introducing Designer Onboarding
 
 A fundamental shift in how designers join 99d, this new onboarding process will guide designers towards success and improve the quality of our design community.
 
-Here's what we shipped in December of 2019:
+Here's what we shipped:
 
 ![Onboarding - Getting Started](./images/img_onboarding_getting_started.png "Designers are prompted to provide us details about themselves through an application after sign-up")
 
 ![Onboarding - Account Settings](./images/img_onboarding_account_settings.png "Details are provided through their account settings")
 
 ![Onboarding - Application progress indicator](./images/img_onboarding_progress_indicator.png "Application progress indicator guiding designers throughout the process")
+
+</visual>
 
 # How we got there
 
@@ -266,6 +292,7 @@ With these three major pieces in place, a new onboarding flow began to take shap
 
 ![Onboarding - New Flow](./images/img_onboarding_new_flow.png "High-level, the flow looked like this")
 
+
 # Results
 
 ## Pulling the trigger
@@ -298,6 +325,7 @@ Although during the first 11 days the percentage having performed a meaningful a
 
 ![Onboarding - Meaningful actions](./images/img_onboarding_meaningful_action.jpg "Chart illustrating comparison between old and new cohorts in performing a meaningful action")
 
+<visual>
 
 ## Community reception
  
@@ -310,6 +338,8 @@ We also received an overwhelming amount of support and gratitude after announcin
 > "It is great to read this. More quality in term of ideas and education. This is going to put the bar a little higher." — AdrianKg
 
 > "Best platform forever." — tanlearn
+
+</visual>
 
 ## Negative reception
 

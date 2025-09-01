@@ -19,12 +19,14 @@ visualsExclude:
 <content-title>
 Billing Checkout
 </content-title>
-</visual>
 
 
 <content-excerpt>
 Redesigning Ladder's purchase experience to reduce wasted costs and better serve high-intent users.
 </content-excerpt>
+
+</visual>
+
 
 <summary>
 I redesigned Ladder's purchase flow to focus on high-intent users by auto-issuing matching-price policies and requiring payment details up front to confirm intent. Despite initial risks and tension with leadership, the launch increased gross margin by 82% and reduced costs by 64%.

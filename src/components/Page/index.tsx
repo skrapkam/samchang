@@ -47,8 +47,9 @@ const FloatingSlot = styled.div`
   transform: translateX(-50%);
   z-index: 1000;
 
-  @media (max-width: 1070px) {
-    display: none;
+  /* Tighter spacing on narrower viewports */
+  @media (max-width: 768px) {
+    bottom: 16px;
   }
 `;
 

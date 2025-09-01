@@ -8,7 +8,7 @@ import defaultTheme from "../../Theme"
 
 const H1Styled = styled.h1`
   max-width: ${defaultTheme.width[0]};
-  margin: 0 auto ${defaultTheme.space[3]};
+  margin: 0 auto 0;
   font-weight: 500;
   font-family: ${defaultTheme.fonts.serif};
   font-size: ${defaultTheme.fontSizes[4]};
