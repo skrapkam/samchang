@@ -43,7 +43,8 @@ const ScrollToTop = styled.div<ScrollToTopProps>`
 const FloatingSlot = styled.div`
   position: fixed;
   bottom: 32px;
-  left: 32px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
 
   @media (max-width: 1070px) {

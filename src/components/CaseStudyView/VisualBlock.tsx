@@ -1,12 +1,15 @@
 import React from "react";
 import { VisualScopeProvider } from "./CaseStudyViewContext";
 
-// Acts as a logical wrapper that marks its children as part of the Visuals view.
-// Does not introduce extra DOM by default; authors can still style using attributes
-// on the <visual> tag in markdown, but here we just scope the children.
+// Marks its children as curated for Visuals view.
+// Use a display: contents wrapper to ensure DOM presence without layout impact,
+// and provide React context so consumers can detect the scope.
 const VisualBlock: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  return <VisualScopeProvider>{children}</VisualScopeProvider>;
+  return (
+    <VisualScopeProvider>
+      <span data-visual-scope style={{ display: 'contents' }}>{children}</span>
+    </VisualScopeProvider>
+  );
 };
 
 export default VisualBlock;
-

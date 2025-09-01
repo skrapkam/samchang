@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { useCaseStudyView, useInVisualScope } from "./CaseStudyViewContext";
 
@@ -10,6 +10,8 @@ type AnyProps = Record<string, any>;
  * renders only when inside a <visual> block or when the element is explicitly
  * marked with data-visual or has a className containing "visual".
  */
+// No wrapper div to preserve margin-collapsing behavior between blocks.
+
 const AnimatedWrap = styled.div`
   overflow: hidden;
   will-change: opacity, transform, max-height;
@@ -18,7 +20,7 @@ const AnimatedWrap = styled.div`
   &[data-visible="true"] {
     opacity: 1;
     transform: translateY(0);
-    max-height: 9999px; /* large enough to accommodate content */
+    max-height: 9999px;
     pointer-events: auto;
   }
 
@@ -41,22 +43,90 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
 
     // Always visible in Process view
     const isProcess = view === "process";
-    const className: string | undefined = (props as any)["className"];
+    const classNameProp: string | undefined = (props as any)["className"];
     const dataVisual = (props as any)["data-visual"]; // may be true, "true", ""
 
     // Visuals view: only render if explicitly marked or inside a <visual>
+    // Also detect DOM-based visual scope to be robust against mapping quirks
+    const domRef = useRef<HTMLDivElement | null>(null);
+    const [inDomVisualScope, setInDomVisualScope] = useState(false);
+    useEffect(() => {
+      const el = domRef.current;
+      if (!el) return;
+      const hasScope = !!el.closest('[data-visual-scope]');
+      setInDomVisualScope(hasScope);
+    });
+
     const isMarked =
-      inVisualScope ||
+      inVisualScope || inDomVisualScope ||
       dataVisual === true ||
       dataVisual === "" ||
       dataVisual === "true" ||
-      (typeof className === "string" && /(^|\s)visual(\s|$)/.test(className));
+      (typeof classNameProp === "string" && /(^|\s)visual(\s|$)/.test(classNameProp));
 
-    const visible = isProcess || isMarked;
+    const shouldBeVisible = isProcess || isMarked;
+
+    // Mount for animation; unmount after collapse completes
+    const [mounted, setMounted] = useState<boolean>(shouldBeVisible);
+    const [visible, setVisible] = useState<boolean>(shouldBeVisible);
+    const [measuredHeight, setMeasuredHeight] = useState<number>(0);
+
+    // Measure natural height of content
+    const measure = () => {
+      const el = domRef.current as HTMLElement | null;
+      if (!el) return 0;
+      // Use scrollHeight which reflects content's natural height
+      return el.scrollHeight || 0;
+    };
+
+    useEffect(() => {
+      if (shouldBeVisible) {
+        setMounted(true);
+        // Start from 0 height for enter
+        setVisible(false);
+        let rafId = 0 as number | any;
+        let timeoutId: any;
+        rafId = requestAnimationFrame(() => {
+          const h1 = measure();
+          if (h1 && h1 > 0) {
+            setMeasuredHeight(h1);
+            setVisible(true);
+          } else {
+            // Fallback: measure on next task if first read is 0
+            timeoutId = setTimeout(() => {
+              const h2 = measure();
+              setMeasuredHeight(h2 && h2 > 0 ? h2 : 1);
+              setVisible(true);
+            }, 0);
+          }
+        });
+        return () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          if (timeoutId) clearTimeout(timeoutId);
+        };
+      } else {
+        // Capture current height, then animate to 0
+        setMeasuredHeight(measure());
+        const id = requestAnimationFrame(() => setVisible(false));
+        return () => cancelAnimationFrame(id);
+      }
+    }, [shouldBeVisible]);
+
+    const handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (e) => {
+      if (e.propertyName === "max-height" && !visible) {
+        setMounted(false);
+      }
+    };
+
+    if (!mounted) return null;
+
     const ariaHidden = !visible ? true : undefined;
+    const style: React.CSSProperties = {
+      maxHeight: visible ? measuredHeight : 0
+    };
 
     return (
-      <AnimatedWrap data-visible={visible ? "true" : "false"} aria-hidden={ariaHidden}>
+      <AnimatedWrap ref={domRef} style={style} data-visible={visible ? "true" : "false"} aria-hidden={ariaHidden} onTransitionEnd={handleTransitionEnd}>
         <Comp {...(props as P)} />
       </AnimatedWrap>
     );

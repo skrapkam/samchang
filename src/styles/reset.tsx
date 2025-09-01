@@ -181,6 +181,8 @@ export const GlobalStyle = () => (
       h1, h2, h3, h4, h5, h6 {
         position: relative;
       }
+
+      /* animations handled by wrapper in withViewFilter */
     `}
   />
 );

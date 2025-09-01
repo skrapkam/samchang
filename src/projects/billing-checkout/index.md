@@ -7,6 +7,12 @@ excerpt: Redesigning Ladder's purchase experience to reduce wasted costs and bet
 image1: "./images/billing_21.png"
 image2: "./images/billing_02.png"
 image3: "./images/billing_11.png"
+visualsExclude:
+      - billing_00.png
+      - billing_01.png
+      - billing_03.png
+      - billing_04.png
+      - billing_10.png
 ---
 
 <visual>
@@ -141,7 +147,11 @@ We ultimately chose Exploration B. Exploration A, though efficient in reducing s
 
 ![Final version](images/billing_10.png "")
 
-Our approach was to frame this step similarly to a checkout page, providing users with a clear summary of what they’re purchasing, the cost, and an opportunity to enter payment details.
+<visual>
+
+My approach was to frame this step similarly to a checkout page, providing users with a clear summary of what they’re purchasing, the cost, and an opportunity to enter payment details.
+
+</visual>
 
 ![Callout](images/billing_11.png "")
 
@@ -149,12 +159,16 @@ We also brought in a proven conversion component: our cancellation policy.
 
 ![Cancellation policy](images/billing_12.png "")
 
+
+<visual>
+
 # What we shipped
 
 After this iterative design and alignment process, here’s what we ultimately shipped:  
 
-![Final version](images/billing_21.png "")
-![Final version](images/billing_02.png "")
+![Billing checkout page](images/billing_21.png "")
+![Covered page](images/billing_02.png "")
+
 
 # Results
 
@@ -163,11 +177,16 @@ We launched this project in May 2024 and rigorously tracked experiment data over
 - **Gross margin increased by 82%**  
 - **Underwriting costs reduced by 64%**  
 
+</visual>
+
 While contribution margins improved significantly, policy volume decreased by 6%. This was an expected tradeoff of filtering more aggressively for high-intent users. The reduction in volume was offset by the improved margins, which were ultimately more important for company sustainability. Still, I pushed senior stakeholders to keep investing in this area to understand why policy growth dipped and how we could address it without sacrificing margins.  
 
 I led user research with customers who had dropped off, and partnered with our customer support team to analyze common questions. We discovered that many users left the billing checkout page due to unanswered concerns. In a follow-up iteration, I designed an FAQ/resource center within the checkout experience, including answers to frequent questions, direct access to customer support, and a sample policy PDF. This addition drove a **2% increase in policy growth**, helping recover volume while maintaining improved margins.  
 
 From a user experience perspective, customer support volume remained stable — no spike in complaints or confusion. Post-launch feedback suggested users appreciated the clearer checkout-like framing, which made the process feel more familiar and decisive. After adding the FAQ/resource center, we saw fewer clarification tickets and heard directly from users that having a sample policy PDF gave them confidence to move forward.  
+
+
+<visual>
 
 <callout emoji ="📈">
 This project improved gross margins by 82%, reduced costs by 64%, became a cornerstone of Ladder’s fundraising story — a major reason we secured our Series D funding — and, through iteration, recovered 2% in policy growth.
@@ -176,5 +195,7 @@ This project improved gross margins by 82%, reduced costs by 64%, became a corne
 # Impact on company
 
 This project became one of Ladder’s most impactful initiatives in 2024. By strengthening our contribution margins and recovering policy growth, we created a compelling narrative about the company’s current performance and future trajectory — an invaluable asset in securing Series D funding and extending Ladder’s runway.  
+
+</visual>
 
 ![Celebratory dinner with a portion of our team](images/billing_13.jpg "")

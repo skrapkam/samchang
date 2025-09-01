@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import styled from "@emotion/styled";
 import { graphql, Link } from "gatsby";
-import React from "react";
+import React, { useEffect } from "react";
 import { css, jsx } from "@emotion/react";
 import RehypeReact from "rehype-react";
 import Content from "../components/Blog/Content/index.tsx";
@@ -28,7 +28,7 @@ import { Helmet } from "react-helmet";
 import defaultTheme from "../components/Theme";
 
 // View toggle + selective render plumbing
-import { CaseStudyViewProvider } from "../components/CaseStudyView/CaseStudyViewContext";
+import { CaseStudyViewProvider, useCaseStudyView } from "../components/CaseStudyView/CaseStudyViewContext";
 import Toggle from "../components/CaseStudyView/Toggle";
 import VisualBlock from "../components/CaseStudyView/VisualBlock";
 import withViewFilter from "../components/CaseStudyView/withViewFilter";
@@ -52,7 +52,21 @@ const VGIF = withViewFilter(GIF);
 const VContentTitle = withViewFilter(ContentTitle);
 const VContentExcerpt = withViewFilter(ContentExcerpt);
 
-// (Reverted) No raw tag filtering — rely on curated components only
+// Raw HTML tag proxies for media/leaf elements only (avoid container divs/sections)
+const RawImg = (props) => React.createElement('img', props);
+const RawFigure = (props) => React.createElement('figure', props);
+const RawFigcaption = (props) => React.createElement('figcaption', props);
+const RawPicture = (props) => React.createElement('picture', props);
+const RawSource = (props) => React.createElement('source', props);
+const RawNoscript = (props) => React.createElement('noscript', props);
+
+// Lenient for images: render media unfiltered; rely on visualsExclude to hide
+const PlainImg = (props) => RawImg(props);
+const PlainFigure = (props) => RawFigure(props);
+const PlainFigcaption = (props) => RawFigcaption(props);
+const PlainPicture = (props) => RawPicture(props);
+const PlainSource = (props) => RawSource(props);
+const PlainNoscript = (props) => RawNoscript(props);
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -76,6 +90,13 @@ const renderAst = new RehypeReact({
     summary: VSummary,
     callout: VCallout,
     blockquote: VBlockquote,
+    // Media elements are lenient in Visuals: always render, with visualsExclude to hide
+    img: PlainImg,
+    figure: PlainFigure,
+    figcaption: PlainFigcaption,
+    picture: PlainPicture,
+    source: PlainSource,
+    noscript: PlainNoscript,
     
     // New shortcode to explicitly mark curated Visuals content
     visual: VisualBlock,
@@ -128,14 +149,59 @@ const ContentWrapper = styled.div`
 const BlogPostTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark;
   const { next, prev, slug } = pageContext;
+  const excludePatterns = (post.frontmatter && post.frontmatter.visualsExclude) || [];
+
+  // Client-side exclusion for specific images in Visuals view
+  const ExclusionManager = () => {
+    const { view } = useCaseStudyView();
+    useEffect(() => {
+      if (!Array.isArray(excludePatterns) || excludePatterns.length === 0) return;
+
+      const markExcluded = (shouldExclude) => {
+        excludePatterns.forEach((pattern) => {
+          if (!pattern) return;
+          const selector = `img[src*="${pattern}"] , source[srcset*="${pattern}"] , a[href*="${pattern}"]`;
+          document.querySelectorAll(selector).forEach((el) => {
+            // If inside a <figure>, hide the entire figure (caption included)
+            const figure = el.closest('figure.gatsby-resp-image-figure, figure');
+            if (figure) {
+              if (shouldExclude) figure.setAttribute('data-visual-excluded', 'true');
+              else figure.removeAttribute('data-visual-excluded');
+              return;
+            }
+
+            // Else prefer the Gatsby wrapper span/div
+            const wrapper = el.closest('.gatsby-resp-image-wrapper');
+            const target = wrapper || el;
+            if (shouldExclude) target.setAttribute('data-visual-excluded', 'true');
+            else target.removeAttribute('data-visual-excluded');
+
+            // Also hide adjacent figcaption spans Gatsby may emit
+            const maybeCaption = target.nextElementSibling;
+            if (maybeCaption && maybeCaption.classList && maybeCaption.classList.contains('gatsby-resp-image-figcaption')) {
+              if (shouldExclude) maybeCaption.setAttribute('data-visual-excluded', 'true');
+              else maybeCaption.removeAttribute('data-visual-excluded');
+            }
+          });
+        });
+      };
+
+      if (view === 'visuals') {
+        markExcluded(true);
+      } else {
+        markExcluded(false);
+      }
+    }, [view]);
+    return null;
+  };
 
 
   return (
     <CaseStudyViewProvider>
       <Page floatingSlot={<Toggle />}> 
-      <Helmet
-        title={post.frontmatter.title + " | Sam Chang"}
-        meta={[
+        <Helmet
+          title={post.frontmatter.title + " | Sam Chang"}
+          meta={[
           {
             name: "viewport",
             content:
@@ -160,7 +226,17 @@ const BlogPostTemplate = ({ data, pageContext }) => {
             as="font"
             type="font/otf"
           />
+          {/* Hide excluded media when in Visuals view */}
+          <style>{`
+            html[data-case-study-view="visuals"] [data-visual-excluded="true"] {
+              display: none !important;
+            }
+            html[data-case-study-view="visuals"] [data-visual-excluded="true"] + .gatsby-resp-image-figcaption {
+              display: none !important;
+            }
+          `}</style>
         </Helmet>
+        <ExclusionManager />
         {renderAst(post.htmlAst)}
         <Footer>
             <div css={SectionLinks}>
@@ -199,6 +275,7 @@ export const query = graphql`
       }
       frontmatter {
         title
+        visualsExclude
       }
     }
   }
