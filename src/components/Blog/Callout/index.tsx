@@ -11,7 +11,7 @@ interface CalloutProps {
 }
 
 const CalloutStyle = styled.aside`
-  background-color: var(--callout);
+  background-color: rgba(0,0,0, .03);
   max-width: ${defaultTheme.width[0]};
   margin: ${defaultTheme.space[4]} auto;
   padding: ${defaultTheme.space[3]};

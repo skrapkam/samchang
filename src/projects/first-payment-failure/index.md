@@ -1,13 +1,12 @@
 ---
 title: First Payment Failure
 date: "2022"
-customField: VALUE_1
-section: ladder
-excerpt: Reflections on designing for the payment failure experience
-image1: "../images/img_team.jpg"
-image2: "../images/img_team.jpg"
-image3: "../images/img_team.jpg"
-image4: "../images/img_team.jpg"
+customField: VALUE_3
+section: blog
+excerpt: Redesigning Ladder's payment experience to reduce payment failures
+image1: "./images/payment_08.png"
+image2: "./images/payment_11.png"
+image3: "./images/payment_04.png"
 ---
 
 <content-title>

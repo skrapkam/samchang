@@ -16,9 +16,9 @@ const Header = styled.div<HeaderProps>`
   width: ${defaultTheme.width[2]};
   top: 0;
   z-index: 999;
-  background: var(--bg);
+  background: white;
   box-shadow: ${(props: HeaderProps) =>
-    props.showHeaderShadow ? "var(--shadow) 0px 1px 0px" : "none"};
+    props.showHeaderShadow ? "rgba(0, 0, 0, 0.04) 0px 1px 0px" : "none"};
 
   ${mq[2]} {
     padding: ${defaultTheme.space[4]} ${defaultTheme.space[3]} ${defaultTheme.space[4]};
@@ -28,8 +28,8 @@ const Header = styled.div<HeaderProps>`
     padding: ${defaultTheme.space[3]} ${defaultTheme.space[3]} ${defaultTheme.space[3]};
     position: fixed;
     width: ${defaultTheme.width[2]};
-    box-shadow: var(--shadow) 0px 1px 0px;
-    background-color: var(--bg);
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 0px;
+    background-color: white;
     top: 0;
     z-index: 999;
   }

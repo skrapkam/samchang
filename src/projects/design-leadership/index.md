@@ -2,12 +2,11 @@
 title: Design Leadership
 date: "2024"
 customField: VALUE_1
-section: ladder
+section: blog
 excerpt: Reflections on leading Ladder's design team.
-image1: "../images/img_team.jpg"
-image2: "../images/img_team.jpg"
-image3: "../images/img_team.jpg"
-image4: "../images/img_team.jpg"
+image1: "./images/img_team.jpg"
+image2: "./images/img_michelle.png"
+image3: "./images/img_values.png"
 ---
 
 <content-title>
@@ -58,9 +57,9 @@ In 2024, I collaborated with our product and visual design teams to define our t
 
 Establishing team values helps my team understand who they are and provides a shared framework to guide their work in meaningful ways. It's a foundation for creating impactful designs that align with their identity and aspirations.
 
-![Michelle holding up values](../images/img_michelle.png "Michelle holding up a sticky note with our Product Design values.")
+![Michelle holding up values](./images/img_michelle.png "Michelle holding up a sticky note with our Product Design values.")
 
-![Figjam full of values](../images/img_values.png "")
+![Figjam full of values](./images/img_values.png "")
 
 ## Team alignment
 

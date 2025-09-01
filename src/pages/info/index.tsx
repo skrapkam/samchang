@@ -140,9 +140,6 @@ const info = props => (
       </MediumSectionWrapper>
       <AvatarStyle>
         <Img fluid={props.data.avatar.childImageSharp.fluid} />
-        <AvatarCaption>
-          Photo by <a href="https://austinyu.com">Austin Yu</a>
-        </AvatarCaption>
       </AvatarStyle>
     </GridContainer>
   </Page>
@@ -162,7 +159,7 @@ export const fluidImage = graphql`
 
 export const pageQuery = graphql`
   query {
-    avatar: file(relativePath: { eq: "avatar.jpg" }) {
+    avatar: file(relativePath: { eq: "IMG_0677.JPG" }) {
       ...fluidImage
     }
   }

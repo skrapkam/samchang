@@ -52,19 +52,31 @@ const useIsMobile = () => {
 
 // New realistic jewel case components from scratch
 
+const AlbumContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
 const JewelCaseWrapper = styled.div`
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Modern way to maintain square aspect ratio */
   perspective: 1500px;
-  margin: 0;
+  margin: 0 auto;
   cursor: pointer;
+  
+  /* Fallback for older browsers */
+  @supports not (aspect-ratio: 1 / 1) {
+    height: 0;
+    padding-bottom: 100%;
+  }
   
   /* Mobile-specific styles */
   @media (max-width: 768px) {
-    width: 320px;
-    height: 320px;
-    margin: 0;
+    width: 100%;
+    margin: 0 auto;
     touch-action: auto; /* Allow normal touch behaviors for scrolling */
     user-select: none; /* Prevent text selection on touch */
     -webkit-user-select: none;
@@ -73,13 +85,22 @@ const JewelCaseWrapper = styled.div`
 `;
 
 const JewelCase = styled.div<{ rotateX: number; rotateY: number }>`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  position: relative;
   transform-style: preserve-3d;
   transform: rotateX(${props => props.rotateX}deg) rotateY(${props => props.rotateY}deg);
   transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
+  
+  /* Ensure it works with both aspect-ratio and padding-bottom fallback */
+  @supports not (aspect-ratio: 1 / 1) {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 `;
 
 const Face = styled.div`
@@ -253,9 +274,9 @@ const Gloss = styled.div<{ tiltX: number; tiltY: number }>`
       transparent 70%),
     /* Secondary highlight */
     radial-gradient(ellipse at ${props => 30 + (props.tiltY * 0.3)}% ${props => 30 + (props.tiltX * 0.3)}%, 
-      rgba(255,255,255,0.3) 0%, 
+      rgba(255,255,255,0.2) 0%, 
       transparent 60%);
-  opacity: ${props => 0.8 + (Math.abs(props.tiltX + props.tiltY) * 0.005)};
+  opacity: ${props => 0.6 + (Math.abs(props.tiltX + props.tiltY) * 0.005)};
   pointer-events: none;
   border-radius: 1px;
   
@@ -426,35 +447,37 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           };
 
           return (
-            <JewelCaseWrapper key={node.id} ref={caseRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              onClick={handleClick}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-            >
-              <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
-                <Front>
-                  {imageUrl && (
-                    isMobile ? (
-                      <CoverImage src={imageUrl} alt={node.title} />
-                    ) : (
-                      <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+            <AlbumContainer key={node.id}>
+              <JewelCaseWrapper ref={caseRef}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
+                <JewelCase rotateX={tilt.rotateX} rotateY={tilt.rotateY}>
+                  <Front>
+                    {imageUrl && (
+                      isMobile ? (
                         <CoverImage src={imageUrl} alt={node.title} />
-                      </a>
-                    )
-                  )}
-                  <VerticalStrip isSafari={isSafari} />
-                  <Gloss tiltX={tilt.rotateX} tiltY={tilt.rotateY} />
-                </Front>
-                <Back />
-                <Spine>
-                  <SpineText>{node.title}</SpineText>
-                </Spine>
-                <Right />
-                <Top />
-                <Bottom />
-              </JewelCase>
+                      ) : (
+                        <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+                          <CoverImage src={imageUrl} alt={node.title} />
+                        </a>
+                      )
+                    )}
+                    <VerticalStrip isSafari={isSafari} />
+                    <Gloss tiltX={tilt.rotateX} tiltY={tilt.rotateY} />
+                  </Front>
+                  <Back />
+                  <Spine>
+                    <SpineText>{node.title}</SpineText>
+                  </Spine>
+                  <Right />
+                  <Top />
+                  <Bottom />
+                </JewelCase>
+              </JewelCaseWrapper>
               <CoverTitle>
                 {node.properties.URL?.value ? (
                   <a href={node.properties.URL.value} target="_blank" rel="noopener noreferrer">
@@ -470,7 +493,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                   : null
                 }
               </ReleaseDate>
-            </JewelCaseWrapper>
+            </AlbumContainer>
           );
         })}
       </Grid>

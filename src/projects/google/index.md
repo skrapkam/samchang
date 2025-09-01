@@ -2,7 +2,7 @@
 title: Google
 date: "2018"
 customField: VALUE_4
-section: blog
+section: archived
 image1: "./images/img_google_one.png"
 image2: "./images/img_google_two.png"
 image3: "./images/img_google_three.png"

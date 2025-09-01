@@ -23,39 +23,21 @@ export const GlobalStyle = () => (
  
       body {
         width: 100%;
-        background: var(--bg);
+        background: white;
         font-size: 1.8rem;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        color: ${defaultTheme.color.text};
+        color: #000000;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      }
-
-      @media (prefers-color-scheme: light) {
-        body {
-          --bg: white;
-          --link: #0050e6;
-          --text: #000000;
-          --border: rgba(0, 0, 0, 0.1);
-          --shadow: rgba(0, 0, 0, 0.04);
-          --callout: rgba(0,0,0, .03);
-          --blockquote: rgba(255, 207, 184, 0.30);
-          --hover: #E6F0FD;
-        }
-     }
-      
-      @media (prefers-color-scheme: dark) {
-         body {
-           --bg: rgb(5,5,5);
-           --link: rgb(255, 149, 0);
-           --text: rgb(227, 228, 232);
-           --border: rgba(255, 255, 255, 0.1);
-           --shadow: rgba(255,255,255, .04);
-           --callout: rgba(255,255,255, .03);
-           --blockquote: rgba(150, 196, 226, 0.5);
-           --hover: #2D2D2D;
-         }
+        --bg: white;
+        --link: #0050e6;
+        --text: #000000;
+        --border: rgba(0, 0, 0, 0.1);
+        --shadow: rgba(0, 0, 0, 0.04);
+        --callout: rgba(0,0,0, .03);
+        --blockquote: rgba(255, 207, 184, 0.30);
+        --hover: #E6F0FD;
       }
       
       img {
@@ -138,26 +120,29 @@ export const GlobalStyle = () => (
       
       @media (hover: hover) {
         a:hover {
-          background: var(--hover);
+          background: #E6F0FD;
         }
       }
 
       
       @media (max-width: 1260px) {
         .wrapper .gatsby-image-wrapper {
-          width: 40vw;
+          width: auto;
+          max-width: 100%;
         }
       }
 
       @media (max-width: 850px) {
         .wrapper .gatsby-image-wrapper {
-          width: 60vw;
+          width: auto;
+          max-width: 100%;
         }
       }
 
       @media (max-width: 450px) {
         .wrapper .gatsby-image-wrapper {
-          width: 80vw;
+          width: auto;
+          max-width: 100%;
         }
       }
 

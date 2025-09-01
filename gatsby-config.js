@@ -16,10 +16,21 @@ module.exports = {
     `gatsby-plugin-catch-links`,
     `gatsby-transformer-json`,
     {
+      // Notion Music Database
       resolve: `gatsby-source-notion-api`,
       options: {
         token: process.env.NOTION_TOKEN,
-        databaseId: process.env.NOTION_DATABASE_ID,
+        databaseId: process.env.NOTION_DATABASE_ID_MUSIC,
+        lowerTitleLevel: true,
+        pageUrl: false,
+      },
+    },
+    {
+      // Notion Books Database
+      resolve: `gatsby-source-notion-api`,
+      options: {
+        token: process.env.NOTION_TOKEN,
+        databaseId: process.env.NOTION_DATABASE_ID_BOOKS,
         lowerTitleLevel: true,
         pageUrl: false,
       },
@@ -64,7 +75,7 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               quality: 100,
-              maxWidth: 1500,
+              maxWidth: 3000,
               withWebp: true,
               showCaptions: true,
               linkImagesToOriginal: false,

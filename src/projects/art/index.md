@@ -2,7 +2,7 @@
 title: ???
 date: "2012"
 customField: VALUE_5
-section: blog
+section: archived
 image1: "./images/img_art_01.jpg"
 image2: "./images/img_art_02.jpg"
 image3: "./images/img_art_03.jpg"

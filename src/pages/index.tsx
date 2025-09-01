@@ -21,6 +21,14 @@ const hide = css`
     width: 2px;
     display: inline-block;
   } 
+  ${mq[1]} {
+    display: none;
+    width: 0;
+  }
+  ${mq[0]} {
+    display: none;
+    width: 0;
+  }
 `;
 const action = css`
   text-decoration: none;
@@ -50,7 +58,7 @@ const Excerpt = css`
 const hidden = css`
   display: none;
   ${mq[2]} {
-    background: var(--bg);
+    background: white;
     display: block;
     position: relative;
     height: 24px;
@@ -76,7 +84,7 @@ const Projects = css`
   &:not(:last-child) {
     padding-bottom: ${defaultTheme.space[7]};
     margin-bottom: ${defaultTheme.space[7]};
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -91,25 +99,64 @@ const SectionContainer = styled.div`
 
 const ImageWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30px, 3fr));
-  grid-row: auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-column-gap: 16px;
+  grid-row-gap: 16px;
 
   &::-webkit-scrollbar {
     display: none;
   }
+  
+  .gatsby-image-wrapper {
+    width: 100% !important;
+    /* keep a consistent rectangle; allow letterboxing */
+    aspect-ratio: 16 / 9;
+    height: auto !important;
+    padding-bottom: 0 !important; /* override intrinsic ratio padding */
+    background: #fff;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+  
   img {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
   ${mq[2]} {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    -webkit-overflow-scrolling: touch;
-    padding-left: ${defaultTheme.space[3]};
+    grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 24px;
-    overflow: auto;
+    padding-left: ${defaultTheme.space[3]};
+    padding-right: ${defaultTheme.space[3]};
     padding-bottom: ${defaultTheme.space[3]};
-
   } 
+  
+  /* Enable swipeable carousel on tablets/phones */
+  ${mq[1]} {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 80vw;
+    grid-template-columns: unset;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    column-gap: 16px;
+    padding-left: ${defaultTheme.space[3]};
+    padding-right: ${defaultTheme.space[3]};
+  }
+
+  ${mq[1]} .gatsby-image-wrapper {
+    scroll-snap-align: start;
+    width: 80vw !important;
+    height: auto !important;
+  }
+
+  ${mq[0]} {
+    grid-auto-columns: 90vw;
+  }
+
+  ${mq[0]} .gatsby-image-wrapper {
+    width: 90vw !important;
+  }
 `;
 export default ({ data }) => {
   return (
@@ -139,17 +186,27 @@ export default ({ data }) => {
                 <SectionContainer>
                   <ImageWrapper>
                     <Img
-                      sizes={node.frontmatter.image1.childImageSharp.fluid}
+                      fluid={node.frontmatter.image1.childImageSharp.fluid}
+                      imgStyle={{ objectFit: "cover", objectPosition: "center top" }}
+                      style={{ width: "100%" }}
                     />
                     <Img
-                      sizes={node.frontmatter.image2.childImageSharp.fluid}
+                      fluid={node.frontmatter.image2.childImageSharp.fluid}
+                      imgStyle={{ objectFit: "cover", objectPosition: "center" }}
+                      style={{ width: "100%" }}
                     />
                     <Img
-                      sizes={node.frontmatter.image3.childImageSharp.fluid}
+                      fluid={node.frontmatter.image3.childImageSharp.fluid}
+                      imgStyle={{ objectFit: "cover", objectPosition: "center" }}
+                      style={{ width: "100%" }}
                     />
-                    <Img
-                      sizes={node.frontmatter.image4.childImageSharp.fluid}
-                    />
+                    {node.frontmatter.image4 && (
+                      <Img
+                        fluid={node.frontmatter.image4.childImageSharp.fluid}
+                        imgStyle={{ objectFit: "cover", objectPosition: "center" }}
+                        style={{ width: "100%" }}
+                      />
+                    )}
                    
                     <div css={hide} />
                   </ImageWrapper>

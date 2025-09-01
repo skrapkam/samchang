@@ -2,7 +2,7 @@
 title: Ladder
 date: "2020–present"
 customField: VALUE_1
-section: blog
+section: ladder
 image1: "./images/img_homepage_01.png"
 image2: "./images/img_FPF.png"
 image3: "./images/img_transparency_01.png"
@@ -41,7 +41,7 @@ For the past three years, I’ve had the privilege of leading most of our design
 
 <blog-button>
 <button-visit>
-<a href="/ladder/design-leadership">View case study</a>
+<a href="/design-leadership">View case study</a>
 </button-visit>
 </blog-button>
 
@@ -52,7 +52,7 @@ Over the past few years, our company faced challenges in selling policies effici
 
 <blog-button>
 <button-visit>
-<a href="/ladder/billing-checkout">View case study</a>
+<a href="/billing-checkout">View case study</a>
 </button-visit>
 </blog-button>
 
@@ -79,7 +79,7 @@ In mid-2022, I became the design lead for a new product team dedicated solely to
 
 <blog-button>
 <button-visit>
-<a href="/ladder/first-payment-failure">View case study</a>
+<a href="/first-payment-failure">View case study</a>
 </button-visit>
 </blog-button>
 

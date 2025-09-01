@@ -2,7 +2,7 @@
 title: Your Work
 date: "2018"
 customField: VALUE_3
-section: blog
+section: archived
 image1: "./images/img_yourwork_one.png"
 image2: "./images/img_yourwork_two.png"
 image3: "./images/img_yourwork_three.png"

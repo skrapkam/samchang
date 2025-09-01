@@ -14,9 +14,9 @@ const DropdownStyle = styled.div`
   z-index: 10;
   right: 40px;
   top: calc(100% - 24px);
-  background: var(--bg);
+  background: white;
   border-radius: 5px;
-  box-shadow: 0 0 0 1px var(--border), 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   a,
   a:active,
@@ -95,7 +95,7 @@ const MenuStyled = styled.div`
   }
 
   ul li {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
 

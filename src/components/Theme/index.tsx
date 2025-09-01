@@ -34,11 +34,11 @@ const defaultTheme = {
     `100%` // 2 // fill
   ],
   color: {
-    text: "var(--text)",
-    link: "var(--link)",
+    text: "#000000",
+    link: "#0050e6",
     gray: `#999`,
     lightGray:`#eee`,
-    hover:`blue`,
+    hover:`#E6F0FD`,
   }
 };
 

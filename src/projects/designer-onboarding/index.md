@@ -1,7 +1,7 @@
 ---
 title: Onboarding
 date: "2019"
-customField: VALUE_2
+customField: VALUE_4
 section: blog
 image1: "./images/img_onboarding_one.png"
 image2: "./images/img_onboarding_two.png"

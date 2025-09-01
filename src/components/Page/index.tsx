@@ -42,7 +42,7 @@ const ScrollToTop = styled.div<ScrollToTopProps>`
 
 const PageStyled = styled.div`
   padding-bottom: ${defaultTheme.space[10]};
-  background: var(--bg);
+  background: white;
 
 `;
 
