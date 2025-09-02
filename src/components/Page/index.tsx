@@ -99,13 +99,7 @@ export default function ScrollButton({ children, floatingSlot, showScrollToTop =
       {children}
       {floatingSlot ? (
         <FloatingSlot>{floatingSlot}</FloatingSlot>
-      ) : (
-        showScrollToTop && (
-          <ScrollToTop isVisible={scrollToTopVisible} onClick={scrollToTop}>
-            <Emoji symbol="☝️" label="up" />
-          </ScrollToTop>
-        )
-      )}
+      ) : null}
     </PageStyled>
   );
 }
