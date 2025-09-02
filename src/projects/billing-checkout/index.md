@@ -6,7 +6,7 @@ section: blog
 excerpt: Redesigning Ladder's purchase experience to reduce wasted costs and better serve high-intent users.
 image1: "./images/billing_21.png"
 image2: "./images/billing_02.png"
-image3: "./images/billing_11.png"
+image3: "./images/billing_44.png"
 visualsExclude:
       - billing_00.png
       - billing_01.png

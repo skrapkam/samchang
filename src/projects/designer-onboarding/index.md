@@ -6,7 +6,7 @@ section: blog
 image1: "./images/img_onboarding_one.png"
 image2: "./images/img_onboarding_two.png"
 image3: "./images/img_onboarding_three.png"
-image4: "./images/img_onboarding_four.png"
+
 excerpt: Overhauling 99designs' designer onboarding experience.
 
 visualsExclude:

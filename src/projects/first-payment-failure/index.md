@@ -3,11 +3,20 @@ title: First Payment Failure
 date: "2022"
 customField: VALUE_3
 section: blog
-excerpt: Redesigning Ladder's payment experience to reduce payment failures
+excerpt: Redesigning Ladder's payment experience to reduce payment failures.
 image1: "./images/payment_08.png"
 image2: "./images/payment_11.png"
 image3: "./images/payment_04.png"
+
+visualsExclude:
+      - payment_01.png
+      - payment_02.png
+      - payment_04.png
+      - payment_06.png
+      - payment_07.png
 ---
+
+<visual>
 
 <content-title>
 First Payment Failure
@@ -16,6 +25,7 @@ First Payment Failure
 Redesigning Ladder's payment experience to reduce payment failures
 </content-excerpt>
 
+</visual>
 
 <summary>
 I led the design for a new initiative focused on reducing first payment failure—a key cause of customer lapse. By introducing ACH balance checks, smarter alerts, improved notifications, and a clearer billing experience, we cut first payment failures by 50%, saving ~130 policies from lapsing each month.
@@ -33,13 +43,21 @@ I led the design for a new initiative focused on reducing first payment failure�
 
 ## Retention as a new focus
 
+<visual>
+
 In mid-2022, I became the design lead for a new product team dedicated solely to customer retention. Ladder had traditionally prioritized customer acquisition over retention for various reasons, but mainly because it was more important to secure customers than to ensure they didn't switch to a competitor or cancel their policy after purchase. Recent data trends, however, indicated that we needed to start focusing more on retention, prompting leadership to spin up a new team. 
+
+</visual>
 
 ## Problem: First payment failure
 
 Our team focused on several areas, one of which was reducing customer lapse. By examining our data and gathering qualitative insights from our customer support team, we found that payment failure was a major contributor to customer lapse. Put simply, users who miss a payment—whether their first or a subsequent recurring payment—will lose their coverage after purchasing a policy.
 
+<visual>
+
 We decided to prioritize addressing payment failure first, as it was the most straightforward issue to tackle, yet still had a meaningful impact. Our goal was to prevent customers from missing their first payment.
+
+</visual>
 
 ### Looking at the data
 
@@ -49,9 +67,13 @@ We looked at the data to gain a better understanding of the opportunity and impa
 
 Drilling into the data further helped us to understand how users fail their first payment. Users can pay for their policy with either a credit card or by connecting their ACH bank account. **All** **FPF occur for users who connect their ACH account, as they often don't have enough funds in their account to cover the first month's premium**.
 
+<visual>
+
 # Design
 
 To solve for FPF, we decided to design a system that can both prevent a FPF from occurring in the first place and intervene when it does happen. 
+
+</visual>
 
 ## Prevention
 
@@ -79,6 +101,7 @@ Potentially not being able to make a payment can be a sensitive matter. Avoid ma
 
 While missing a first payment would not be ideal for us, we still want to give users the option to continue with their chosen payment method.
 
+
 ### ACH balance check
 
 After a user connects their ACH account and we determined that there are insufficient funds, we would surface this screen to them. From here, they can change their payment method or proceed anyway. 
@@ -90,6 +113,8 @@ After a user connects their ACH account and we determined that there are insuffi
 If a user decides to continue with this payment method then we would show an alert on the confirmation page where they give us permission to charge their account. This alert would remind them of the issue and provide one last opportunity to fix the issue. 
 
 ![Alert](images/payment_04.png)
+
+
 
 ### Payment switch
 
@@ -112,15 +137,8 @@ Once a FPF is detected, users have 10 days to resolve the issue by either adding
 
 I collaborated with our UX writer to make our emails more informative and actionable. I also worked with our product manager to introduce SMS messages along with emails, ensuring that users become aware of the issue.
 
-**Old email**
-![Old email](images/payment_06.png)
+![Bringing in more specific details such as payment method that failed and reasoning](images/payment_06.png)
 
-
-**New email**
-
-![Bringing in more specific details such as payment method that failed and reasoning](images/payment_07.png)
-
-Bringing in more specific details such as payment method that failed and reasoning
 
 ### Billing section
 
@@ -147,7 +165,7 @@ Prior to this project, fixing a FPF required users to update their payment metho
 
 **After** 
 
-![Billing modal](images/payment_10.png)
+![Billing modal](images/payment_14.png)
 
 I designed a modal that can be reused in various areas of the billing section. It contains two key pieces of information: their saved payment method and a payment summary of the invoice they're paying for and the amount. Users can also update their payment method within this modal.
 
@@ -157,9 +175,13 @@ I also integrated our balance check into the modal if a user proceeds with the s
 
 ![Balace check in modal](images/payment_12.png)
 
+<visual>
+
 # Results
 
 <callout emoji="📈">
 After shipping, we saw a **50% reduction** in first payment failure, leading to about **130 policies saved from lapses** a month.
 
 </callout>
+
+</visual>

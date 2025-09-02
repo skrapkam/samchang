@@ -11,15 +11,30 @@ const ViewContext = createContext<ViewContextValue | null>(null);
 
 export const CASE_STUDY_VIEW_STORAGE_KEY = "caseStudyView";
 
+// Build a per-page storage key so each case study remembers its own view.
+const getScopedStorageKey = () => {
+  try {
+    if (typeof window !== "undefined") {
+      // Use the pathname (e.g., "/first-payment-failure/") to scope the key
+      const path = window.location && window.location.pathname ? window.location.pathname : "";
+      return `${CASE_STUDY_VIEW_STORAGE_KEY}:${path}`;
+    }
+  } catch {
+    // no-op; fall through to base key
+  }
+  return CASE_STUDY_VIEW_STORAGE_KEY;
+};
+
 export const CaseStudyViewProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [view, setViewState] = useState<CaseStudyView>("visuals");
 
-  // Hydrate from localStorage or URL param on mount
+  // Hydrate from URL param or per-page localStorage on mount
   useEffect(() => {
     try {
       const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
       const qp = (urlParams && urlParams.get("view")) as CaseStudyView | null;
-      const stored = (typeof window !== "undefined" ? (localStorage.getItem(CASE_STUDY_VIEW_STORAGE_KEY) as CaseStudyView | null) : null);
+      const storageKey = getScopedStorageKey();
+      const stored = (typeof window !== "undefined" ? (localStorage.getItem(storageKey) as CaseStudyView | null) : null);
       if (qp === "visuals" || qp === "process") {
         setViewState(qp);
       } else if (stored === "visuals" || stored === "process") {
@@ -35,7 +50,8 @@ export const CaseStudyViewProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     try {
       if (typeof window !== "undefined") {
-        localStorage.setItem(CASE_STUDY_VIEW_STORAGE_KEY, view);
+        const storageKey = getScopedStorageKey();
+        localStorage.setItem(storageKey, view);
       }
       if (typeof document !== "undefined") {
         document.documentElement.setAttribute("data-case-study-view", view);
@@ -63,4 +79,3 @@ export const VisualScopeProvider: React.FC<{ children: React.ReactNode }>= ({ ch
 };
 
 export const useInVisualScope = () => useContext(VisualScopeContext);
-

@@ -197,7 +197,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
 
   // Ensure anchor links work with visuals/process toggle
   const AnchorViewSync = () => {
-    const { view, setView } = useCaseStudyView();
+    const { setView } = useCaseStudyView();
     useEffect(() => {
       const ensureVisibleForHash = () => {
         if (typeof window === 'undefined') return;
@@ -221,6 +221,8 @@ const BlogPostTemplate = ({ data, pageContext }) => {
           scrollToId(true);
           setTimeout(() => scrollToId(false), 180);
           setTimeout(() => scrollToId(false), 360);
+          // Allow guard to re-enable after anchor-driven scrolls complete
+          setTimeout(() => { try { (window).__cs_anchor_nav = false; } catch (e) {} }, 800);
         };
 
         let observer;
@@ -242,17 +244,19 @@ const BlogPostTemplate = ({ data, pageContext }) => {
 
         const target = document.getElementById(id);
         if (!target) {
-          if (view !== 'process') setView('process');
-          // Wait for target to mount and/or become visible
+          // Switch to Process so hidden sections mount, then observe and scroll
+          try { (window).__cs_anchor_nav = true; } catch (e) {}
+          setView('process');
           setupObserver();
           return;
         }
         const wrap = target.closest('[data-cs-wrap]');
         const hiddenByView = wrap && wrap.getAttribute('data-visible') === 'false';
-        if (hiddenByView && view !== 'process') {
+        if (hiddenByView) {
+          try { (window).__cs_anchor_nav = true; } catch (e) {}
           setView('process');
           setupObserver();
-        } else if (!hiddenByView) {
+        } else {
           // Target already visible
           scheduleScrolls();
         }
@@ -267,14 +271,63 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         clearTimeout(id);
         window.removeEventListener('hashchange', ensureVisibleForHash);
       };
-    }, [view, setView]);
+    }, [setView]);
+    return null;
+  };
+
+  // Prevent auto-scroll on manual toggles when a hash is present
+  const ViewScrollGuard = () => {
+    const { view } = useCaseStudyView();
+    const prevViewRef = React.useRef(view);
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
+      const prev = prevViewRef.current;
+      prevViewRef.current = view;
+      if (prev === view) return; // not a toggle
+      if (!window.location.hash) return;
+      // Skip guard for anchor-driven navigations
+      try { if ((window).__cs_anchor_nav) return; } catch (e) {}
+      const y = window.scrollY || window.pageYOffset;
+
+      // Freeze body to prevent browser auto-anchoring during DOM changes
+      const body = document.body;
+      const orig = {
+        position: body.style.position,
+        top: body.style.top,
+        left: body.style.left,
+        right: body.style.right,
+        width: body.style.width,
+      };
+      body.style.position = 'fixed';
+      body.style.top = `-${y}px`;
+      body.style.left = '0';
+      body.style.right = '0';
+      body.style.width = '100%';
+
+      const unfreeze = () => {
+        body.style.position = orig.position;
+        body.style.top = orig.top;
+        body.style.left = orig.left;
+        body.style.right = orig.right;
+        body.style.width = orig.width;
+        window.scrollTo({ top: y });
+      };
+
+      const t = setTimeout(unfreeze, 420);
+      return () => {
+        clearTimeout(t);
+        unfreeze();
+      };
+    }, [view]);
     return null;
   };
 
 
+  const showToggle = post && post.fields && post.fields.slug !== '/design-leadership';
+
   return (
     <CaseStudyViewProvider>
-      <Page floatingSlot={<Toggle />}> 
+      <Page floatingSlot={showToggle ? <Toggle /> : null}> 
         <Helmet
           title={post.frontmatter.title + " | Sam Chang"}
           meta={[
@@ -314,8 +367,9 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         </Helmet>
         <ExclusionManager />
         <AnchorViewSync />
+        <ViewScrollGuard />
         {renderAst(post.htmlAst)}
-        <Footer>
+        {/* <Footer>
             <div css={SectionLinks}>
               <div css={SectionLinksPrevious}>
                 <p>
@@ -332,7 +386,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
                 </p>
               </div>
             </div>
-          </Footer>
+          </Footer> */}
         </ContentWrapper>
 
         {/* Chatbot mounted globally */}

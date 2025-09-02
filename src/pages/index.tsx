@@ -190,11 +190,17 @@ export default ({ data }) => {
                       imgStyle={{ objectFit: "cover", objectPosition: "center top" }}
                       style={{ width: "100%" }}
                     />
-                    <Img
-                      fluid={node.frontmatter.image2.childImageSharp.fluid}
-                      imgStyle={{ objectFit: "cover", objectPosition: "center" }}
-                      style={{ width: "100%" }}
-                    />
+                    {(() => {
+                      const isBillingCheckout = node.fields.slug === '/billing-checkout';
+                      const img2Position = isBillingCheckout ? 'center 75%' : 'center';
+                      return (
+                        <Img
+                          fluid={node.frontmatter.image2.childImageSharp.fluid}
+                          imgStyle={{ objectFit: 'cover', objectPosition: img2Position }}
+                          style={{ width: '100%' }}
+                        />
+                      );
+                    })()}
                     <Img
                       fluid={node.frontmatter.image3.childImageSharp.fluid}
                       imgStyle={{ objectFit: "cover", objectPosition: "center" }}
