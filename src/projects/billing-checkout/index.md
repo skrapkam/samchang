@@ -81,9 +81,9 @@ Our primary goal was to focus on high-intent users—those who are ready and wil
 
 ## Measures of success
 
-- **Increase Policy Growth.** Make it easier for high-intent users to accept their offers, reducing the risk of losing their business due to unnecessary friction in the process.
 
-- **Enhance Contribution Margins.** Accurately gauge user intent to determine if spending underwriting costs is justified, thereby reducing wasted resources on low-intent users.
+1. **Increase Policy Growth.** Make it easier for high-intent users to accept their offers, reducing the risk of losing their business due to unnecessary friction in the process.
+2. **Enhance Contribution Margins.** Accurately gauge user intent to determine if spending underwriting costs is justified, thereby reducing wasted resources on low-intent users.
 
 
 # My process
@@ -145,7 +145,9 @@ To evaluate options, I explored three main directions:
 
 ### Why we chose B
 
+
 We ultimately chose Exploration B. Exploration A, though efficient in reducing steps, created a dense page that risked overwhelming users. Exploration C was appealing from a UX perspective but posed a heavier engineering lift, expanding scope beyond what was feasible for the quarter. Exploration B struck the best balance: it leveraged a familiar checkout mental model to give users confidence, filtered effectively for intent, and was achievable within our engineering timeline.  
+
 
 ![Final version](images/billing_10.png "")
 
