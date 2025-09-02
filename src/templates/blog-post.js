@@ -285,7 +285,11 @@ const BlogPostTemplate = ({ data, pageContext }) => {
       const prev = prevViewRef.current;
       prevViewRef.current = view;
       if (prev === view) return; // not a toggle
-      if (!window.location.hash) return;
+      
+      // Only apply scroll guard when there's actually a hash in the URL
+      const hash = window.location.hash;
+      if (!hash || hash.length <= 1) return; // No hash or just "#"
+      
       // Skip guard for anchor-driven navigations
       try { if ((window).__cs_anchor_nav) return; } catch (e) {}
       const y = window.scrollY || window.pageYOffset;

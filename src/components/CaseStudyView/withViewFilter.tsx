@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { useCaseStudyView, useInVisualScope } from "./CaseStudyViewContext";
 
@@ -38,6 +38,8 @@ const AnimatedWrap = styled.div`
 
 export default function withViewFilter<P extends AnyProps>(Comp: React.ComponentType<P>) {
   const Wrapped: React.FC<P> = (props: P) => {
+    // Use layout effect in the browser to measure before paint; fall back to effect on SSR
+    const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
     const { view } = useCaseStudyView();
     const inVisualScope = useInVisualScope();
 
@@ -47,20 +49,10 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
     const dataVisual = (props as any)["data-visual"]; // may be true, "true", ""
 
     // Visuals view: only render if explicitly marked or inside a <visual>
-    // Also detect DOM-based visual scope to be robust against mapping quirks
     const domRef = useRef<HTMLDivElement | null>(null);
-    const [inDomVisualScope, setInDomVisualScope] = useState(false);
-    useEffect(() => {
-      const el = domRef.current;
-      if (!el) return;
-      const hasScope = !!el.closest('[data-visual-scope]');
-      setInDomVisualScope(hasScope);
-    });
-
-    // No prev-heading adjustments
 
     const isMarked =
-      inVisualScope || inDomVisualScope ||
+      inVisualScope ||
       dataVisual === true ||
       dataVisual === "" ||
       dataVisual === "true" ||
@@ -82,8 +74,11 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
       return el.scrollHeight || 0;
     };
 
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
+
+
       if (shouldBeVisible) {
+
         setMounted(true);
         setUseAutoHeight(false);
         // Start from 0 height for enter
@@ -95,6 +90,7 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
           if (h1 && h1 > 0) {
             setMeasuredHeight(h1);
             setVisible(true);
+
           } else {
             // Fallback: measure on next task if first read is 0
             timeoutId = setTimeout(() => {
@@ -105,18 +101,27 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
           }
         });
         return () => {
+
           if (rafId) cancelAnimationFrame(rafId);
           if (timeoutId) clearTimeout(timeoutId);
         };
       } else {
+
         // Capture current height and ensure the browser applies it
         setUseAutoHeight(false);
         const h = measure();
+
         setMeasuredHeight(h);
         // Keep visible=true for a tick so the starting max-height is committed,
         // then flip to false to animate out.
-        const timeoutId = setTimeout(() => setVisible(false), 0);
-        return () => clearTimeout(timeoutId);
+        const timeoutId = setTimeout(() => {
+
+          setVisible(false);
+        }, 0);
+        return () => {
+
+          clearTimeout(timeoutId);
+        };
       }
     }, [shouldBeVisible]);
 
