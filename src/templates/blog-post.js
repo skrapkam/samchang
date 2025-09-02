@@ -132,7 +132,7 @@ const ContentWrapper = styled.div`
   padding-bottom: ${defaultTheme.space[3]};
 
   /* Only apply these styles to li elements that are NOT inside ul or ol */
-  > li {
+  > li:not(ol > li):not(ul > li) {
     margin: 2.4rem auto ${defaultTheme.space[3]};
     padding: 0;
   }
@@ -318,7 +318,7 @@ const BlogPostTemplate = ({ data, pageContext }) => {
         window.scrollTo({ top: y });
       };
 
-      const t = setTimeout(unfreeze, 420);
+      const t = setTimeout(unfreeze, 500);
       return () => {
         clearTimeout(t);
         unfreeze();

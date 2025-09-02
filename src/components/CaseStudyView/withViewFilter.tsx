@@ -15,7 +15,9 @@ type AnyProps = Record<string, any>;
 const AnimatedWrap = styled.div`
   overflow: hidden;
   will-change: opacity, transform, max-height;
-  transition: opacity 220ms ease, transform 220ms ease, max-height 260ms ease;
+  transition: opacity 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              max-height 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* No margin normalization; spacing is controlled by next block's top margin */
 
@@ -27,7 +29,7 @@ const AnimatedWrap = styled.div`
 
   &[data-visible="false"] {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(12px);
     pointer-events: none;
   }
 
@@ -115,9 +117,8 @@ export default function withViewFilter<P extends AnyProps>(Comp: React.Component
         // Keep visible=true for a tick so the starting max-height is committed,
         // then flip to false to animate out.
         const timeoutId = setTimeout(() => {
-
           setVisible(false);
-        }, 0);
+        }, 16); // One frame delay for smoother animation
         return () => {
 
           clearTimeout(timeoutId);

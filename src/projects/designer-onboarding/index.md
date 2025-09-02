@@ -80,11 +80,9 @@ My tasks entailed owning the end-to-end design process, defining product strateg
 
 Through interviews, checking our data, and auditing our current sign-up flow, I identified two potential areas to address:
 
-1. Setting better expectations for designers
-
+1. Setting better expectations for designers  
 2. Improving our curation process
 
- 
 
 ## Setting better expectations for designers
 
