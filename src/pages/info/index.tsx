@@ -88,7 +88,7 @@ const info = props => (
           </li>
 
         </ul>
-        <h2>Past</h2>
+        <h2 css={css`margin-top: ${defaultTheme.space[4]};`}>Past</h2>
         <ul>
           <li>
             Product Designer at{" "}
@@ -110,7 +110,7 @@ const info = props => (
             <a href="https://groveralleyway.com">Grover Alleyway</a> is a music project
           </li>
         </ul>
-        <h2>Contact</h2>
+        <h2 css={css`margin-top: ${defaultTheme.space[4]};`}>Contact</h2>
         <ul>
           <li>
             <a href="mailto:samuel8chang@gmail.com">samuel8chang@gmail.com</a>
@@ -119,7 +119,7 @@ const info = props => (
             <a href="https://twitter.com/samchangsucks">@samchangsucks</a>
           </li>
         </ul>
-        <h2>Site Colophon</h2>
+        <h2 css={css`margin-top: ${defaultTheme.space[4]};`}>Site Colophon</h2>
         <ul>
           <li>
             Built with <a href="https://www.gatsbyjs.org/">Gatsby</a> and{" "}
