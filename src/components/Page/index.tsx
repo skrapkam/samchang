@@ -42,14 +42,14 @@ const ScrollToTop = styled.div<ScrollToTopProps>`
 
 const FloatingSlot = styled.div`
   position: fixed;
-  bottom: 32px;
+  bottom: calc(32px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
 
   /* Tighter spacing on narrower viewports */
   @media (max-width: 768px) {
-    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }
 `;
 

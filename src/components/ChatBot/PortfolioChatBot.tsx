@@ -333,8 +333,8 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
   /* Keep the button accessible on mobile even when ChatWrapper is moved */
   @media (max-width: 600px) {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    right: calc(20px + env(safe-area-inset-right, 0px));
     z-index: 9997;
     
     .chat-text {

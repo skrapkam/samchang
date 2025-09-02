@@ -22,8 +22,8 @@ const HitArea = styled.div`
 
 const Panel = styled.div`
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  right: calc(20px + env(safe-area-inset-right, 0px));
   width: 260px;
   background: #ffffff;
   border: 1px solid #e5e7eb; /* Tailwind's gray-200 */
