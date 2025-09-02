@@ -131,7 +131,8 @@ const ContentWrapper = styled.div`
   padding: ${defaultTheme.space[11]} ${defaultTheme.space[3]};
   padding-bottom: ${defaultTheme.space[3]};
 
-  li {
+  /* Only apply these styles to li elements that are NOT inside ul or ol */
+  > li {
     margin: 2.4rem auto ${defaultTheme.space[3]};
     padding: 0;
   }

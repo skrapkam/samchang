@@ -336,6 +336,10 @@ const ChatButton = styled.button<{ isOpen: boolean }>`
     bottom: 20px;
     right: 20px;
     z-index: 9997;
+    
+    .chat-text {
+      display: none;
+    }
   }
 `;
 
@@ -2155,7 +2159,9 @@ const PortfolioChatBot = () => {
 
     return (
         <ChatWrapper x={30} y={30}>
-            <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">💬 Chat</ChatButton>
+            <ChatButton onClick={() => setOpen(!open)} isOpen={open} aria-label="Open chat">
+                💬 <span className="chat-text">Chat</span>
+            </ChatButton>
             <MobileOverlay visible={open} />
             <ChatBox visible={open}>
                 <TopBar showBorder={isScrollable}>

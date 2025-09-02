@@ -134,7 +134,7 @@ const ImageWrapper = styled.div`
   ${mq[1]} {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 80vw;
+    grid-auto-columns: 70vw;
     grid-template-columns: unset;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -146,16 +146,16 @@ const ImageWrapper = styled.div`
 
   ${mq[1]} .gatsby-image-wrapper {
     scroll-snap-align: start;
-    width: 80vw !important;
+    width: 70vw !important;
     height: auto !important;
   }
 
   ${mq[0]} {
-    grid-auto-columns: 90vw;
+    grid-auto-columns: 75vw;
   }
 
   ${mq[0]} .gatsby-image-wrapper {
-    width: 90vw !important;
+    width: 75vw !important;
   }
 `;
 export default ({ data }) => {

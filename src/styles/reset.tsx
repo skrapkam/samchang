@@ -62,13 +62,7 @@ export const GlobalStyle = () => (
         background: rgb(255, 245, 177);
       }
 
-      ul {
-        padding: ${defaultTheme.space[1]} 0 ${defaultTheme.space[4]};
-      }
-
-      ul ul {
-        padding: 0 0 0;
-      }
+      /* Remove global ul/ol styles to prevent conflicts with component styles */
 
       h1 {
         font-weight: 500;
