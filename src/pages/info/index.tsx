@@ -103,7 +103,7 @@ const info = props => (
           </li>
         </ul>
 
-        <h2>Side Projects</h2>
+        <h2 css={css`margin-top: ${defaultTheme.space[4]};`}>Side Projects</h2>
 
         <ul>
           <li>
