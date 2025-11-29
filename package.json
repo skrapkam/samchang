@@ -67,6 +67,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "start": "gatsby serve",
+    "install": "yarn install --ignore-scripts || true",
     "postinstall": "node scripts/fix-sharp.js || true",
     "type-check": "tsc --noEmit",
     "lint": "tslint --project .",
