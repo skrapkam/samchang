@@ -67,7 +67,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "start": "gatsby serve",
-    "postinstall": "node -e \"try { require('sharp') } catch (e) { console.log('Sharp installation completed') }\"",
+    "postinstall": "(find node_modules -name 'sharp-darwin-*.node' -delete 2>/dev/null || rm -rf node_modules/*/sharp/build/Release/sharp-darwin-*.node 2>/dev/null || true) && (npm rebuild sharp 2>/dev/null || yarn rebuild sharp 2>/dev/null || true)",
     "type-check": "tsc --noEmit",
     "lint": "tslint --project .",
     "test": "jest && node tests/validate-content.js"
