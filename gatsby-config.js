@@ -15,26 +15,34 @@ module.exports = {
     `gatsby-plugin-emotion`,
     `gatsby-plugin-catch-links`,
     `gatsby-transformer-json`,
-    {
-      // Notion Music Database
-      resolve: `gatsby-source-notion-api`,
-      options: {
-        token: process.env.NOTION_TOKEN,
-        databaseId: process.env.NOTION_DATABASE_ID_MUSIC,
-        lowerTitleLevel: true,
-        pageUrl: false,
-      },
-    },
-    {
-      // Notion Books Database
-      resolve: `gatsby-source-notion-api`,
-      options: {
-        token: process.env.NOTION_TOKEN,
-        databaseId: process.env.NOTION_DATABASE_ID_BOOKS,
-        lowerTitleLevel: true,
-        pageUrl: false,
-      },
-    },
+    ...(process.env.NOTION_TOKEN && process.env.NOTION_DATABASE_ID_MUSIC
+      ? [
+          {
+            // Notion Music Database
+            resolve: `gatsby-source-notion-api`,
+            options: {
+              token: process.env.NOTION_TOKEN,
+              databaseId: process.env.NOTION_DATABASE_ID_MUSIC,
+              lowerTitleLevel: true,
+              pageUrl: false,
+            },
+          },
+        ]
+      : []),
+    ...(process.env.NOTION_TOKEN && process.env.NOTION_DATABASE_ID_BOOKS
+      ? [
+          {
+            // Notion Books Database
+            resolve: `gatsby-source-notion-api`,
+            options: {
+              token: process.env.NOTION_TOKEN,
+              databaseId: process.env.NOTION_DATABASE_ID_BOOKS,
+              lowerTitleLevel: true,
+              pageUrl: false,
+            },
+          },
+        ]
+      : []),
   
     {
       resolve: `gatsby-source-filesystem`,

@@ -296,39 +296,21 @@ const Gloss = styled.div<{ tiltX: number; tiltY: number }>`
   }
 `;
 
-interface MusicNode {
-  id: string;
+interface MusicJsonNode {
   title: string;
-  properties: {
-    Release_Date?: {
-      value: {
-        start?: string;
-      };
-    };
-    URL?: { value: string };
-    Image?: {
-      value: Array<{
-        name?: string;
-        type?: string;
-        external?: { url?: string };
-      }>;
-    };
-    Type?: {
-      value: {
-        name?: string;
-        color?: string;
-      };
+  date: string;
+  url: string;
+  image: {
+    src: {
+      publicURL?: string;
     };
   };
-  updatedAt: string;
 }
 
 interface MusicProps {
   data: {
-    music: {
-      edges: Array<{
-        node: MusicNode;
-      }>;
+    musicJson?: {
+      nodes: MusicJsonNode[];
     };
   };
 }
@@ -336,17 +318,16 @@ interface MusicProps {
 const MusicPage: React.FC<MusicProps> = ({ data }) => {
   const isSafari = useIsSafari();
   const isMobile = useIsMobile();
-  const musicItems = data.music.edges
-    .filter(({ node }) => node.properties.Type?.value?.name === "Music")
+  const musicItems = (data.musicJson?.nodes || [])
     .sort((a, b) => {
-      const dateA = a.node.properties.Release_Date?.value?.start;
-      const dateB = b.node.properties.Release_Date?.value?.start;
+      const dateA = a.date;
+      const dateB = b.date;
       
       if (!dateA && !dateB) return 0;
-      if (!dateA) return 1; // items without dates go to the end
+      if (!dateA) return 1;
       if (!dateB) return -1;
       
-      return new Date(dateB).getTime() - new Date(dateA).getTime();
+      return parseInt(dateB) - parseInt(dateA);
     });
 
   return (
@@ -376,8 +357,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
         </p>
       </MediumSectionWrapper>
       <Grid>
-        {musicItems.map(({ node }) => {
-          const imageUrl = node.properties.Image?.value?.[0]?.external?.url;
+        {musicItems.map((node, index) => {
+          const imageUrl = node.image?.src?.publicURL;
           const caseRef = useRef<HTMLDivElement>(null);
           
           // Simple tilt state for desktop only
@@ -412,8 +393,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
             // Only handle clicks on desktop, not mobile touches
             if (isMobile) return;
             
-            if (node.properties.URL?.value) {
-              window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+            if (node.url) {
+              window.open(node.url, '_blank', 'noopener,noreferrer');
             }
           };
 
@@ -437,8 +418,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
               const distance = Math.sqrt(dx * dx + dy * dy);
               
               // Only open link if movement was minimal (tap, not scroll)
-              if (distance < 10 && node.properties.URL?.value) {
-                window.open(node.properties.URL.value, '_blank', 'noopener,noreferrer');
+              if (distance < 10 && node.url) {
+                window.open(node.url, '_blank', 'noopener,noreferrer');
               }
             }
             
@@ -447,7 +428,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
           };
 
           return (
-            <AlbumContainer key={node.id}>
+            <AlbumContainer key={index}>
               <JewelCaseWrapper ref={caseRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -461,7 +442,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                       isMobile ? (
                         <CoverImage src={imageUrl} alt={node.title} />
                       ) : (
-                        <a href={node.properties.URL?.value} target="_blank" rel="noopener noreferrer">
+                        <a href={node.url} target="_blank" rel="noopener noreferrer">
                           <CoverImage src={imageUrl} alt={node.title} />
                         </a>
                       )
@@ -479,8 +460,8 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                 </JewelCase>
               </JewelCaseWrapper>
               <CoverTitle>
-                {node.properties.URL?.value ? (
-                  <a href={node.properties.URL.value} target="_blank" rel="noopener noreferrer">
+                {node.url ? (
+                  <a href={node.url} target="_blank" rel="noopener noreferrer">
                     {node.title}
                   </a>
                 ) : (
@@ -488,10 +469,7 @@ const MusicPage: React.FC<MusicProps> = ({ data }) => {
                 )}
               </CoverTitle>
               <ReleaseDate>
-                {node.properties.Release_Date?.value?.start 
-                  ? new Date(node.properties.Release_Date.value.start).getFullYear()
-                  : null
-                }
+                {node.date || null}
               </ReleaseDate>
             </AlbumContainer>
           );
@@ -505,37 +483,17 @@ export default MusicPage;
 
 export const MusicQuery = graphql`
   query {
-    music: allNotion {
-      edges {
-        node {
-          id
-          title
-          properties {
-            Release_Date: Release_Date {
-              value {
-                start
-              }
-            }
-            URL {
-              value
-            }
-            Image {
-              value {
-                name
-                type
-                external {
-                  url
-                }
-              }
-            }
-            Type {
-              value {
-                name
-                color
-              }
+    musicJson: allMusicJson {
+      nodes {
+        title
+        date
+        url
+        image {
+          src {
+            ... on File {
+              publicURL
             }
           }
-          updatedAt
         }
       }
     }

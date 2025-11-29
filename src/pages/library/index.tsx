@@ -81,8 +81,8 @@ interface BookNode {
 }
 
 interface LibraryProps {
-  data: {
-    books: {
+  data?: {
+    books?: {
       edges: Array<{
         node: BookNode;
       }>;
@@ -91,7 +91,9 @@ interface LibraryProps {
 }
 
 const LibraryPage: React.FC<LibraryProps> = ({ data }) => {
-  const bookItems = data.books.edges
+  const edges = data?.books?.edges ?? [];
+
+  const bookItems = edges
     .filter(({ node }) => node.properties.Type?.value?.name === "Book")
     .sort((a, b) => {
       const dateA = a.node.properties.Date_Read?.value?.start;
@@ -168,40 +170,6 @@ const LibraryPage: React.FC<LibraryProps> = ({ data }) => {
 
 export default LibraryPage;
 
-export const BooksQuery = graphql`
-  query LibraryBooksQuery {
-    books: allNotion {
-      edges {
-        node {
-          id
-          title
-          properties {
-            Date_Read: Date_Read {
-              value {
-                start
-              }
-            }
-            URL {
-              value
-            }
-            Image {
-              value {
-                type
-                name
-                external {
-                  url
-                }
-              }
-            }
-            Type {
-              value {
-                name
-                color
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`; 
+// Note: The original GraphQL query for Notion data has been removed because the
+// Notion source plugin is currently disabled (no NOTION_* env vars configured).
+// This page now renders with an empty library until Notion is re-enabled.

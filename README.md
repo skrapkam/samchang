@@ -1,6 +1,6 @@
 # ✨ Sam Chang ✨
 
-This is the code that powers [samchang.design](https://samchang.design).
+This is the code that powers [samchang.design](https://samchang.design). Yay!
 
 ## Development
 
